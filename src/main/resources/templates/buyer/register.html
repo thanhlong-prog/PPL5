@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+    <title>Register</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="grid">
+                <div class="login-group">
+                    <img th:src="@{/assets/images/ph-shopee.jpg}" alt="shopee-icon">
+                    <div>Đăng kí</div>
+                </div>
+                <div class="link-group">
+                    <a href="">Bạn cần giúp đỡ ?</a>
+                </div>
+            </div>
+        </div>
+        <div class="contain-body">
+            <div class="content">
+                <div class="space">
+                    <img class="space-icon" th:src="@{/assets/images/Untitled.png}" alt="shopee-icon">
+                </div>
+                <div class="right-space">
+                    <div class="space-header">
+                        <div class="space-header-content">
+                            <div>Đăng kí</div>
+                        </div>
+                    </div>
+                    <div class="space-body">
+                        <form class="login-form">
+                            <div class="normal-box">
+                                <input id="login-key" class="normal-key" type="text" placeholder="Tên đăng nhập">
+                            </div>
+                            <div class="pad"></div>
+                            <div class="pass-box">
+                                <input id="password" class="password" type="password" placeholder="Mật khẩu">
+                                <button type="button" id="pass-hide-btn" class="eye-btn">
+                                    <div class="icon-eye">
+                                        <i class="fa-solid fa-eye-slash"></i>
+                                    </div>hide
+                                </button>
+                            </div>
+                            <div class="pad"></div>
+                            <div class="pass-box">
+                                <input id="retype-pass" class="password" type="password" placeholder="Mật khẩu">
+                                <button type="button" id="pass-hide-btn-1" class="eye-btn">
+                                    <div class="icon-eye">
+                                        <i class="fa-solid fa-eye-slash"></i>
+                                    </div>hide
+                                </button>
+                            </div>
+                            <div class="pad"></div>
+                            <button type="submit" id="login-btn" class="normal-btn">ĐĂNG KÍ</button>
+
+                            <div class="partition">
+                                <div class="dash"></div>
+                                <span class="ptt-center">HOẶC</span>
+                                <div class="dash"></div>
+                            </div>
+                            <div class="other">
+                                <button type="button">
+                                    <i class="fa-brands fa-facebook fa-xl" style="color: #0e50c4; margin-right: 8px;"></i>Facebook</button>
+                                <button type="button" class="google-btn">
+                                    <div class="google-icon"></div>
+                                    <div>Google</div>
+                                </button>
+                            </div>
+                            <div class="end-form">
+                                Bạn đã có tài khoản?&nbsp;&nbsp;
+                                <a href="login">Đăng nhập</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script th:src="@{/assets/js/login.js}"></script>

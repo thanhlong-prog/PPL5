@@ -1,0 +1,304 @@
+html, body {
+    margin: 0px;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+    text-decoration:  none;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+button {
+    border: none;
+    background-color: #ffff;
+    cursor: pointer;
+}
+
+input {
+    border: 0;
+    padding: .75rem;
+    outline: none;
+    height: 16px;
+    filter: none;
+    line-height: normal;
+}
+
+.header {
+    text-align: center;
+    justify-content: center;
+}
+
+.grid {
+    position: relative;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    margin: auto;
+}
+
+
+.login-group {
+    display: flex;
+    text-align: center;
+}
+
+.login-group > img {
+    width: 20%;
+}
+
+.login-group > div {
+    position: absolute;
+    font-size: 25px;
+    font-weight: 100px;
+    top: 31px;
+    left: 135px;
+}
+
+.link-group {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+
+.link-group > a {
+    color: #EE4D2D;
+    cursor: pointer;
+    font-size: .875rem;
+}
+
+.contain-body {
+    background-color: rgb(238, 77, 45);
+    height: 600px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+}
+
+.content {
+    width: 1200px;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    flex-direction: row;
+    margin: auto;
+}
+
+.space {
+    position: relative;
+    width: 640px;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    display: flex;
+}
+
+.space-icon {
+    width: 50%;
+}
+
+.right-space {
+    width: 400px;
+    background-color: #ffff;
+    border-radius: 1%;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+}
+
+.space-header {
+    width: 400px;
+    height: 103px;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.space-header-content {
+    width: 339px;
+    color: #222;
+    font-size: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+}
+.space-body {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+
+.login-form {
+    width: 340px;
+}
+
+.normal-box {
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    box-sizing: border-box;
+    height: 2.5rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+.pass-box {
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    box-sizing: border-box;
+    height: 2.5rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+.eye-btn {
+    background: transparent;
+    border: 0;
+    outline: none;
+    padding: 0 .9375rem 0 .75rem;
+}
+
+.pass-box
+.eye-btn {
+    align-items: center;
+    font-size: 0;
+}
+
+.eye-btn > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 13px;
+}
+
+.normal-key {
+    width: 315px;
+}
+
+.password {
+    width: 266px;
+}
+
+.normal-btn {
+    background-color: #ee4d2d;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .09);
+    color: #fff;
+    width: 100%;
+    height: 2.5rem;
+    min-width: 8.75rem;
+    border-radius: .125rem;
+    padding: 0 .625rem;
+    font-size: 14px;
+    color: #fff;
+}
+
+.link-bot {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.link-bot > a {
+    color: #05a;
+    font-size: .75rem;
+}
+
+.partition {
+    padding-bottom: 14px;
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.dash {
+    background-color: #dbdbdb;
+    flex: 1;
+    height: 1px;
+    width: 100%;
+}
+
+.ptt-center {
+    color: #ccc;
+    font-size: .75rem;
+    padding: 0 16px;
+    text-transform: uppercase;
+}
+
+.other {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 -5px;
+    margin-top: 8px;
+}
+
+.other > button {
+    border: 1px solid rgba(0, 0, 0, .26);
+    border-radius: 2px;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, .87);
+    font-size: .875rem;
+    height: 40px;
+    outline: none;
+    padding: 0 2px;
+    width: 100%;
+    margin: 5px;
+    padding-right: 8px;
+}
+
+.google-btn {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+}
+
+.google-icon {
+    background-image: url("../images/google-icon-logo-png-transparent-Photoroom.png");
+    background-size: cover; 
+    width: 20px; 
+    height: 20px; 
+    margin-right: 8px;
+}
+
+.end-form {
+    font-size: .875rem;
+    color: rgba(0, 0, 0, .26);
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+
+.end-form > a {
+    font-size: .875rem;
+    color: #ee4d2d;
+    font-weight: 500;
+}
+
+.pad {
+    height: 20px;
+    width: 340px;
+    padding: 4px 0 0 0;
+}
+
+.box-focus {
+    border-color: rgba(0, 0, 0, .54);
+    box-shadow: 0 0 4px rgba(0, 0, 0, .14);
+}
+
