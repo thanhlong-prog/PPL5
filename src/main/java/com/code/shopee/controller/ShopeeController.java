@@ -15,4 +15,8 @@ public class ShopeeController {
     public String Register() {
         return "buyer/register";
     }
+    @GetMapping("/")
+    public String Home() {
+        return "home/index";
+    }
 }

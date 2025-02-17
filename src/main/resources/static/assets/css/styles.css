@@ -1,13 +1,115 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+*{    
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-
-p1 {
-    color: red;
-    font-size: 24px;
-    font-weight: bold;
+*{
+    scrollbar-width: thin;
+    scrollbar-color: #fb5732 transparent;
+}
+.container {
+    max-width: 1240px;
+}
+a{
+    text-decoration: none;
+}
+li{
+    list-style: none;
+}
+.main{
+    margin-top: 120px;
+    padding-top: 20px;
+    width: 100%;
+    background-color: #fff;
+    height: 400px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    left: 0;
+    top: 0;
+    right: 0;
+}
+.main .top{
+    width: 100%;
+    height: 100%;
+}
+.main .top .w-news{
+    display: flex;
+    gap: 5px;
+}
+.main .news-left{
+    flex: 2.1;
+    position: relative;
+}
+.main .news-right{
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1;
+    gap: 5px;
+}
+.main .news-right .news-right-top{
+    flex: 1;
+}
+.main .news-right .news-right-bottom{
+    flex: 1;
+}
+.main img{
+    max-width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+.main .news-slide .btn{
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fb5732;
+    color: #fff;
+    padding: 8px 3px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0);
+}
+.main .news-slide:hover .btn{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.main .news-slide:hover i{
+    opacity: 1;
+}
+.main .news-slide .btn-switch-left{
+    position: absolute;
+    left: 0;
+}
+.main .news-slide .btn-switch-right{
+    position: absolute;
+    right: 0;
+}
+.main .news-slide i{
+    font-size: 40px;
+    opacity: 0;
+}
+.main .bottom ul{
+    display: flex;
+    gap: 70px;
+    margin-top: 20px;
+}
+.main .bottom ul li{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.main .bottom ul li img{
+    width: 50px;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+.main .bottom ul li span{
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
     text-align: center;
 }
