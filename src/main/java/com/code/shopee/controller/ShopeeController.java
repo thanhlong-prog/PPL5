@@ -1,22 +1,26 @@
 package com.code.shopee.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
 public class ShopeeController {
-    @GetMapping("login")
+    @RequestMapping("/login")
     public String Login() {
         return "buyer/login";
     }
 
-    @GetMapping("register")
+    @RequestMapping("/register")
     public String Register() {
         return "buyer/register";
     }
-    @GetMapping("/")
+    @RequestMapping("/")
     public String Home() {
         return "home/index";
+    }
+    @RequestMapping("/adminlogin")
+    public String adminLogin() {
+        return "admin/login";
     }
 }
