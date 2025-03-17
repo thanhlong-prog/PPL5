@@ -3,6 +3,10 @@
 a{
     text-decoration: none;
 }
+ul{
+    padding: 0;
+    margin: 0;
+}
 .header a,
 .header span{
     color: #ffffff;
@@ -66,8 +70,79 @@ a{
     justify-content: center;
     margin-right: 10px;
 }
+.header .top .top-right .notification-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+.header .top .top-right .w-option span{
+    padding-bottom: 3px;
+}
 .header .top .top-right .w-option i{
     margin-right: 5px;
+}
+.header .top .top-right .notification {
+    position: relative;
+    cursor: pointer;
+}
+.header .top .top-right .notification-box {
+    display: none;
+    position: absolute;
+    top: 100%;
+    margin-right: 10px;
+    margin-top: 5px;
+    right: 0;
+    width: 400px;
+    background: #fff2ee;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+.header .top .top-right .notification:hover .notification-box {
+    display: block;
+    z-index: 100;
+}
+.header .top .top-right .notification-box::before{
+    content: 'Thông báo mới nhận';
+    color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    right: 10px;
+    background-color: #fff;
+    padding: 5px;
+}
+.header .top .top-right .notification-box::after{
+    content: 'Xem tất cả';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    right: 10px;
+    background-color: #fff;
+    padding: 5px;
+}
+.header .top .top-right .notification-box .w-noti{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    color: #000;
+    padding: 10px;
+}
+.header .top .top-right .notification-box .w-noti img{
+    width: 80%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+.header .top .top-right .notification-box .w-noti .noti-infor{
+    display: flex;
+    flex-direction: column;
+}
+.header .top .top-right .notification-box .w-noti span{
+    font-size: 12px;
+    color: #000;
 }
 .header .bottom{
     display: flex;

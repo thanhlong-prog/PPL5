@@ -26,9 +26,7 @@
 <body>
     <div class="page">
         <div class="header">
-            <div class="header">
                 <div th:insert="~{header :: header}"></div>
-            </div>
         </div>
         <div class="main">
             <div class="wrapper-slide-hotword">
@@ -100,10 +98,10 @@
                         <span>Danh mục</span>
                     </div>
                     <div class="w-carousel">
-                        <button class="btn prev" onclick="scrollCarousel(-1,14,4,'.category','.wrapper-category .prev','.wrapper-category .next')">
+                        <button class="btn prev" onclick="scrollCarousel(-1,11,1,'.category','.wrapper-category .prev','.wrapper-category .next')">
                             <i class='bx bx-chevron-left'></i>
                         </button>
-                        <button class="btn next" onclick="scrollCarousel(1,14,4,'.category','.wrapper-category .prev','.wrapper-category .next')">
+                        <button class="btn next" onclick="scrollCarousel(1,11,1,'.category','.wrapper-category .prev','.wrapper-category .next')">
                             <i class='bx bx-chevron-right'></i>
                         </button>
                         <div class="carousel">
@@ -116,7 +114,7 @@
                                 </div>
                                 <div class="item">
                                     <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
+                                        <img src="/assets/images/img-category/category-2.webp" alt="">
                                     </div>
                                     <div class="name-category">Thời trang nam</div>
                                 </div>
@@ -241,177 +239,223 @@
             </div>
             <div class="wrapper-flash-sale">
                 <div class="container">
-                    <div class="top">
-                        <div class="title">
-                            <img src="/assets/images/img-main/flash-sale.png" alt="">
-                            <div class="time-remaining"></div>
+                    <div class="w-item">
+                        <div class="top">
+                            <div class="title">
+                                <img src="/assets/images/img-main/flash-sale.png" alt="">
+                                <div class="time-remaining"></div>
+                            </div>
+                            <div class="view-all">
+                                <a href="#">Xem tất cả</a>
+                                <i class='bx bx-chevron-right'></i>
+                            </div>
                         </div>
-                        <div class="view-all">
-                            <a href="#">Xem tất cả</a>
-                            <i class='bx bx-chevron-right'></i>
-                        </div>
-                    </div>
-                    <div class="w-carousel">
-                        <button class="btn prev" onclick="scrollCarousel(-1,12,6,'.products','.wrapper-flash-sale .prev','.wrapper-flash-sale .next')">
-                            <i class='bx bx-chevron-left'></i>
-                        </button>
-                        <button class="btn next" onclick="scrollCarousel(1,12,6,'.products','.wrapper-flash-sale .prev','.wrapper-flash-sale .next')">
-                            <i class='bx bx-chevron-right'></i>
-                        </button>
-                        <div class="carousel">
-                            <div class="products" data-current-index="0">
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                        <div class="w-carousel">
+                            <button class="btn prev" onclick="scrollCarousel(-1,12,6,'.products','.wrapper-flash-sale .prev','.wrapper-flash-sale .next')">
+                                <i class='bx bx-chevron-left'></i>
+                            </button>
+                            <button class="btn next" onclick="scrollCarousel(1,12,6,'.products','.wrapper-flash-sale .prev','.wrapper-flash-sale .next')">
+                                <i class='bx bx-chevron-right'></i>
+                            </button>
+                            <div class="carousel">
+                                <div class="products" data-current-index="0">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        100.000đ
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="img">
-                                        <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
-                                    </div>
-                                    <div class="price">
-                                        100.000đ
-                                    </div>
-                                    <div class="count">
-                                        Đang bán chạy
+                                    <div class="product">
+                                        <div class="img">
+                                            <img src="/assets/images/img-main/product-flash-sale-2.jpg" alt="">
+                                        </div>
+                                        <div class="price">
+                                            100.000đ
+                                        </div>
+                                        <div class="count">
+                                            Đang bán chạy
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -658,7 +702,9 @@
                 </div>
             </div>
         </div>
-        <div class="footer"></div> 
+        <div class="footer">
+            <div th:insert="~{footer :: footer}"></div>
+        </div> 
         <script src="/assets/js/index.js"></script>
 </body>
 

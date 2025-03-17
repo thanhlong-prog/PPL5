@@ -23,4 +23,8 @@ public class ShopeeController {
     public String adminLogin() {
         return "admin/login";
     }
+    @RequestMapping("/cart")
+    public String Cart() {
+        return "home/cart";
+    }
 }

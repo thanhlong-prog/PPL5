@@ -15,8 +15,6 @@ function showDivs(n) {
   }
   x[slideIndex - 1].style.display = "block";  
 }
-
-// Tự động chuyển slide sau mỗi 0.5 giây
 setInterval(function() {
   plusDivs(1);
 }, 3000);
@@ -27,7 +25,6 @@ function scrollCarousel(direction, totalWidth, widthNext, category, prev_btn, ne
   const nextBtn = document.querySelector(next_btn);
 
   let currentIndex = parseInt(carousel.dataset.currentIndex) || 0;
-  // const maxIndex = Math.floor((totalWidth-widthNext) / widthNext) - 1;
   const maxIndex = 1;
   const total = totalWidth;
   const widthOffset = widthNext;
@@ -38,20 +35,17 @@ function scrollCarousel(direction, totalWidth, widthNext, category, prev_btn, ne
 
   const offset = currentIndex * -(widthOffset / total) * 100 + "%"; 
   carousel.style.transform = `translateX(${offset})`;
-
-  // Lưu lại currentIndex vào dataset
   carousel.dataset.currentIndex = currentIndex;
 
-  // Ẩn/hiện nút prev và next
   if (currentIndex === 0) {
-      prevBtn.style.display = "none"; // Ẩn prev khi ở đầu
+      prevBtn.style.display = "none"; 
   } else {
-      prevBtn.style.display = "flex"; // Hiện prev khi không ở đầu
+      prevBtn.style.display = "flex"; 
   }
 
   if (currentIndex === maxIndex) {
-      nextBtn.style.display = "none"; // Ẩn next khi ở cuối
+      nextBtn.style.display = "none";
   } else {
-      nextBtn.style.display = "flex"; // Hiện next khi không ở cuối
+      nextBtn.style.display = "flex";
   }
 }
