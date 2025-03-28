@@ -1,7 +1,11 @@
 package com.code.shopee.model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,10 +62,12 @@ public class User {
     private Boolean status;
 
     @Column(name = "created_date")
-    private Date createdDate;
+    @CreationTimestamp
+    private LocalDateTime createdDate;
 
     @Column(name = "modified_date")
-    private Date modifiedDate;
+    @UpdateTimestamp
+    private LocalDateTime modifiedDate;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

@@ -35,13 +35,13 @@
                         </div>
                     </div>
                     <div class="space-body">
-                        <form class="login-form">
+                        <form class="login-form" th:action="@{/login}" method="post">
                             <div class="normal-box">
-                                <input id="login-key" class="normal-key" type="text" placeholder="Email/Số điện thoại/Tên đăng nhập">
+                                <input id="username" name="username" class="normal-key" type="text" placeholder="Email/Số điện thoại/Tên đăng nhập">
                             </div>
                             <div class="pad"></div>
                             <div class="pass-box">
-                                <input id="password" class="password" type="password" placeholder="Mật khẩu">
+                                <input id="password" name="password" class="password" type="password" placeholder="Mật khẩu">
                                 <button type="button" id="pass-hide-btn" class="eye-btn">
                                     <div class="icon-eye">
                                         <i class="fa-solid fa-eye-slash"></i>

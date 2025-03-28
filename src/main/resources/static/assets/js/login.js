@@ -1,6 +1,6 @@
 
 var normalBox = document.querySelector(".normal-box");
-var loginKey = document.getElementById("login-key");
+var loginKey = document.getElementById("username");
 
 loginKey.addEventListener("focus", function () {
     normalBox.classList.add("box-focus");

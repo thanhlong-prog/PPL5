@@ -1,10 +1,11 @@
-package com.code.shopee.service;
+package com.code.shopee.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.code.shopee.model.User;
 import com.code.shopee.repository.UserRepository;
+import com.code.shopee.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {

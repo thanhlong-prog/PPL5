@@ -15,10 +15,6 @@ public class ShopeeController {
     public String Register() {
         return "buyer/register";
     }
-    @RequestMapping("/")
-    public String Home() {
-        return "home/index";
-    }
     @RequestMapping("/adminlogin")
     public String adminLogin() {
         return "admin/login";

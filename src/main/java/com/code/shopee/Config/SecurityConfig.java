@@ -3,6 +3,7 @@ package com.code.shopee.Config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -22,12 +23,37 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    //cho user
+    @Order(1)
+    @Bean
+    SecurityFilterChain UserSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+        .securityMatcher("/buyer/**", "/login", "/register")
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/login", "/register").permitAll()
+            .requestMatchers("/buyer/**").hasAuthority("buyer")
+            .anyRequest().authenticated()
+        ).formLogin(login->login 
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/buyer/home",true)
+        )
+        .userDetailsService(customUserDetailService)
+        .build();
+    }
+
+    //cho admin
+    @Order(2)
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
+        .securityMatcher("/admin/**", "/adminlogin")
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/*").permitAll()
+            .requestMatchers("/adminlogin").permitAll()
             .requestMatchers("/admin/**").hasAuthority("admin")
             .anyRequest().authenticated()
         ).formLogin(login->login 
@@ -36,7 +62,8 @@ public class SecurityConfig {
             .usernameParameter("username")
             .passwordParameter("password")
             .defaultSuccessUrl("/admin/index",true)
-        ).userDetailsService(customUserDetailService)
+        )
+        .userDetailsService(customUserDetailService)
         .build();
     }
 
