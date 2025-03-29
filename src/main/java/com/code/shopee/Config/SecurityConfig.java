@@ -28,7 +28,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain UserSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-        .securityMatcher("/buyer/**", "/login", "/register")
+        .securityMatcher("/buyer/**", "/login", "/register", "/logout")
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/login", "/register").permitAll()
@@ -40,6 +40,9 @@ public class SecurityConfig {
             .usernameParameter("username")
             .passwordParameter("password")
             .defaultSuccessUrl("/buyer/home",true)
+        ).logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
         )
         .userDetailsService(customUserDetailService)
         .build();
@@ -50,7 +53,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-        .securityMatcher("/admin/**", "/adminlogin")
+        .securityMatcher("/admin/**", "/adminlogin", "/adminlogout")
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/adminlogin").permitAll()
@@ -62,6 +65,9 @@ public class SecurityConfig {
             .usernameParameter("username")
             .passwordParameter("password")
             .defaultSuccessUrl("/admin/index",true)
+        ).logout(logout -> logout
+            .logoutUrl("/adminlogout")
+            .logoutSuccessUrl("/adminlogin")
         )
         .userDetailsService(customUserDetailService)
         .build();

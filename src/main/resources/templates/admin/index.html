@@ -1,16 +1,19 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.thymeleaf.org/extras/spring-security6">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" th:href="@{/assets/css/styles.css}">
+
     <title>Document</title>
 </head>
 
 <body>
+    <span sec:authentication="name"></span>
+    <p1>Đã đăng nhập</p1>
     <p1 th:if="${2 < 3}">kuku</p1>
     <p1 th:if="${2 < 3}">Giỏi</p1>
+    <a th:href="@{/adminlogout}">Đăng xuất</a>
 </body>
 
 </html>
