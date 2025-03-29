@@ -7,7 +7,6 @@
     <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/login.css}">
-    <link rel="stylesheet" th:href="@{/assets/css/footer.css}">
     <title>Register</title>
 </head>
 
@@ -38,28 +37,31 @@
                     <div class="space-body">
                         <form class="login-form">
                             <div class="normal-box">
-                                <input id="login-key" class="normal-key" type="text" placeholder="Tên đăng nhập">
+                                <input id="username" name="username" class="normal-key" type="text" placeholder="Tên đăng nhập">
                             </div>
+                            <div id="authen-username-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
                             <div class="pass-box">
-                                <input id="password" class="password" type="password" placeholder="Mật khẩu">
+                                <input id="password" name="password" class="password" type="password" placeholder="Mật khẩu">
                                 <button type="button" id="pass-hide-btn" class="eye-btn">
                                     <div class="icon-eye">
                                         <i class="fa-solid fa-eye-slash"></i>
                                     </div>hide
                                 </button>
                             </div>
+                            <div id="authen-password-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
                             <div class="pass-box">
-                                <input id="retype-pass" class="password" type="password" placeholder="Mật khẩu">
+                                <input id="retype-pass" class="password" type="password" placeholder="Nhập lại mật khẩu">
                                 <button type="button" id="pass-hide-btn-1" class="eye-btn">
                                     <div class="icon-eye">
                                         <i class="fa-solid fa-eye-slash"></i>
                                     </div>hide
                                 </button>
                             </div>
+                            <div id="authen-retypepass-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
-                            <button type="submit" id="login-btn" class="normal-btn">ĐĂNG KÍ</button>
+                            <button type="submit" id="login-btn" class="normal-btn btn-disbled" disabled>ĐĂNG KÍ</button>
 
                             <div class="partition">
                                 <div class="dash"></div>
@@ -91,4 +93,4 @@
 
 </html>
 
-<script th:src="@{/assets/js/login.js}"></script>
+<script th:src="@{/assets/js/register.js}"></script>
