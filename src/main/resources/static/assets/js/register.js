@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     this.classList.remove("error-bgr");
                     box.classList.remove("error-input");
                     if (passwordCheck.value.trim() !== "" && usernameCheck.value.trim() !== "") {
-                        loginBtn.setAttribute("disabled", "false");
+                        loginBtn.removeAttribute("disabled")
                         loginBtn.classList.remove("btn-disbled");
                     }
                     if(passwordCheck.value.trim() !== retypePassword.value.trim()) {

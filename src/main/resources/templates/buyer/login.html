@@ -36,6 +36,12 @@
                     </div>
                     <div class="space-body">
                         <form class="login-form" th:action="@{/login}" method="post">
+                            <div class="warn-box hide">
+                                <div class="warn-icon" >
+                                    <i class="fa-regular fa-circle-xmark fa-xs" style="color: #ff4000;"></i>
+                                </div>
+                                Đăng nhập KHÔNG thành công. Bạn vui lòng thử lại hoặc đăng nhập bằng cách khác nhé!
+                            </div>
                             <div class="normal-box">
                                 <input id="username" name="username" class="normal-key" type="text" placeholder="Email/Số điện thoại/Tên đăng nhập">
                             </div>

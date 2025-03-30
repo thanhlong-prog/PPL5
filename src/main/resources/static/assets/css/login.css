@@ -77,7 +77,7 @@ input {
 
 .contain-body {
     background-color: rgb(238, 77, 45);
-    height: 600px;
+    height: 650px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -321,10 +321,33 @@ input {
 }
 
 .hide {
-    display: none;
+    display: none !important;
 }
 
 .btn-disbled {
     cursor: not-allowed;
     opacity: .7;
+}
+
+.warn-box {
+    background-color: #fff9fa;
+    border: 1px solid rgba(255, 66, 79, .2);
+    border-radius: 2px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    padding: .75rem .9375rem .75rem 0; 
+    display: flex;
+    margin-bottom: 24px;
+    font-size: .875rem;
+    text-align: left;
+}
+
+.warn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-left: .9375rem;
+    padding-right: .9375rem;
+    font-size: 20px;
 }

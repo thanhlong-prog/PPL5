@@ -35,7 +35,25 @@
                         </div>
                     </div>
                     <div class="space-body">
-                        <form class="login-form">
+                        <form class="login-form" method="post" action="/register/save">
+                            <div class="warn-box hide" id="warnBox">
+                                <div class="warn-icon" >
+                                    <i class="fa-regular fa-circle-xmark fa-xs" style="color: #ff4000;"></i>
+                                </div>
+                                <span id="warnMessage"></span>
+                            </div>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    var warnMessage = document.getElementById("warnMessage");
+                                    if (warnMessage) { 
+                                        var errorMessage = `[[${error}]]`; 
+                                        if (errorMessage && errorMessage.trim() !== "null") {
+                                            warnMessage.innerText = errorMessage;
+                                            document.getElementById("warnBox").classList.remove("hide");
+                                        }
+                                    }
+                                });
+                            </script>
                             <div class="normal-box">
                                 <input id="username" name="username" class="normal-key" type="text" placeholder="Tên đăng nhập">
                             </div>
