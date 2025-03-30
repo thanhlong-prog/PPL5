@@ -15,4 +15,12 @@ public class ShopeeController {
     public String Cart() {
         return "home/cart";
     }
+    @RequestMapping("/terms-of-service")
+    public String termsOfService() {
+        return "terms-of-service";
+    }
+    @RequestMapping("/privacy-policy")
+    public String privacyPolicy() {
+        return "privacy-policy";
+    }
 }

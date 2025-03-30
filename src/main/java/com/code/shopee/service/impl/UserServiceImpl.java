@@ -32,4 +32,14 @@ public class UserServiceImpl implements UserService {
         registrationMapper.toUser(user, registrationDto);
         userRepository.save(user);
     }
+
+    @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public User findByGmail(String gmail) {
+        return userRepository.findByGmail(gmail).orElse(null);
+    }
 }

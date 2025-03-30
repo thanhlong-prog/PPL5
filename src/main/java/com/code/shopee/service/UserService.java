@@ -8,4 +8,6 @@ public interface UserService {
     User findByUsername(String username);
     User findById(int id);
     void save(RegistrationDto registrationDto);
+    void save(User user);
+    public User findByGmail(String gmail);
 }

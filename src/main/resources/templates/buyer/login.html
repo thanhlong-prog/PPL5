@@ -37,18 +37,20 @@
                     <div class="space-body">
                         <form class="login-form" th:action="@{/login}" method="post">
                             <div class="warn-box hide">
-                                <div class="warn-icon" >
+                                <div class="warn-icon">
                                     <i class="fa-regular fa-circle-xmark fa-xs" style="color: #ff4000;"></i>
                                 </div>
                                 Đăng nhập KHÔNG thành công. Bạn vui lòng thử lại hoặc đăng nhập bằng cách khác nhé!
                             </div>
                             <div class="normal-box">
-                                <input id="username" name="username" class="normal-key" type="text" placeholder="Email/Số điện thoại/Tên đăng nhập">
+                                <input id="username" name="username" class="normal-key" type="text"
+                                    placeholder="Email/Số điện thoại/Tên đăng nhập">
                             </div>
                             <div id="authen-username-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
                             <div class="pass-box">
-                                <input id="password" name="password" class="password" type="password" placeholder="Mật khẩu">
+                                <input id="password" name="password" class="password" type="password"
+                                    placeholder="Mật khẩu">
                                 <button type="button" id="pass-hide-btn" class="eye-btn">
                                     <div class="icon-eye">
                                         <i class="fa-solid fa-eye-slash"></i>
@@ -57,7 +59,8 @@
                             </div>
                             <div id="authen-password-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
-                            <button type="submit" id="login-btn" class="normal-btn btn-disbled" disabled>ĐĂNG NHẬP</button>
+                            <button type="submit" id="login-btn" class="normal-btn btn-disbled" disabled>ĐĂNG
+                                NHẬP</button>
                             <div class="link-bot">
                                 <a href="">Quên mật khẩu</a>
                                 <a href="">Đăng nhập với SMS</a>
@@ -69,11 +72,19 @@
                             </div>
                             <div class="other">
                                 <button type="button">
-                                    <i class="fa-brands fa-facebook fa-xl" style="color: #0e50c4; margin-right: 8px;"></i>Facebook</button>
-                                <button type="button" class="google-btn">
+                                    <i class="fa-brands fa-facebook fa-xl"
+                                        style="color: #0e50c4; margin-right: 8px;"></i>Facebook</button>
+                                <button type="button" class="google-btn" onclick="loginWithGoogle()">
                                     <div class="google-icon"></div>
                                     <div>Google</div>
                                 </button>
+
+                                <script>
+                                    function loginWithGoogle() {
+                                        window.location.href = "/oauth2/authorization/google";
+                                    }
+                                </script>
+
                             </div>
                             <div class="end-form">
                                 Bạn mới biết đến Shopee?&nbsp;&nbsp;
@@ -85,7 +96,7 @@
             </div>
         </div>
         <div class="footer">
-        </div> 
+        </div>
     </div>
 </body>
 

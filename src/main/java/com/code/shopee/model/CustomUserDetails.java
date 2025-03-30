@@ -1,13 +1,16 @@
 package com.code.shopee.model;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails , OAuth2User {
     private User user;
     private Collection<? extends GrantedAuthority> authorities;
+    private Map<String, Object> attributes;
 
     public CustomUserDetails() {
 
@@ -19,6 +22,22 @@ public class CustomUserDetails implements UserDetails {
         this.authorities = authorities;
     }
 
+    public CustomUserDetails(User user, Collection<? extends GrantedAuthority> authorities, Map<String, Object> attributes) {
+        this.user = user;
+        this.authorities = authorities;
+        this.attributes = attributes;
+    }
+    ///////////////////////////////////////////////////
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
+    }
+
+    @Override
+    public String getName() {
+        return user.getUsername();
+    }
+    //////////////////////////////////////////////////////
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         

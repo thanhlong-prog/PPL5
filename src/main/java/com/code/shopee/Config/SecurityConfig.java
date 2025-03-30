@@ -28,10 +28,10 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain UserSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-        .securityMatcher("/buyer/**", "/login", "/register", "/logout")
+        .securityMatcher("/buyer/**", "/login", "/register", "/logout", "/oauth2/**", "/login/**")
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/login", "/register").permitAll()
+            .requestMatchers("/login", "/register", "/oauth2/**", "/login/**").permitAll()
             .requestMatchers("/buyer/**").hasAuthority("buyer")
             .anyRequest().authenticated()
         ).formLogin(login->login 
@@ -40,6 +40,9 @@ public class SecurityConfig {
             .usernameParameter("username")
             .passwordParameter("password")
             .defaultSuccessUrl("/buyer/home",true)
+        ).oauth2Login(oauth2 -> oauth2 
+            .loginPage("/login")
+            .defaultSuccessUrl("/buyer/home", true)
         ).logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/login")
@@ -78,6 +81,6 @@ public class SecurityConfig {
         return (web) -> web
                         .debug(true)
                         .ignoring()
-                        .requestMatchers("/assets/**");
+                        .requestMatchers("/assets/**", "/terms-of-service", "/privacy-policy");
     }
 }
