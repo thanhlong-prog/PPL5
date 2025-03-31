@@ -1,4 +1,4 @@
-package com.code.shopee.service;
+package com.code.shopee.service.authen;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.Roles;
 import com.code.shopee.model.User;
+import com.code.shopee.service.UserService;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {

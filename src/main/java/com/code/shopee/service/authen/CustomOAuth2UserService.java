@@ -1,4 +1,4 @@
-package com.code.shopee.service;
+package com.code.shopee.service.authen;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -23,6 +23,8 @@ import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.GoogleUser;
 import com.code.shopee.model.Roles;
 import com.code.shopee.model.User;
+import com.code.shopee.service.RolesService;
+import com.code.shopee.service.UserService;
 
 @Service
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
