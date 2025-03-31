@@ -4,8 +4,6 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import com.code.shopee.model.Roles;
 
 import jakarta.validation.constraints.Email;
