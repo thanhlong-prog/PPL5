@@ -105,7 +105,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             }
             else {
                 gmail = facebookUser.getEmail();
-                checkGmailExist(gmail);
             }
             User user = userService.findByFacebook(facebookId);  
             
