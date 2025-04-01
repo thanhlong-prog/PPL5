@@ -48,7 +48,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         if ("google".equals(registrationId)) {
             response = restTemplate.exchange(
-                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    GOOGLE_USER_INFO_URL,
                     HttpMethod.GET,
                     new org.springframework.http.HttpEntity<>(headers),
                     GoogleUser.class
@@ -105,6 +105,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             }
             else {
                 gmail = facebookUser.getEmail();
+                checkGmailExist(gmail);
             }
             User user = userService.findByFacebook(facebookId);  
             
@@ -130,6 +131,13 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             return new CustomUserDetails(user, Collections.singletonList(new SimpleGrantedAuthority("buyer")), facebookUser.getAttributes());
         }
         throw new IllegalStateException("Unsupported OAuth2 provider");
+    }
+
+    public void checkGmailExist(String gmail) {
+        User user = userService.findByGmail(gmail);
+        if (user != null) {
+            throw new IllegalStateException("Gmail already exists!");
+        }
     }
 }
 
