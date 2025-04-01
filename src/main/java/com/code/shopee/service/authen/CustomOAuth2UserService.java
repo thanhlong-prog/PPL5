@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.code.shopee.enums.Role;
 import com.code.shopee.model.CustomUserDetails;
+import com.code.shopee.model.FacebookUser;
 import com.code.shopee.model.GoogleUser;
 import com.code.shopee.model.Roles;
 import com.code.shopee.model.User;
@@ -37,47 +38,98 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) {
-        System.out.println("User Request: " + userRequest.getAdditionalParameters());
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
         String accessToken = userRequest.getAccessToken().getTokenValue();
 
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + accessToken);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<GoogleUser> response = restTemplate.exchange(
-                GOOGLE_USER_INFO_URL,
-                HttpMethod.GET,
-                new org.springframework.http.HttpEntity<>(headers),
-                GoogleUser.class
-        );
+        ResponseEntity<?> response = null;
 
-        GoogleUser googleUser = response.getBody();
-        
-        if (googleUser == null) {
-            throw new IllegalStateException("Failed to fetch user details from Google");
-        }
-        System.out.println("Google User Info: " + googleUser);
-        String gmail = googleUser.getEmail();
-        User user = userService.findByGmail(gmail);
-        
-        if (user == null) {
-            user = new User();
-            user.setGmail(gmail);
-            user.setUsername(gmail);
-            Set<Roles> roles = new HashSet<>();
-            roles.add(rolesService.findById(Role.BUYER.getCode()));  
-            user.setRoles(roles);
-            user.setEnable(true);
-            user.setStatus(true);
-            userService.save(user);
-        } else {
-            Set<Roles> roles = user.getRoles();
-            Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
-            for (Roles role : roles) {
-                grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+        if ("google".equals(registrationId)) {
+            response = restTemplate.exchange(
+                    "https://www.googleapis.com/oauth2/v3/userinfo",
+                    HttpMethod.GET,
+                    new org.springframework.http.HttpEntity<>(headers),
+                    GoogleUser.class
+            );
+
+            GoogleUser googleUser = (GoogleUser) response.getBody();
+            if (googleUser == null) {
+                throw new IllegalStateException("Failed to fetch user details from Google");
             }
-            return new DefaultOAuth2User(grantedAuthorities, googleUser.getAttributes(), "sub");
+            System.out.println("Google User Info: " + googleUser);
+            
+            String gmail = googleUser.getEmail();
+            User user = userService.findByGmail(gmail);
+            
+            if (user == null) {
+                user = new User();
+                user.setGmail(gmail);
+                user.setUsername(gmail);
+                Set<Roles> roles = new HashSet<>();
+                roles.add(rolesService.findById(Role.BUYER.getCode()));  
+                user.setRoles(roles);
+                user.setEnable(true);
+                user.setStatus(true);
+                userService.save(user);
+            } else {
+                Set<Roles> roles = user.getRoles();
+                Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                for (Roles role : roles) {
+                    grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+                }
+                return new DefaultOAuth2User(grantedAuthorities, googleUser.getAttributes(), "sub");
+            }
+            return new CustomUserDetails(user, Collections.singletonList(new SimpleGrantedAuthority("buyer")), googleUser.getAttributes());
+        } 
+        else if ("facebook".equals(registrationId)) {
+            response = restTemplate.exchange(
+                    "https://graph.facebook.com/v12.0/me?fields=id,name,email,picture",
+                    HttpMethod.GET,
+                    new org.springframework.http.HttpEntity<>(headers),
+                    FacebookUser.class
+            );
+
+            FacebookUser facebookUser = (FacebookUser) response.getBody();
+            if (facebookUser == null) {
+                throw new IllegalStateException("Failed to fetch user details from Facebook");
+            }
+            System.out.println("Facebook User Info: " + facebookUser);
+            
+            String facebookId = facebookUser.getId();
+            String gmail;
+            if(facebookUser.getEmail() == null) {
+                gmail = "example@gmail.com";
+                facebookUser.setEmail(gmail);
+            }
+            else {
+                gmail = facebookUser.getEmail();
+            }
+            User user = userService.findByFacebook(facebookId);  
+            
+            if (user == null) {
+                user = new User();
+                user.setUsername("user" + facebookId);
+                user.setFacebook(facebookId);
+                user.setGmail(gmail);
+                Set<Roles> roles = new HashSet<>();
+                roles.add(rolesService.findById(Role.BUYER.getCode()));  
+                user.setRoles(roles);
+                user.setEnable(true);
+                user.setStatus(true);
+                userService.save(user);
+            } else {
+                Set<Roles> roles = user.getRoles();
+                Collection<GrantedAuthority> grantedAuthorities = new HashSet<>();
+                for (Roles role : roles) {
+                    grantedAuthorities.add(new SimpleGrantedAuthority(role.getRole()));
+                }
+                return new DefaultOAuth2User(grantedAuthorities, facebookUser.getAttributes(), "id");
+            }
+            return new CustomUserDetails(user, Collections.singletonList(new SimpleGrantedAuthority("buyer")), facebookUser.getAttributes());
         }
-        return new CustomUserDetails(user, Collections.singletonList(new SimpleGrantedAuthority("buyer")), googleUser.getAttributes());
+        throw new IllegalStateException("Unsupported OAuth2 provider");
     }
 }
 

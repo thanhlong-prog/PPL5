@@ -10,4 +10,5 @@ public interface UserService {
     void save(RegistrationDto registrationDto);
     void save(User user);
     public User findByGmail(String gmail);
+    public User findByFacebook(String facebook);
 }

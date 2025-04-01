@@ -71,7 +71,7 @@
                                 <div class="dash"></div>
                             </div>
                             <div class="other">
-                                <button type="button">
+                                <button type="button" onclick="loginWithFacebook()">
                                     <i class="fa-brands fa-facebook fa-xl"
                                         style="color: #0e50c4; margin-right: 8px;"></i>Facebook</button>
                                 <button type="button" class="google-btn" onclick="loginWithGoogle()">
@@ -82,6 +82,9 @@
                                 <script>
                                     function loginWithGoogle() {
                                         window.location.href = "/oauth2/authorization/google";
+                                    }
+                                    function loginWithFacebook() {
+                                        window.location.href = "/oauth2/authorization/facebook";
                                     }
                                 </script>
 

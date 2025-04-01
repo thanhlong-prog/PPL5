@@ -23,7 +23,7 @@ public class GoogleUser {
     private String name;
     private String picture;
 
-    private List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
+    private List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("buyer"));
 
     public List<GrantedAuthority> getAuthorities() {
         return authorities;

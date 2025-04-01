@@ -42,4 +42,9 @@ public class UserServiceImpl implements UserService {
     public User findByGmail(String gmail) {
         return userRepository.findByGmail(gmail).orElse(null);
     }
+
+    @Override
+    public User findByFacebook(String facebook) {
+        return userRepository.findByFacebook(facebook).orElse(null);
+    }
 }
