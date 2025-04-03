@@ -53,7 +53,6 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     new org.springframework.http.HttpEntity<>(headers),
                     GoogleUser.class
             );
-
             GoogleUser googleUser = (GoogleUser) response.getBody();
             if (googleUser == null) {
                 throw new IllegalStateException("Failed to fetch user details from Google");
