@@ -1,0 +1,182 @@
+
+
+.form {
+    width: 100%;
+    max-width: 400px;
+}
+
+.form .form-header {
+    text-align: center;
+    padding: 20px;
+    display: grid;
+    gap: 5px;
+    max-width: 100vh;
+}
+
+.form .form-header p {
+    color: #555;
+}
+
+.form .body {
+    height: 320px;
+    max-width: 400px;
+    overflow: hidden;
+    width: 400px;
+}
+
+.form .body .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.form .body .pagination .number {
+    width: 28px;
+    height: 28px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 50%;
+    background: #ee4d2d;
+    color: #fff;
+    font-size: 15px;
+}
+
+.form .body .pagination .bar {
+    width: 50px;
+    height: 4px;
+    background: #ee4d2d;
+    border-radius: 5px;
+}
+
+.form .body .pagination .active ~ div {
+    background: #ddd;
+    color: #111;
+}
+
+.form .steps {
+    width: 400%;
+    display: flex;
+    transition: all 300ms ease-in-out;
+}
+
+.form .steps .step {
+    width: 98vh;
+    padding: 400px;
+    padding: 5px 15px 15px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.form .steps .step h4 {
+    margin-bottom: 5px;
+}
+
+.form .steps .step p {
+    color: #555;
+    max-width: 100%;
+    font-size: 15px;
+}
+
+.form .steps .step .space-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form .steps .step .space-grid .col label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.form .steps .step .space-grid .col input {
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+.form .steps .step .space-grid-row {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.form .steps .step .space-grid-row .row {
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+}
+
+
+.form .steps .step .space-grid-row .row label {
+    margin-bottom: 5px;
+    white-space: nowrap; 
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.form .steps .step .space-grid-row .row input {
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #bbb;
+    font-size: 15px;
+    border-radius: 8px;
+}
+
+.form .steps .step .space-grid-row .row .send-btn {
+    background-color: #ee4d2d;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .09);
+    color: #fff;
+    width: 34%;
+    height: 2.5rem;
+    min-width: 5.75rem;
+    border-radius: 1.125rem;
+    padding: 0 .625rem;
+    font-size: 14px;
+    color: #fff;
+}
+
+.form .steps .step .confirmation {
+    display: grid;
+    text-align: center;
+    place-items: center;
+    gap: 15px;
+}
+
+.form .steps .step .confirmation button {
+    background:#ee4d2d;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.form .space-footer {
+    padding: 0px 20px 20px 20px;
+    display: flex;
+    justify-content: space-between;
+    max-width: 100vh;
+}
+
+.form .space-footer button {
+    background-color: #ee4d2d;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .09);
+    color: #fff;
+    width: 34%;
+    height: 2.5rem;
+    min-width: 8.75rem;
+    border-radius: 1.125rem;
+    padding: 0 .625rem;
+    font-size: 14px;
+    color: #fff;
+}
+

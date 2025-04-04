@@ -15,6 +15,10 @@ public class ShopeeController {
     public String Cart() {
         return "home/cart";
     }
+    @RequestMapping("/info")
+    public String Info() {
+        return "buyer/info-form";
+    }
     @RequestMapping("/terms-of-service")
     public String termsOfService() {
         return "terms-of-service";

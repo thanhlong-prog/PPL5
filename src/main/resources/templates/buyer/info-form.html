@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
+    <title>Điền thông tin</title>
+    <link rel="stylesheet" th:href="@{/assets/css/info-form.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="grid">
+                <div class="login-group">
+                    <img th:src="@{/assets/images/ph-shopee.jpg}" alt="shopee-icon">
+                    <div>Xác Nhận Thông Tin</div>
+                </div>
+                <div class="link-group">
+                    <a href="">Bạn cần giúp đỡ ?</a>
+                </div>
+            </div>
+        </div>
+        <div class="contain-body">
+            <div class="content">
+                <div class="space">
+                    <img class="space-icon" th:src="@{/assets/images/Untitled.png}" alt="shopee-icon">
+                </div>
+                <div class="right-space">
+                    <div class="form">
+                        <form action="">
+                            <div class="form-header">
+                                <h2>Thông tin cá nhân</h2>
+                                <p>Vui lòng điền thông tin bên dưới</p>
+                            </div>
+                            <div class="body">
+                                <div class="pagination">
+                                    <div class="number active">1</div>
+                                    <div class="bar"></div>
+                                    <div class="number">2</div>
+                                    <div class="bar"></div>
+                                    <div class="number">3</div>
+                                    <div class="bar"></div>
+                                    <div class="number">4</div>
+                                </div>
+
+                                <div class="steps">
+                                    <div class="step">
+                                        <h4>Thông tin đại diện</h4>
+                                        <p>Nhập thông tin của người đại diện</p>
+                                        <div class="space-grid-row">
+                                            <div class="row">
+                                            </div>
+                                            <div class="row">
+                                                <label for="name">Tên đại diện</label>
+                                                <input type="text" id="name">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="step">
+                                        <h4>Xác thực thông tin</h4>
+                                        <p>Vui lòng nhập email và nhập mã xác thực.</p>
+                                        <div class="space-grid-row">
+                                            <div class="row">
+                                                <label for="gmail">Gmail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <input type="text" id="gmail">
+                                            </div>
+                                            <div class="row">
+                                                <label for="authen-gmail-code">Mã xác thực</label>
+                                                <input type="text" id="authen-gmail-code">
+                                                <button type="button" class="send-btn" onclick="sendAuthenCode()">Nhận mã</button>
+                                            </div>
+                                            <script>
+                                                function sendAuthenCode() {
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                    <div class="step">
+                                        <h4>Xác thực thông tin</h4>
+                                        <p>Vui lòng số điện thoại và nhập mã xác thực.</p>
+                                        <div class="space-grid-row">
+                                            <div class="row">
+                                                <label for="phone">Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <input type="text" id="phone">
+                                            </div>
+                                            <div class="row">
+                                                <label for="authen-phone-code">Mã xác thực</label>
+                                                <input type="text" id="authen-phone-code">
+                                                <button type="button" class="send-btn" onclick="sendAuthenCode()">Nhận mã</button>
+                                            </div>
+                                            <script>
+                                                function sendAuthenCode() {
+                                                }
+                                            </script>
+                                        </div>
+                                    </div>
+
+                                    <div class="step">
+                                        <div class="confirmation">
+                                            <h4>Xác nhận</h4>
+                                            <p>Vui lòng kiểm tra kỹ lưỡng các thông tin trước khi hoàn tất gửi biểu mẫu. Chúng tôi xin chân thành cảm ơn bạn đã tin tưởng và cung cấp thông tin.</p>
+                                            <div>
+                                                <button type="submit" class="confir-btn">Gửi</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="space-footer">
+                                <button type="button" class="prev" disabled>Previous</button>
+                                <button type="button" class="next">Next</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div th:insert="~{footer :: footer}"></div>
+        </div>
+    </div>
+</body>
+<script th:src="@{/assets/js/info-form.js}"></script>
+
+</html>
