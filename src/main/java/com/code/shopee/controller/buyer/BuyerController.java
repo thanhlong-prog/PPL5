@@ -31,6 +31,7 @@ import com.code.shopee.service.MailService;
 import com.code.shopee.service.SmsService;
 import com.code.shopee.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -70,7 +71,18 @@ public class BuyerController {
         return "home/index";
     }
     @RequestMapping("/verify")
-    public String verify(@RequestParam(value = "error", required = false) String error, Model model) {
+    public String verify(@RequestParam(value = "error", required = false) String error, Model model, HttpSession session) {
+        User user = new User();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof CustomUserDetails userDetails) {
+            user = userService.findByUsername(userDetails.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            String email = oauth2User.getAttribute("email");
+            user = userService.findByGmail(email);
+        }
+        if(user.getVerify()) {
+            return "redirect:/buyer/home";
+        }
         VerifyUserDto verifyUser = new VerifyUserDto();
         if(error != null) {
             Map<String, String> errors = (Map<String, String>) model.getAttribute("message");
@@ -81,19 +93,10 @@ public class BuyerController {
                 verifyUser = (VerifyUserDto) model.getAttribute("verifyUser");
             }
         }
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof CustomUserDetails userDetails) {
-            User user = userService.findByUsername(userDetails.getUsername());
-            if(user.getGmail() != null && user.getGmail().equals(verifyUser.getGmail())) {
-                verifyUser.setGmail(user.getGmail());
-            }
-        } else if (principal instanceof OAuth2User oauth2User) {
-            String email = oauth2User.getAttribute("email");
-            User user = userService.findByGmail(email);
-            if(user.getGmail() != null && user.getGmail().equals(verifyUser.getGmail())) {
-                verifyUser.setGmail(user.getGmail());
-            }
-            model.addAttribute("user", verifyUser);
+        Boolean isFirst = (Boolean) session.getAttribute("is_first");
+        if(isFirst == null || isFirst) {
+            verifyUser.setGmail(user.getGmail());
+            session.setAttribute("is_first", false);
         }
         if(verifyUser != null) {
             model.addAttribute("verifyUser", verifyUser);
