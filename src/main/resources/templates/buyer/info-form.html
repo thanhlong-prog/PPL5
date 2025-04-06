@@ -8,9 +8,14 @@
     <title>Điền thông tin</title>
     <link rel="stylesheet" th:href="@{/assets/css/info-form.css}">
     <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body>
+    <div id="toast"></div>
     <div class="container">
         <div class="header">
             <div class="grid">
@@ -30,7 +35,7 @@
                 </div>
                 <div class="right-space">
                     <div class="form">
-                        <form action="">
+                        <form action="/buyer/verify/submit" method="post" name ="info-form" id="info-form">
                             <div class="form-header">
                                 <h2>Thông tin cá nhân</h2>
                                 <p>Vui lòng điền thông tin bên dưới</p>
@@ -55,8 +60,9 @@
                                             </div>
                                             <div class="row">
                                                 <label for="name">Tên đại diện</label>
-                                                <input type="text" id="name">
+                                                <input name="name" type="text" id="name" placeholder="Nhập tên đại diện">
                                             </div>
+                                            <div th:if="${name != null}" id="name-warn" class="authen-input" th:text="${name}"></div>
                                         </div>
                                     </div>
 
@@ -66,17 +72,16 @@
                                         <div class="space-grid-row">
                                             <div class="row">
                                                 <label for="gmail">Gmail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                <input type="text" id="gmail">
+                                                <input name="gmail" type="text" id="gmail" th:value="${user.gmail != null && user.gmail != 'example@gmail.com' ? user.gmail : ''}" 
+                                                        th:attr="placeholder=${user.gmail == null || user.gmail == 'example@gmail.com' ? 'Nhập Gmail của bạn' : ''}">
                                             </div>
+                                            <div th:if="${gmail != null}" class="authen-input" th:text="${gmail}"></div>
                                             <div class="row">
                                                 <label for="authen-gmail-code">Mã xác thực</label>
-                                                <input type="text" id="authen-gmail-code">
-                                                <button type="button" class="send-btn" onclick="sendAuthenCode()">Nhận mã</button>
+                                                <input name="codeMail" type="text" id="authen-gmail-code">
+                                                <button type="button" class="send-btn" onclick="sendAuthenCodeMail()">Nhận mã</button>
                                             </div>
-                                            <script>
-                                                function sendAuthenCode() {
-                                                }
-                                            </script>
+                                            <div th:if="${codeMail != null}" class="authen-input" th:text="${codeMail}"></div>
                                         </div>
                                     </div>
 
@@ -86,17 +91,16 @@
                                         <div class="space-grid-row">
                                             <div class="row">
                                                 <label for="phone">Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                <input type="text" id="phone">
+                                                <input name="phone" type="text" id="phone" th:value="${user.phone != null ? user.phone : ''}"
+                                                        th:attr="placeholder=${user.phone == null ? 'Nhập số điện thoại của bạn' : ''}">    
                                             </div>
+                                            <div th:if="${phone != null}" class="authen-input" th:text="${phone}"></div>
                                             <div class="row">
                                                 <label for="authen-phone-code">Mã xác thực</label>
-                                                <input type="text" id="authen-phone-code">
-                                                <button type="button" class="send-btn" onclick="sendAuthenCode()">Nhận mã</button>
+                                                <input name="codePhone" type="text" id="authen-phone-code">
+                                                <button type="button" class="send-btn" onclick="sendAuthenCodePhone()">Nhận mã</button>
                                             </div>
-                                            <script>
-                                                function sendAuthenCode() {
-                                                }
-                                            </script>
+                                            <div th:if="${codePhone != null}" class="authen-input" th:text="${codePhone}"></div>
                                         </div>
                                     </div>
 
@@ -113,8 +117,8 @@
                             </div>
 
                             <div class="space-footer">
-                                <button type="button" class="prev" disabled>Previous</button>
-                                <button type="button" class="next">Next</button>
+                                <button type="button" class="prev" disabled>Quay lại</button>
+                                <button type="button" class="next">Tiếp theo</button>
                             </div>
                         </form>
                     </div>
@@ -127,5 +131,70 @@
     </div>
 </body>
 <script th:src="@{/assets/js/info-form.js}"></script>
-
+<script th:src="@{/assets/js/toastmsg.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </html>
+
+
+
+<script>
+    function sendAuthenCodeMail() {
+        if($("#gmail").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/verify/sendMail",
+                data: {
+                    email: $("#gmail").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi Mail thành công',
+                            content: 'Vui lòng kiểm tra email của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi Mail thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+
+    function sendAuthenCodePhone() {
+        if($("#phone").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/verify/sendPhone",
+                data: {
+                    phone: $("#phone").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi tin nhắn thành công',
+                            content: 'Vui lòng kiểm tra điện thoại của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi tin nhắn thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+</script>

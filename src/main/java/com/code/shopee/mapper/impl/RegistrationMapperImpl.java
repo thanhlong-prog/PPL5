@@ -21,6 +21,7 @@ public class RegistrationMapperImpl implements RegistrationMapper {
             user.setCreatedDate(registrationDto.getCreatedDate());
             user.setRoles(registrationDto.getRoles());
             user.setModifiedDate(registrationDto.getModifiedDate());
+            user.setVerify(registrationDto.getVerify());
             user.setEnable(registrationDto.getEnable());
             user.setStatus(registrationDto.getStatus());
             return user;

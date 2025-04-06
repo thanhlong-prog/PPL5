@@ -7,5 +7,5 @@ import com.code.shopee.model.User;
 
 @Component("spring")
 public interface  RegistrationMapper {
-    User toUser(User user ,RegistrationDto registrationDto);
+    public User toUser(User user ,RegistrationDto registrationDto);
 }

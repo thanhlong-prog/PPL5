@@ -7,6 +7,7 @@ import com.code.shopee.model.User;
 
 @Component("spring")
 public interface UserMapper {
-    User toUser(UserDto userdto);
-    void updateUser(User user, UserDto userdto);
+    public UserDto toUserDto(User user);
+    public User toUser(UserDto userdto);
+    public void updateUser(User user, UserDto userdto);
 }

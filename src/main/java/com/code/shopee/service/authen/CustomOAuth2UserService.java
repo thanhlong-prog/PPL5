@@ -20,10 +20,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.code.shopee.enums.Role;
 import com.code.shopee.model.CustomUserDetails;
-import com.code.shopee.model.FacebookUser;
-import com.code.shopee.model.GoogleUser;
 import com.code.shopee.model.Roles;
 import com.code.shopee.model.User;
+import com.code.shopee.request.FacebookUserRequest;
+import com.code.shopee.request.GoogleUserRequest;
 import com.code.shopee.service.RolesService;
 import com.code.shopee.service.UserService;
 
@@ -51,9 +51,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     GOOGLE_USER_INFO_URL,
                     HttpMethod.GET,
                     new org.springframework.http.HttpEntity<>(headers),
-                    GoogleUser.class
+                    GoogleUserRequest.class
             );
-            GoogleUser googleUser = (GoogleUser) response.getBody();
+            GoogleUserRequest googleUser = (GoogleUserRequest) response.getBody();
             if (googleUser == null) {
                 throw new IllegalStateException("Failed to fetch user details from Google");
             }
@@ -69,6 +69,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 Set<Roles> roles = new HashSet<>();
                 roles.add(rolesService.findById(Role.BUYER.getCode()));  
                 user.setRoles(roles);
+                user.setVerify(false);
                 user.setEnable(true);
                 user.setStatus(true);
                 userService.save(user);
@@ -87,10 +88,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                     "https://graph.facebook.com/v12.0/me?fields=id,name,email,picture",
                     HttpMethod.GET,
                     new org.springframework.http.HttpEntity<>(headers),
-                    FacebookUser.class
+                    FacebookUserRequest.class
             );
 
-            FacebookUser facebookUser = (FacebookUser) response.getBody();
+            FacebookUserRequest facebookUser = (FacebookUserRequest) response.getBody();
             if (facebookUser == null) {
                 throw new IllegalStateException("Failed to fetch user details from Facebook");
             }
@@ -115,6 +116,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 Set<Roles> roles = new HashSet<>();
                 roles.add(rolesService.findById(Role.BUYER.getCode()));  
                 user.setRoles(roles);
+                user.setVerify(false);
                 user.setEnable(true);
                 user.setStatus(true);
                 userService.save(user);

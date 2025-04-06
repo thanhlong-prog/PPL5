@@ -71,4 +71,12 @@ public class CustomUserDetails implements UserDetails , OAuth2User {
         return user.getEnable();
     }
 
+    public boolean isVerify() {
+        return user.getVerify();
+    }
+
+    public String getGmail() {
+        return user.getGmail();
+    }
+
 }

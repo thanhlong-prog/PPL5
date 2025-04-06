@@ -1,4 +1,4 @@
-package com.code.shopee.model;
+package com.code.shopee.request;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -9,15 +9,19 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Data
+@Builder
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoogleUser {
+public class GoogleUserRequest {
     private String sub;
     private String email;
     private String name;

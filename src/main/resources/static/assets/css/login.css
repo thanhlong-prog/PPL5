@@ -209,7 +209,7 @@ html, body {
     font-size: 13px;
 }
 
-.login-form .authen-input {
+.authen-input {
     color: #ff424f;
     font-size: .75rem;
     margin: 0;

@@ -19,12 +19,13 @@ public class UserMapperImpl implements UserMapper {
         else {
             User user = new User();
             user.setUsername(userdto.getUsername());
-            user.setPassword(userdto.getPassword());
+            user.setName(userdto.getName());
             user.setBirthday(userdto.getBirthday());
             user.setPhone(userdto.getPhone());
             user.setGmail(userdto.getGmail());
             user.setFacebook(userdto.getFacebook());
             user.setBecomeSellerDate(userdto.getBecomeSellerDate());
+            user.setVerify(userdto.getVerify());
             user.setEnable(userdto.getEnable());
             user.setStatus(userdto.getStatus());
             user.setCreatedDate(userdto.getCreatedDate());
@@ -40,12 +41,34 @@ public class UserMapperImpl implements UserMapper {
             return;
         }
         else {
-            user.setPassword(userdto.getPassword());
             user.setBirthday(userdto.getBirthday());
             user.setPhone(userdto.getPhone());
             user.setGmail(userdto.getGmail());
             user.setFacebook(userdto.getFacebook());
             user.setModifiedDate(userdto.getModifiedDate());
+        }
+    }
+    @Override
+    public UserDto toUserDto(User user) {
+        if(user == null) {
+            return null;
+        }
+        else {
+            UserDto userdto = new UserDto();
+            userdto.setUsername(user.getUsername());
+            userdto.setName(user.getName());
+            userdto.setBirthday(user.getBirthday());
+            userdto.setPhone(user.getPhone());
+            userdto.setGmail(user.getGmail());
+            userdto.setFacebook(user.getFacebook());
+            userdto.setBecomeSellerDate(user.getBecomeSellerDate());
+            userdto.setVerify(user.getVerify());
+            userdto.setEnable(user.getEnable());
+            userdto.setStatus(user.getStatus());
+            userdto.setCreatedDate(user.getCreatedDate());
+            userdto.setModifiedDate(user.getModifiedDate());
+            userdto.setRoles(user.getRoles());
+            return userdto;
         }
     }
 }

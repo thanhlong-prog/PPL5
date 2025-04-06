@@ -40,6 +40,9 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "birthday")
     private Date birthday;
 
@@ -54,6 +57,9 @@ public class User {
 
     @Column(name = "become_seller_date")
     private Date becomeSellerDate;
+
+    @Column(name = "verify")
+    private Boolean verify;
 
     @Column(name = "enable")
     private Boolean enable;

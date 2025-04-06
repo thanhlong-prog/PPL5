@@ -15,15 +15,10 @@ public class MailServiceImpl implements MailService {
     
     @Override
     public void sendEmail(MailDto mail) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo(mail.getTo());
-            message.setSubject(mail.getSubject());
-            message.setText(mail.getContent());
-            mailSender.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Failed to send email: " + e.getMessage());
-        }
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(mail.getTo());
+        message.setSubject(mail.getSubject());
+        message.setText(mail.getContent());
+        mailSender.send(message);
     }
 }

@@ -31,6 +31,7 @@ public class RegistrationDto {
     @CreationTimestamp
     private LocalDateTime modifiedDate;
     private Set<Roles> roles;
+    private Boolean verify;
     private Boolean enable;
     private Boolean status;
 }
