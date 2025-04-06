@@ -71,37 +71,38 @@ public class BuyerController {
     }
     @RequestMapping("/verify")
     public String verify(@RequestParam(value = "error", required = false) String error, Model model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof CustomUserDetails userDetails) {
-            User user = userService.findByUsername(userDetails.getUsername());
-            VerifyUserDto verifyUser = verifyUserMapper.toVerifyUserDto(user);
-            model.addAttribute("user", verifyUser);
-        } else if (principal instanceof OAuth2User oauth2User) {
-            String email = oauth2User.getAttribute("email");
-            User user = userService.findByGmail(email);  
-            VerifyUserDto verifyUser = verifyUserMapper.toVerifyUserDto(user);
-            model.addAttribute("user", verifyUser);
-        }
+        VerifyUserDto verifyUser = new VerifyUserDto();
         if(error != null) {
             Map<String, String> errors = (Map<String, String>) model.getAttribute("message");
             if(errors != null) {
                 for(Map.Entry<String, String> entry : errors.entrySet()) {
                     model.addAttribute(entry.getKey(), entry.getValue());
                 }
+                verifyUser = (VerifyUserDto) model.getAttribute("verifyUser");
             }
+        }
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof CustomUserDetails userDetails) {
+            User user = userService.findByUsername(userDetails.getUsername());
+            if(user.getGmail() != null && user.getGmail().equals(verifyUser.getGmail())) {
+                verifyUser.setGmail(user.getGmail());
+            }
+        } else if (principal instanceof OAuth2User oauth2User) {
+            String email = oauth2User.getAttribute("email");
+            User user = userService.findByGmail(email);
+            if(user.getGmail() != null && user.getGmail().equals(verifyUser.getGmail())) {
+                verifyUser.setGmail(user.getGmail());
+            }
+            model.addAttribute("user", verifyUser);
+        }
+        if(verifyUser != null) {
+            model.addAttribute("verifyUser", verifyUser);
         }
         return "buyer/info-form";
     }
 
     @PostMapping("/verify/submit")
     public String submitVerify(@Valid @ModelAttribute("VerifyUserDto") VerifyUserDto verifyUser, BindingResult result, RedirectAttributes redirectAttributes) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof CustomUserDetails userDetails) {
-            verifyUser.setUsername(userDetails.getUsername());
-        } else if (principal instanceof OAuth2User oauth2User) {
-            String email = oauth2User.getAttribute("email");
-            verifyUser.setUsername(userService.findByGmail(email).getUsername());
-        }
         if(result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for(FieldError field : result.getFieldErrors()) {
@@ -110,7 +111,15 @@ public class BuyerController {
                 errors.put(fieldName, errorMessage);
             }
             redirectAttributes.addFlashAttribute("message", errors);
+            redirectAttributes.addFlashAttribute("verifyUser", verifyUser);
             return "redirect:/buyer/verify?error=true";
+        }
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(principal instanceof CustomUserDetails userDetails) {
+            verifyUser.setUsername(userDetails.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            String email = oauth2User.getAttribute("email");
+            verifyUser.setUsername(userService.findByGmail(email).getUsername());
         }
         if(verifyUser.getCodeMail().equals(codeMail) && verifyUser.getCodePhone().equals(codePhone)) {
             verifyUser.setModifiedDate(LocalDateTime.now());
@@ -125,6 +134,7 @@ public class BuyerController {
                 errors.put("codePhone", "Mã xác thực số điện thoại sai!");
             }
             redirectAttributes.addFlashAttribute("message", errors);
+            redirectAttributes.addFlashAttribute("verifyUser", verifyUser);
             return "redirect:/buyer/verify?error=true";
         }
         return "redirect:/buyer/home";

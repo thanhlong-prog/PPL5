@@ -51,3 +51,34 @@
 
     movePage();
 })();
+
+const codeInputs = document.querySelectorAll(".code-input");
+document.addEventListener("DOMContentLoaded", function () {
+    codeInputs.forEach(codeInput => {
+        if (codeInput) {
+            codeInput.addEventListener("keydown", function (e) {
+                if (!/^\d$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+                    e.preventDefault();  
+                }
+            });
+        }
+    });
+});
+
+const inputActs = document.querySelectorAll(".input-act");
+document.addEventListener("DOMContentLoaded", function () {
+    inputActs.forEach(inputAct => {
+        if (inputAct) {
+            inputAct.addEventListener("input", function () {
+                if(inputAct.classList.contains("error-input")) {
+                    inputAct.classList.remove("error-input");
+                    let errorWarnName = inputAct.id + "-error-warn";
+                    let errorWarn = document.getElementById(errorWarnName);
+                    if (errorWarn) {
+                        errorWarn.classList.add("hide");
+                    }
+                }
+            });
+        }
+    });
+});

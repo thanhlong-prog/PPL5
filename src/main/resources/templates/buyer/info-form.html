@@ -60,9 +60,13 @@
                                             </div>
                                             <div class="row">
                                                 <label for="name">Tên đại diện</label>
-                                                <input name="name" type="text" id="name" placeholder="Nhập tên đại diện">
+                                                <input name="name" type="text" id="name"
+                                                    th:value="${verifyUser.name != null ? verifyUser.name : ''}"
+                                                    placeholder="Nhập tên đại diện" 
+                                                    class="input-act"
+                                                    th:classappend="${name != null} ? 'error-input' : ''">
                                             </div>
-                                            <div th:if="${name != null}" id="name-warn" class="authen-input" th:text="${name}"></div>
+                                            <div th:if="${name != null}" id="name-error-warn" class="authen-input" style="text-align: center;" th:text="${name}"></div>
                                         </div>
                                     </div>
 
@@ -72,16 +76,20 @@
                                         <div class="space-grid-row">
                                             <div class="row">
                                                 <label for="gmail">Gmail&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                <input name="gmail" type="text" id="gmail" th:value="${user.gmail != null && user.gmail != 'example@gmail.com' ? user.gmail : ''}" 
-                                                        th:attr="placeholder=${user.gmail == null || user.gmail == 'example@gmail.com' ? 'Nhập Gmail của bạn' : ''}">
+                                                <input name="gmail" type="text" id="gmail" 
+                                                        th:value="${verifyUser.gmail != null && verifyUser.gmail != 'example@gmail.com' ? verifyUser.gmail : ''}"
+                                                        class="input-act"
+                                                        th:classappend="${gmail != null} ? 'error-input' : ''"
+                                                        placeholder="Nhập gmail của bạn">
                                             </div>
-                                            <div th:if="${gmail != null}" class="authen-input" th:text="${gmail}"></div>
+                                            <div th:if="${gmail != null}" id="gmail-error-warn" class="authen-input" style="text-align: center;" th:text="${gmail}"></div>
                                             <div class="row">
                                                 <label for="authen-gmail-code">Mã xác thực</label>
-                                                <input name="codeMail" type="text" id="authen-gmail-code">
+                                                <input name="codeMail" type="text" id="authen-gmail-code" maxlength="6" class="code-input input-act" 
+                                                        th:classappend="${codeMail != null} ? 'error-input' : ''">
                                                 <button type="button" class="send-btn" onclick="sendAuthenCodeMail()">Nhận mã</button>
                                             </div>
-                                            <div th:if="${codeMail != null}" class="authen-input" th:text="${codeMail}"></div>
+                                            <div th:if="${codeMail != null}" id="authen-gmail-code-error-warn" class="authen-input" style="text-align: center;" th:text="${codeMail}"></div>
                                         </div>
                                     </div>
 
@@ -91,16 +99,21 @@
                                         <div class="space-grid-row">
                                             <div class="row">
                                                 <label for="phone">Phone&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                                <input name="phone" type="text" id="phone" th:value="${user.phone != null ? user.phone : ''}"
-                                                        th:attr="placeholder=${user.phone == null ? 'Nhập số điện thoại của bạn' : ''}">    
+                                                <input name="phone" type="text" id="phone" 
+                                                        th:value="${verifyUser.phone != null ? verifyUser.phone : ''}"
+                                                        class="code-input input-act"
+                                                        th:classappend="${phone != null} ? 'error-input' : ''"
+                                                        placeholder="Nhập số điện thoại của bạn"
+                                                        maxlength="11">    
                                             </div>
-                                            <div th:if="${phone != null}" class="authen-input" th:text="${phone}"></div>
+                                            <div th:if="${phone != null}" id="phone-error-warn"  class="authen-input" style="text-align: center;" th:text="${phone}"></div>
                                             <div class="row">
                                                 <label for="authen-phone-code">Mã xác thực</label>
-                                                <input name="codePhone" type="text" id="authen-phone-code">
+                                                <input name="codePhone" type="text" id="authen-phone-code" maxlength="6" class="code-input input-act"
+                                                    th:classappend="${codePhone != null} ? 'error-input' : ''">
                                                 <button type="button" class="send-btn" onclick="sendAuthenCodePhone()">Nhận mã</button>
                                             </div>
-                                            <div th:if="${codePhone != null}" class="authen-input" th:text="${codePhone}"></div>
+                                            <div th:if="${codePhone != null}" id="authen-phone-code-error-warn" class="authen-input" style="text-align: center;" th:text="${codePhone}"></div>
                                         </div>
                                     </div>
 

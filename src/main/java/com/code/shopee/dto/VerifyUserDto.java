@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,12 +29,15 @@ public class VerifyUserDto {
     private String gmail;
 
     @NotBlank(message = "Code xác nhận gmail không được để trống")
+    @Size(min = 6, max = 6, message = "Code xác nhận gmail không hợp lệ")
     private String codeMail;
 
     @NotBlank(message = "Số điện thoại không được để trống")
+    @Size(min = 10, max = 11, message = "Số điện thoại không hợp lệ")
     private String phone;
 
     @NotBlank(message = "Code xác nhận điện thoại không được để trống")
+    @Size(min = 6, max = 6, message = "Code xác nhận điện thoại không hợp lệ")
     private String codePhone;
 
     private LocalDateTime modifiedDate;
