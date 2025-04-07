@@ -41,11 +41,11 @@ public class AuthenController {
 
         if (principal instanceof CustomUserDetails user) {
             if (user.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("buyer"))) {
-                return "redirect:/buyer/home";
+                return "redirect:/home";
             }
         } else if (principal instanceof OAuth2User oauth2User) {
             if(oauth2User.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("buyer"))) {
-                return "redirect:/buyer/home";
+                return "redirect:/home";
             };
         }
         if (error != null) {
@@ -60,11 +60,11 @@ public class AuthenController {
 
         if (principal instanceof CustomUserDetails user) {
             if (user.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("buyer"))) {
-                return "redirect:/buyer/home";
+                return "redirect:/home";
             }
         } else if (principal instanceof OAuth2User oauth2User) {
             if(oauth2User.getAuthorities().stream().anyMatch(auth -> auth.getAuthority().equals("buyer"))) {
-                return "redirect:/buyer/home";
+                return "redirect:/home";
             };
         }
         if (error != null) {

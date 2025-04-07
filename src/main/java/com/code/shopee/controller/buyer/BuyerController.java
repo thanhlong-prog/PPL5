@@ -3,6 +3,9 @@ package com.code.shopee.controller.buyer;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.code.shopee.Config.SmsConfig;
 import com.code.shopee.dto.MailDto;
 import com.code.shopee.dto.VerifyUserDto;
-import com.code.shopee.mapper.VerifyUserMapper;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.User;
 import com.code.shopee.request.SmsRequest;
@@ -42,34 +44,14 @@ public class BuyerController {
     @Autowired
     private UserService userService;
     @Autowired
-    private VerifyUserMapper verifyUserMapper;
-    @Autowired
     private MailService mailService;
     @Autowired
     private SmsService smsService;
     @Autowired
     private SmsConfig smsConfig;
 
-    private String codeMail;
-    private String codePhone;
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    @RequestMapping("/home")
-    public String User() {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal instanceof CustomUserDetails user) {
-            if(!user.isVerify()) {
-                return "redirect:/buyer/verify";
-            }
-        } else if (principal instanceof OAuth2User oauth2User) {
-            String email = oauth2User.getAttribute("email");
-            User user = userService.findByGmail(email);  
-            if (!user.getVerify()) {
-                return "redirect:/buyer/verify"; 
-            }
-        }
-        return "home/index";
-    }
     @RequestMapping("/verify")
     public String verify(@RequestParam(value = "error", required = false) String error, Model model, HttpSession session) {
         User user = new User();
@@ -81,7 +63,7 @@ public class BuyerController {
             user = userService.findByGmail(email);
         }
         if(user.getVerify()) {
-            return "redirect:/buyer/home";
+            return "redirect:/home";
         }
         VerifyUserDto verifyUser = new VerifyUserDto();
         if(error != null) {
@@ -105,7 +87,7 @@ public class BuyerController {
     }
 
     @PostMapping("/verify/submit")
-    public String submitVerify(@Valid @ModelAttribute("VerifyUserDto") VerifyUserDto verifyUser, BindingResult result, RedirectAttributes redirectAttributes) {
+    public String submitVerify(@Valid @ModelAttribute("VerifyUserDto") VerifyUserDto verifyUser, BindingResult result, RedirectAttributes redirectAttributes, HttpSession session) {
         if(result.hasErrors()) {
             Map<String, String> errors = new HashMap<>();
             for(FieldError field : result.getFieldErrors()) {
@@ -124,6 +106,8 @@ public class BuyerController {
             String email = oauth2User.getAttribute("email");
             verifyUser.setUsername(userService.findByGmail(email).getUsername());
         }
+        String codeMail = session.getAttribute("codeMail") != null ? session.getAttribute("codeMail").toString() : null;
+        String codePhone = session.getAttribute("codePhone") != null ? session.getAttribute("codePhone").toString() : null;
         if(verifyUser.getCodeMail().equals(codeMail) && verifyUser.getCodePhone().equals(codePhone)) {
             verifyUser.setModifiedDate(LocalDateTime.now());
             verifyUser.setVerify(true);
@@ -140,12 +124,12 @@ public class BuyerController {
             redirectAttributes.addFlashAttribute("verifyUser", verifyUser);
             return "redirect:/buyer/verify?error=true";
         }
-        return "redirect:/buyer/home";
+        return "redirect:/home";
     }
 
     @PostMapping("/verify/sendMail")
     @ResponseBody
-    public ResponseEntity<?> sendMail(@RequestParam("email") String email) {
+    public ResponseEntity<?> sendMail(@RequestParam("email") String email, HttpSession session) {
         try {
             String userGmail = null;
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -159,7 +143,11 @@ public class BuyerController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Email đã tồn tại trong hệ thống");
             }
-            codeMail = randomCode();
+            String codeMail = randomCode();
+            session.setAttribute("codeMail", codeMail);
+            scheduler.schedule(() -> {
+                session.removeAttribute("codeMail");
+            }, 300, TimeUnit.SECONDS);
             MailDto mess = new MailDto(email, "Mã xác thực gmail", codeMail);
             mailService.sendEmail(mess);
             return ResponseEntity.ok("success");
@@ -172,7 +160,7 @@ public class BuyerController {
 
     @PostMapping("/verify/sendPhone")
     @ResponseBody
-    public ResponseEntity<?> sendPhone(@RequestParam("phone") String phone) {
+    public ResponseEntity<?> sendPhone(@RequestParam("phone") String phone, HttpSession session) {
         try {
             checkPhoneExist(phone);
             if(checkPhoneExist(phone)) {
@@ -180,7 +168,11 @@ public class BuyerController {
                     .status(HttpStatus.BAD_REQUEST)
                     .body("Số điện thoại đã tồn tại trong hệ thống");
             }
-            codePhone = randomCode();
+            String codePhone = randomCode();
+            session.setAttribute("codePhone", codePhone);
+            scheduler.schedule(() -> {
+                session.removeAttribute("codePhone");
+            }, 300, TimeUnit.SECONDS);
             SmsRequest smsRequest = new SmsRequest(phone, codePhone, 2, smsConfig.getDeviceId());
             Boolean check = smsService.sendSms(smsRequest);
             if(!check) {

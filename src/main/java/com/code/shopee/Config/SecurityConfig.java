@@ -28,21 +28,22 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain UserSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-        .securityMatcher("/buyer/**", "/login", "/register", "/logout", "/oauth2/**", "/login/**")
+        .securityMatcher("/buyer/**", "/login", "/register", "/logout", "/oauth2/**", "/login/**", "/home/**")
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/login", "/register", "/oauth2/**", "/login/**").permitAll()
             .requestMatchers("/buyer/**").hasAuthority("buyer")
+            .requestMatchers("/home/**").hasAuthority("buyer")
             .anyRequest().authenticated()
         ).formLogin(login->login 
             .loginPage("/login")
             .loginProcessingUrl("/login")
             .usernameParameter("username")
             .passwordParameter("password")
-            .defaultSuccessUrl("/buyer/home",true)
+            .defaultSuccessUrl("/home",true)
         ).oauth2Login(oauth2 -> oauth2 
             .loginPage("/login")
-            .defaultSuccessUrl("/buyer/home", true)
+            .defaultSuccessUrl("/home", true)
         ).logout(logout -> logout
             .logoutUrl("/logout")
             .logoutSuccessUrl("/login")
