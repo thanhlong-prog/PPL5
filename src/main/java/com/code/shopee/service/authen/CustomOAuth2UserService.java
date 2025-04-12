@@ -64,6 +64,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             
             if (user == null) {
                 user = new User();
+                user.setAvatar(googleUser.getPicture());
                 user.setGmail(gmail);
                 user.setUsername(gmail);
                 user.setName(googleUser.getName());
@@ -111,6 +112,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             
             if (user == null) {
                 user = new User();
+                user.setAvatar("../images/img-avatar/avatar-custom.jpg");
                 user.setUsername("user" + facebookId);
                 user.setName(facebookUser.getName());
                 user.setFacebook(facebookId);

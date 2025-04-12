@@ -85,6 +85,7 @@ public class AuthenController {
         Set<Roles> roles = new HashSet<>();
         roles.add(rolesService.findById(Role.BUYER.getCode()));
         user.setRoles(roles);
+        user.setAvatar("https://res.cloudinary.com/dowc3tobj/image/upload/v1744467877/Image/zaqfhfcloizdf83uu8gl.jpg");
         user.setVerify(false);
         user.setEnable(true);
         user.setStatus(true);

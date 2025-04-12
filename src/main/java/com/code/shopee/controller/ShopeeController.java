@@ -1,12 +1,17 @@
 package com.code.shopee.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.code.shopee.service.CloudinaryService;
 
 
 @Controller
 public class ShopeeController {
-
+    @Autowired
+    private CloudinaryService cloudinaryService;
+    
     @RequestMapping("/adminlogin")
     public String adminLogin() {
         return "admin/login";
@@ -27,4 +32,20 @@ public class ShopeeController {
     public String privacyPolicy() {
         return "privacy-policy";
     }
+    // @RequestMapping("/upload")   
+    // public String about() {
+    //     return "test/upload-img";
+    // }
+    // @PostMapping("/upload")
+    // public String uploadFile(@RequestParam("image") MultipartFile file) {
+    // try {
+    //     String imageUrl = cloudinaryService.getImageUrl(file);
+    //     System.out.println("Uploaded image URL: " + imageUrl);
+    // } catch (Exception e) {
+    //     e.printStackTrace();
+    //     return "Error uploading file: " + e.getMessage();
+    // }
+    // return "Uploaded: " + file.getOriginalFilename();
 }
+
+

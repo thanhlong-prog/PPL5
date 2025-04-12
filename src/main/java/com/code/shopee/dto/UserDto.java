@@ -37,6 +37,7 @@ public class UserDto {
     private Boolean enable;
     private Boolean status;
     private Boolean verify;
+    private String avatar;
     @NotEmpty
     private LocalDateTime createdDate;
     @NotEmpty

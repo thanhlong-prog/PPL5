@@ -74,7 +74,12 @@
                         <span>Tiếng Việt</span>
                     </div>
                     <div class="w-option account">
-                        <div class="avt"></div>
+                        <div class="avt"
+                            th:if="${user.avatar != null}"
+                            th:style="'background-image: url(' + ${user.avatar} + ')'">
+                        </div>
+                        <div class="avt" th:if="${user.avatar == null}">
+                        </div>
                         <span th:text="${user.name != null ? user.name : ''}"></span>
                         <div class="drop-down-box account hide">
                             <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>

@@ -55,6 +55,9 @@ public class User {
     @Column(name = "facebook")
     private String facebook;
 
+    @Column(name = "avatar")
+    private String avatar;
+
     @Column(name = "become_seller_date")
     private Date becomeSellerDate;
 
