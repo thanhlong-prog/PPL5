@@ -31,11 +31,8 @@ public class UserDto {
     private Date birthday;
     @NotBlank(message = "Số điện thoại không được để trống")
     private String phone;
-
     @Email(message = "Email không hợp lệ")
     private String gmail;
-
-    private String facebook;
     private Date becomeSellerDate;
     private Boolean enable;
     private Boolean status;

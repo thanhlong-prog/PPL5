@@ -82,6 +82,21 @@ ul{
 .header .top .top-right .w-option i{
     margin-right: 5px;
 }
+
+.header .top .top-right .w-option .avt{
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 28px;
+    border-radius: 50%;
+    background: #ee4d2d;
+    color: #fff;
+    font-size: 15px;
+    margin-right: 5px;
+    background-image: url("../images/img-avatar/th.jpg");
+    background-size: cover;
+}
+
 .header .top .top-right .notification {
     position: relative;
     cursor: pointer;
@@ -89,7 +104,7 @@ ul{
 .header .top .top-right .notification-box {
     display: none;
     position: absolute;
-    top: 100%;
+    top: 17px;
     margin-right: 10px;
     margin-top: 5px;
     right: 0;
@@ -98,7 +113,7 @@ ul{
     border: 1px solid #ccc;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-.header .top .top-right .notification:hover .notification-box {
+.header .top .top-right .notification .notification-box {
     display: block;
     z-index: 100;
 }
@@ -123,6 +138,14 @@ ul{
     background-color: #fff;
     padding: 5px;
 }
+
+.header .top .top-right .notification-box .icon-top{
+    position: absolute;
+    top: -16px;
+    right: 40px;
+    z-index: 100;
+}
+
 .header .top .top-right .notification-box .w-noti{
     display: flex;
     align-items: start;
@@ -213,4 +236,36 @@ ul{
     justify-content: center;
     margin-right: 30px;
     font-size: 35px;
+}
+.w-option {
+    position: relative;
+}
+
+.w-option .drop-down-box {
+    position: absolute;
+    border-radius: 5%;
+    box-shadow: 0px 4px 6px rgba(251, 87, 50, 0.5);
+    background-color: #ffffff;
+    z-index: 100;
+    top: 100%;
+    right: 0px;
+    min-width: 150px;
+}
+
+.w-option .drop-down-box li {
+    padding: 0px 20px 10px 20px;
+    cursor: pointer;
+    color: #000000;
+    font-size: 14px;
+}
+
+.w-option .icon-top {
+    position: absolute;
+    top: -16px;
+    right: 40px;
+    z-index: 100;
+}
+
+.hide {
+    display: none !important;
 }

@@ -80,7 +80,7 @@ public class SecurityConfig {
     @Bean
     WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web
-                        .debug(true)
+                        .debug(false)
                         .ignoring()
                         .requestMatchers("/assets/**", "/terms-of-service", "/privacy-policy");
     }

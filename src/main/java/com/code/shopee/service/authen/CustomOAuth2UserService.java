@@ -66,6 +66,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
                 user = new User();
                 user.setGmail(gmail);
                 user.setUsername(gmail);
+                user.setName(googleUser.getName());
                 Set<Roles> roles = new HashSet<>();
                 roles.add(rolesService.findById(Role.BUYER.getCode()));  
                 user.setRoles(roles);
@@ -111,6 +112,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             if (user == null) {
                 user = new User();
                 user.setUsername("user" + facebookId);
+                user.setName(facebookUser.getName());
                 user.setFacebook(facebookId);
                 user.setGmail(gmail);
                 Set<Roles> roles = new HashSet<>();

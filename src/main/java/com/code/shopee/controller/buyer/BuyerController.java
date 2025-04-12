@@ -78,6 +78,7 @@ public class BuyerController {
         Boolean isFirst = (Boolean) session.getAttribute("is_first");
         if(isFirst == null || isFirst) {
             verifyUser.setGmail(user.getGmail());
+            verifyUser.setName(user.getName());
             session.setAttribute("is_first", false);
         }
         if(verifyUser != null) {

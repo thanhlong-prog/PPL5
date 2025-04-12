@@ -85,3 +85,34 @@
     color: #333;
     font-size: 14px;
 }
+
+.wrapper-products .page-controller{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.wrapper-products .page-controller .paging-number{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    font-size: 1.25rem;
+    height: 1.875rem;
+    margin-left: .9375rem;
+    margin-right: .9375rem;
+    min-width: 2.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 5%;
+    color: rgba(0, 0, 0, .4);
+    background-color: initial;
+    cursor: pointer;
+}
+
+.wrapper-products .page-controller .button-active{
+    background: #ee4d2d;
+    outline: 0;
+    overflow: visible;
+    color: #ffffff;
+}

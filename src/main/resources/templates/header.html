@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.thymeleaf.org/extras/spring-security6">
 <head>
 </head>
 
@@ -24,7 +25,8 @@
                             <i class='bx bx-bell' ></i>
                             <span> Thông báo</span>
                         </div>
-                        <div class="notification-box">
+                        <div class="notification-box hide">
+                            <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
                             <ul>
                                 <li>
                                     <a href="">
@@ -73,13 +75,20 @@
                     </div>
                     <div class="w-option account">
                         <div class="avt"></div>
-                        <span>My Account</span>
+                        <span th:text="${user.name != null ? user.name : ''}"></span>
+                        <div class="drop-down-box account hide">
+                            <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
+                            <div class="title-dropdown">
+                                <p></p>
+                            </div>
+                            <ul>
+                                <li>Tài Khoản Của Tôi</li>
+                                <li>Đơn Mua</li>
+                                <li>Đăng Xuất</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="w-option account">
-                        <div class="avt"></div>
-                        <span>My Account</span>
-                        <a th:href="@{/logout}">Đăng xuất</a>
-                    </div>
+                    <a th:href="@{/logout}">Đăng xuất</a>
                 </div>
             </div>
             <div class="bottom">

@@ -23,7 +23,6 @@ public class UserMapperImpl implements UserMapper {
             user.setBirthday(userdto.getBirthday());
             user.setPhone(userdto.getPhone());
             user.setGmail(userdto.getGmail());
-            user.setFacebook(userdto.getFacebook());
             user.setBecomeSellerDate(userdto.getBecomeSellerDate());
             user.setVerify(userdto.getVerify());
             user.setEnable(userdto.getEnable());
@@ -44,7 +43,6 @@ public class UserMapperImpl implements UserMapper {
             user.setBirthday(userdto.getBirthday());
             user.setPhone(userdto.getPhone());
             user.setGmail(userdto.getGmail());
-            user.setFacebook(userdto.getFacebook());
             user.setModifiedDate(userdto.getModifiedDate());
         }
     }
@@ -60,7 +58,6 @@ public class UserMapperImpl implements UserMapper {
             userdto.setBirthday(user.getBirthday());
             userdto.setPhone(user.getPhone());
             userdto.setGmail(user.getGmail());
-            userdto.setFacebook(user.getFacebook());
             userdto.setBecomeSellerDate(user.getBecomeSellerDate());
             userdto.setVerify(user.getVerify());
             userdto.setEnable(user.getEnable());
