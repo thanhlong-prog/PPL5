@@ -40,6 +40,12 @@ public class ProductOption {
     @Column(name="name")
     private String name;
 
+    @Column(name="quantity")
+    private int quantity;
+
+    @Column(name="price")
+    private double price;
+
     @Column(name="thumbnail")
     private String thumbnail;
 

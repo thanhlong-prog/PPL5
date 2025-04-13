@@ -109,132 +109,19 @@
                         </button>
                         <div class="carousel">
                             <div class="category" data-current-index="0">
-                                <div class="item">
+                                <div th:each="category : ${categories}" class="item">
                                     <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
+                                        <img th:src="${category.image}" alt="">
                                     </div>
-                                    <div class="name-category">Thời trang nam</div>
+                                    <div class="name-category" th:text="${category.name}"></div>
                                 </div>
-                                <div class="item">
+                                <!-- <div class="item">
                                     <div class="img-category">
                                         <img src="/assets/images/img-category/category-2.webp" alt="">
                                     </div>
                                     <div class="name-category">Thời trang nam</div>
                                 </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang namưevư</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam</div>
-                                </div>
-                                <div class="item">
-                                    <div class="img-category">
-                                        <img src="/assets/images/img-category/category-1.webp" alt="">
-                                    </div>
-                                    <div class="name-category">Thời trang nam fdưebebvưvư gewv</div>
-                                </div>
+                                 -->
                             </div>
                         </div>
                     </div>
@@ -478,54 +365,29 @@
                     <div class="w-products">
                         <div class="title">Gợi ý hôm nay</div>
                         <div class="products-list">
-                            <div class="product">
+                            <div th:each="product : ${products}" class="product">
                                 <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <img th:src="${product.thumbnail}" alt="">
                                 </div>
                                 <div class="infor">
                                     <div class="top">
                                         <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
+                                            <span th:text="${product.title}"></span>
                                         </div>
                                         <div class="tag">
                                         </div>
                                     </div>
                                     <div class="bottom">
                                         <div class="price">
-                                            <span>100.000đ</span>
+                                            <span th:text="${product.price} + ' đ'"></span>
                                         </div>
                                         <div class="count">
-                                            <span>Đã bán 1000</span>
+                                            <span th:text="'Đã bán ' + ${product.sold}"></span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
+                            <!-- <div class="product">
                                 <div class="image">
                                     <img src="/assets/images/img-products/product-1.webp" alt="">
                                 </div>
@@ -549,169 +411,34 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product">
-                                <div class="image">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                </div>
-                                <div class="infor">
-                                    <div class="top">
-                                        <div class="name">
-                                            <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
-                                        </div>
-                                        <div class="tag">
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                            <span>rẻ vô địch</span>
-                                        </div>
-                                    </div>
-                                    <div class="bottom">
-                                        <div class="price">
-                                            <span>100.000đ</span>
-                                        </div>
-                                        <div class="count">
-                                            <span>Đã bán 1000</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                     <div class="page-controller" role="navigation">
-                        <button class="paging-number"><i class="fa-solid fa-less-than fa-xs"></i></button>
-                        <button class="paging-number">1</button>
-                        <button class="paging-number">2</button>
-                        <button class="paging-number">3</button>
-                        <button class="paging-number">4</button>
-                        <button class="paging-number button-active">5</button>
-                        <button class="paging-number">6</button>
-                        <button class="paging-number">...</button>
-                        <button class="paging-number"><i class="fa-solid fa-greater-than fa-xs"></i></button>
+                        <a th:if="${currentPage > 1}" th:href="@{/home(page=${currentPage - 1})}">
+                            <button class="paging-number"><i class="fa-solid fa-less-than fa-xs"></i></button>
+                        </a>
+                        <a th:href="@{/home(page=1)}">
+                            <button class="paging-number" th:class="${currentPage == 1} ? 'paging-number button-active' : 'paging-number'">1</button>
+                        </a>
+                        <span th:if="${currentPage > 4}">
+                            <button class="paging-number" disabled>...</button>
+                        </span>
+                        <span th:each="i : ${#numbers.sequence(currentPage - 2, currentPage + 2)}"
+                            th:if="${i > 1 and i < totalPages}">
+                            <a th:href="@{/home(page=${i})}">
+                                <button class="paging-number" th:class="${currentPage == i} ? 'paging-number button-active' : 'paging-number'" th:text="${i}"></button>
+                            </a>
+                        </span>
+                        <span th:if="${currentPage < totalPages - 3}">
+                            <button class="paging-number" disabled>...</button>
+                        </span>
+                        <a th:if="${totalPages > 1}" th:href="@{/home(page=${totalPages})}">
+                            <button class="paging-number" th:class="${currentPage == totalPages} ? 'paging-number button-active' : 'paging-number'" th:text="${totalPages}"></button>
+                        </a>    
+                        <a th:if="${currentPage < totalPages}" th:href="@{/home(page=${currentPage + 1})}">
+                            <button class="paging-number"><i class="fa-solid fa-greater-than fa-xs"></i></button>
+                        </a>               
                     </div>
                 </div>
             </div>

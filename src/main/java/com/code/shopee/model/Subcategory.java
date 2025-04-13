@@ -41,7 +41,7 @@ public class Subcategory {
     private String description;
 
     @Column(name="status")
-    private int status;
+    private Boolean status;
 
     @Column(name="created_date")
     @CreationTimestamp

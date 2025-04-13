@@ -37,11 +37,14 @@ public class Product {
     @Column(name = "title")
     private String title;
 
+    @Column(name = "thumbnail")
+    private String thumbnail;
+
     @Column(name = "subcategory_id")
     private int subcategoryId;
 
     @Column(name = "price")
-    private int price;
+    private double price;
 
     @Column(name = "quantity")
     private int quantity;
@@ -59,10 +62,10 @@ public class Product {
     private int sold;
 
     @Column(name = "refund_type")
-    private int refundType;
+    private Integer refundType;
 
     @Column(name = "discount")
-    private int discount;
+    private Integer discount;
 
     @Column(name = "description")
     private String description;

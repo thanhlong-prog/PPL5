@@ -28,11 +28,14 @@ public class Category {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "image")
+    private String image;
+
     @Column(name = "description")
     private String description;
 
     @Column(name = "status")
-    private int status;
+    private Boolean status;
 
     @Column(name = "created_date")
     private LocalDate createdDate;
