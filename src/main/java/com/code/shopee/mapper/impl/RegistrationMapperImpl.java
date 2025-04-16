@@ -17,6 +17,9 @@ public class RegistrationMapperImpl implements RegistrationMapper {
         }
         else {
             user.setUsername(registrationDto.getUsername());
+            user.setName(registrationDto.getName());
+            user.setGmail(registrationDto.getGmail());
+            user.setPhone(registrationDto.getPhone());
             user.setAvatar(registrationDto.getAvatar());
             user.setPassword(registrationDto.getPassword());
             user.setCreatedDate(registrationDto.getCreatedDate());

@@ -11,98 +11,117 @@ loginKey.addEventListener("blur", function () {
 });
 
 
-var normalBoxs = document.querySelectorAll(".normal-box");
 document.addEventListener("DOMContentLoaded", function () {
-    normalBoxs.forEach(box => {
-        let username = box.querySelector("#username");
-        if (username) {
-            username.addEventListener("input", function () {
-                authenUsernameInput = document.getElementById("authen-username-input");
-                passwordCheck = document.getElementById("password");
-                rePasswordCheck = document.getElementById("retype-pass");
-                loginBtn = document.getElementById("login-btn");
-                if (this.value.trim() === "") {
-                    authenUsernameInput.classList.remove("hide");
-                    this.classList.add("error-bgr");
-                    box.classList.add("error-input");
-                    loginBtn.setAttribute("disabled", "true");
-                    loginBtn.classList.add("btn-disbled");
-                } else {
-                    authenUsernameInput.classList.add("hide");
-                    this.classList.remove("error-bgr");
-                    box.classList.remove("error-input");
-                    if (passwordCheck.value.trim() !== "" && rePasswordCheck.value.trim() !== "") {
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.remove("btn-disbled");
-                    }
-                }
-            });
+    const fields = {
+        username: "#username",
+        name: "#name",
+        password: "#password",
+        retypePass: "#retype-pass",
+        gmail: "#gmail",
+        phone: "#phone",
+        codeMail: "#code-mail",
+        codePhone: "#code-phone"
+    };
+    const loginBtn = document.getElementById("login-btn");
+
+    function updateLoginBtn() {
+        const allFilled = Object.values(fields).every(selector => {
+            const el = document.querySelector(selector);
+            return el && el.value.trim() !== "";
+        });
+
+        const passwordEl = document.querySelector(fields.password);
+        const retypePassEl = document.querySelector(fields.retypePass);
+
+        const isPasswordMatch = passwordEl.value === retypePassEl.value;
+
+        if (allFilled && isPasswordMatch) {
+            loginBtn.removeAttribute("disabled");
+            loginBtn.classList.remove("btn-disbled");
+        } else {
+            loginBtn.setAttribute("disabled", "true");
+            loginBtn.classList.add("btn-disbled");
         }
-    });
+    }
+
+    function validateField(inputEl, errorElId, boxEl) {
+        const errorEl = document.getElementById(errorElId);
+        inputEl.addEventListener("input", function () {
+            const isEmpty = this.value.trim() === "";
+
+            if (isEmpty) {
+                errorEl.classList.remove("hide");
+                this.classList.add("error-bgr");
+                boxEl.classList.add("error-input");
+            } else {
+                errorEl.classList.add("hide");
+                this.classList.remove("error-bgr");
+                boxEl.classList.remove("error-input");
+            }
+
+            if (this.id === "retype-pass") {
+                const passwordEl = document.querySelector(fields.password);
+                if (this.value !== passwordEl.value) {
+                    errorEl.classList.remove("hide");
+                    errorEl.innerHTML = "Nhập sai mật khẩu";
+                    this.classList.add("error-bgr");
+                    boxEl.classList.add("error-input");
+                }
+            }
+
+            updateLoginBtn();
+        });
+    }
+    validateField(
+        document.getElementById("username"),
+        "authen-username-input",
+        document.querySelector(".normal-box")
+    );
+
+    validateField(
+        document.getElementById("password"),
+        "authen-password-input",
+        document.querySelector(".pass-box")
+    );
+
+    validateField(
+        document.getElementById("retype-pass"),
+        "authen-retypepass-input",
+        document.querySelector(".pass-box.retype")
+    );
+    validateField(
+        document.getElementById("name"),
+        "authen-name-input",
+        document.querySelector(".normal-box")
+    );
+
+    validateField(
+        document.getElementById("gmail"),
+        "authen-gmail-input",
+        document.querySelector(".normal-box")
+    );
+
+    validateField(
+        document.getElementById("phone"),
+        "authen-phone-input",
+        document.querySelector(".normal-box")
+    );
+
+    validateField(
+        document.getElementById("code-mail"),
+        "authen-codemail-input",
+        document.querySelector(".code-box")
+    );
+
+    validateField(
+        document.getElementById("code-phone"),
+        "authen-codephone-input",
+        document.querySelector(".code-box")
+    );
+
+    updateLoginBtn();
 });
 
-var passBoxs = document.querySelectorAll(".pass-box");
-document.addEventListener("DOMContentLoaded", function () {
-    passBoxs.forEach(box => {
-        let password = box.querySelector("#password");
-        if (password) {
-            password.addEventListener("input", function () {
-                authenPasswordInput = document.getElementById("authen-password-input");
-                usernameCheck = document.getElementById("username");
-                rePasswordCheck = document.getElementById("retype-pass");
-                loginBtn = document.getElementById("login-btn");
-                if (this.value.trim() === "") {
-                    authenPasswordInput.classList.remove("hide");
-                    this.classList.add("error-bgr");
-                    box.classList.add("error-input");
-                    loginBtn.setAttribute("disabled", "true");
-                    loginBtn.classList.add("btn-disbled");
-                } else {
-                    authenPasswordInput.classList.add("hide");
-                    this.classList.remove("error-bgr");
-                    box.classList.remove("error-input");
-                    if (usernameCheck.value.trim() !== "" && rePasswordCheck.value.trim() !== "") {
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.remove("btn-disbled");
-                    }
-                }
-            });
-        }
-
-        let retypePassword = box.querySelector("#retype-pass");
-        if (retypePassword) {
-            retypePassword.addEventListener("input", function () {
-                authenRepasswordInput = document.getElementById("authen-retypepass-input");
-                passwordCheck = document.getElementById("password");
-                usernameCheck = document.getElementById("username");
-                loginBtn = document.getElementById("login-btn");
-                if (this.value.trim() === "") {
-                    authenRepasswordInput.classList.remove("hide");
-                    this.classList.add("error-bgr");
-                    box.classList.add("error-input");
-                    loginBtn.setAttribute("disabled", "true");
-                    loginBtn.classList.add("btn-disbled");
-                } else {
-                    authenRepasswordInput.classList.add("hide");
-                    this.classList.remove("error-bgr");
-                    box.classList.remove("error-input");
-                    if (passwordCheck.value.trim() !== "" && usernameCheck.value.trim() !== "") {
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.remove("btn-disbled");
-                    }
-                    if(passwordCheck.value.trim() !== retypePassword.value.trim()) {
-                        authenRepasswordInput.classList.remove("hide");
-                        authenRepasswordInput.innerHTML = "Nhập sai mật khẩu";
-                        this.classList.add("error-bgr");
-                        box.classList.add("error-input");
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.add("btn-disbled");
-                    }
-                }
-            });
-        }
-    });
-});
 
 var passBox = document.querySelector(".pass-box");
 var password = document.getElementById("password");
@@ -144,3 +163,15 @@ passHideBtn1.addEventListener("click", function() {
     }
 });
 
+const codeInputs = document.querySelectorAll(".code-box-input");
+document.addEventListener("DOMContentLoaded", function () {
+    codeInputs.forEach(codeInput => {
+        if (codeInput) {
+            codeInput.addEventListener("keydown", function (e) {
+                if (!/^\d$/.test(e.key) && e.key !== 'Backspace' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+                    e.preventDefault();  
+                }
+            });
+        }
+    });
+});

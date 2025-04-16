@@ -57,7 +57,7 @@ html, body {
 
 .contain-body {
     background-color: rgb(238, 77, 45);
-    height: 650px;
+    max-height: 1500px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -75,7 +75,7 @@ html, body {
 
 .contain-body input {
     border: 0;
-    padding: .75rem;
+    padding: 11px;
     outline: none;
     height: 16px;
     filter: none;
@@ -111,6 +111,8 @@ html, body {
     display: flex;
     text-align: center;
     flex-direction: column;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
 .right-space .space-header {
@@ -199,6 +201,28 @@ html, body {
     border: 0;
     outline: none;
     padding: 0 .9375rem 0 .75rem;
+}
+
+.login-form .code-box {
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 rgba(0, 0, 0, .02);
+    box-sizing: border-box;
+    height: 2.5rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+.code-box .send-btn {
+    background-color: rgb(238, 77, 45);
+    color: #ffff;
+    height: 80%;
+    width: 20%;
+    border-radius: 5%;
+}
+
+.code-box .code-box-input {
+    width: 235px;
 }
 
 .eye-btn > div {

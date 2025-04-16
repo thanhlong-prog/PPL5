@@ -7,10 +7,12 @@
     <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
     <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/assets/css/login.css}">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
     <title>Register</title>
 </head>
 
 <body>
+    <div id="toast"></div>
     <div class="big-container">
         <div class="header">
             <div class="grid">
@@ -36,17 +38,23 @@
                     </div>
                     <div class="space-body">
                         <form class="login-form" method="post" action="/register/save">
-                            <div th:if="${error}" class="warn-box">
+                            <div th:if="${message}" class="warn-box">
                                 <div class="warn-icon">
                                     <i class="fa-regular fa-circle-xmark fa-xs" style="color: #ff4000;"></i>
                                 </div>
-                                <p th:text="${error}"></p>
+                                <p th:text="${message}"></p>
                             </div>
                             <div class="normal-box">
                                 <input id="username" name="username" class="normal-key" type="text"
                                     placeholder="Tên đăng nhập">
                             </div>
                             <div id="authen-username-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            <div class="pad"></div>
+                            <div class="normal-box">
+                                <input id="name" name="name" class="normal-key" type="text"
+                                    placeholder="Nhập tên đại diện">
+                            </div>
+                            <div id="authen-name-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
                             <div class="pass-box">
                                 <input id="password" name="password" class="password" type="password"
@@ -59,7 +67,7 @@
                             </div>
                             <div id="authen-password-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
                             <div class="pad"></div>
-                            <div class="pass-box">
+                            <div class="pass-box retype">
                                 <input id="retype-pass" class="password" type="password"
                                     placeholder="Nhập lại mật khẩu">
                                 <button type="button" id="pass-hide-btn-1" class="eye-btn">
@@ -69,6 +77,33 @@
                                 </button>
                             </div>
                             <div id="authen-retypepass-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            <div class="pad"></div>
+                            <div class="normal-box">
+                                <input id="gmail" name="gmail" class="normal-key" type="text"
+                                    placeholder="Nhập Gmail">
+                            </div>
+                            <div id="authen-gmail-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            <div class="pad"></div>
+                            <div class="code-box">  
+                                <input id="code-mail" name="codeMail" class="code-box-input" type="text" maxlength="6"
+                                    placeholder="Nhập code đã gửi vào Gmail">
+                                <button type="button" id="send-code-mail" onclick="sendAuthenCodeMail()" class="send-btn">Gửi code</button>
+                            </div>
+                            <div id="authen-codemail-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            <div class="pad"></div>
+                            <div class="normal-box">
+                                <input id="phone" name="phone" class="normal-key" type="text"
+                                    placeholder="Nhập số điện thoại">
+                            </div>
+                            <div id="authen-phone-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            <div class="pad"></div>
+                            <div class="code-box">  
+                                <input id="code-phone" name="codePhone" class="code-box-input" type="text" maxlength="6"
+                                    placeholder="Nhập code đã gửi vào số điện thoại">
+                                <button type="button" id="send-code-phone" onclick="sendAuthenCodePhone()" class="send-btn">Gửi code</button>
+                            </div>
+                            <div id="authen-codephone-input" class="authen-input hide">Vui lòng điền vào mục này.</div>
+                            
                             <div class="pad"></div>
                             <button type="submit" id="login-btn" class="normal-btn btn-disbled" disabled>ĐĂNG
                                 KÍ</button>
@@ -114,3 +149,67 @@
 </html>
 
 <script th:src="@{/assets/js/register.js}"></script>
+<script th:src="@{/assets/js/toastmsg.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function sendAuthenCodeMail() {
+        if($("#gmail").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/register/sendMail",
+                data: {
+                    email: $("#gmail").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi Mail thành công',
+                            content: 'Vui lòng kiểm tra email của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi Mail thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+
+    function sendAuthenCodePhone() {
+        if($("#phone").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/register/sendPhone",
+                data: {
+                    phone: $("#phone").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi tin nhắn thành công',
+                            content: 'Vui lòng kiểm tra điện thoại của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi tin nhắn thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+</script>

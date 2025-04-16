@@ -11,63 +11,60 @@ loginKey.addEventListener("blur", function () {
 });
 
 
-var normalBoxs = document.querySelectorAll(".normal-box");
 document.addEventListener("DOMContentLoaded", function () {
-    normalBoxs.forEach(box => {
-        let username = box.querySelector("#username");
-        if (username) {
-            username.addEventListener("input", function () {
-                authenUsernameInput = document.getElementById("authen-username-input");
-                passwordCheck = document.getElementById("password");
-                loginBtn = document.getElementById("login-btn");
-                if (this.value.trim() === "") {
-                    authenUsernameInput.classList.remove("hide");
-                    this.classList.add("error-bgr");
-                    box.classList.add("error-input");
-                    loginBtn.setAttribute("disabled", "true");
-                    loginBtn.classList.add("btn-disbled");
-                } else {
-                    authenUsernameInput.classList.add("hide");
-                    this.classList.remove("error-bgr");
-                    box.classList.remove("error-input");
-                    if (passwordCheck.value.trim() !== "") {
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.remove("btn-disbled");
-                    }
-                }
-            });
+    const loginBtn = document.getElementById("login-btn");
+    const username = document.getElementById("username");
+    const password = document.getElementById("password");
+
+    const authenUsernameInput = document.getElementById("authen-username-input");
+    const authenPasswordInput = document.getElementById("authen-password-input");
+
+    const normalBox = document.querySelector(".normal-box");
+    const passBox = document.querySelector(".pass-box");
+
+    function updateLoginButton() {
+        const isUsernameValid = username.value.trim() !== "";
+        const isPasswordValid = password.value.trim() !== "";
+
+        if (isUsernameValid && isPasswordValid) {
+            loginBtn.removeAttribute("disabled");
+            loginBtn.classList.remove("btn-disbled");
+        } else {
+            loginBtn.setAttribute("disabled", "true");
+            loginBtn.classList.add("btn-disbled");
         }
+    }
+
+    username.addEventListener("input", function () {
+        const isEmpty = this.value.trim() === "";
+        if (isEmpty) {
+            authenUsernameInput.classList.remove("hide");
+            this.classList.add("error-bgr");
+            normalBox.classList.add("error-input");
+        } else {
+            authenUsernameInput.classList.add("hide");
+            this.classList.remove("error-bgr");
+            normalBox.classList.remove("error-input");
+        }
+        updateLoginButton();
     });
+
+    password.addEventListener("input", function () {
+        const isEmpty = this.value.trim() === "";
+        if (isEmpty) {
+            authenPasswordInput.classList.remove("hide");
+            this.classList.add("error-bgr");
+            passBox.classList.add("error-input");
+        } else {
+            authenPasswordInput.classList.add("hide");
+            this.classList.remove("error-bgr");
+            passBox.classList.remove("error-input");
+        }
+        updateLoginButton();
+    });
+    updateLoginButton();
 });
 
-var passBoxs = document.querySelectorAll(".pass-box");
-document.addEventListener("DOMContentLoaded", function () {
-    passBoxs.forEach(box => {
-        let password = box.querySelector("#password");
-        if (password) {
-            password.addEventListener("input", function () {
-                authenPasswordInput = document.getElementById("authen-password-input");
-                usernameCheck = document.getElementById("username");
-                loginBtn = document.getElementById("login-btn");
-                if (this.value.trim() === "") {
-                    authenPasswordInput.classList.remove("hide");
-                    this.classList.add("error-bgr");
-                    box.classList.add("error-input");
-                    loginBtn.setAttribute("disabled", "true");
-                    loginBtn.classList.add("btn-disbled");
-                } else {
-                    authenPasswordInput.classList.add("hide");
-                    this.classList.remove("error-bgr");
-                    box.classList.remove("error-input");
-                    if (usernameCheck.value.trim() !== "") {
-                        loginBtn.removeAttribute("disabled")
-                        loginBtn.classList.remove("btn-disbled");
-                    }
-                }
-            });
-        }
-    });
-});
 
 var passBox = document.querySelector(".pass-box");
 var password = document.getElementById("password");
