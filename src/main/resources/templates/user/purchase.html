@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee - Đơn mua</title>
+    <link rel="stylesheet" href="../../static/assets/css/purchase.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="user-brief">
+                <img src="/api/placeholder/100/100" alt="Avatar">
+                <div>
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="edit-profile">
+                        <span>Sửa hồ sơ</span>
+                    </div>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <!-- <li><a href="#">Tài khoản của tôi</a></li> -->
+                <li><a href="#">Hồ sơ</a></li>
+                <li><a href="#">Ngân hàng</a></li>
+                <li><a href="#">Thẻ tín dụng/Ghi nợ</a></li>
+                <li><a href="#">Địa chỉ</a></li>
+                <li><a href="#">Đổi mật khẩu</a></li>
+                <li><a href="#">Thiết lập Shop</a></li>
+                <li class="active"><a href="#">Đơn mua</a></li>
+                <li><a href="#">Thông báo</a></li>
+                <li><a href="#">Kho voucher</a></li>
+                <li><a href="#">Shopee Xu</a></li>
+                <li><a href="#">Shopee Live</a></li>
+                <li><a href="#">ShopeePay</a></li>
+                <li><a href="#">Đánh giá của tôi</a></li>
+                <li><a href="#">Lịch sử Shopee Reward</a></li>
+                <li><a href="#">Quản lý đơn nạp thẻ</a></li>
+                <li><a href="#">Thiết lập tài khoản</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="purchase-container">
+                <div class="purchase-tabs">
+                    <div class="tab-item">Tất cả</div>
+                    <div class="tab-item active">Chờ xác nhận</div>
+                    <div class="tab-item">Chờ lấy hàng</div>
+                    <div class="tab-item">Đang giao</div>
+                    <div class="tab-item">Đã giao</div>
+                    <div class="tab-item">Đã hủy</div>
+                    <div class="tab-item">Trả hàng/Hoàn tiền</div>
+                </div>
+                <div class="search-box">
+                    <div class="search-input">
+                        <input type="text" placeholder="Tìm kiếm theo Tên Shop, ID đơn hàng hoặc Tên Sản phẩm">
+                        <i>🔍</i>
+                    </div>
+                    <div class="date-filter">
+                        <select>
+                            <option>3 tháng gần đây</option>
+                            <option>6 tháng gần đây</option>
+                            <option>Tất cả</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="order-list">
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-shop">
+                                <i>🏪</i>
+                                <span>Shop Điện Tử ABC</span>
+                            </div>
+                            <div class="order-status">
+                                <i>⏱️</i>
+                                <span>Chờ xác nhận</span>
+                            </div>
+                        </div>
+                        <div class="order-product">
+                            <img src="/api/placeholder/80/80" alt="Product" class="product-image">
+                            <div class="product-info">
+                                <div class="product-name">Tai nghe Bluetooth không dây TWS F9 Pro với Micro, Tai nghe thể thao chống nước cao cấp</div>
+                                <div class="product-variation">Phân loại: Trắng</div>
+                                <div class="product-quantity">x1</div>
+                            </div>
+                            <div class="product-price">₫199.000</div>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">
+                                <div class="order-total-text">Thành tiền:</div>
+                                <div class="order-total-amount">₫199.000</div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="btn-contact">Liên hệ người bán</button>
+                                <button class="btn-review">Hủy đơn hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-shop">
+                                <i>🏪</i>
+                                <span>Fashion Store Official</span>
+                            </div>
+                            <div class="order-status">
+                                <i>⏱️</i>
+                                <span>Chờ xác nhận</span>
+                            </div>
+                        </div>
+                        <div class="order-product">
+                            <img src="/api/placeholder/80/80" alt="Product" class="product-image">
+                            <div class="product-info">
+                                <div class="product-name">Áo thun unisex form rộng tay lỡ, Áo phông cotton oversize basic nhiều màu</div>
+                                <div class="product-variation">Phân loại: Đen, Size L</div>
+                                <div class="product-quantity">x2</div>
+                            </div>
+                            <div class="product-price">₫89.000</div>
+                        </div>
+                        <div class="order-product">
+                            <img src="/api/placeholder/80/80" alt="Product" class="product-image">
+                            <div class="product-info">
+                                <div class="product-name">Quần short nam nữ unisex vải thun form rộng basic</div>
+                                <div class="product-variation">Phân loại: Xám, Size M</div>
+                                <div class="product-quantity">x1</div>
+                            </div>
+                            <div class="product-price">₫79.000</div>
+                        </div>
+                        <div class="order-footer">
+                            <div class="order-total">
+                                <div class="order-total-text">Thành tiền:</div>
+                                <div class="order-total-amount">₫257.000</div>
+                            </div>
+                            <div class="order-actions">
+                                <button class="btn-contact">Liên hệ người bán</button>
+                                <button class="btn-review">Hủy đơn hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

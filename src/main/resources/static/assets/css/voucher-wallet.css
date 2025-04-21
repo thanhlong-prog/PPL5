@@ -1,0 +1,347 @@
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+.container {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    gap: 20px;
+}
+.sidebar {
+    width: 20%;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.user-brief {
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #efefef;
+}
+.user-brief img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+.user-brief .user-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+.user-brief .edit-profile {
+    color: #999;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.sidebar-menu li {
+    padding: 0;
+}
+.sidebar-menu li a {
+    text-decoration: none;
+    color: #333;
+    padding: 12px 15px;
+    display: block;
+    transition: background-color 0.2s;
+    font-size: 14px;
+}
+.sidebar-menu li a:hover {
+    background-color: #fef6f5;
+    color: #ee4d2d;
+}
+.sidebar-menu li.active a {
+    color: #ee4d2d;
+    background-color: #fef6f5;
+    border-left: 2px solid #ee4d2d;
+}
+.main-content {
+    width: 80%;
+    background-color: #fff;
+    border-radius: 3px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.page-title {
+    padding: 20px;
+    border-bottom: 1px solid #efefef;
+    font-size: 18px;
+    font-weight: 500;
+    color: #333;
+}
+.profile-content {
+    padding: 20px;
+}
+.profile-form {
+    display: flex;
+}
+.profile-form-left {
+    flex: 1;
+    padding-right: 50px;
+}
+.profile-form-right {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+}
+.form-label {
+    width: 150px;
+    text-align: right;
+    padding-right: 20px;
+    color: #555;
+    font-size: 14px;
+    padding-top: 10px;
+}
+.form-input {
+    flex: 1;
+}
+.form-input input, .form-input select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 14px;
+}
+.form-input .radio-group {
+    display: flex;
+    gap: 20px;
+    padding-top: 10px;
+}
+.form-input .radio-option {
+    display: flex;
+    align-items: center;
+}
+.form-input .radio-option input {
+    width: auto;
+    margin-right: 5px;
+}
+.avatar-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.avatar-container img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 1px solid #efefef;
+}
+.avatar-container .avatar-hint {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    margin-top: 5px;
+}
+.btn-upload {
+    background-color: #fff;
+    color: #555;
+    border: 1px solid #ddd;
+    padding: 8px 15px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.btn-save {
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 170px;
+    margin-top: 20px;
+}
+.btn-save:hover {
+    background-color: #d73211;
+}
+.voucher-container {
+    padding: 0;
+}
+.voucher-tabs {
+    display: flex;
+    border-bottom: 1px solid #efefef;
+}
+.tab-item {
+    padding: 16px 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    position: relative;
+}
+.tab-item.active {
+    color: #ee4d2d;
+}
+.tab-item.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #ee4d2d;
+}
+.voucher-intro {
+    background-color: #fafafa;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #efefef;
+}
+.intro-text {
+    font-size: 14px;
+    color: #555;
+}
+.intro-link {
+    font-size: 14px;
+    color: #ee4d2d;
+    cursor: pointer;
+    text-decoration: none;
+}
+.voucher-search {
+    padding: 15px 20px;
+    border-bottom: 1px solid #efefef;
+}
+.search-box {
+    position: relative;
+    max-width: 400px;
+}
+.search-box input {
+    width: 100%;
+    padding: 10px 40px 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    font-size: 14px;
+}
+.search-box i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+.voucher-list {
+    padding: 20px;
+}
+.voucher-item {
+    display: flex;
+    margin-bottom: 15px;
+    border-radius: 2px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.voucher-left {
+    width: 25%;
+    padding: 15px;
+    background-color: #ee4d2d;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.voucher-left::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 10px;
+    background-image: radial-gradient(circle at 0 8px, transparent 0, transparent 5px, #fff 5px, #fff 10px, transparent 10px);
+    background-size: 10px 16px;
+    background-position: -5px 2px;
+    background-repeat: repeat-y;
+}
+.voucher-type {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+.voucher-value {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.voucher-min {
+    font-size: 11px;
+}
+.voucher-right {
+    flex: 1;
+    padding: 15px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.voucher-name {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #333;
+}
+.voucher-expiry {
+    font-size: 12px;
+    color: #999;
+}
+.voucher-action {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.btn-use {
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.voucher-details {
+    color: #05a;
+    cursor: pointer;
+    font-size: 13px;
+}
+.empty-voucher {
+    text-align: center;
+    padding: 50px 0;
+    color: #888;
+}
+.empty-voucher img {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+    opacity: 0.5;
+}
+.empty-text {
+    margin-bottom: 15px;
+}
+.btn-get-vouchers {
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 2px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-block;
+}
