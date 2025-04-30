@@ -34,7 +34,6 @@ import com.code.shopee.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/buyer/profile")
 public class ProfileController {
@@ -57,19 +56,21 @@ public class ProfileController {
     public String profile(Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
-        if(principal instanceof CustomUserDetails user) {
+        if (principal instanceof CustomUserDetails user) {
             consumer = userService.findByUsername(user.getUsername());
         } else if (principal instanceof OAuth2User oauth2User) {
             consumer = userService.findByGmail(oauth2User.getAttribute("email"));
         }
         UserDto userData = userMapper.toUserDto(consumer);
-        model.addAttribute("user",userData);
+        model.addAttribute("user", userData);
         return "profile/profile";
     }
 
     @PostMapping("/save")
-    public String saveProfile(@ModelAttribute("ProfileDto") ProfileDto user, @RequestParam("avatar-img") MultipartFile avatar, @RequestParam("current-avatar") String currentAvatar, RedirectAttributes redirectAttributes) {
-        if(avatar != null && !avatar.isEmpty()) {
+    public String saveProfile(@ModelAttribute("ProfileDto") ProfileDto user,
+            @RequestParam("avatar-img") MultipartFile avatar, @RequestParam("current-avatar") String currentAvatar,
+            RedirectAttributes redirectAttributes) {
+        if (avatar != null && !avatar.isEmpty()) {
             try {
                 String imageUrl = cloudinaryService.getImageUrl(avatar);
                 user.setAvatar(imageUrl);
@@ -79,8 +80,7 @@ public class ProfileController {
                 redirectAttributes.addFlashAttribute("upload-error", "Error uploading file");
                 return "redirect:/buyer/profile";
             }
-        }
-        else {
+        } else {
             user.setAvatar(currentAvatar);
             userService.save(user);
         }
@@ -91,11 +91,10 @@ public class ProfileController {
     @ResponseBody
     public ResponseEntity<?> sendMail(@RequestParam("email") String email, HttpSession session) {
         try {
-            String userGmail = null;
-            if(checkMailExist(email)) {
+            if (checkMailExist(email)) {
                 return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Email đã tồn tại trong hệ thống");
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Email đã tồn tại trong hệ thống");
             }
             String codeMail = randomCode();
             session.setAttribute("codeMail", codeMail);
@@ -107,9 +106,47 @@ public class ProfileController {
             return ResponseEntity.ok("success");
         } catch (Exception e) {
             return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Gửi email thất bại");
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Gửi email thất bại");
         }
+    }
+
+    @PostMapping("/checkCodeMail")
+    @ResponseBody
+    public ResponseEntity<?> checkCodeMail(@RequestParam("codeMail") String code, HttpSession session) {
+        String codeMail = session.getAttribute("codeMail") != null ? session.getAttribute("codeMail").toString() : null;
+        if (codeMail != null && !codeMail.equals(code)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Xác nhận mã xác thực không thành công");
+        } else if (codeMail != null && codeMail.equals(code)) {
+            session.removeAttribute("codeMail");
+            return ResponseEntity.ok("success");
+        } else if (codeMail == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Mã xác thực đã hết hạn hoặc không tồn tại");
+        }
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/checkCodePhone")
+    @ResponseBody
+    public ResponseEntity<?> checkCodePhone(@RequestParam("codePhone") String code, HttpSession session) {
+        String codePhone = session.getAttribute("codePhone") != null ? session.getAttribute("codePhone").toString() : null;
+        if (codePhone != null && !codePhone.equals(code)) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Xác nhận mã xác thực không thành công");
+        } else if (codePhone != null && codePhone.equals(code)) {
+            session.removeAttribute("codeMail");
+            return ResponseEntity.ok("success");
+        } else if (codePhone == null) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Mã xác thực đã hết hạn hoặc không tồn tại");
+        }
+        return ResponseEntity.ok("success");
     }
 
     @PostMapping("/sendPhone")
@@ -117,10 +154,10 @@ public class ProfileController {
     public ResponseEntity<?> sendPhone(@RequestParam("phone") String phone, HttpSession session) {
         try {
             checkPhoneExist(phone);
-            if(checkPhoneExist(phone)) {
+            if (checkPhoneExist(phone)) {
                 return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Số điện thoại đã tồn tại trong hệ thống");
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Số điện thoại đã tồn tại trong hệ thống");
             }
             String codePhone = randomCode();
             session.setAttribute("codePhone", codePhone);
@@ -129,23 +166,23 @@ public class ProfileController {
             }, 300, TimeUnit.SECONDS);
             SmsRequest smsRequest = new SmsRequest(phone, codePhone, 2, smsConfig.getDeviceId());
             Boolean check = smsService.sendSms(smsRequest);
-            if(!check) {
+            if (!check) {
                 return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Số điện thoại không hợp lệ");
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Số điện thoại không hợp lệ");
             }
             return ResponseEntity.ok("success");
         } catch (Exception e) {
             return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body("Gửi tin nhắn thất bại");
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Gửi tin nhắn thất bại");
         }
     }
 
     public String randomCode() {
         StringBuilder code = new StringBuilder();
         for (int i = 0; i < 6; i++) {
-            int randomDigit = (int) (Math.random() * 10); 
+            int randomDigit = (int) (Math.random() * 10);
             code.append(randomDigit);
         }
         return code.toString();
@@ -153,15 +190,15 @@ public class ProfileController {
 
     public Boolean checkMailExist(String email) {
         User user = userService.findByGmail(email);
-        if(user == null) {
+        if (user == null) {
             return false;
-        } 
+        }
         return true;
     }
+
     public Boolean checkPhoneExist(String phone) {
         User user = userService.findByPhone(phone);
         return user == null ? false : true;
     }
 
 }
-

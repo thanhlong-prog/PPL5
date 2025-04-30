@@ -174,18 +174,18 @@
                 <div class="content">
                     <div class="pop-row">
                         <label for="email">Email: </label>
-                        <input type="text" placeholder="Nhập email mới" id="email" name="gmail">
+                        <input type="text" placeholder="Nhập email mới" id="newemail" name="newemail">
                     </div>
                     <div class="pop-row">
                         <label for="code">Mã xác nhận:</label>
-                        <input type="text" placeholder="Nhập mã xác nhận" id="code" name="code-mail" maxlength="6">
+                        <input type="text" placeholder="Nhập mã xác nhận" id="code-mail" name="code-mail" maxlength="6">
                         <button class="get-code-btn" onclick="getCodeMail()">Nhận mã</button>
                     </div>
                 </div>
             </div>
             <div class="popup-footer">
                 <div class="padding">
-                    <button class="btn-confirm">Xác nhận</button>
+                    <button class="btn-confirm" onclick="checkCodeMail()">Xác nhận</button>
                 </div>
             </div>
         </div>
@@ -202,7 +202,7 @@
                 <div class="content">
                     <div class="pop-row">
                         <label for="phone">Số điện thoại: </label>
-                        <input type="text" placeholder="Nhập số điện thoại mới" id="phone" name="phone">
+                        <input type="text" placeholder="Nhập số điện thoại mới" id="newphone" name="newphone">
                     </div>
                     <div class="pop-row">
                         <label for="code-phone">Mã xác nhận:</label>
@@ -213,7 +213,7 @@
             </div>
             <div class="popup-footer">
                 <div class="padding">
-                    <button class="btn-confirm">Xác nhận</button>
+                    <button class="btn-confirm" onclick="checkCodePhone()">Xác nhận</button>
                 </div>
             </div>
         </div>
@@ -233,15 +233,17 @@
 
 <script>
     function getCodeMail() {
-        if($("#gmail").val() != "") {
+        if($("#newemail").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/sendMail",
                 data: {
-                    email: $("#gmail").val()
+                    email: $("#newemail").val()
                 },
                 success: function(res) {
                     if(res == "success") {
+                        const newEmail = document.getElementById('newemail').value;
+                        document.getElementById('gmail').value = newEmail;
                         toast({
                             title: 'Gửi Mail thành công',
                             content: 'Vui lòng kiểm tra email của bạn',
@@ -262,13 +264,43 @@
         }
     }
 
+    function checkCodeMail() {
+        if($("#code-mail").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/profile/checkCodeMail",
+                data: {
+                    codeMail: $("#code-mail").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Xác nhận thành công',
+                            content: 'Chúc mừng bạn đã thay đổi email thành công',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Xác nhận thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+
     function getCodePhone() {
-        if($("#phone").val() != "") {
+        if($("#newphone").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/sendPhone",
                 data: {
-                    phone: $("#phone").val()
+                    phone: $("#newphone").val()
                 },
                 success: function(res) {
                     if(res == "success") {
@@ -291,4 +323,37 @@
             })
         }
     }
+
+    function checkCodePhone() {
+        if($("#code-phone").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/profile/checkCodePhone",
+                data: {
+                    codePhone: $("#code-phone").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        const newEmail = document.getElementById('newphone').value;
+                        document.getElementById('phone').value = newEmail;
+                        toast({
+                            title: 'Xác nhận thành công',
+                            content: 'Chúc mừng bạn đã thay đổi số điện thoại thành công',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Xác nhận thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+    
 </script>
