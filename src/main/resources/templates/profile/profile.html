@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopee - Hồ sơ người dùng</title>
+    <link rel="stylesheet" href="../../static/assets/css/profile.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="user-brief">
+                <img src="../../static/assets/images/img-user/userProfile.jpg" alt="Avatar">
+                <div>
+                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="edit-profile">
+                        <span>Sửa hồ sơ</span>
+                    </div>
+                </div>
+            </div>
+            <ul class="sidebar-menu">
+                <!-- <li><a href="#">Tài khoản của tôi</a></li> -->
+                <li class="active"><a href="#">Hồ sơ</a></li>
+                <li><a href="#">Ngân hàng</a></li>
+                <li><a href="#">Thẻ tín dụng/Ghi nợ</a></li>
+                <li><a href="#">Địa chỉ</a></li>
+                <li><a href="#">Đổi mật khẩu</a></li>
+                <li><a href="#">Thiết lập Shop</a></li>
+                <li><a href="#">Đơn mua</a></li>
+                <li><a href="#">Thông báo</a></li>
+                <li><a href="#">Kho voucher</a></li>
+                <li><a href="#">Shopee Xu</a></li>
+                <li><a href="#">Shopee Live</a></li>
+                <li><a href="#">ShopeePay</a></li>
+                <li><a href="#">Đánh giá của tôi</a></li>
+                <li><a href="#">Lịch sử Shopee Reward</a></li>
+                <li><a href="#">Quản lý đơn nạp thẻ</a></li>
+                <li><a href="#">Thiết lập tài khoản</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-title">
+                Hồ sơ của tôi
+            </div>
+            <div class="profile-content">
+                <div class="profile-form">
+                    <div class="profile-form-left">
+                        <div class="form-group">
+                            <div class="form-label">Tên đăng nhập</div>
+                            <div class="form-input">
+                                <input type="text" value="nguyenvana123" disabled>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Tên</div>
+                            <div class="form-input">
+                                <input type="text" value="Nguyễn Văn A">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Email</div>
+                            <div class="form-input">
+                                <input type="email" value="nguyen.van.a@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Số điện thoại</div>
+                            <div class="form-input">
+                                <input type="tel" value="0909123456">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Giới tính</div>
+                            <div class="form-input">
+                                <div class="radio-group">
+                                    <div class="radio-option">
+                                        <input type="radio" id="male" name="gender" checked>
+                                        <label for="male">Nam</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="female" name="gender">
+                                        <label for="female">Nữ</label>
+                                    </div>
+                                    <div class="radio-option">
+                                        <input type="radio" id="other" name="gender">
+                                        <label for="other">Khác</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-label">Ngày sinh</div>
+                            <div class="form-input">
+                                <div style="display: flex; gap: 10px;">
+                                    <select>
+                                        <option>Ngày</option>
+                                        <option selected>1</option>
+                                        <option>2</option>
+                                        <!-- ... more options ... -->
+                                    </select>
+                                    <select>
+                                        <option>Tháng</option>
+                                        <option selected>1</option>
+                                        <option>2</option>
+                                        <!-- ... more options ... -->
+                                    </select>
+                                    <select>
+                                        <option>Năm</option>
+                                        <option selected>1990</option>
+                                        <option>1991</option>
+                                        <!-- ... more options ... -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn-save">Lưu</button>
+                    </div>
+                    <div class="profile-form-right">
+                        <div class="avatar-container">
+                            <img src="../../static/assets/images/img-user/userProfile.jpg" alt="Avatar">
+                            <button class="btn-upload">Chọn ảnh</button>
+                            <div class="avatar-hint">
+                                Dụng lượng file tối đa 1 MB<br>
+                                Định dạng: .JPEG, .PNG
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
