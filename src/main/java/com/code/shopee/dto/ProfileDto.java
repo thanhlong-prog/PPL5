@@ -2,8 +2,8 @@ package com.code.shopee.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -28,5 +28,6 @@ public class ProfileDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthday;
     private String avatar;
+    @CreationTimestamp
     private LocalDateTime modifiedDate;
 }

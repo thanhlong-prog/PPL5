@@ -20,13 +20,16 @@
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/profile.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
     <link rel="stylesheet" href="/assets/css/card.css">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
+
     <div class="header">
         <div th:insert="~{header :: header}"></div>
     </div>
@@ -77,7 +80,7 @@
                             <div class="form-group">
                                 <div class="form-label">Tên đăng nhập</div>
                                 <div class="form-input">
-                                    <input name="username" type="text" th:value="${user.username}" disabled>
+                                    <input name="username" type="text" th:value="${user.username}" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -89,29 +92,39 @@
                             <div class="form-group">
                                 <div class="form-label">Email</div>
                                 <div class="form-input">
-                                    <input name="gmail" type="email" th:value="${user.gmail}">
+                                    <input name="gmail" id="gmail" type="email" th:value="${user.gmail}" readonly onclick="showGmailChangePopup(event)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-label">Số điện thoại</div>
                                 <div class="form-input">
-                                    <input name="phone" type="tel" th:value="${user.phone}">
+                                    <input name="phone" id="phone" type="tel" th:value="${user.phone}" readonly onclick="showPhoneChangePopup(event)">
                                 </div>
                             </div>
+                            <script>
+                                function showGmailChangePopup() {
+                                    event.stopPropagation();
+                                    document.querySelector('.gmail-change').classList.remove('hide');
+                                }
+                                function showPhoneChangePopup() {
+                                    event.stopPropagation();
+                                    document.querySelector('.phone-change').classList.remove('hide');
+                                }
+                            </script>
                             <div class="form-group">
                                 <div class="form-label">Giới tính</div>
                                 <div class="form-input">
                                     <div class="radio-group">
                                         <div class="radio-option">
-                                            <input type="radio" id="male" name="sex" value="Nam" checked>
+                                            <input type="radio" id="male" name="sex" value="Nam" th:checked="${user.sex == null or user.sex == 'Nam'}">
                                             <label for="male">Nam</label>
                                         </div>
                                         <div class="radio-option">
-                                            <input type="radio" id="female" name="sex" value="Nữ">
+                                            <input type="radio" id="female" name="sex" value="Nữ" th:checked="${user.sex == 'Nữ'}">
                                             <label for="female">Nữ</label>
                                         </div>
                                         <div class="radio-option">
-                                            <input type="radio" id="other" name="sex">
+                                            <input type="radio" id="other" name="sex" value="Khác" th:checked="${user.sex == 'Khác'}">
                                             <label for="other">Khác</label>
                                         </div>
                                     </div>
@@ -122,7 +135,7 @@
                                 <div class="form-input">
                                     <input type="date" name="birthday"
                                         style="padding: 8px; border-radius: 4px; border: 1px solid #ccc;"
-                                        th:field="${user.birthday}">
+                                        th:value="${user.birthday}">
                                 </div>
                             </div>
                             <button class="btn-save">Lưu</button>
@@ -131,6 +144,7 @@
                             <div class="avatar-container">
                                 <label for="avatarInput" class="avatar-label">
                                     <img id="avatarPreview" th:src="${user.avatar}" alt="Avatar">
+                                    <input type="hidden" name="current-avatar" th:value="${user.avatar}">
                                     <input type="file" id="avatarInput" name="avatar-img" accept="image/*" onchange="previewAvatar(event)">
                                 </label>
                                 <!-- <button class="btn-upload">Chọn ảnh</button> -->
@@ -149,8 +163,132 @@
     <div class="footer">
         <div th:insert="~{footer :: footer}"></div>
     </div>
+    <div class="pop-up gmail-change hide">
+        <div class="check-box">
+            <div class="popup-header">
+                <div class="padding">
+                    <i class="fa-solid fa-circle-xmark close-icon"></i>
+                </div>
+            </div>
+            <div class="popup-content">
+                <div class="content">
+                    <div class="pop-row">
+                        <label for="email">Email: </label>
+                        <input type="text" placeholder="Nhập email mới" id="email" name="gmail">
+                    </div>
+                    <div class="pop-row">
+                        <label for="code">Mã xác nhận:</label>
+                        <input type="text" placeholder="Nhập mã xác nhận" id="code" name="code-mail" maxlength="6">
+                        <button class="get-code-btn" onclick="getCodeMail()">Nhận mã</button>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <div class="padding">
+                    <button class="btn-confirm">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="pop-up phone-change hide">
+        <div class="check-box">
+            <div class="popup-header">
+                <div class="padding">
+                    <i class="fa-solid fa-circle-xmark close-icon"></i>
+                </div>
+            </div>
+            <div class="popup-content">
+                <div class="content">
+                    <div class="pop-row">
+                        <label for="phone">Số điện thoại: </label>
+                        <input type="text" placeholder="Nhập số điện thoại mới" id="phone" name="phone">
+                    </div>
+                    <div class="pop-row">
+                        <label for="code-phone">Mã xác nhận:</label>
+                        <input type="text" placeholder="Nhập mã xác nhận" id="code-phone" name="code-phone" maxlength="6">
+                        <button class="get-code-btn" onclick="getCodePhone()">Nhận mã</button>
+                    </div>
+                </div>
+            </div>
+            <div class="popup-footer">
+                <div class="padding">
+                    <button class="btn-confirm">Xác nhận</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toast">
+    </div>
 </body>
+
+
 
 </html>
 <script src="/assets/js/header.js"></script>
 <script src="/assets/js/profile.js"></script>
+<script src="/assets/js/popup.js"></script>
+<script th:src="@{/assets/js/toastmsg.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    function getCodeMail() {
+        if($("#gmail").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/profile/sendMail",
+                data: {
+                    email: $("#gmail").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi Mail thành công',
+                            content: 'Vui lòng kiểm tra email của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi Mail thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+
+    function getCodePhone() {
+        if($("#phone").val() != "") {
+            $.ajax({
+                type: "POST",
+                url: "/buyer/profile/sendPhone",
+                data: {
+                    phone: $("#phone").val()
+                },
+                success: function(res) {
+                    if(res == "success") {
+                        toast({
+                            title: 'Gửi tin nhắn thành công',
+                            content: 'Vui lòng kiểm tra điện thoại của bạn',
+                            type: 'success',
+                            duration: 2000
+                        });
+                    }
+                },
+                error: function(err) {
+                    toast({
+                        title: 'Gửi tin nhắn thất bại',
+                        content: err.responseText,
+                        type: 'error',
+                        duration: 2000
+                    });
+                }
+            })
+        }
+    }
+</script>
