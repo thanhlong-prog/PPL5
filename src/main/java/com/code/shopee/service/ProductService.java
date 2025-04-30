@@ -9,4 +9,5 @@ import com.code.shopee.model.Product;
 public interface ProductService {
     public List<Product> getAllProductStatusTrue();
     public Page<Product> getAllProductStatusTrue(int page);
+    public Product getProductByIdAndStatusTrue(int id);
 }

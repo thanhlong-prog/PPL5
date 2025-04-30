@@ -71,7 +71,7 @@ public class Product {
     private String description;
 
     @Column(name = "status")
-    private int status;
+    private boolean status;
 
     @Column(name = "created_date")
     @CreationTimestamp

@@ -11,4 +11,5 @@ import com.code.shopee.model.Product;
 public interface ProductRepository extends JpaRepository<Product, Integer>{
     List<Product> findByStatusTrue();
     Page<Product> findByStatusTrue(Pageable pageable); 
+    Product findByIdAndStatusTrue(int id); 
 }
