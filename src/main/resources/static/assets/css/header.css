@@ -259,6 +259,10 @@ ul{
     font-size: 14px;
 }
 
+.w-option .drop-down-box li a{
+    color: #000000;
+}
+
 .w-option .icon-top {
     position: absolute;
     top: -16px;

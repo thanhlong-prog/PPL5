@@ -1,5 +1,6 @@
 package com.code.shopee.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -43,8 +44,11 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "sex")
+    private String sex;
+
     @Column(name = "birthday")
-    private Date birthday;
+    private LocalDate birthday;
 
     @Column(name = "phone")
     private String phone;

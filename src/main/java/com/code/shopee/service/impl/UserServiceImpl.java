@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.code.shopee.dto.ProfileDto;
 import com.code.shopee.dto.RegistrationDto;
 import com.code.shopee.dto.VerifyUserDto;
 import com.code.shopee.mapper.RegistrationMapper;
@@ -49,6 +50,22 @@ public class UserServiceImpl implements UserService {
             user.setPhone(verifyUserDto.getPhone());
             user.setModifiedDate(verifyUserDto.getModifiedDate());
             user.setVerify(verifyUserDto.getVerify());
+            userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void save(ProfileDto profileDto) {
+        Optional<User> userOptional = userRepository.findByUsername(profileDto.getUsername());
+        User user = userOptional.orElse(null);
+        if (user != null) {
+            user.setName(profileDto.getName());
+            user.setGmail(profileDto.getGmail());
+            user.setPhone(profileDto.getPhone());
+            user.setSex(profileDto.getSex());
+            user.setBirthday(profileDto.getBirthday());
+            user.setAvatar(profileDto.getAvatar());
+            user.setModifiedDate(profileDto.getModifiedDate());
             userRepository.save(user);
         }
     }

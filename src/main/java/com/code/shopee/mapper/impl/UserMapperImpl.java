@@ -20,6 +20,7 @@ public class UserMapperImpl implements UserMapper {
             User user = new User();
             user.setUsername(userdto.getUsername());
             user.setAvatar(userdto.getAvatar());
+            user.setSex(userdto.getSex());
             user.setName(userdto.getName());
             user.setBirthday(userdto.getBirthday());
             user.setPhone(userdto.getPhone());
@@ -57,6 +58,7 @@ public class UserMapperImpl implements UserMapper {
             userdto.setUsername(user.getUsername());
             userdto.setAvatar(user.getAvatar());
             userdto.setName(user.getName());
+            userdto.setSex(user.getSex());
             userdto.setBirthday(user.getBirthday());
             userdto.setPhone(user.getPhone());
             userdto.setGmail(user.getGmail());

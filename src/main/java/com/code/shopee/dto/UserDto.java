@@ -1,5 +1,6 @@
 package com.code.shopee.dto;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
@@ -28,7 +29,8 @@ public class UserDto {
     @NotBlank(message = "Tên không được để trống")
     private String name;
     @NotBlank(message= "Sinh nhật không được để trống")
-    private Date birthday;
+    private LocalDate birthday;
+    private String sex;
     @NotBlank(message = "Số điện thoại không được để trống")
     private String phone;
     @Email(message = "Email không hợp lệ")
