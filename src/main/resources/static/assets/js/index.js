@@ -19,7 +19,7 @@ setInterval(function() {
   plusDivs(1);
 }, 3000);
 
-function scrollCarousel(direction, category, prev_btn, next_btn) {
+function scrollCarousel(direction, total, category, prev_btn, next_btn) {
   const carousel = document.querySelector(category);
   const prevBtn = document.querySelector(prev_btn);
   const nextBtn = document.querySelector(next_btn);
@@ -27,7 +27,7 @@ function scrollCarousel(direction, category, prev_btn, next_btn) {
   const numOfCateg = cateDiv ? cateDiv.getAttribute('data-num') : 0;
   const totalProduct = Math.ceil(numOfCateg/2);// tong san pham
   let currentIndex = parseInt(carousel.dataset.currentIndex) || 0;
-  const total = 10;//so san pham lon nhat hien thi duoc tren 1 hang
+  // total la so san pham lon nhat hien thi duoc tren 1 hang
   maxPage = Math.ceil(totalProduct / total);
   if(currentIndex === maxPage -2 && totalProduct % total > 0){
     widthOffset = totalProduct % total;

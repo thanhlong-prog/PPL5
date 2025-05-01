@@ -101,10 +101,10 @@
                         <span>Danh mục</span>
                     </div>
                     <div class="w-carousel">
-                        <button class="btn prev" onclick="scrollCarousel(-1,'.category','.wrapper-category .prev','.wrapper-category .next')">
+                        <button class="btn prev" onclick="scrollCarousel(-1,10,'.category','.wrapper-category .prev','.wrapper-category .next')">
                             <i class='bx bx-chevron-left'></i>
                         </button>
-                        <button class="btn next" onclick="scrollCarousel(1,'.category','.wrapper-category .prev','.wrapper-category .next')">
+                        <button class="btn next" onclick="scrollCarousel(1, 10,'.category','.wrapper-category .prev','.wrapper-category .next')">
                             <i class='bx bx-chevron-right'></i>
                         </button>
                         <div th:if="${numOfCateg != null}" class="totalcate" th:attr="data-num=${numOfCateg}"></div>

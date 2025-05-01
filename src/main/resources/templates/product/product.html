@@ -35,13 +35,23 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                 <div class="product-container">
                     <div class="product-header">
                         <div class="product-images">
-                            <div class="main-image">
-                                <img src="../../static/assets/images/01.webp" alt="Logitech MX Keys Mini">
+                            <div class="main-image" >
+                                <img src="/assets/images/img-products/product-1.webp" id="main-image" alt="Logitech MX Keys Mini">
                             </div>
-                            <div class="thumbnail-container">
-                                <div th:each="image : ${productImages}">
-                                    <div class="thumbnail">
-                                        <img th:src="${image.imageUrl}" alt="">
+                            <div class="w-thumbnail-container">
+                                <div class="thumbnail-container" data-current-index="0">
+                                    <button class="btn prev" onclick="scrollCarousel(-1,5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                        <i class='bx bx-chevron-left'></i>
+                                    </button>
+                                    <button class="btn next" onclick="scrollCarousel(1, 5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                        <i class='bx bx-chevron-right'></i>
+                                    </button>
+                                    <div class="thumbnail-list">
+                                        <div th:each="image : ${productImages}">
+                                            <div class="thumbnail">
+                                                <img th:src="${image.imageUrl}" alt="" onclick="changeMainImage(this)">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +273,6 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                 </div>
             </div>
         </div>
-
         <div class="footer">
             <div th:insert="~{footer :: footer}"></div>
         </div>
@@ -271,3 +280,4 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
 </body>
 </html>
 <script src="/assets/js/header.js"></script>
+<script src="/assets/js/product.js"></script>

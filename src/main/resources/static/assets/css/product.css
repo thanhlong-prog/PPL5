@@ -71,14 +71,56 @@ header {
     align-items: center;
     overflow: hidden;
 }
+#main-image{
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
 .main-image img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
+.w-thumbnail-container{
+    position: relative;
+}
 .thumbnail-container {
+    overflow: hidden;
+}
+.thumbnail-list{
     display: flex;
-    gap: 10px;
+    gap: 11px;
+}
+.thumbnail-container .btn{
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50px;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
+    cursor: pointer;
+    transform-origin: center;
+}
+.thumbnail-container:hover .btn{
+    transform: translateY(-50%) scale(1.8);
+}
+.thumbnail-container .prev{
+    top: 50%;
+    left: -14px;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: none;
+}
+.thumbnail-container .next{
+    top: 50%;
+    right: -14px;
+    transform: translateY(-50%);
+    z-index: 100;
 }
 .thumbnail {
     width: 80px;
