@@ -1,25 +1,330 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+
 <head>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/cart.css">">
 </head>
 
 <body>
     <div class="w-cart">
-        <div class="header">
-            <div th:insert="~{header :: header}"></div>
+        <div class="cart-header">
+            <div class="w-cart-top">
+                <div class="container">
+                    <div class="top">
+                        <div class="top-left">
+                            <a href="#">Kênh người bán</a>
+                            <a class="wall" href="#">Tải ứng dụng</a>
+                            <div class="wall connect">
+                                <span>Kết nối</span>
+                                <div class="w-logo">
+                                    <i class='bx bxl-facebook-circle'></i>
+                                    <i class='bx bxl-instagram-alt'></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="top-right">
+                            <div class="notification">
+                                <div class="notification-item">
+                                    <i class='bx bx-bell'></i>
+                                    <span> Thông báo</span>
+                                </div>
+                                <div class="notification-box">
+                                    <ul>
+                                        <li>
+                                            <a href="">
+                                                <div class="w-noti">
+                                                    <div class="noti-img">
+                                                        <img src="/assets/images/img-noti/noti-1.png" alt="">
+                                                    </div>
+                                                    <div class="noti-infor">
+                                                        <div class="noti-title">
+                                                            <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
+                                                        </div>
+                                                        <div class="noti-detail">
+                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm
+                                                                đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale
+                                                                cuối - Chốt sạch giỏ hàng</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="">
+                                                <div class="w-noti">
+                                                    <div class="noti-img">
+                                                        <img src="/assets/images/img-noti/noti-1.png" alt="">
+                                                    </div>
+                                                    <div class="noti-infor">
+                                                        <div class="noti-title">
+                                                            <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
+                                                        </div>
+                                                        <div class="noti-detail">
+                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm
+                                                                đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale
+                                                                cuối - Chốt sạch giỏ hàng</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="w-option help">
+                                <i class='bx bx-help-circle'></i>
+                                <span>Hỗ trợ</span>
+                            </div>
+                            <div class="w-option language">
+                                <i class='bx bx-world'></i>
+                                <span>Tiếng Việt</span>
+                            </div>
+                            <div class="w-option account">
+                                <div class="avt"></div>
+                                <span>My Account</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="w-cart-bottom">
+                <div class="container">
+                    <div class="bottom">
+                        <div class="bottom-left">
+                            <a href="/home">
+                                <img src="/assets/images/cart/logo.png" alt="shopee-icon">
+                            </a>
+                        </div>
+                        <div class="bottom-main">
+                            <form class="w-search" action="">
+                                <input class="input-search" type="text"
+                                    placeholder="Tìm sản phẩm, thương hiệu, và tên shop">
+                                <button class="submit-search" type="submit">
+                                    <i class='bx bx-search'></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="cart-main">
             <div class="container">
-                
+                <div class="w-cart-item"></div>
+                <div class="cart-main-top">
+                    <div class="left">
+                        <input type="checkbox" id="check-all">
+                        <label for="check-all">Sản phẩm</label>
+                    </div>
+                    <div class="right">
+                        <span>Đơn Giá</span>
+                        <span>Số Lượng</span>
+                        <span>Số Tiền</span>
+                        <span>Thao Tác</span>
+                    </div>
+                </div>
+                <div class="cart-item">
+                    <div class="top">
+                        <div class="shop-info">
+                            <input type="checkbox" id="check-shop">
+                            <div class="tag">
+                                <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
+                            </div>
+                            <label for="check-shop">Shop Thời trang nam</label>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="img-product">
+                            <input type="checkbox">
+                            <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                        </div>
+                        <div class="title">
+                            <span>
+                                M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
+                                trang mùa hè Màu đen Thương hiệu hợp thời trang
+                            </span>
+                            <div class="tag">
+                                <img src="/assets/images/cart/tag-voucher.png" alt="">
+                            </div>
+                        </div>
+                        <div class="variations">
+                            <span>
+                                Phân Loại Hàng:
+                            </span>
+                            <span class="variation-info">
+                                B,L
+                            </span>
+                        </div>
+                        <div class="price">
+                            <span class="price-old">₫194.200</span>
+                            <span class="price-new">₫124.200</span>
+                        </div>
+                        <div class="quantity">
+                            <button class="minus">-</button>
+                            <input type="text" value="1">
+                            <button class="plus">+</button>
+                        </div>
+                        <div class="total-price">
+                            <span>₫124.200</span>
+                        </div>
+                        <div class="btn-option">
+                            <button class="btn-delete"> Xoá</button>
+                            <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                        </div>
+                    </div>
+                    <div class="bottom"></div>
+                </div>
+                <div class="cart-item">
+                    <div class="top">
+                        <div class="shop-info">
+                            <input type="checkbox" id="check-shop">
+                            <div class="tag">
+                                <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
+                            </div>
+                            <label for="check-shop">Shop Thời trang nam</label>
+                        </div>
+                    </div>
+                    <div class="center">
+                        <div class="img-product">
+                            <input type="checkbox">
+                            <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                        </div>
+                        <div class="title">
+                            <span>
+                                M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
+                                trang mùa hè Màu đen Thương hiệu hợp thời trang
+                            </span>
+                            <div class="tag">
+                                <img src="/assets/images/cart/tag-voucher.png" alt="">
+                            </div>
+                        </div>
+                        <div class="variations">
+                            <span>
+                                Phân Loại Hàng:
+                            </span>
+                            <span class="variation-info">
+                                B,L
+                            </span>
+                        </div>
+                        <div class="price">
+                            <span class="price-old">₫194.200</span>
+                            <span class="price-new">₫124.200</span>
+                        </div>
+                        <div class="quantity">
+                            <button class="minus">-</button>
+                            <input type="text" value="1">
+                            <button class="plus">+</button>
+                        </div>
+                        <div class="total-price">
+                            <span>₫124.200</span>
+                        </div>
+                        <div class="btn-option">
+                            <button class="btn-delete"> Xoá</button>
+                            <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="cart-main-bottom">
+                    <div class="select-voucher">
+                        <div class="voucher">
+                            <i class='bx bxs-discount'></i>
+                            <span>Shopee Voucher</span>
+                        </div>
+                        <div class="option">
+                            <span>Chọn hoặc nhập mã</span>
+                        </div>
+                    </div>
+                    <div class="shopee-coins">
+                        <div class="left">
+                            <div class="check">
+                                <input type="checkbox" id="check-shopee-coins">
+                                <img src="/assets/images/cart/shopee-coins.svg" alt="">
+                                <label for="check-shopee-coins">Shopee Xu</label>
+                            </div>
+                            <span>
+                                Dùng 100 Shopee Xu
+                            </span>
+                        </div>
+                        <div class="right">
+                            <div class="discount">
+                                -₫100
+                            </div>
+                        </div>
+                    </div>
+                    <div class="all-total-price">
+                        <div class="left">
+                            <div class="select-products">
+                                <input type="checkbox" id="check-all-products">
+                                <label for="check-all-products">Chọn Tất Cả</label>
+                                <span>(2)</span>
+                            </div>
+                            <div class="btn-delete">
+                                <button class="delete">Xoá</button>
+                            </div>
+                            <div class="move">
+                                <button class="move-my-likes">
+                                    Lưu vào mục Đã thích
+                                </button>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <div class="total-product">
+                                <span>Tổng cộng</span>
+                                <span>(0 sản phẩm):</span>
+                            </div>
+                            <div class="total-price">
+                                <span>₫194.200</span>
+                            </div>
+                            <div class="btn-buy">
+                                <button class="buy">Mua hàng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="footer">
-            <div th:insert="~{footer :: footer}"></div>
+    </div>
+    <!-- <div class="w-products-similar">
+        <div class="container">
+            <div class="products-similar">
+                <div class="product">
+                    <div class="image">
+                        <img src="/assets/images/img-products/product-1.webp" alt="">
+                    </div>
+                    <div class="infor">
+                        <div class="top">
+                            <div class="name">
+                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB Type C 3 Trong 1 6A</span>
+                            </div>
+                            <div class="tag">
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div class="price">
+                                <span>100.000đ</span>
+                            </div>
+                            <div class="count">
+                                <span>Đã bán 1000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div> -->
+    <div class="footer">
+        <div th:insert="~{footer :: footer}"></div>
     </div>
 </body>
-</html>
-<script src="/assets/js/header.js"></script>
