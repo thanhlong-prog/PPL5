@@ -205,6 +205,7 @@ ul {
 .checkout-center .w-center .address-info{
     background-color: #fff;
     padding: 28px 30px 24px;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.09);
 }
 .checkout-center .w-center .address-info .title{
     display: flex;
@@ -413,8 +414,9 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
+    align-items: flex-end;
     width: 100%;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.09);
 }
 .checkout-center .product-order .bottom .shop-voucher{
     display: flex;
@@ -498,11 +500,12 @@ ul {
     box-sizing: border-box;
     color: #222;
     font-size: .875rem;
-    height: 35px;
+    height: 40px;
     min-width: 0;
     outline: none;
     padding: 10px;
     width: 70%;
+    border: 1px solid #e6e5e5;
 }
 .checkout-center .product-order .bottom .seller-inf .right{
     display: flex;
@@ -566,4 +569,209 @@ ul {
 }
 .checkout-center .product-order .bottom .seller-inf .right .note{
     padding: 10px 30px 10px;
+}
+.checkout-center .product-order .bottom .order-total{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #edf8ff;
+    gap: 50px;
+    width: 100%;
+}
+.checkout-center .shopee-voucher{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.09);
+}
+.checkout-center .shopee-voucher .top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 28px 30px 24px;
+    border-bottom: #d1d1d1 1px solid;
+}
+.checkout-center .shopee-voucher .top .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+.checkout-center .shopee-voucher .top .title i{
+    color: #fb5732;
+    font-size: 1.6rem;
+    font-weight: 400;
+    padding-top: 3px;
+}
+.checkout-center .shopee-voucher .top .btn button{
+    border: none;
+    background-color: #fff;
+    font-size: 1rem;
+    color: #05a;
+    font-weight: 400;
+    cursor: pointer;
+}
+.checkout-center .shopee-voucher .bottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 28px 30px 24px;
+}
+.checkout-center .shopee-voucher .bottom .title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+.checkout-center .shopee-voucher .bottom .coin{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+.checkout-center .shopee-voucher .bottom .coin img{
+    width: 18px;
+    height: auto;
+    object-fit: cover;
+    display: block;
+}
+.checkout-center .shopee-voucher .bottom .coin span{
+    font-size: 1.2rem;
+    text-transform: capitalize;
+}
+.checkout-center .shopee-voucher .bottom .info-coin{
+    padding-top: 3px;
+}
+.checkout-center .shopee-voucher .bottom .info-coin span{
+    font-size: 0.9rem;
+    line-height: 1rem;
+    padding-top: 10px;
+    color: #929292;
+    font-weight: 500;
+}
+.checkout-center .shopee-voucher .bottom .check-coin{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.checkout-center .shopee-voucher .bottom .check-coin #check-shopee-coin{
+    border: 1px solid rgba(0, 0, 0, .14);
+    border-radius: 2px;
+    box-shadow: inset 0 2px 0 0 rgba(0, 0, 0, .02);
+    flex-shrink: 0;
+    height: 16px;
+    margin-right: 8px;
+    text-align: center;
+    width: 16px;
+
+}
+.checkout-center .shopee-voucher .bottom .check-coin label{  
+    line-height: 1rem;
+    padding-top: 5px;
+    padding-bottom: 8px;
+    color: #fb5732;
+}
+.checkout-center .payment-method{
+    box-shadow: 0 1px 1px 0 rgba(0,0,0,.09);
+}
+.checkout-center .p-m-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 30px 40px;
+    margin-top: 20px;
+    background-color: #fff;
+    border-bottom: #cecece 1px solid;
+}
+.checkout-center .p-m-top .title{
+    font-size: 18px;
+}
+.checkout-center .p-m-top .btn-p-m-change{
+    display: flex;
+    gap: 50px;
+    align-items: center;
+}
+.checkout-center .p-m-top button{
+    border: none;
+    background-color: #fff;
+    font-size: 1rem;
+    color: #05a;
+    font-weight: 400;
+    cursor: pointer;
+}
+.checkout-center .p-m-center{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px 30px 20px;
+    background-color: #fffefb;
+    border-bottom: #cecece 1px dashed;
+}
+.checkout-center .p-m-center .p-m-empty{
+    flex: 6;
+}
+.checkout-center .p-m-center .p-m-content{
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.checkout-center .p-m-center .p-m-content .p-m-list{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.checkout-center .p-m-center .p-m-content .p-m-list .name-inf{
+    color: rgba(0, 0, 0, .54);
+}
+.checkout-center .p-m-center .p-m-content .p-m-list .price-inf{
+    font-size: 14px;
+}
+.checkout-center .p-m-center .p-m-content .p-m-list .price-inf-tp{
+    font-size: 22px;
+    color: #fb5732;
+    font-weight: 600;
+}
+.checkout-center .p-m-bottom{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 30px;
+    background-color: #fffefb;
+}
+.checkout-center .p-m-bottom .title-terms{
+    flex: 3;
+}
+.checkout-center .p-m-bottom .title-terms span{
+    color: rgba(0, 0, 0, .54);
+}
+.checkout-center .p-m-bottom .title-terms a{
+    color: #4080ee;
+}
+.checkout-center .p-m-bottom .btn-place-order{
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.checkout-center .p-m-bottom .btn-place-order button{
+    border: none;
+    background-color: #fb5732;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 7px 60px;
+    cursor: pointer;
+    border-radius: 2px;
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .03);
+    border: 1px solid rgba(0, 0, 0, .09);   
 }

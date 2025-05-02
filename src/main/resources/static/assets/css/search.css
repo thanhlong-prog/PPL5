@@ -1,3 +1,7 @@
+.page .center .left label{
+    padding: 5px 0;
+}
+
 .page .center .wrapper-search{
     display: flex;
     justify-content: flex-start;
