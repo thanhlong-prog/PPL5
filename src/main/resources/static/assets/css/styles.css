@@ -314,5 +314,9 @@ li{
     margin-top: 20px;
 }
 
-
+.cursor-banner{
+    cursor: not-allowed !important;
+    pointer-events: none; 
+    opacity: 0.6;
+}
 

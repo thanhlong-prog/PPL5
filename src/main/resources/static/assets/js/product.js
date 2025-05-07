@@ -51,3 +51,109 @@ function scrollCarousel(direction, total, category, prev_btn, next_btn) {
     mainImage.alt = thumbnail.alt;
   }
   
+let productQuantity = null;
+let sendProductId = null;
+let totalQuantity = null;
+  document.addEventListener("DOMContentLoaded", function () {
+    const selector = document.querySelector(".quantity-selector");
+    totalQuantity = parseInt(selector.dataset.totalQuantity);
+    const productId = document.querySelector(".product-id");
+    sendProductId = parseInt(productId.dataset.productId);
+    console.log("Product ID:", sendProductId);
+    console.log("Total quantity:", totalQuantity);
+    productQuantity = totalQuantity;
+    totalQuantity = productQuantity;
+    document.getElementById("product-quantity").textContent = productQuantity;
+
+    const minusBtn = selector.querySelectorAll(".quantity-btn")[0];
+    const plusBtn = selector.querySelectorAll(".quantity-btn")[1];
+    const input = selector.querySelector(".quantity-input");
+
+    minusBtn.addEventListener("click", () => {
+        let value = parseInt(input.value);
+        if (value > 1) {
+            input.value = value - 1;
+        }
+    });
+
+    plusBtn.addEventListener("click", () => {
+        let value = parseInt(input.value);
+        if (value < totalQuantity) {
+            input.value = value + 1;
+        }
+    });
+
+    input.addEventListener("input", () => {
+        let value = parseInt(input.value);
+        if (isNaN(value) || value < 1) {
+            input.value = 1;
+        } else if (value > totalQuantity) {
+            input.value = totalQuantity;
+        }
+    });
+});
+
+let selectedVersion = null;
+let selectedColor = null;
+let selectedSize = null;
+
+
+
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const variationGroups = document.querySelectorAll(".variation-options");
+    const addToCartBtn = document.querySelector(".add-to-cart");
+    const buyNowBtn = document.querySelector(".buy-now");
+    variationGroups.forEach(group => {
+        const options = group.querySelectorAll(".variation-option");
+
+        options.forEach(option => {
+            option.addEventListener("click", function () {
+                options.forEach(opt => opt.classList.remove("active"));
+                this.classList.add("active");
+                const groupType = this.closest(".variation-options").dataset.type;
+                const value = this.textContent.trim();
+                if (groupType === "version") selectedVersion = value;
+                if (groupType === "color") selectedColor = value;
+                if (groupType === "size") selectedSize = value;
+                checkSelections();
+            });
+        });
+    });
+
+    function checkSelections() {
+      let allSelected = true;
+  
+      variationGroups.forEach(group => {
+        const type = group.dataset.type;
+        const activeOption = group.querySelector(".variation-option.active");
+
+        if (!activeOption) {
+            allSelected = false;
+        } else {
+            const text = activeOption.innerText.trim();
+            if (type === "version") selectedVersion = text;
+            if (type === "color") selectedColor = text;
+            if (type === "size") selectedSize = text;
+        }
+    });
+
+    const quantityBtns = document.querySelectorAll(".quantity-btn");
+
+    if (allSelected) {
+        addToCartBtn.classList.remove("cursor-banner");
+        buyNowBtn.classList.remove("cursor-banner");
+        quantityBtns.forEach(btn => btn.classList.remove("cursor-banner"));
+        console.log(sendProductId);
+        updateQuantity(selectedVersion, selectedColor, selectedSize, sendProductId);
+    } else {
+        addToCartBtn.classList.add("cursor-banner");
+        buyNowBtn.classList.add("cursor-banner");
+        quantityBtns.forEach(btn => btn.classList.add("cursor-banner"));
+    }
+  }
+  
+
+    checkSelections(); 
+});
+

@@ -30,24 +30,24 @@ public class ProductOption {
     @Column(name="id")
     private int id;
 
-    @Column(name="type")
-    private int type;
-
     @ManyToOne
     @JoinColumn(name="product_id", referencedColumnName = "id")
     private Product product;
 
-    @Column(name="name")
-    private String name;
+    @Column(name="version")
+    private String version;
+    
+    @Column(name="size")
+    private String size;
+
+    @Column(name="color")
+    private String color;
 
     @Column(name="quantity")
     private int quantity;
 
     @Column(name="price")
     private double price;
-
-    @Column(name="thumbnail")
-    private String thumbnail;
 
     @Column(name="description")
     private String description;

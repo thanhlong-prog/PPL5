@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/cart.css">">
+    <link rel="stylesheet" href="/assets/css/cart.css">
 </head>
 
 <body>
@@ -40,7 +40,8 @@
                                     <i class='bx bx-bell'></i>
                                     <span> Thông báo</span>
                                 </div>
-                                <div class="notification-box">
+                                <div class="notification-box hide">
+                                    <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
                                     <ul>
                                         <li>
                                             <a href="">
@@ -53,9 +54,7 @@
                                                             <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
                                                         </div>
                                                         <div class="noti-detail">
-                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm
-                                                                đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale
-                                                                cuối - Chốt sạch giỏ hàng</span>
+                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale cuối - Chốt sạch giỏ hàng</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -72,9 +71,7 @@
                                                             <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
                                                         </div>
                                                         <div class="noti-detail">
-                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm
-                                                                đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale
-                                                                cuối - Chốt sạch giỏ hàng</span>
+                                                            <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale cuối - Chốt sạch giỏ hàng</span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -92,8 +89,24 @@
                                 <span>Tiếng Việt</span>
                             </div>
                             <div class="w-option account">
-                                <div class="avt"></div>
-                                <span>My Account</span>
+                                <div class="avt"
+                                    th:if="${user.avatar != null}"
+                                    th:style="'background-image: url(' + ${user.avatar} + ')'">
+                                </div>
+                                <div class="avt" th:if="${user.avatar == null}">
+                                </div>
+                                <span th:text="${user.name != null ? user.name : ''}"></span>
+                                <div class="drop-down-box account hide">
+                                    <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
+                                    <div class="title-dropdown">
+                                        <p></p>
+                                    </div>
+                                    <ul>
+                                        <li><a th:href="@{/buyer/profile}">Tài Khoản Của Tôi</a></li>
+                                        <li>Đơn Mua</li>
+                                        <li><a th:href="@{/logout}">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,7 +148,60 @@
                         <span>Thao Tác</span>
                     </div>
                 </div>
-                <div class="cart-item">
+                <div th:each="item : ${cartList}">
+                    <div class="cart-item">
+                        <div class="top">
+                            <div class="shop-info">
+                                <input type="checkbox" id="check-shop">
+                                <!-- <div class="tag">
+                                    <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
+                                </div> -->
+                                <label for="check-shop" th:text="${item.user.name}"></label>
+                            </div>
+                        </div>
+                        <div class="center">
+                            <div class="img-product">
+                                <input type="checkbox">
+                                <img th:src="${item.product.thumbnail}" alt="">
+                            </div>
+                            <div class="title">
+                                <span th:text="${item.product.title}">
+                                </span>
+                                <div class="tag">
+                                    <img src="/assets/images/cart/tag-voucher.png" alt="">
+                                </div>
+                            </div>
+                            <div class="variations">
+                                <span>
+                                    Phân Loại Hàng:
+                                </span>
+                                <span class="variation-info" th:text="${item.productOption.version == null ? '' : item.productOption.version} + ${item.productOption.color == null ? '' : ',' + item.productOption.color} + ${item.productOption.size == null ? '' : ',' + item.productOption.size}">
+                                </span>
+                            </div>
+                            <div class="price">
+                                <span th:if="${item.product.discount != null}" class="price-old" th:text="'₫' + ${item.product.price}"></span>
+                                <span th:if="${item.product.discount != null}" class="price-new" th:text="'₫' + ${item.product.price*item.product.discount/100}"></span>
+                                <span th:if="${item.product.discount == null || item.product.discount == 0}" class="price-new" th:text="'₫' + ${item.product.price}"></span>
+                            </div>
+                            <div class="quantity">
+                                <button class="minus">-</button>
+                                <input type="text" th:value="${item.orderQuantity}">
+                                <button class="plus">+</button>
+                            </div>
+                            <div class="total-price">
+                                <span th:if="${item.product.discount != null}" th:text="'₫' + ${item.product.price * item.product.discount / 100 * item.orderQuantity}"></span>
+                                <span th:if="${item.product.discount == null || item.product.discount == 0}" th:text="'₫' + ${item.product.price * item.orderQuantity}"></span>
+                            </div>
+                            <div class="btn-option">
+                                <button class="btn-delete" onclick="delCartItem()"> Xoá</button>
+                                <button class="btn-find-similar" onclick="delCartItem()">Tìm sản phẩm tương tự</button>
+                            </div>
+                        </div>
+                        <div class="bottom"></div>
+                    </div>
+                </div>
+                
+                <!-- <div class="cart-item">
                     <div class="top">
                         <div class="shop-info">
                             <input type="checkbox" id="check-shop">
@@ -184,58 +250,7 @@
                             <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
                         </div>
                     </div>
-                    <div class="bottom"></div>
-                </div>
-                <div class="cart-item">
-                    <div class="top">
-                        <div class="shop-info">
-                            <input type="checkbox" id="check-shop">
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
-                            </div>
-                            <label for="check-shop">Shop Thời trang nam</label>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <div class="img-product">
-                            <input type="checkbox">
-                            <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
-                        </div>
-                        <div class="title">
-                            <span>
-                                M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
-                                trang mùa hè Màu đen Thương hiệu hợp thời trang
-                            </span>
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-voucher.png" alt="">
-                            </div>
-                        </div>
-                        <div class="variations">
-                            <span>
-                                Phân Loại Hàng:
-                            </span>
-                            <span class="variation-info">
-                                B,L
-                            </span>
-                        </div>
-                        <div class="price">
-                            <span class="price-old">₫194.200</span>
-                            <span class="price-new">₫124.200</span>
-                        </div>
-                        <div class="quantity">
-                            <button class="minus">-</button>
-                            <input type="text" value="1">
-                            <button class="plus">+</button>
-                        </div>
-                        <div class="total-price">
-                            <span>₫124.200</span>
-                        </div>
-                        <div class="btn-option">
-                            <button class="btn-delete"> Xoá</button>
-                            <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
-                        </div>
-                    </div>
-                </div>
+                </div> -->
                 <div class="cart-main-bottom">
                     <div class="select-voucher">
                         <div class="voucher">
@@ -328,3 +343,4 @@
         <div th:insert="~{footer :: footer}"></div>
     </div>
 </body>
+<script src="/assets/js/header.js"></script>

@@ -66,6 +66,35 @@ public class ProfileController {
         return "profile/profile";
     }
 
+    @RequestMapping("/password")
+    public String password(){
+        return "profile/password";
+    }
+    @RequestMapping("/shopee")
+    public String shopee(){
+        return "profile/shopee";
+    }
+    @RequestMapping("/purchase")
+    public String purchase(){
+        return "profile/purchase";
+    }
+    @RequestMapping("/address")
+    public String address(){
+        return "profile/address";
+    }
+    @RequestMapping("/order")
+    public String order(){
+        return "profile/order";
+    }
+    @RequestMapping("/promotion")
+    public String promotion(){
+        return "profile/promotion";
+    }
+    @RequestMapping("/voucher")
+    public String voucher(){
+        return "profile/voucher-wallet";
+    }
+
     @PostMapping("/save")
     public String saveProfile(@ModelAttribute("ProfileDto") ProfileDto user,
             @RequestParam("avatar-img") MultipartFile avatar, @RequestParam("current-avatar") String currentAvatar,
