@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/seller-register.css">
+</head>
+
+<body>
+    <div class="seller-register">
+        <div class="sr-header">
+            <div class="left">
+                <div class="logo">
+                    <img src="/assets/images/icon-shopee/logo.png" alt="">
+                </div>
+                <div class="title">
+                    <span>Đăng ký trở thành Người bán Shopee</span>
+                </div>
+            </div>
+            <div class="right">
+                <button class="btn-account">
+                    <div class="avt-img">
+                        <img src="/assets/images/img-avatar/seller.png" alt="">
+                    </div>
+                    <div class="account-name">
+                        <span>shironeko</span>
+                    </div>
+                    <div class="icon-btn">
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <div class="sr-main">
+            <div class="container">
+                <div class="step-bar">
+                    <ul>
+                        <li class="step">Thông tin Shop</li>
+                        <li class="step">Cài đặt vận chuyển</li>
+                        <li class="step">Thông tin thuế</li>
+                        <li class="step">Thông tin định danh</li>
+                        <li class="step">Hoàn tất</li>
+                    </ul>
+                </div>
+                <div class="form-register">
+                    <form action="#">
+                        <div class="empty-left"></div>
+                        <div class="w-page">
+                            <div class="page shop-info">
+                                <div class="content">
+                                    <div class="name-shop">
+                                        <span class="tl">Tên Shop</span>
+                                        <input type="text" class="input-count" id="shopName" maxlength="30"
+                                            placeholder="Nhập tên shop của bạn"
+                                            value="aq zqfnwjknfkw fk vw">
+                                        <div class="charCount">
+                                            <span class="currentCount"></span>
+                                            <span class="maxCount">/30</span>
+                                        </div>
+                                    </div>
+                                    <div class="address-shop">
+                                        <div class="title tl">
+                                            <span>Địa chỉ lấy hàng</span>
+                                        </div>
+                                        <div class="inf">
+                                            <div class="name-phone">
+                                                <span class="name">aq zqfnwjknfkw fk vw</span>
+                                                <span>|</span>
+                                                <span class="phone">8412345678</span>
+                                            </div>
+                                            <div class="address">
+                                                <span class="address-detail">kuro neko la con meo den</span>
+                                                <span class="ward">Phường Phước Hòa</span>
+                                                <span class="district">Thành Phố Tam Kỳ</span>
+                                                <span class="province">Quảng Nam</span>
+                                            </div>
+                                            <div class="btn-fix-address">
+                                                <button>Chỉnh sửa</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="email-shop">
+                                        <span class="tl">Email</span>
+                                        <input type="email" placeholder="Nhập email của bạn"
+                                            value="aqcdkncnjkdnck@gmail.com" disabled>
+                                    </div>
+                                    <div class="phone-shop">
+                                        <span class="tl">Số điện thoại</span>
+                                        <span class="phone">+8412345678</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page shipping-info">
+                                <div class="title">
+                                    <span class="name-title">Phương thức vận chuyển</span>
+                                    <span class="info-title">Kích hoạt phương thức vận chuyển phù hợp</span>
+                                </div>
+                                <div class="content">
+                                    <div class="item flash">
+                                        <div class="top-item">
+                                            <div class="name-item">
+                                                <span>Hỏa Tốc</span>
+                                            </div>
+                                            <div class="w-btn-edit">
+                                                <button type="button" class="btn-minimize btn-edit">
+                                                    <span>Thu gọn</span>
+                                                    <i class='bx bx-chevron-up'></i>
+                                                </button>
+                                                <button class="btn-maxmize btn-edit">
+                                                    <span>Mở rộng</span>
+                                                    <i class='bx bx-chevron-down'></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="main-item">
+                                            <div class="name-option">
+                                                <span class="option">Hỏa Tốc</span>
+                                                <span class="option-info">[COD đã được kích hoạt]</span>
+                                            </div>
+                                            <div class="btn-check-option">
+                                                <input type="checkbox" id="check-flash">
+                                                <label for="check-flash" class="button"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item fast">
+                                        <div class="top-item">
+                                            <div class="name-item">
+                                                <span>Nhanh</span>
+                                            </div>
+                                            <div class="w-btn-edit">
+                                                <button type="button" class="btn-minimize btn-edit">
+                                                    <span>Thu gọn</span>
+                                                    <i class='bx bx-chevron-up'></i>
+                                                </button>
+                                                <button class="btn-maxmize btn-edit">
+                                                    <span>Mở rộng</span>
+                                                    <i class='bx bx-chevron-down'></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="main-item">
+                                            <div class="name-option">
+                                                <span class="option">Nhanh</span>
+                                                <span class="option-info">[COD đã được kích hoạt]</span>
+                                            </div>
+                                            <div class="btn-check-option">
+                                                <input type="checkbox" id="check-fast">
+                                                <label for="check-fast" class="button"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item standard">
+                                        <div class="top-item">
+                                            <div class="name-item">
+                                                <span>Tiết kiệm</span>
+                                            </div>
+                                            <div class="w-btn-edit">
+                                                <button type="button" class="btn-minimize btn-edit">
+                                                    <span>Thu gọn</span>
+                                                    <i class='bx bx-chevron-up'></i>
+                                                </button>
+                                                <button class="btn-maxmize btn-edit">
+                                                    <span>Mở rộng</span>
+                                                    <i class='bx bx-chevron-down'></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="main-item">
+                                            <div class="name-option">
+                                                <span class="option">Tiết kiệm</span>
+                                                <span class="option-info">[COD đã được kích hoạt]</span>
+                                            </div>
+                                            <div class="btn-check-option">
+                                                <input type="checkbox" id="check-standard">
+                                                <label for="check-standard" class="button"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item oversized-items">
+                                        <div class="top-item">
+                                            <div class="name-item">
+                                                <span>Hàng Cồng Kềnh</span>
+                                            </div>
+                                            <div class="w-btn-edit">
+                                                <button type="button" class="btn-minimize btn-edit">
+                                                    <span>Thu gọn</span>
+                                                    <i class='bx bx-chevron-up'></i>
+                                                </button>
+                                                <button class="btn-maxmize btn-edit">
+                                                    <span>Mở rộng</span>
+                                                    <i class='bx bx-chevron-down'></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="main-item">
+                                            <div class="name-option">
+                                                <span class="option">Hỏa Tốc</span>
+                                                <span class="option-info">[COD đã được kích hoạt]</span>
+                                            </div>
+                                            <div class="btn-check-option">
+                                                <input type="checkbox" id="check-oversized-items">
+                                                <label for="check-oversized-items" class="button"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item add-item">
+                                        <div class="top-item">
+                                            <div class="name-item">
+                                                <span>Thêm đơn vị vận chuyển</span>
+                                            </div>
+                                            <div class="w-btn-edit">
+                                                <button type="button" class="btn-minimize btn-edit">
+                                                    <span>Thu gọn</span>
+                                                    <i class='bx bx-chevron-up'></i>
+                                                </button>
+                                                <button class="btn-maxmize btn-edit">
+                                                    <span>Mở rộng</span>
+                                                    <i class='bx bx-chevron-down'></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="main-add-item">
+                                            <span class="info">
+                                                Lưu ý: Shopee không hỗ trợ theo dõi quá trình cho các phương thức vận
+                                                chuyển không có tích hợp và cũng sẽ không chịu trách nhiệm về bất kỳ sản
+                                                phẩm nào bị thiếu hoặc hư hỏng.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page tax-information">
+                                <div class="p-alert">
+                                    <i class='bx bxs-info-circle'></i>
+                                    <span>
+                                        Việc thu thập Thông Tin Thuế và Thông Tin Định Danh là bắt buộc theo quy định
+                                        của Luật an ninh mạng, Thương mại điện tử và Thuế của Việt Nam. Thông Tin Thuế
+                                        và Thông Tin Định Danh sẽ được bảo vệ theo chính sách bảo mật của Shopee. Người
+                                        bán hoàn toàn chịu trách nhiệm về tính chính xác của thông tin.
+                                    </span>
+                                </div>
+                                <div class="content">
+                                    <div class="check-business-type">
+                                        <span class="tl">Loại hình kinh doanh</span>
+                                        <div class="business-type">
+                                            <div class="w-individual w-type">
+                                                <input type="radio" name="business-type" id="individual"
+                                                    value="individual" checked>
+                                                <label for="individual">Cá nhân</label>
+                                            </div>
+                                            <div class="w-household-business w-type">
+                                                <input type="radio" name="business-type" id="household-business"
+                                                    value="household-business">
+                                                <label for="household-business">Hộ kinh doanh</label>
+                                            </div>
+                                            <div class="w-company w-type">
+                                                <input type="radio" name="business-type" id="company" value="company">
+                                                <label for="company">Công ty</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="name-company" id="company-name-section">
+                                        <span class="tl">Tên công ty</span>
+                                        <div class="w-input-company">
+                                            <div class="input-company">
+                                                <input type="text" class="input-count" id="companyName" maxlength="500"
+                                                    placeholder="Nhập tên công ty của bạn">
+                                                <div class="charCount">
+                                                    <span class="currentCount"></span>
+                                                    <span class="maxCount">/500</span>
+                                                </div>
+                                            </div>
+                                            <div class="ex-company">
+                                                <span>Vui lòng điền đầy đủ tên công ty, không viết tắt. Ví dụ: "Công ty
+                                                    Trách Nhiệm Hữu Hạn ABC"</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="register-business-address">
+                                        <span class="tl">Địa chỉ đăng ký kinh doanh</span>
+                                        <div class="address">
+                                            <div class="w-country-address">
+                                                <div class="country-address">
+                                                    <input type="checkbox" name="country" id="country" value="country"
+                                                        checked>
+                                                    <label for="country">Thêm "Việt Nam" vào thông tin địa chỉ.</label>
+                                                </div>
+                                                <span class="cd-note note">Vui lòng chọn thông tin quốc gia "Việt Nam"
+                                                    khớp
+                                                    với thông tin trên Giấy phép đăng ký kinh doanh
+                                                </span>
+                                            </div>
+                                            <div class="multiple-level-address">
+                                                <input type="text" class="input-address" id="input-address"
+                                                    value="Quảng Nam / Thành Phố Tam Kỳ / Phường Phước Hòa">
+                                                <textarea class="input-address-detail"
+                                                    id="input-address-detail">kuro neko la con meo den</textarea>
+                                                <span class="mla-note note">Địa chỉ kinh doanh: địa chỉ theo giấy phép
+                                                    đăng ký kinh doanh đối
+                                                    với công ty, hộ kinh doanh; hoặc theo giấy tờ định danh (trên
+                                                    CCCD/Hộ chiếu) đối với cá nhân.</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="email-tax">
+                                        <span class="tl"> Email nhận hóa đơn điện tử</span>
+                                        <div class="add-email-tax">
+                                            <input type="email" class="input-email-tax" id="email-tax" maxlength="100"
+                                                placeholder="Nhập email nhận hóa đơn điện tử của bạn"
+                                                value="aqzzqa@gmail.com">
+                                            <button type="button" class="btn-add-email-tax">
+                                                <i class='bx bx-plus'></i>
+                                                <span>Thêm email</span>
+                                                <span class="et-count">(1/5)</span>
+                                            </button>
+                                            <span class="et-note note">Hóa đơn điện tử của bạn sẽ được gửi đến địa chỉ
+                                                email này</span>
+                                        </div>
+                                    </div>
+                                    <div class="tin">
+                                        <span class="tl">Mã số thuế</span>
+                                        <div class="w-input-tin">
+                                            <div class="input-tin">
+                                                <input type="text" class="input-count-tin input-count" id="taxCode" maxlength="14"
+                                                    placeholder="Nhập mã số thuế của bạn">
+                                                <div class="charCount">
+                                                    <span class="currentCount"></span>
+                                                    <span class="maxCount">/14</span>
+                                                </div>
+                                            </div>
+                                            <span class="tin-note note">
+                                                Theo Quy định về Thương mại điện tử Việt Nam (Nghị định 52/2013/ND-CP),
+                                                Người Bán phải cung cấp thông tin Mã số thuế cho sàn Thương mại điện tử.
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page identity-information">
+                                <div class="p-alert">
+                                    <i class='bx bxs-info-circle'></i>
+                                    <span>
+                                        Vui lòng cung cấp Thông Tin Định Danh của Chủ Shop (nếu là cá nhân), hoặc Người Đại Diện Pháp Lý trên giấy đăng ký kinh doanh.
+                                    </span>
+                                </div>
+                                <div class="content">
+                                    <div class="type-identification">
+                                        <span class="tl">Hình thức định danh</span>
+                                        <div class="type">
+                                            <input type="radio" name="type-identification" id="cccd" value="cccd" checked>
+                                            <label for="cccd">Căn cước công dân</label>
+                                        </div>
+                                    </div>
+                                    <div class="cccd-number lv-1">
+                                        <span class="tl">Số Căn Cước Công Dân</span>
+                                        <div class="input-cccd-number lv-2">
+                                            <input type="text" class="input-cccd-number input-count" id="cccdNumber" maxlength="12"
+                                                placeholder="Nhập số CCCD của bạn">
+                                            <div class="charCount">
+                                                <span class="currentCount"></span>
+                                                <span class="maxCount">/12</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="full-name lv-1">
+                                        <span class="tl">Họ & Tên</span>
+                                        <div class="input-full-name lv-2">
+                                            <input type="text" class="input-full-name input-count" id="fullName" maxlength="100"
+                                                placeholder="Nhập tên của bạn">
+                                            <div class="charCount">
+                                                <span class="currentCount"></span>
+                                                <span class="maxCount">/100</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="img-front-side img-cccd lv-1">
+                                        <span class="tl">Ảnh mặt trước</span>
+                                        <div class="add-img-cccd">
+                                            <div class="btn-add-img">
+                                                <button type="button">
+                                                    <i class='bx bx-plus'></i>
+                                                </button>
+                                                <div class="example-img">
+                                                    <img src="/assets/images/seller-register/example-cccd-front.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="add-img-note">
+                                                <span>Vui lòng cung cấp ảnh chụp cận CMND/CCCD/Hộ chiếu của bạn</span>
+                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng (Kích thước ảnh không vượt quá 5.0 MB)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="img-back-side img-cccd lv-1">
+                                        <span class="tl">Ảnh mặt sau</span>
+                                        <div class="add-img-cccd">
+                                            <div class="btn-add-img">
+                                                <button type="button">
+                                                    <i class='bx bx-plus'></i>
+                                                </button>
+                                                <div class="example-img">
+                                                    <img src="/assets/images/seller-register/example-cccd-back.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="add-img-note">
+                                                <span>Vui lòng cung cấp ảnh chụp cận CMND/CCCD/Hộ chiếu của bạn</span>
+                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng (Kích thước ảnh không vượt quá 5.0 MB)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="page seller-complete">
+                                <i class='bx bxs-check-circle' ></i>
+                                <span class="title">Đăng ký thành công</span>
+                                <span class="note">Hãy đăng bán sản phẩm đầu tiên để khởi động hành trình bán hàng cùng Shopee nhé!</span>
+                                <button type="button">Thêm sản phẩm</button>
+                            </div>
+                        </div>
+                        <div class="empty-right"></div>
+                    </form>
+                </div>
+                <div class="btn-seller-register">
+                    <div class="btn-left">
+                        <button class="btn-prev btn">Quay lại</button>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn-save btn">Lưu</button>
+                        <button class="btn-next btn">Tiếp theo</button>
+                        <button class="btn-complete btn">Hoàn tất</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-panel">
+            <div class="notification">
+                <button type="button">
+                    <i class='bx bxs-bell'></i>
+                </button>
+            </div>
+            <div class="chat-bot">
+                <button type="button">
+                    <i class='bx bxs-bot'></i>
+                </button>
+            </div>
+            <div class="chat">
+                <button type="button">
+                    <i class='bx bxs-conversation'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/seller-register.js"></script>
+</body>
