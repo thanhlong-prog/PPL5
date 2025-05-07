@@ -144,7 +144,7 @@
                             </div>
                             <script>
                                 function addCart() {
-                                    selectedVersion, selectedColor, selectedSize
+
                                     $.ajax({
                                         type: "POST",
                                         url: "/buyer/product/addcart",
@@ -193,11 +193,14 @@
                                         success: function (res) {
                                             console.log("Response từ server:", res);
                                             document.getElementById("product-quantity").textContent = res.quantity;
-                                            if(res.quantity == 0) {
+                                            if (res.quantity == 0) {
                                                 document.querySelector(".quantity-input").value = 0;
                                             }
-                                            if(res.quantity < document.querySelector(".quantity-input").value) {
+                                            if (res.quantity < document.querySelector(".quantity-input").value) {
                                                 document.querySelector(".quantity-input").value = res.quantity;
+                                            }
+                                            if (res.quantity > document.querySelector(".quantity-input").value && document.querySelector(".quantity-input").value == 0) {
+                                                document.querySelector(".quantity-input").value = 1;
                                             }
                                             totalQuantity = res.quantity;
                                         },

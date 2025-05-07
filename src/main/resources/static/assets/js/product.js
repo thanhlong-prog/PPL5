@@ -54,7 +54,7 @@ function scrollCarousel(direction, total, category, prev_btn, next_btn) {
 let productQuantity = null;
 let sendProductId = null;
 let totalQuantity = null;
-  document.addEventListener("DOMContentLoaded", function () {
+
     const selector = document.querySelector(".quantity-selector");
     totalQuantity = parseInt(selector.dataset.totalQuantity);
     const productId = document.querySelector(".product-id");
@@ -91,7 +91,7 @@ let totalQuantity = null;
             input.value = totalQuantity;
         }
     });
-});
+
 
 let selectedVersion = null;
 let selectedColor = null;
@@ -100,7 +100,7 @@ let selectedSize = null;
 
 
 
-  document.addEventListener("DOMContentLoaded", function () {
+
     const variationGroups = document.querySelectorAll(".variation-options");
     const addToCartBtn = document.querySelector(".add-to-cart");
     const buyNowBtn = document.querySelector(".buy-now");
@@ -155,5 +155,5 @@ let selectedSize = null;
   
 
     checkSelections(); 
-});
+
 

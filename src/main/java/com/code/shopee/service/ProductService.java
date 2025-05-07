@@ -15,4 +15,6 @@ public interface ProductService {
     public List<ProductOption> getProductOptionByStatusTrue(int productId);
     public List<Cart> getCartByUserIdAndStatusTrue(int userId);
     public void addCart(Cart cart);
+    public void deleteCart(int cartId);
+    public Cart getCartByIdAndStatusTrue(int id);
 }

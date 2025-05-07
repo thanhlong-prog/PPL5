@@ -44,7 +44,7 @@ public class Product {
     private int subcategoryId;
 
     @Column(name = "price")
-    private double price;
+    private int price;
 
     @Column(name = "quantity")
     private int quantity;

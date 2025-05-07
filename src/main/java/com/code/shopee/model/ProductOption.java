@@ -47,7 +47,7 @@ public class ProductOption {
     private int quantity;
 
     @Column(name="price")
-    private double price;
+    private int price;
 
     @Column(name="description")
     private String description;

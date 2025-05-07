@@ -53,4 +53,12 @@ public class ProductServiceImpl implements ProductService {
     public void addCart(Cart cart) {
         cartRepository.save(cart);
     }
+    @Override
+    public void deleteCart(int cartId) {
+        cartRepository.deleteById(cartId);
+    }
+    @Override
+    public Cart getCartByIdAndStatusTrue(int id) {
+        return cartRepository.findByIdAndStatusTrue(id);
+    }
 }

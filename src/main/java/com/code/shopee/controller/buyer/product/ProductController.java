@@ -77,9 +77,7 @@ public class ProductController {
                 .filter(size -> size != null && !size.isEmpty())
                 .collect(Collectors.toSet());
 
-        int totalQuantity = productOptions.stream()
-                .mapToInt(ProductOption::getQuantity)
-                .sum();
+        int totalQuantity = product.getQuantity();
         model.addAttribute("versions", versions);
         model.addAttribute("colors", colors);
         model.addAttribute("sizes", sizes);
