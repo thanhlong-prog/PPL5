@@ -1,0 +1,791 @@
+.seller-register input:focus{
+    outline: none;
+}
+.sr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .07);
+    background-color: #fff;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    left: 0;
+    top: 0;
+}
+
+.sr-header .left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.sr-header .left img {
+    width: 97px;
+    height: 33px;
+}
+
+.sr-header .left .title span {
+    bottom: 0;
+    min-width: 500px;
+    position: absolute;
+    font-size: 1.2rem;
+}
+
+.sr-header .right .btn-account {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.sr-header .right button {
+    border: none;
+    background-color: #fff;
+}
+
+.sr-header .right .btn-account img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+.sr-main {
+    margin-top: 60px;
+}
+
+.step-bar {
+    counter-reset: step;
+    padding: 30px 80px;
+    background-color: #fff;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.step-bar ul {
+    display: flex;
+    /* justify-content: space-around; */
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.step-bar li {
+    float: left;
+    list-style: none;
+    position: relative;
+    text-align: center;
+    width: calc(100% / 5);
+    color: #333;
+    font-weight: 500;
+}
+
+.step-bar li:before {
+    background: #fff;
+    border: 2px solid #bebebe;
+    border-radius: 50%;
+    color: #bebebe;
+    content: counter(step);
+    counter-increment: step;
+    display: block;
+    font-weight: 500;
+    height: 30px;
+    line-height: 27px;
+    margin: 0 auto 10px;
+    text-align: center;
+    width: 30px;
+    z-index: 2;
+}
+
+.step-bar li:after {
+    background: #bebebe;
+    content: '';
+    height: 3px;
+    left: calc(-50% + 15px);
+    position: absolute;
+    top: 15px;
+    width: calc(100% - 30px);
+    z-index: 1;
+}
+
+.step-bar li:first-child:after {
+    content: none;
+}
+
+.step-bar li.active:after,
+.step-bar li.complete:after {
+    background: #ee4d2d;
+}
+
+.step-bar li.active:before,
+.step-bar li.complete:before {
+    background: #ee4d2d;
+    border-color: #ee4d2d;
+    color: #fff;
+}
+
+/* .step-bar li.active {
+    color: #333;
+    font-weight: 600;
+}
+
+.step-bar li.complete {
+    color: #333;
+    font-weight: 600;
+} */
+
+.form-register {
+    background-color: #fff;
+    padding-bottom: 50px;
+    border-bottom: solid 1px #eaeaea;
+    /* height: 50vh;
+    overflow: auto;
+    scrollbar-width: none; */
+}
+
+.form-register form {
+    display: flex;
+    padding-top: 40px;
+}
+
+.form-register form .empty-left {
+    flex: 1;
+}
+
+.form-register form .w-page {
+    flex: 4;
+    display: flex;
+    overflow: auto;
+    width: 100%;
+}
+
+.form-register form .page {
+    min-width: 100%;
+}
+.page .content{
+    width: 100%;
+}
+.form-register form .content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 20px;
+}
+
+.form-register form .empty-right {
+    flex: 1;
+}
+
+.form-register .address-shop {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.form-register .tl {
+    min-width: 250px;
+    display: inline-block;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.form-register .name-shop {
+    position: relative;
+}
+
+.form-register .name-shop input {
+    height: 30px;
+    width: 50%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px;
+    border: solid 1px #a09c9c;
+}
+
+.form-register .name-shop .charCount {
+    position: absolute;
+    right: 20%;
+    top: 5px;
+    font-size: 14px;
+    color: #656464;
+}
+
+.form-register .address-shop .inf .address {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-register .btn-fix-address button {
+    border: none;
+    background-color: #fff;
+    color: #05a;
+    padding-top: 5px;
+}
+
+.form-register .email-shop input {
+    height: 30px;
+    width: 50%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px;
+    border: solid 1px #a09c9c;
+}
+
+.btn-seller-register {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    background-color: #fff;
+}
+
+.btn-seller-register .btn {
+    position: relative;
+    display: inline-block;
+    min-width: 72px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    height: 40px;
+}
+
+.btn-seller-register .btn-prev,
+.btn-seller-register .btn-save {
+    color: #606060;
+    background-color: #fff;
+    border: 1px solid #bcbaba;
+}
+
+.btn-seller-register .btn-next,
+.btn-seller-register .btn-complete {
+    color: #fff;
+    background-color: #ee4d2d;
+    border-color: #ee4d2d;
+}
+.sr-main .shipping-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.sr-main .shipping-info .title {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding-bottom: 20px;
+    border-bottom: solid 1px #eaeaea;
+    width: 100%;
+}
+
+.sr-main .shipping-info .title .name-title {
+    font-size: 20px;
+    color: #333333;
+}
+
+.sr-main .shipping-info .title .info-title {
+    font-size: 15px;
+    font-weight: 400;
+    color: #999999;
+}
+
+.sr-main .shipping-info .content .item {
+    display: flex;
+    flex-direction: column;
+}
+
+.sr-main .shipping-info .content .item .top-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.sr-main .shipping-info .content .item .top-item .name-item span {
+    font-size: 20px;
+    color: #333333;
+}
+
+.sr-main .shipping-info .content .item .btn-minimize {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sr-main .shipping-info .content .item .btn-maxmize {
+    display: none;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
+.sr-main .shipping-info .content .item .w-btn-edit i {
+    font-size: 24px;
+    color: #606060;
+    cursor: pointer;
+    padding-top: 3px;
+}
+
+.sr-main .shipping-info .content .item .btn-edit {
+    color: #606060;
+    background-color: #fff;
+    border: 1px solid #bcbaba;
+    position: relative;
+    min-width: 60px;
+    padding: 0 3px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    height: 30px;
+    padding-bottom: 3px;
+}
+
+.sr-main .shipping-info .content .item .btn-edit:hover {
+    background-color: #f5f5f5;
+}
+
+.sr-main .shipping-info .content .item .main-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: solid 1px #eaeaea;
+    border-radius: 5px;
+}
+
+.sr-main .shipping-info .content .item .main-item .option-info {
+    color: #ee4d2d;
+    padding-left: 3px;
+}
+
+.sr-main .shipping-info .content .item .main-add-item span {
+    color: #999999;
+    font-size: 14px;
+}
+.btn-check-option>.button {
+    position: relative;
+    width: 55px;
+    height: 25px;
+    border-radius: 200px;
+    margin-right: 10px;
+    background-color: #B4B4B4;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 5px 5px 10px rgba(0, 0, 0, .15);
+    transition: 0.4s;
+}
+
+.btn-check-option>.button::before {
+    position: absolute;
+    content: "";
+    width: 15px;
+    height: 15px;
+    margin: 5px;
+    border-radius: 50%;
+    background-color: #fff;
+    transition: 0.4s;
+}
+
+.btn-check-option>input:checked+.button {
+    background-color: #5c7;
+}
+
+.btn-check-option>input:checked+.button::before {
+    transform: translateX(30px);
+}
+
+.btn-check-option>input {
+    display: none;
+}
+.tax-information{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.sr-main .page .p-alert{
+    display: flex;
+    width: 100%;
+    align-items: flex-start;
+    background-color: #e5eefb;
+    border: #3d72bf solid 1px;
+    border-radius: 4px;
+    padding: 7px 10px;
+}
+.sr-main .page .p-alert i{
+    width: 20px;
+    height: 20px;
+    color: rgb(23, 121, 219);
+    padding-top: 2px;
+    margin-right: 5px;
+}
+.sr-main .page .p-alert span{
+    font-size: 13px;
+    opacity: 0.8; 
+}
+.tax-information .content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 0;
+}
+.tax-information .content .check-business-type{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    border-radius: 5px;
+}
+.tax-information .content .check-business-type .business-type{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+.tax-information .content .check-business-type .w-type{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+    padding-top: 3px;
+}
+.tax-information .content .check-business-type .w-type label{
+    padding-bottom: 2px;
+}
+.tax-information .content .name-company{
+    display: none;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    width: 100%;
+}
+.tax-information .content .name-company .input-company{
+    position: relative;
+}
+.tax-information .content .name-company input{
+    height: 30px;
+    width: 80%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+}
+.tax-information .content .name-company .charCount{
+    position: absolute;
+    right: 23%;
+    top: 5px;
+    font-size: 14px;
+    color: #656464;
+}
+.tax-information .content .name-company .ex-company span{
+    font-size: 13px;
+    color: #656464;
+    padding-top: 5px;
+}
+.tax-information .content .register-business-address{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+.tax-information .content .register-business-address .w-country-address{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.tax-information .content .register-business-address .country-address input{
+
+}
+.tax-information .content .register-business-address .cd-note{
+    font-size: 13px;
+    color: #656464;
+}
+.tax-information .content .multiple-level-address{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
+.tax-information .content .multiple-level-address .input-address{
+    height: 30px;
+    width: 80%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+    margin: 10px 0;
+}
+.tax-information .content .multiple-level-address textarea{
+    width: 80%;
+    overflow: hidden;
+    padding: 3px 10px;
+}
+.tax-information .content .note{
+    font-size: 13px;
+    color: #656464;
+}
+.tax-information .content .email-tax{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+.tax-information .content .add-email-tax{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+.tax-information .content .add-email-tax .input-email-tax{
+    height: 30px;
+    width: 60%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+}
+.tax-information .content .add-email-tax button{
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #a09c9c;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 32px;
+    min-width: 72px;
+    padding: 0 10px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.8;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    gap: 5px;
+}
+.tax-information .content .add-email-tax button i{
+    font-size: 20px;
+    color: #333;
+}
+.tax-information .content .tin{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+}
+.tax-information .content .tin .w-input-tin{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.tax-information .content .tin .input-tin{
+    position: relative;
+    width: 100%;
+}
+.tax-information .content .tin .input-tin input{
+    height: 30px;
+    width: 60%;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+}
+.tax-information .content .tin .charCount{
+    position: absolute;
+    right: 42%;
+    top: 5px;
+    font-size: 14px;
+    color: #656464;
+}
+.tax-information .content .tin .tin-note{
+    margin-top: 10px;
+}
+.seller-register .slider-panel{
+    position: fixed;
+    padding: 30px 10px;
+    right: 0;
+    top: 47px;
+    z-index: 1;
+    height: 100vh;
+    width: fit-content;
+    background: #fff;
+    scrollbar-width: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+.seller-register .slider-panel button{
+    border: none;
+    background-color: #fff;
+}
+.seller-register .slider-panel button i{
+    font-size: 30px;
+    color: #ea5639;
+}
+.form-register .identity-information{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+.form-register .identity-information .type-identification{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 20px;
+}
+.form-register .identity-information .type{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 7px;
+    padding-top: 3px;
+}
+.form-register .identity-information .type label{
+    font-size: 14px;
+    color: #333;
+    padding-bottom: 2px;
+}
+.form-register .lv-1{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 8px;
+}
+.form-register .lv-2{
+    width: 100%;
+    position: relative;
+}
+.form-register .lv-1 input{
+    line-height: 30px;
+    width: 60%;
+    font-size: 16px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+}
+.form-register .lv-1 .charCount{
+    position: absolute;
+    right: 42%;
+    top: 5px;
+    font-size: 14px;
+    color: #656464;
+}
+.form-register .add-img-cccd{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 5px;
+    width: 100%;
+}
+.form-register .btn-add-img{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 10px;
+}
+.form-register .btn-add-img button{
+    border: none;
+    background-color: #fff;
+}
+.form-register .btn-add-img i{
+    width: 150px;
+    height: 150px;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border: 3px dashed #000000;
+    color: #000000;
+    opacity: 0.6;
+}
+.form-register .btn-add-img img{
+    width: 120px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+.form-register .add-img-note{
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    opacity: 0.8;
+}
+.form-register .seller-complete{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1px;
+    width: 100%;
+    padding-bottom: 30px;
+}
+.form-register .seller-complete i{
+    font-size: 60px;
+    color: #5c7;
+}
+.form-register .seller-complete .title{
+    font-size: 20px;
+    color: #333;
+}
+.form-register .seller-complete .note{
+    font-size: 16px;
+    text-wrap: wrap;
+    color: #333;
+    padding-top: 5px;
+}
+.form-register .seller-complete button{
+    color: #fff;
+    border: none;
+    background-color: #ee4d2d;
+    display: inline-block;
+    min-width: 72px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    height: 40px;
+    margin-top: 12px;
+}
+.sr-main .page{
+    display: none;
+}
+
+.sr-main .page.active{
+    display: flex;
+}

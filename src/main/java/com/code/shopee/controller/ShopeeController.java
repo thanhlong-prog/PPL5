@@ -28,6 +28,10 @@ public class ShopeeController {
     public String Search() {
         return "home/search";
     }
+    @RequestMapping("/seller-register")
+    public String SellerRegister() {
+        return "seller/seller-register";
+    }
     @RequestMapping("/info")
     public String Info() {
         return "buyer/info-form";
