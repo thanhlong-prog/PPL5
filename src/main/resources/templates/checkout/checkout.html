@@ -107,8 +107,24 @@
                                     <span>Tiếng Việt</span>
                                 </div>
                                 <div class="w-option account">
-                                    <div class="avt"></div>
-                                    <span>My Account</span>
+                                    <div class="avt" th:if="${user.avatar != null}"
+                                        th:style="'background-image: url(' + ${user.avatar} + ')'">
+                                    </div>
+                                    <div class="avt" th:if="${user.avatar == null}">
+                                    </div>
+                                    <span th:text="${user.name != null ? user.name : ''}"></span>
+                                    <div class="drop-down-box account hide">
+                                        <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl"
+                                                style="color: #ffffff;"></i></div>
+                                        <div class="title-dropdown">
+                                            <p></p>
+                                        </div>
+                                        <ul>
+                                            <li><a th:href="@{/buyer/profile}">Tài Khoản Của Tôi</a></li>
+                                            <li>Đơn Mua</li>
+                                            <li><a th:href="@{/logout}">Đăng xuất</a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +243,25 @@
                                     <div class="count row-2">1</div>
                                     <div class="total-price row-2 row-end">₫49.000</div>
                                 </div>
-                                <div class="insurance">
+                                <div class="product-inf">
+                                    <div class="img-title row-4">
+                                        <div class="img">
+                                            <img src="/assets/images/checkout/product-1.webp" alt="">
+                                        </div>
+                                        <div class="title">
+                                            <span>Áo thun nam, áo phông nam tay ngắn cổ tròn chất thun lạnh co giãn 4
+                                                chiều hình thành phố alex cool</span>
+                                        </div>
+                                    </div>
+                                    <div class="type">
+                                        <span>Loại:</span>
+                                        <span>áo thành phố trắng, XL: 63- 72kg</span>
+                                    </div>
+                                    <div class="price row-2">₫49.000</div>
+                                    <div class="count row-2">1</div>
+                                    <div class="total-price row-2 row-end">₫49.000</div>
+                                </div>
+                                <!-- <div class="insurance">
                                     <div class="insurance-left">
                                         <div class="inp">
                                             <input type="checkbox" id="insurance" name="insurance" value="yes">
@@ -248,7 +282,7 @@
                                     <div class="price row-2">₫579</div>
                                     <div class="count row-2">1</div>
                                     <div class="total-price row-2 row-end">₫579</div>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="bottom">
                                 <div class="shop-voucher">
@@ -390,3 +424,5 @@
             <div th:insert="~{footer :: footer}"></div>
         </div> 
 </body>
+
+<script src="/assets/js/header.js"></script>

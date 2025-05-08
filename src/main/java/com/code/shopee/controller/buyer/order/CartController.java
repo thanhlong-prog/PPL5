@@ -20,7 +20,6 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
 import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
-import com.code.shopee.model.ProductOption;
 import com.code.shopee.model.User;
 import com.code.shopee.service.ProductService;
 import com.code.shopee.service.UserService;

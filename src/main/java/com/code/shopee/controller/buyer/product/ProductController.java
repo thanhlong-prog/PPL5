@@ -155,7 +155,8 @@ public class ProductController {
                     cart.setCreatedDate(java.time.LocalDate.now());
                     cart.setModifiedDate(java.time.LocalDate.now());
                     productService.addCart(cart);
-                    return ResponseEntity.ok("success");
+                    int cartId = cart.getId();
+                    return ResponseEntity.ok(cartId);
 
                 }
             }

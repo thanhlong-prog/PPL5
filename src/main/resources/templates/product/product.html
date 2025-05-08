@@ -156,14 +156,14 @@
                                             size: selectedSize
                                         },
                                         success: function (res) {
-                                            if (res == "success") {
-                                                toast({
-                                                    title: 'Thành công',
-                                                    content: 'Thêm vào giỏ hàng thành công',
-                                                    type: 'success',
-                                                    duration: 2000
-                                                });
-                                            }
+
+                                            toast({
+                                                title: 'Thành công',
+                                                content: 'Thêm vào giỏ hàng thành công',
+                                                type: 'success',
+                                                duration: 2000
+                                            });
+
                                         },
                                         error: function (err) {
                                             toast({
@@ -178,7 +178,30 @@
 
 
                                 function buyProduct() {
-                                    alert('Chuyển đến trang thanh toán!');
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/buyer/product/addcart",
+                                        data: {
+                                            orderQuantity: document.querySelector('.quantity-input').value,
+                                            productId: sendProductId,
+                                            version: selectedVersion,
+                                            color: selectedColor,
+                                            size: selectedSize
+                                        },
+                                        success: function (res) {
+                                            console.log("Response từ server:", res);
+                                            // window.location.href = "/buyer/cart/id=" +res;
+
+                                        },
+                                        error: function (err) {
+                                            toast({
+                                                title: 'Thất bại',
+                                                content: err.responseText,
+                                                type: 'error',
+                                                duration: 2000
+                                            });
+                                        }
+                                    })
                                 }
                                 function updateQuantity(version = '', color = '', size = '', productId) {
                                     $.ajax({
