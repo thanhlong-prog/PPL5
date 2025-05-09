@@ -1,5 +1,6 @@
 package com.code.shopee.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import com.code.shopee.dto.VerifyUserDto;
 import com.code.shopee.mapper.RegistrationMapper;
 import com.code.shopee.mapper.VerifyUserMapper;
 import com.code.shopee.model.User;
+import com.code.shopee.model.UserAddress;
+import com.code.shopee.repository.UserAddressRepository;
 import com.code.shopee.repository.UserRepository;
 import com.code.shopee.service.UserService;
 
@@ -22,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private RegistrationMapper registrationMapper;
     @Autowired
     private VerifyUserMapper verifyUserMapper;
+    @Autowired
+    private UserAddressRepository userAddressRepository;
 
     @Override
     public User findByUsername(String username) {
@@ -88,5 +93,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByPhone(String phone) {
         return userRepository.findByPhone(phone).orElse(null);
+    }
+    @Override
+    public List<UserAddress> getAllUserAddressByStatusTrue(int userId) {
+        return userAddressRepository.findByUserIdAndStatusTrue(userId);
+    }
+    @Override
+    public UserAddress getUserAddressByStatusTrue(int id) {
+        return userAddressRepository.findByIdAndStatusTrue(id);
+    }
+    @Override
+    public void saveUserAddress(UserAddress userAddress) {
+        userAddressRepository.save(userAddress);
+    }
+    @Override
+    public void deleteUserAddress(int id) {
+        userAddressRepository.deleteById(id);
+    }
+    @Override
+    public UserAddress getUserAddressByIsDefault(int isDefault) {
+        return userAddressRepository.findByIsDefaultAndStatusTrue(isDefault);
     }
 }

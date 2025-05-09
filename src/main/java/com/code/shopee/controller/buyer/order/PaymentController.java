@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +28,11 @@ import com.code.shopee.Config.VnpayConfig;
 import com.code.shopee.dto.PaymentDto;
 import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
+import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.User;
+import com.code.shopee.model.UserAddress;
+import com.code.shopee.service.ProductService;
 import com.code.shopee.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,9 +44,11 @@ public class PaymentController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private ProductService productService;
 
     @RequestMapping("")
-    public String payment(Model model) {
+    public String payment(@RequestParam(value = "cartIds") List<Integer> items, Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
         if (principal instanceof CustomUserDetails user) {
@@ -52,13 +59,41 @@ public class PaymentController {
         }
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
+        Map<User, List<Cart>> groupedCartList = new HashMap<>();
+
+        for (int i = 0; i < items.size(); i++) {
+            Cart cart = productService.getCartByIdAndStatusTrue(items.get(i));
+            if (cart != null) {
+                User shop = cart.getProductOption().getCreatedBy();
+                groupedCartList.computeIfAbsent(shop, k -> new ArrayList<>()).add(cart);
+            }
+        }
+        List<UserAddress> userAddressList = userService.getAllUserAddressByStatusTrue(consumer.getId());
+        for (UserAddress userAddress : userAddressList) {
+            if (userAddress.getIsDefault() == 1) {
+                model.addAttribute("userAddress", userAddress);
+                break;
+            }
+        }
+        model.addAttribute("userAddressList", userAddressList);
+        model.addAttribute("groupedCartList", groupedCartList);
         return "checkout/checkout";
     }
 
+    @GetMapping("/addpayment")
+    public String addPayment(@RequestParam(value = "totalPay") int amount,
+            @RequestParam(value = "cartIds") List<Integer> items,
+            @RequestParam(value = "addressId") int addressId, Model model) {
+        
+        return "redirect:/buyer/payment/create?amount=" + amount;
+    }
+
     @GetMapping("/create")
-    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
+    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request, @RequestParam(value = "amount") int amountres)
+            throws UnsupportedEncodingException {
         String orderType = "other";
-        long amount = 10000000;
+        long amount = amountres * 100;
+        // long amount = 10000000;
         String bankCode = req.getParameter("bankCode");
         String vnp_TxnRef = VnpayConfig.getRandomNumber(8);
         String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
@@ -118,12 +153,12 @@ public class PaymentController {
                 hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
         String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
-        PaymentDto paymentDto = new PaymentDto();
-        paymentDto.setStatus("Ok");
-        paymentDto.setMessage("success");
-        paymentDto.setURL(paymentUrl);
-        model.addAttribute("payment", paymentDto);
-        return "testVnpay/vnpayres";
+        // PaymentDto paymentDto = new PaymentDto();
+        // paymentDto.setStatus("Ok");
+        // paymentDto.setMessage("success");
+        // paymentDto.setURL(paymentUrl);
+        // model.addAttribute("payment", paymentDto);
+        return "redirect:" + paymentUrl;
     }
 
     @GetMapping("/payment_infor")

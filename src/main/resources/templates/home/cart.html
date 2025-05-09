@@ -158,6 +158,7 @@
                         <span>Thao Tác</span>
                     </div>
                 </div>
+                <div th:attr="data-id-checked=${checkedId}"></div>
                 <div th:each="item : ${cartList}">
                     <div class="cart-item"
                         th:attr="data-id=${item.id}, data-price=${item.product.discount != null ? item.product.price * item.product.discount / 100 * item.orderQuantity : item.product.price * item.orderQuantity}">
@@ -167,7 +168,7 @@
                                 <!-- <div class="tag">
                                     <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
                                 </div> -->
-                                <label for="check-shop" th:text="${item.user.name}"></label>
+                                <label for="check-shop" th:text="'Shop: '+${item.productOption.createdBy.name}"></label>
                             </div>
                         </div>
                         <div class="center">
@@ -190,7 +191,7 @@
                                     Phân Loại Hàng:
                                 </span>
                                 <span class="variation-info"
-                                    th:text="${item.productOption.version == null ? '' : item.productOption.version} + ${item.productOption.color == null ? '' : ',' + item.productOption.color} + ${item.productOption.size == null ? '' : ',' + item.productOption.size}">
+                                    th:text="${item.productOption.version == '' ? '' : item.productOption.version} + ${item.productOption.color == '' ? '' : ',' + item.productOption.color} + ${item.productOption.size == '' ? '' : ',' + item.productOption.size}">
                                 </span>
                             </div>
                             <div class="price">
@@ -209,7 +210,8 @@
                             <div class="total-price">
                                 <span class="total-price-text" th:if="${item.product.discount != null}"
                                     th:text="'₫' + ${item.product.price * item.product.discount / 100 * item.orderQuantity}"></span>
-                                <span class="total-price-text" th:if="${item.product.discount == null || item.product.discount == 0}"
+                                <span class="total-price-text"
+                                    th:if="${item.product.discount == null || item.product.discount == 0}"
                                     th:text="'₫' + ${item.product.price * item.orderQuantity}"></span>
                             </div>
                             <div class="btn-option">
@@ -337,8 +339,24 @@
                                 <span id="total-price-checked">₫0</span>
                             </div>
                             <div class="btn-buy">
-                                <button class="buy">Mua hàng</button>
+                                <button class="buy" onclick="checkout()">Mua hàng</button>
                             </div>
+                            <script>
+                                function checkout() {
+                                    const checkedItems = document.querySelectorAll(".cart-item .check-item:checked");
+                                    if (checkedItems.length === 0) {
+                                        toast({
+                                            title: 'Thất bại',
+                                            content: 'Vui lòng chọn sản phẩm để thanh toán',
+                                            type: 'error',
+                                            duration: 2000
+                                        });
+                                        return;
+                                    }
+                                    const cartIds = Array.from(checkedItems).map(item => item.closest('.cart-item').dataset.id);
+                                    window.location.href = `/buyer/payment?cartIds=${cartIds.join(',')}`;
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>

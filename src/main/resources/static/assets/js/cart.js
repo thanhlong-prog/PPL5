@@ -68,15 +68,14 @@ function updateTotalPriceChecked() {
 
 document.querySelectorAll('.minus').forEach(button => {
     button.addEventListener('click', function() {
-        const input = this.nextElementSibling; // Lấy thẻ input kế tiếp nút trừ
-        let quantity = parseInt(input.value); // Lấy giá trị trong input
-        const cartId = this.closest('.cart-item').getAttribute('data-id'); // Lấy cartId từ attribute data-id
+        const input = this.nextElementSibling; 
+        let quantity = parseInt(input.value); 
+        const cartId = this.closest('.cart-item').getAttribute('data-id'); 
 
-        if (quantity > 1) { // Nếu số lượng lớn hơn 1 thì giảm
+        if (quantity > 1) { 
             input.value = quantity - 1;
-            updateCartItem(cartId, input.value); // Gửi AJAX để cập nhật
+            updateCartItem(cartId, input.value);
         } else {
-            // Nếu số lượng = 1 thì không giảm nữa
             alert("Số lượng không thể giảm nữa.");
         }
     });
@@ -84,11 +83,30 @@ document.querySelectorAll('.minus').forEach(button => {
 
 document.querySelectorAll('.plus').forEach(button => {
     button.addEventListener('click', function() {
-        const input = this.previousElementSibling; // Lấy thẻ input trước nút cộng
-        let quantity = parseInt(input.value); // Lấy giá trị trong input
-        const cartId = this.closest('.cart-item').getAttribute('data-id'); // Lấy cartId từ attribute data-id
+        const input = this.previousElementSibling; 
+        let quantity = parseInt(input.value); 
+        const cartId = this.closest('.cart-item').getAttribute('data-id'); 
 
         input.value = quantity + 1;
-        updateCartItem(cartId, input.value); // Gửi AJAX để cập nhật
+        updateCartItem(cartId, input.value); 
     });
 });
+
+const checkedId = document.querySelector('div[data-id-checked]').getAttribute('data-id-checked');
+    
+    if (checkedId != 0) {
+        const cartItems = document.querySelectorAll('.cart-item');
+
+        cartItems.forEach(item => {
+            const itemId = item.getAttribute('data-id');
+
+            if (itemId === checkedId) {
+                const checkBox = item.querySelector('.check-item');
+                if (checkBox) {
+                    checkBox.checked = true;
+                    updateTotalChecked();
+                    updateTotalPriceChecked();
+                }
+            }
+        });
+    }

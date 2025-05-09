@@ -1,5 +1,6 @@
 package com.code.shopee.controller.buyer.order;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class CartController {
     private ProductService productService;
 
     @RequestMapping("")
-    public String cart(Model model) {
+    public String cart(@RequestParam(value="id") int id, Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
         if (principal instanceof CustomUserDetails user) {
@@ -49,8 +50,9 @@ public class CartController {
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
         List<Cart> cartList = productService.getCartByUserIdAndStatusTrue(consumer.getId());
-
+        Collections.reverse(cartList);
         model.addAttribute("cartList", cartList);
+        model.addAttribute("checkedId", id);
         return "home/cart";
     }
 
