@@ -20,6 +20,7 @@ public class ShopeeController {
     public String Cart() {
         return "home/cart";
     }
+    
     @RequestMapping("/checkout")
     public String Checkout() {
         return "checkout/checkout";
@@ -31,6 +32,10 @@ public class ShopeeController {
     @RequestMapping("/seller-register")
     public String SellerRegister() {
         return "seller/seller-register";
+    }
+    @RequestMapping("/seller-add-products")
+    public String SellerAddProducts() {
+        return "seller/seller-add-products";
     }
     @RequestMapping("/info")
     public String Info() {

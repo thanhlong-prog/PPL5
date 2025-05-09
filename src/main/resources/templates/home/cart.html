@@ -121,179 +121,181 @@
             </div>
         </div>
         <div class="cart-main">
-            <div class="container">
-                <div class="w-cart-item"></div>
-                <div class="cart-main-top">
-                    <div class="left">
-                        <input type="checkbox" id="check-all">
-                        <label for="check-all">Sản phẩm</label>
-                    </div>
-                    <div class="right">
-                        <span>Đơn Giá</span>
-                        <span>Số Lượng</span>
-                        <span>Số Tiền</span>
-                        <span>Thao Tác</span>
-                    </div>
-                </div>
-                <div class="cart-item">
-                    <div class="top">
-                        <div class="shop-info">
-                            <input type="checkbox" id="check-shop">
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
-                            </div>
-                            <label for="check-shop">Shop Thời trang nam</label>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <div class="img-product">
-                            <input type="checkbox">
-                            <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
-                        </div>
-                        <div class="title">
-                            <span>
-                                M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
-                                trang mùa hè Màu đen Thương hiệu hợp thời trang
-                            </span>
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-voucher.png" alt="">
-                            </div>
-                        </div>
-                        <div class="variations">
-                            <span>
-                                Phân Loại Hàng:
-                            </span>
-                            <span class="variation-info">
-                                B,L
-                            </span>
-                        </div>
-                        <div class="price">
-                            <span class="price-old">₫194.200</span>
-                            <span class="price-new">₫124.200</span>
-                        </div>
-                        <div class="quantity">
-                            <button class="minus">-</button>
-                            <input type="text" value="1">
-                            <button class="plus">+</button>
-                        </div>
-                        <div class="total-price">
-                            <span>₫124.200</span>
-                        </div>
-                        <div class="btn-option">
-                            <button class="btn-delete"> Xoá</button>
-                            <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
-                        </div>
-                    </div>
-                    <div class="bottom"></div>
-                </div>
-                <div class="cart-item">
-                    <div class="top">
-                        <div class="shop-info">
-                            <input type="checkbox" id="check-shop">
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
-                            </div>
-                            <label for="check-shop">Shop Thời trang nam</label>
-                        </div>
-                    </div>
-                    <div class="center">
-                        <div class="img-product">
-                            <input type="checkbox">
-                            <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
-                        </div>
-                        <div class="title">
-                            <span>
-                                M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
-                                trang mùa hè Màu đen Thương hiệu hợp thời trang
-                            </span>
-                            <div class="tag">
-                                <img src="/assets/images/cart/tag-voucher.png" alt="">
-                            </div>
-                        </div>
-                        <div class="variations">
-                            <span>
-                                Phân Loại Hàng:
-                            </span>
-                            <span class="variation-info">
-                                B,L
-                            </span>
-                        </div>
-                        <div class="price">
-                            <span class="price-old">₫194.200</span>
-                            <span class="price-new">₫124.200</span>
-                        </div>
-                        <div class="quantity">
-                            <button class="minus">-</button>
-                            <input type="text" value="1">
-                            <button class="plus">+</button>
-                        </div>
-                        <div class="total-price">
-                            <span>₫124.200</span>
-                        </div>
-                        <div class="btn-option">
-                            <button class="btn-delete"> Xoá</button>
-                            <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="cart-main-bottom">
-                    <div class="select-voucher">
-                        <div class="voucher">
-                            <i class='bx bxs-discount'></i>
-                            <span>Shopee Voucher</span>
-                        </div>
-                        <div class="option">
-                            <span>Chọn hoặc nhập mã</span>
-                        </div>
-                    </div>
-                    <div class="shopee-coins">
+            <form action="/checkout">
+                <div class="container">
+                    <div class="w-cart-item"></div>
+                    <div class="cart-main-top">
                         <div class="left">
-                            <div class="check">
-                                <input type="checkbox" id="check-shopee-coins">
-                                <img src="/assets/images/cart/shopee-coins.svg" alt="">
-                                <label for="check-shopee-coins">Shopee Xu</label>
-                            </div>
-                            <span>
-                                Dùng 100 Shopee Xu
-                            </span>
+                            <input type="checkbox" id="check-all">
+                            <label for="check-all">Sản phẩm</label>
                         </div>
                         <div class="right">
-                            <div class="discount">
-                                -₫100
-                            </div>
+                            <span>Đơn Giá</span>
+                            <span>Số Lượng</span>
+                            <span>Số Tiền</span>
+                            <span>Thao Tác</span>
                         </div>
                     </div>
-                    <div class="all-total-price">
-                        <div class="left">
-                            <div class="select-products">
-                                <input type="checkbox" id="check-all-products">
-                                <label for="check-all-products">Chọn Tất Cả</label>
-                                <span>(2)</span>
-                            </div>
-                            <div class="btn-delete">
-                                <button class="delete">Xoá</button>
-                            </div>
-                            <div class="move">
-                                <button class="move-my-likes">
-                                    Lưu vào mục Đã thích
-                                </button>
+                    <div class="cart-item">
+                        <div class="top">
+                            <div class="shop-info">
+                                <input type="checkbox" id="check-shop">
+                                <div class="tag">
+                                    <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
+                                </div>
+                                <label for="check-shop">Shop Thời trang nam</label>
                             </div>
                         </div>
-                        <div class="right">
-                            <div class="total-product">
-                                <span>Tổng cộng</span>
-                                <span>(0 sản phẩm):</span>
+                        <div class="center">
+                            <div class="img-product">
+                                <input type="checkbox">
+                                <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                            </div>
+                            <div class="title">
+                                <span>
+                                    M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
+                                    trang mùa hè Màu đen Thương hiệu hợp thời trang
+                                </span>
+                                <div class="tag">
+                                    <img src="/assets/images/cart/tag-voucher.png" alt="">
+                                </div>
+                            </div>
+                            <div class="variations">
+                                <span>
+                                    Phân Loại Hàng:
+                                </span>
+                                <span class="variation-info">
+                                    B,L
+                                </span>
+                            </div>
+                            <div class="price">
+                                <span class="price-old">₫194.200</span>
+                                <span class="price-new">₫124.200</span>
+                            </div>
+                            <div class="quantity">
+                                <button class="minus">-</button>
+                                <input type="text" value="1">
+                                <button class="plus">+</button>
                             </div>
                             <div class="total-price">
-                                <span>₫194.200</span>
+                                <span>₫124.200</span>
                             </div>
-                            <div class="btn-buy">
-                                <button class="buy">Mua hàng</button>
+                            <div class="btn-option">
+                                <button class="btn-delete"> Xoá</button>
+                                <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                            </div>
+                        </div>
+                        <div class="bottom"></div>
+                    </div>
+                    <div class="cart-item">
+                        <div class="top">
+                            <div class="shop-info">
+                                <input type="checkbox" id="check-shop">
+                                <div class="tag">
+                                    <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
+                                </div>
+                                <label for="check-shop">Shop Thời trang nam</label>
+                            </div>
+                        </div>
+                        <div class="center">
+                            <div class="img-product">
+                                <input type="checkbox">
+                                <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                            </div>
+                            <div class="title">
+                                <span>
+                                    M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
+                                    trang mùa hè Màu đen Thương hiệu hợp thời trang
+                                </span>
+                                <div class="tag">
+                                    <img src="/assets/images/cart/tag-voucher.png" alt="">
+                                </div>
+                            </div>
+                            <div class="variations">
+                                <span>
+                                    Phân Loại Hàng:
+                                </span>
+                                <span class="variation-info">
+                                    B,L
+                                </span>
+                            </div>
+                            <div class="price">
+                                <span class="price-old">₫194.200</span>
+                                <span class="price-new">₫124.200</span>
+                            </div>
+                            <div class="quantity">
+                                <button class="minus">-</button>
+                                <input type="text" value="1">
+                                <button class="plus">+</button>
+                            </div>
+                            <div class="total-price">
+                                <span>₫124.200</span>
+                            </div>
+                            <div class="btn-option">
+                                <button class="btn-delete"> Xoá</button>
+                                <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cart-main-bottom">
+                        <div class="select-voucher">
+                            <div class="voucher">
+                                <i class='bx bxs-discount'></i>
+                                <span>Shopee Voucher</span>
+                            </div>
+                            <div class="option">
+                                <span>Chọn hoặc nhập mã</span>
+                            </div>
+                        </div>
+                        <div class="shopee-coins">
+                            <div class="left">
+                                <div class="check">
+                                    <input type="checkbox" id="check-shopee-coins">
+                                    <img src="/assets/images/cart/shopee-coins.svg" alt="">
+                                    <label for="check-shopee-coins">Shopee Xu</label>
+                                </div>
+                                <span>
+                                    Dùng 100 Shopee Xu
+                                </span>
+                            </div>
+                            <div class="right">
+                                <div class="discount">
+                                    -₫100
+                                </div>
+                            </div>
+                        </div>
+                        <div class="all-total-price">
+                            <div class="left">
+                                <div class="select-products">
+                                    <input type="checkbox" id="check-all-products">
+                                    <label for="check-all-products">Chọn Tất Cả</label>
+                                    <span>(2)</span>
+                                </div>
+                                <div class="btn-delete">
+                                    <button class="delete">Xoá</button>
+                                </div>
+                                <div class="move">
+                                    <button class="move-my-likes">
+                                        Lưu vào mục Đã thích
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="right">
+                                <div class="total-product">
+                                    <span>Tổng cộng</span>
+                                    <span>(0 sản phẩm):</span>
+                                </div>
+                                <div class="total-price">
+                                    <span>₫194.200</span>
+                                </div>
+                                <div class="btn-buy">
+                                    <button type="submit" class="buy">Mua hàng</button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
     <!-- <div class="w-products-similar">
