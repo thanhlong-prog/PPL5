@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-xmlns="http://www.thymeleaf.org/extras/spring-security6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.thymeleaf.org/extras/spring-security6">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,16 +16,21 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/product.css">
     <link rel="stylesheet" href="/assets/css/card.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/assets/js/toastmsg.js}"></script>
 </head>
+
 <body>
+    <div id="toast"></div>
     <div class="page">
         <div class="header">
             <div th:insert="~{header :: header}"></div>
@@ -35,15 +40,18 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                 <div class="product-container">
                     <div class="product-header">
                         <div class="product-images">
-                            <div class="main-image" >
-                                <img src="/assets/images/img-products/product-1.webp" id="main-image" alt="Logitech MX Keys Mini">
+                            <div class="main-image">
+                                <img src="/assets/images/img-products/product-1.webp" id="main-image"
+                                    alt="Logitech MX Keys Mini">
                             </div>
                             <div class="w-thumbnail-container">
                                 <div class="thumbnail-container" data-current-index="0">
-                                    <button class="btn prev" onclick="scrollCarousel(-1,5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                    <button class="btn prev"
+                                        onclick="scrollCarousel(-1,5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
                                         <i class='bx bx-chevron-left'></i>
                                     </button>
-                                    <button class="btn next" onclick="scrollCarousel(1, 5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                    <button class="btn next"
+                                        onclick="scrollCarousel(1, 5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
                                         <i class='bx bx-chevron-right'></i>
                                     </button>
                                     <div class="thumbnail-list">
@@ -56,56 +64,180 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 </div>
                             </div>
                         </div>
-                        
+                        <div class="product-id" th:attr="data-product-id=${product.id}"></div>
+
                         <div class="product-info">
                             <h1 class="product-title" th:text="${product.title}"></h1>
-                            
+
                             <div class="product-ratings">
                                 <div class="stars">★★★★★</div>
                                 <div th:text="${product.rating + ' (' + product.rated + ' đánh giá)'}"></div>
                                 <div th:text="${product.sold} + ' đã bán'">942 đã bán</div>
                             </div>
-                            
+
                             <div class="price-container">
-                                <div class="current-price" th:text="${product.price} + '₫'"></div>
-                                <div class="original-price hide" >2.490.000₫</div>
-                                <div class="discount hide" >12% GIẢM</div>
+                                <div th:if="${product.discount == null}" class="current-price"
+                                    th:text="${product.price} + '₫'"></div>
+                                <div th:if="${product.discount != null}" class="current-price"
+                                    th:text="${product.price*product.discount/100} + '₫'"></div>
+                                <div th:if="${product.discount != null}" class="original-price"
+                                    th:text="${product.price} + '₫'"></div>
+                                <div th:if="${product.discount != null}" class="discount"
+                                    th:text="${product.discount} + '% GIẢM'"></div>
                             </div>
-                            
-                            <div class="variations">
+
+                            <div th:if="${listversionSize > 0}" class="variations">
                                 <div class="variation-title">Phiên bản:</div>
-                                <div class="variation-options">
-                                    <div class="variation-option active">Logitech MX Keys Mini</div>
-                                    <div class="variation-option">Logitech MX Keys Mini for Mac</div>
+                                <div class="variation-options" data-type="version">
+                                    <div th:each="option : ${versions}">
+                                        <div class="variation-option" th:text="${option}"
+                                            th:attr="data-version=${option}"></div>
+                                    </div>
+                                    <!-- <div class="variation-option active">Logitech MX Keys Mini</div>
+                                    <div class="variation-option">Logitech MX Keys Mini for Mac</div> -->
                                 </div>
                             </div>
-                            
-                            <div class="variations">
+
+                            <div th:if="${listcolorSize > 0}" class="variations">
                                 <div class="variation-title">Màu sắc:</div>
-                                <div class="variation-options">
-                                    <div class="variation-option active">Graphite (Xám đen)</div>
+                                <div class="variation-options" data-type="color">
+                                    <div th:each="option : ${colors}">
+                                        <div class="variation-option" th:text="${option}"
+                                            th:attr="data-color=${option}"></div>
+                                    </div>
+                                    <!-- <div class="variation-option active">Graphite (Xám đen)</div>
                                     <div class="variation-option">Pale Gray (Xám nhạt)</div>
-                                    <div class="variation-option">Rose (Hồng)</div>
+                                    <div class="variation-option">Rose (Hồng)</div> -->
                                 </div>
                             </div>
-                            
+
+                            <div th:if="${listsizeSize > 0}" class="variations">
+                                <div class="variation-title">Kích thước:</div>
+                                <div class="variation-options" data-type="size">
+                                    <div th:each="option : ${sizes}">
+                                        <div class="variation-option" th:text="${option}" th:attr="data-size=${option}">
+                                        </div>
+                                    </div>
+                                    <!-- <div class="variation-option active">Graphite (Xám đen)</div>
+                                    <div class="variation-option">Pale Gray (Xám nhạt)</div>
+                                    <div class="variation-option">Rose (Hồng)</div> -->
+                                </div>
+                            </div>
+
                             <div class="quantity">
                                 <div class="variation-title">Số lượng:</div>
-                                <div class="quantity-selector">
-                                    <div class="quantity-btn">-</div>
-                                    <input type="text" class="quantity-input" value="1">
-                                    <div class="quantity-btn">+</div>
-                                    <span style="margin-left: 10px;">296 sản phẩm có sẵn</span>
+                                <div class="quantity-selector" th:attr="data-total-quantity=${totalQuantity}">
+                                    <div class="quantity-btn cursor-banner">-</div>
+                                    <input type="text" class="quantity-input" value="1" readonly>
+                                    <div class="quantity-btn cursor-banner">+</div>
+                                    <span style="margin-left: 10px;">
+                                        Sản phẩm có sẵn: <span id="product-quantity"></span>
+                                    </span>
+
                                 </div>
+
                             </div>
-                            
+
                             <div class="actions">
-                                <div class="add-to-cart">Thêm vào giỏ hàng</div>
-                                <div class="buy-now">Mua ngay</div>
+                                <div class="add-to-cart cursor-banner" onclick="addCart()">Thêm vào giỏ hàng</div>
+                                <div class="buy-now cursor-banner" onclick="buyProduct()">Mua ngay</div>
                             </div>
+                            <script>
+                                function addCart() {
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/buyer/product/addcart",
+                                        data: {
+                                            orderQuantity: document.querySelector('.quantity-input').value,
+                                            productId: sendProductId,
+                                            version: selectedVersion,
+                                            color: selectedColor,
+                                            size: selectedSize
+                                        },
+                                        success: function (res) {
+
+                                            toast({
+                                                title: 'Thành công',
+                                                content: 'Thêm vào giỏ hàng thành công',
+                                                type: 'success',
+                                                duration: 2000
+                                            });
+
+                                        },
+                                        error: function (err) {
+                                            toast({
+                                                title: 'Thất bại',
+                                                content: err.responseText,
+                                                type: 'error',
+                                                duration: 2000
+                                            });
+                                        }
+                                    })
+                                }
+
+
+                                function buyProduct() {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/buyer/product/addcart",
+                                        data: {
+                                            orderQuantity: document.querySelector('.quantity-input').value,
+                                            productId: sendProductId,
+                                            version: selectedVersion,
+                                            color: selectedColor,
+                                            size: selectedSize
+                                        },
+                                        success: function (res) {
+                                            console.log("Response từ server:", res);
+                                            window.location.href = "/buyer/cart?id=" +res;
+
+                                        },
+                                        error: function (err) {
+                                            toast({
+                                                title: 'Thất bại',
+                                                content: err.responseText,
+                                                type: 'error',
+                                                duration: 2000
+                                            });
+                                        }
+                                    })
+                                }
+                                function updateQuantity(version = '', color = '', size = '', productId) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/buyer/product/updateQuantity",
+                                        data: {
+                                            version: version,
+                                            color: color,
+                                            size: size,
+                                            productId: productId
+                                        },
+                                        success: function (res) {
+                                            console.log("Response từ server:", res);
+                                            document.getElementById("product-quantity").textContent = res.quantity;
+                                            if (res.quantity == 0) {
+                                                document.querySelector(".quantity-input").value = 0;
+                                            }
+                                            if (res.quantity < document.querySelector(".quantity-input").value) {
+                                                document.querySelector(".quantity-input").value = res.quantity;
+                                            }
+                                            if (res.quantity > document.querySelector(".quantity-input").value && document.querySelector(".quantity-input").value == 0) {
+                                                document.querySelector(".quantity-input").value = 1;
+                                            }
+                                            totalQuantity = res.quantity;
+                                        },
+                                        error: function (err) {
+
+                                            console.log(err);
+                                        }
+                                    })
+                                }
+
+                            </script>
                         </div>
                     </div>
-                    
+
                     <div class="product-details">
                         <h2 class="section-title">Chi tiết sản phẩm</h2>
                         <table class="specs-table">
@@ -146,19 +278,24 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 <td>12 tháng chính hãng</td>
                             </tr>
                         </table>
-                        
+
                         <h2 class="section-title">Mô tả sản phẩm</h2>
                         <div class="product-description">
-                            <p>Bàn phím không dây Bluetooth Logitech MX Keys Mini là sản phẩm cao cấp với thiết kế nhỏ gọn, không có bàn phím số, giúp tiết kiệm không gian làm việc và đảm bảo tư thế gõ phím thoải mái.</p>
+                            <p>Bàn phím không dây Bluetooth Logitech MX Keys Mini là sản phẩm cao cấp với thiết kế nhỏ
+                                gọn, không có bàn phím số, giúp tiết kiệm không gian làm việc và đảm bảo tư thế gõ phím
+                                thoải mái.</p>
                             <br>
                             <p><strong>Đặc điểm nổi bật:</strong></p>
                             <ul style="padding-left: 20px; margin: 10px 0;">
                                 <li>Thiết kế nhỏ gọn, không có bàn phím số, phù hợp cho không gian làm việc hạn chế</li>
-                                <li>Phím Perfect Stroke với hình lõm vừa đầu ngón tay, mang lại trải nghiệm gõ phím êm ái, chính xác</li>
+                                <li>Phím Perfect Stroke với hình lõm vừa đầu ngón tay, mang lại trải nghiệm gõ phím êm
+                                    ái, chính xác</li>
                                 <li>Đèn nền thông minh tự điều chỉnh độ sáng theo điều kiện ánh sáng môi trường</li>
-                                <li>Kết nối đa thiết bị: dễ dàng chuyển đổi giữa 3 thiết bị khác nhau (Windows, Mac, iPad, Android)</li>
+                                <li>Kết nối đa thiết bị: dễ dàng chuyển đổi giữa 3 thiết bị khác nhau (Windows, Mac,
+                                    iPad, Android)</li>
                                 <li>Phím tắt thông minh: Đàm thoại, Chụp màn hình, Emoji</li>
-                                <li>Pin sạc USB-C với thời lượng lên đến 10 ngày sử dụng (hoặc 5 tháng khi tắt đèn nền)</li>
+                                <li>Pin sạc USB-C với thời lượng lên đến 10 ngày sử dụng (hoặc 5 tháng khi tắt đèn nền)
+                                </li>
                             </ul>
                             <br>
                             <p><strong>Tương thích hệ điều hành:</strong></p>
@@ -179,18 +316,18 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                         </div>
                     </div>
                 </div>
-                
+
                 <!-- Phần đánh giá sản phẩm -->
                 <div class="product-reviews">
                     <h2 class="section-title">Đánh giá sản phẩm</h2>
-                    
+
                     <div class="reviews-summary">
                         <div class="avg-rating">
                             <div class="rating-number">4.9</div>
                             <div class="rating-stars">★★★★★</div>
                             <div>trên 5</div>
                         </div>
-                        
+
                         <div class="rating-distribution">
                             <div class="rating-bar">
                                 <div class="rating-level">5 ★</div>
@@ -199,7 +336,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 </div>
                                 <div class="rating-count">228</div>
                             </div>
-                            
+
                             <div class="rating-bar">
                                 <div class="rating-level">4 ★</div>
                                 <div class="progress-container">
@@ -207,7 +344,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 </div>
                                 <div class="rating-count">18</div>
                             </div>
-                            
+
                             <div class="rating-bar">
                                 <div class="rating-level">3 ★</div>
                                 <div class="progress-container">
@@ -215,7 +352,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 </div>
                                 <div class="rating-count">5</div>
                             </div>
-                            
+
                             <div class="rating-bar">
                                 <div class="rating-level">2 ★</div>
                                 <div class="progress-container">
@@ -223,7 +360,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                                 </div>
                                 <div class="rating-count">2</div>
                             </div>
-                            
+
                             <div class="rating-bar">
                                 <div class="rating-level">1 ★</div>
                                 <div class="progress-container">
@@ -233,7 +370,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Các đánh giá của người dùng -->
                     <div class="review-item">
                         <div class="reviewer">
@@ -244,7 +381,10 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                         </div>
                         <div class="review-rating">★★★★★</div>
                         <div class="review-content">
-                            Bàn phím đẹp, chất lượng cao cấp đúng chuẩn Logitech. Phím bấm rất êm, hành trình ngắn, gõ nhanh và chính xác. Kết nối ổn định với cả laptop Windows và iPad. Đèn nền rất đẹp, tự động điều chỉnh theo môi trường. Pin trâu, sạc một lần dùng cả tuần với đèn nền. Rất hài lòng với sản phẩm!
+                            Bàn phím đẹp, chất lượng cao cấp đúng chuẩn Logitech. Phím bấm rất êm, hành trình ngắn, gõ
+                            nhanh và chính xác. Kết nối ổn định với cả laptop Windows và iPad. Đèn nền rất đẹp, tự động
+                            điều chỉnh theo môi trường. Pin trâu, sạc một lần dùng cả tuần với đèn nền. Rất hài lòng với
+                            sản phẩm!
                         </div>
                         <div class="review-images">
                             <div class="review-image">
@@ -256,7 +396,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                         </div>
                         <div class="review-date">24/04/2025</div>
                     </div>
-                    
+
                     <div class="review-item">
                         <div class="reviewer">
                             <div class="reviewer-pic">
@@ -266,7 +406,10 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
                         </div>
                         <div class="review-rating">★★★★★</div>
                         <div class="review-content">
-                            Mình mua bàn phím này để làm việc tại nhà và công ty, kết nối luân phiên giữa laptop và iPad rất tiện. Thiết kế nhỏ gọn, sang trọng, phím bấm rất êm. Các phím tắt chụp màn hình và emoji rất hữu ích. Đèn nền đẹp, tự điều chỉnh theo môi trường. Pin dùng được khoảng 1 tuần với đèn nền bật liên tục. Rất đáng tiền!
+                            Mình mua bàn phím này để làm việc tại nhà và công ty, kết nối luân phiên giữa laptop và iPad
+                            rất tiện. Thiết kế nhỏ gọn, sang trọng, phím bấm rất êm. Các phím tắt chụp màn hình và emoji
+                            rất hữu ích. Đèn nền đẹp, tự điều chỉnh theo môi trường. Pin dùng được khoảng 1 tuần với đèn
+                            nền bật liên tục. Rất đáng tiền!
                         </div>
                         <div class="review-date">20/04/2025</div>
                     </div>
@@ -278,6 +421,7 @@ xmlns="http://www.thymeleaf.org/extras/spring-security6">
         </div>
     </div>
 </body>
+
 </html>
 <script src="/assets/js/header.js"></script>
 <script src="/assets/js/product.js"></script>

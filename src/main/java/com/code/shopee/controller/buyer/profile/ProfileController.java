@@ -1,8 +1,12 @@
 package com.code.shopee.controller.buyer.profile;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,12 +31,12 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.User;
+import com.code.shopee.model.UserAddress;
 import com.code.shopee.request.SmsRequest;
 import com.code.shopee.service.CloudinaryService;
 import com.code.shopee.service.MailService;
 import com.code.shopee.service.SmsService;
 import com.code.shopee.service.UserService;
-
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -50,6 +55,9 @@ public class ProfileController {
     @Autowired
     private SmsConfig smsConfig;
 
+    private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
+
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @RequestMapping("")
@@ -64,6 +72,120 @@ public class ProfileController {
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
         return "profile/profile";
+    }
+
+    @RequestMapping("/password")
+    public String password() {
+        return "profile/password";
+    }
+
+    @RequestMapping("/shopee")
+    public String shopee() {
+        return "profile/shopee";
+    }
+
+    @RequestMapping("/purchase")
+    public String purchase() {
+        return "profile/purchase";
+    }
+
+    @RequestMapping("/address")
+    public String address(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        model.addAttribute("user", userData);
+        List<UserAddress> addressList = userService.getAllUserAddressByStatusTrue(consumer.getId());
+        model.addAttribute("addressList", addressList);
+        return "profile/address";
+    }
+
+    @PostMapping("/address/add")
+    public String addAddress(@RequestParam(value = "user-name") String fullname,
+            @RequestParam(value = "user-phone") String phone,
+            @RequestParam(value = "user-address") String fulladdress,
+            @RequestParam(value = "user-address-detail") String location, Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        UserAddress userAddress = new UserAddress();
+        userAddress.setFullname(fullname);
+        userAddress.setPhone(phone);
+        userAddress.setFullAddress(fulladdress);
+        userAddress.setLocation(location);
+        userAddress.setUser(consumer);
+        userAddress.setStatus(1);
+        userAddress.setIsDefault(0);
+        userAddress.setCreatedDate(LocalDate.now());
+        userAddress.setModifiedDate(LocalDate.now());
+        userService.saveUserAddress(userAddress);
+        return "redirect:/buyer/profile/address";
+    }
+
+    @PostMapping("/address/saveAddress")
+    public String saveAddress(@RequestParam(value = "address-id") int id,
+            @RequestParam(value = "user-name") String fullname,
+            @RequestParam(value = "user-phone") String phone,
+            @RequestParam(value = "user-address") String fulladdress,
+            @RequestParam(value = "user-address-detail") String location, Model model) {
+        UserAddress userAddress = userService.getUserAddressByStatusTrue(id);
+        userAddress.setFullname(fullname);
+        userAddress.setPhone(phone);
+        userAddress.setFullAddress(fulladdress);
+        userAddress.setLocation(location);
+        userAddress.setModifiedDate(LocalDate.now());
+        userService.saveUserAddress(userAddress);
+        return "redirect:/buyer/profile/address";
+    }
+
+    @GetMapping("/address/delAddress")
+    public String delAddress(@RequestParam(value = "address-id") int id,Model model) {
+        try {
+            userService.deleteUserAddress(id);
+        } catch (Exception e) {
+            logger.error("Error deleting address: " + e.getMessage());
+        }
+        return "redirect:/buyer/profile/address";
+    }
+
+    @GetMapping("/address/setDefault")
+    public String setDefault(@RequestParam(value = "address-id") int id,Model model) {
+        UserAddress oldDefaultAddress = userService.getUserAddressByIsDefault(1);
+        if (oldDefaultAddress != null) {
+            oldDefaultAddress.setIsDefault(0);
+            oldDefaultAddress.setModifiedDate(LocalDate.now());
+            userService.saveUserAddress(oldDefaultAddress);
+        }
+        UserAddress userAddress = userService.getUserAddressByStatusTrue(id);
+        userAddress.setIsDefault(1);
+        userAddress.setModifiedDate(LocalDate.now());
+        userService.saveUserAddress(userAddress);
+        return "redirect:/buyer/profile/address";
+    }
+
+    @RequestMapping("/order")
+    public String order() {
+        return "profile/order";
+    }
+
+    @RequestMapping("/promotion")
+    public String promotion() {
+        return "profile/promotion";
+    }
+
+    @RequestMapping("/voucher")
+    public String voucher() {
+        return "profile/voucher-wallet";
     }
 
     @PostMapping("/save")
@@ -133,7 +255,8 @@ public class ProfileController {
     @PostMapping("/checkCodePhone")
     @ResponseBody
     public ResponseEntity<?> checkCodePhone(@RequestParam("codePhone") String code, HttpSession session) {
-        String codePhone = session.getAttribute("codePhone") != null ? session.getAttribute("codePhone").toString() : null;
+        String codePhone = session.getAttribute("codePhone") != null ? session.getAttribute("codePhone").toString()
+                : null;
         if (codePhone != null && !codePhone.equals(code)) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)

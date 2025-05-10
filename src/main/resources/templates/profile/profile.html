@@ -48,21 +48,21 @@
             <ul class="sidebar-menu">
                 <!-- <li><a href="#">Tài khoản của tôi</a></li> -->
                 <li class="active"><a href="#">Hồ sơ</a></li>
-                <li><a href="#">Ngân hàng</a></li>
-                <li><a href="#">Thẻ tín dụng/Ghi nợ</a></li>
-                <li><a href="#">Địa chỉ</a></li>
-                <li><a href="#">Đổi mật khẩu</a></li>
-                <li><a href="#">Thiết lập Shop</a></li>
-                <li><a href="#">Đơn mua</a></li>
-                <li><a href="#">Thông báo</a></li>
-                <li><a href="#">Kho voucher</a></li>
-                <li><a href="#">Shopee Xu</a></li>
-                <li><a href="#">Shopee Live</a></li>
+                <!-- <li><a href="#">Ngân hàng</a></li>
+                <li><a href="#">Thẻ tín dụng/Ghi nợ</a></li> -->
+                <li><a href="/buyer/profile/address">Địa chỉ</a></li>
+                <li><a href="/buyer/profile/password">Đổi mật khẩu</a></li>
+                <li><a href="/buyer/profile/shopee">Thiết lập Shop</a></li>
+                <li><a href="/buyer/profile/purchase">Đơn mua</a></li>
+                <li><a href="/buyer/profile/order">Thông báo</a></li>
+                <li><a href="/buyer/profile/voucher">Kho voucher</a></li>
+                <li><a href="/buyer/profile/shopee">Shopee Xu</a></li>
+                <!-- <li><a href="#">Shopee Live</a></li>
                 <li><a href="#">ShopeePay</a></li>
                 <li><a href="#">Đánh giá của tôi</a></li>
                 <li><a href="#">Lịch sử Shopee Reward</a></li>
                 <li><a href="#">Quản lý đơn nạp thẻ</a></li>
-                <li><a href="#">Thiết lập tài khoản</a></li>
+                <li><a href="#">Thiết lập tài khoản</a></li>  -->
             </ul>
         </div>
 
@@ -73,8 +73,8 @@
             </div>
             <div class="profile-content">
                 <form action="/buyer/profile/save" method="post" enctype="multipart/form-data">
-                <div class="profile-form">
-                    
+                    <div class="profile-form">
+
                         <div class="profile-form-left">
 
                             <div class="form-group">
@@ -92,13 +92,15 @@
                             <div class="form-group">
                                 <div class="form-label">Email</div>
                                 <div class="form-input">
-                                    <input name="gmail" id="gmail" type="email" th:value="${user.gmail}" readonly onclick="showGmailChangePopup(event)">
+                                    <input name="gmail" id="gmail" type="email" th:value="${user.gmail}" readonly
+                                        onclick="showGmailChangePopup(event)">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="form-label">Số điện thoại</div>
                                 <div class="form-input">
-                                    <input name="phone" id="phone" type="tel" th:value="${user.phone}" readonly onclick="showPhoneChangePopup(event)">
+                                    <input name="phone" id="phone" type="tel" th:value="${user.phone}" readonly
+                                        onclick="showPhoneChangePopup(event)">
                                 </div>
                             </div>
                             <script>
@@ -116,15 +118,18 @@
                                 <div class="form-input">
                                     <div class="radio-group">
                                         <div class="radio-option">
-                                            <input type="radio" id="male" name="sex" value="Nam" th:checked="${user.sex == null or user.sex == 'Nam'}">
+                                            <input type="radio" id="male" name="sex" value="Nam"
+                                                th:checked="${user.sex == null or user.sex == 'Nam'}">
                                             <label for="male">Nam</label>
                                         </div>
                                         <div class="radio-option">
-                                            <input type="radio" id="female" name="sex" value="Nữ" th:checked="${user.sex == 'Nữ'}">
+                                            <input type="radio" id="female" name="sex" value="Nữ"
+                                                th:checked="${user.sex == 'Nữ'}">
                                             <label for="female">Nữ</label>
                                         </div>
                                         <div class="radio-option">
-                                            <input type="radio" id="other" name="sex" value="Khác" th:checked="${user.sex == 'Khác'}">
+                                            <input type="radio" id="other" name="sex" value="Khác"
+                                                th:checked="${user.sex == 'Khác'}">
                                             <label for="other">Khác</label>
                                         </div>
                                     </div>
@@ -145,7 +150,8 @@
                                 <label for="avatarInput" class="avatar-label">
                                     <img id="avatarPreview" th:src="${user.avatar}" alt="Avatar">
                                     <input type="hidden" name="current-avatar" th:value="${user.avatar}">
-                                    <input type="file" id="avatarInput" name="avatar-img" accept="image/*" onchange="previewAvatar(event)">
+                                    <input type="file" id="avatarInput" name="avatar-img" accept="image/*"
+                                        onchange="previewAvatar(event)">
                                 </label>
                                 <!-- <button class="btn-upload">Chọn ảnh</button> -->
                                 <div class="avatar-hint">
@@ -154,9 +160,9 @@
                                 </div>
                             </div>
                         </div>
-                    
-                </div>
-            </form>
+
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -206,7 +212,8 @@
                     </div>
                     <div class="pop-row">
                         <label for="code-phone">Mã xác nhận:</label>
-                        <input type="text" placeholder="Nhập mã xác nhận" id="code-phone" name="code-phone" maxlength="6">
+                        <input type="text" placeholder="Nhập mã xác nhận" id="code-phone" name="code-phone"
+                            maxlength="6">
                         <button class="get-code-btn" onclick="getCodePhone()">Nhận mã</button>
                     </div>
                 </div>
@@ -233,15 +240,15 @@
 
 <script>
     function getCodeMail() {
-        if($("#newemail").val() != "") {
+        if ($("#newemail").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/sendMail",
                 data: {
                     email: $("#newemail").val()
                 },
-                success: function(res) {
-                    if(res == "success") {
+                success: function (res) {
+                    if (res == "success") {
                         const newEmail = document.getElementById('newemail').value;
                         document.getElementById('gmail').value = newEmail;
                         toast({
@@ -252,7 +259,7 @@
                         });
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     toast({
                         title: 'Gửi Mail thất bại',
                         content: err.responseText,
@@ -265,15 +272,15 @@
     }
 
     function checkCodeMail() {
-        if($("#code-mail").val() != "") {
+        if ($("#code-mail").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/checkCodeMail",
                 data: {
                     codeMail: $("#code-mail").val()
                 },
-                success: function(res) {
-                    if(res == "success") {
+                success: function (res) {
+                    if (res == "success") {
                         toast({
                             title: 'Xác nhận thành công',
                             content: 'Chúc mừng bạn đã thay đổi email thành công',
@@ -282,7 +289,7 @@
                         });
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     toast({
                         title: 'Xác nhận thất bại',
                         content: err.responseText,
@@ -295,15 +302,15 @@
     }
 
     function getCodePhone() {
-        if($("#newphone").val() != "") {
+        if ($("#newphone").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/sendPhone",
                 data: {
                     phone: $("#newphone").val()
                 },
-                success: function(res) {
-                    if(res == "success") {
+                success: function (res) {
+                    if (res == "success") {
                         toast({
                             title: 'Gửi tin nhắn thành công',
                             content: 'Vui lòng kiểm tra điện thoại của bạn',
@@ -312,7 +319,7 @@
                         });
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     toast({
                         title: 'Gửi tin nhắn thất bại',
                         content: err.responseText,
@@ -325,15 +332,15 @@
     }
 
     function checkCodePhone() {
-        if($("#code-phone").val() != "") {
+        if ($("#code-phone").val() != "") {
             $.ajax({
                 type: "POST",
                 url: "/buyer/profile/checkCodePhone",
                 data: {
                     codePhone: $("#code-phone").val()
                 },
-                success: function(res) {
-                    if(res == "success") {
+                success: function (res) {
+                    if (res == "success") {
                         const newEmail = document.getElementById('newphone').value;
                         document.getElementById('phone').value = newEmail;
                         toast({
@@ -344,7 +351,7 @@
                         });
                     }
                 },
-                error: function(err) {
+                error: function (err) {
                     toast({
                         title: 'Xác nhận thất bại',
                         content: err.responseText,
@@ -355,5 +362,5 @@
             })
         }
     }
-    
+
 </script>

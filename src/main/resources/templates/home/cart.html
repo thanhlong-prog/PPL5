@@ -11,13 +11,18 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
-    <link rel="stylesheet" href="/assets/css/cart.css">">
+    <link rel="stylesheet" href="/assets/css/cart.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/assets/js/toastmsg.js}"></script>
+
 </head>
 
 <body>
+    <div id="toast"></div>
     <div class="w-cart">
         <div class="cart-header">
             <div class="w-cart-top">
@@ -40,7 +45,9 @@
                                     <i class='bx bx-bell'></i>
                                     <span> Thông báo</span>
                                 </div>
-                                <div class="notification-box">
+                                <div class="notification-box hide">
+                                    <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl"
+                                            style="color: #ffffff;"></i></div>
                                     <ul>
                                         <li>
                                             <a href="">
@@ -92,8 +99,24 @@
                                 <span>Tiếng Việt</span>
                             </div>
                             <div class="w-option account">
-                                <div class="avt"></div>
-                                <span>My Account</span>
+                                <div class="avt" th:if="${user.avatar != null}"
+                                    th:style="'background-image: url(' + ${user.avatar} + ')'">
+                                </div>
+                                <div class="avt" th:if="${user.avatar == null}">
+                                </div>
+                                <span th:text="${user.name != null ? user.name : ''}"></span>
+                                <div class="drop-down-box account hide">
+                                    <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl"
+                                            style="color: #ffffff;"></i></div>
+                                    <div class="title-dropdown">
+                                        <p></p>
+                                    </div>
+                                    <ul>
+                                        <li><a th:href="@{/buyer/profile}">Tài Khoản Của Tôi</a></li>
+                                        <li>Đơn Mua</li>
+                                        <li><a th:href="@{/logout}">Đăng xuất</a></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -121,40 +144,43 @@
             </div>
         </div>
         <div class="cart-main">
-            <form action="/checkout">
-                <div class="container">
-                    <div class="w-cart-item"></div>
-                    <div class="cart-main-top">
-                        <div class="left">
-                            <input type="checkbox" id="check-all">
-                            <label for="check-all">Sản phẩm</label>
-                        </div>
-                        <div class="right">
-                            <span>Đơn Giá</span>
-                            <span>Số Lượng</span>
-                            <span>Số Tiền</span>
-                            <span>Thao Tác</span>
-                        </div>
+            <div class="container">
+                <div class="w-cart-item"></div>
+                <div class="cart-main-top">
+                    <div class="left">
+                        <!-- <input type="checkbox" id="check-all"> -->
+                        <label for="check-all">Sản phẩm</label>
                     </div>
-                    <div class="cart-item">
+                    <div class="right">
+                        <span>Đơn Giá</span>
+                        <span>Số Lượng</span>
+                        <span>Số Tiền</span>
+                        <span>Thao Tác</span>
+                    </div>
+                </div>
+                <div th:attr="data-id-checked=${checkedId}"></div>
+                <div th:each="item : ${cartList}">
+                    <div class="cart-item"
+                        th:attr="data-id=${item.id}, data-price=${item.product.discount != null ? item.product.price * item.product.discount / 100 * item.orderQuantity : item.product.price * item.orderQuantity}">
                         <div class="top">
                             <div class="shop-info">
-                                <input type="checkbox" id="check-shop">
-                                <div class="tag">
+                                <!-- <input type="checkbox" id="check-shop"> -->
+                                <!-- <div class="tag">
                                     <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
-                                </div>
-                                <label for="check-shop">Shop Thời trang nam</label>
+                                </div> -->
+                                <label for="check-shop" th:text="'Shop: '+${item.productOption.createdBy.name}"></label>
                             </div>
                         </div>
                         <div class="center">
+
                             <div class="img-product">
-                                <input type="checkbox">
-                                <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                                <input type="checkbox" class="check-item">
+                                <a th:href="@{/buyer/product(productId = ${item.product.id})}">
+                                    <img th:src="${item.product.thumbnail}" alt="">
+                                </a>
                             </div>
                             <div class="title">
-                                <span>
-                                    M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
-                                    trang mùa hè Màu đen Thương hiệu hợp thời trang
+                                <span th:text="${item.product.title}">
                                 </span>
                                 <div class="tag">
                                     <img src="/assets/images/cart/tag-voucher.png" alt="">
@@ -164,141 +190,179 @@
                                 <span>
                                     Phân Loại Hàng:
                                 </span>
-                                <span class="variation-info">
-                                    B,L
+                                <span class="variation-info"
+                                    th:text="${item.productOption.version == '' ? '' : item.productOption.version} + ${item.productOption.color == '' ? '' : ',' + item.productOption.color} + ${item.productOption.size == '' ? '' : ',' + item.productOption.size}">
                                 </span>
                             </div>
                             <div class="price">
-                                <span class="price-old">₫194.200</span>
-                                <span class="price-new">₫124.200</span>
+                                <span th:if="${item.product.discount != null}" class="price-old"
+                                    th:text="'₫' + ${item.productOption.price}"></span>
+                                <span th:if="${item.product.discount != null}" class="price-new"
+                                    th:text="'₫' + ${item.productOption.price*item.product.discount/100}"></span>
+                                <span th:if="${item.product.discount == null || item.product.discount == 0}"
+                                    class="price-new" th:text="'₫' + ${item.productOption.price}"></span>
                             </div>
                             <div class="quantity">
                                 <button class="minus">-</button>
-                                <input type="text" value="1">
+                                <input id="quantity-product" type="text" th:value="${item.orderQuantity}" readonly>
                                 <button class="plus">+</button>
                             </div>
                             <div class="total-price">
-                                <span>₫124.200</span>
+                                <span class="total-price-text" th:if="${item.product.discount != null}"
+                                    th:text="'₫' + ${item.product.price * item.product.discount / 100 * item.orderQuantity}"></span>
+                                <span class="total-price-text"
+                                    th:if="${item.product.discount == null || item.product.discount == 0}"
+                                    th:text="'₫' + ${item.product.price * item.orderQuantity}"></span>
                             </div>
                             <div class="btn-option">
-                                <button class="btn-delete"> Xoá</button>
-                                <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                                <button class="btn-delete" th:onclick="'delCartItem('+ ${item.id} +')'"> Xoá</button>
+                                <!-- <button class="btn-find-similar">Tìm sản phẩm tương tự</button> -->
                             </div>
                         </div>
                         <div class="bottom"></div>
                     </div>
-                    <div class="cart-item">
-                        <div class="top">
-                            <div class="shop-info">
-                                <input type="checkbox" id="check-shop">
-                                <div class="tag">
-                                    <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
-                                </div>
-                                <label for="check-shop">Shop Thời trang nam</label>
-                            </div>
+                </div>
+                <script>
+                    function delCartItem(cartId) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/buyer/cart/delete",
+                            data: {
+                                cartId: cartId
+                            },
+                            success: function (res) {
+                                if (res == "success") {
+                                    $(`.cart-item[data-id="${cartId}"]`).remove();
+                                    cartItems = document.querySelectorAll(".cart-item");
+                                    totalItemCount = cartItems.length;
+                                    document.getElementById("num-products").textContent = "(" + totalItemCount + ")";
+                                    toast({
+                                        title: 'Thành công',
+                                        content: 'Thêm vào giỏ hàng thành công',
+                                        type: 'success',
+                                        duration: 2000
+                                    });
+                                }
+                            },
+                            error: function (err) {
+                                toast({
+                                    title: 'Thất bại',
+                                    content: err.responseText,
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                            }
+                        })
+                    }
+
+                    function updateCartItem(cartId, quantity) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/buyer/cart/updateQuantity",
+                            data: {
+                                cartId: cartId,
+                                quantity: quantity
+                            },
+                            success: function (res) {
+                                const item = $(`.cart-item[data-id="${cartId}"]`);
+                                const priceSpan = item.find(".total-price .total-price-text");
+                                priceSpan.text(`₫${res.totalPrice.toLocaleString('vi-VN')}`);
+                                toast({
+                                    title: 'Thành công',
+                                    content: 'Cập nhật giỏ hàng thành công',
+                                    type: 'success',
+                                    duration: 2000
+                                });
+                                updateTotalChecked();
+                                updateTotalPriceChecked();
+                            },
+                            error: function (err) {
+                                toast({
+                                    title: 'Thất bại',
+                                    content: err.responseText,
+                                    type: 'error',
+                                    duration: 2000
+                                });
+                            }
+                        });
+                    }
+                </script>
+                <div class="cart-main-bottom">
+                    <div class="select-voucher">
+                        <div class="voucher">
+                            <i class='bx bxs-discount'></i>
+                            <span>Shopee Voucher</span>
                         </div>
-                        <div class="center">
-                            <div class="img-product">
-                                <input type="checkbox">
-                                <img src="/assets/images/cart/cart-item-1.png" alt="Áo thun nam">
+                        <div class="option">
+                            <span>Chọn hoặc nhập mã</span>
+                        </div>
+                    </div>
+                    <div class="shopee-coins">
+                        <div class="left">
+                            <div class="check">
+                                <input type="checkbox" id="check-shopee-coins">
+                                <img src="/assets/images/cart/shopee-coins.svg" alt="">
+                                <label for="check-shopee-coins">Shopee Xu</label>
                             </div>
-                            <div class="title">
-                                <span>
-                                    M - Áo thun nam 3XL, tay ngắn, một kích thước vừa vặn với tất cả, Cổ tròn, Trắng, Thời
-                                    trang mùa hè Màu đen Thương hiệu hợp thời trang
-                                </span>
-                                <div class="tag">
-                                    <img src="/assets/images/cart/tag-voucher.png" alt="">
-                                </div>
-                            </div>
-                            <div class="variations">
-                                <span>
-                                    Phân Loại Hàng:
-                                </span>
-                                <span class="variation-info">
-                                    B,L
-                                </span>
-                            </div>
-                            <div class="price">
-                                <span class="price-old">₫194.200</span>
-                                <span class="price-new">₫124.200</span>
-                            </div>
-                            <div class="quantity">
-                                <button class="minus">-</button>
-                                <input type="text" value="1">
-                                <button class="plus">+</button>
-                            </div>
-                            <div class="total-price">
-                                <span>₫124.200</span>
-                            </div>
-                            <div class="btn-option">
-                                <button class="btn-delete"> Xoá</button>
-                                <button class="btn-find-similar">Tìm sản phẩm tương tự</button>
+                            <span>
+                                Dùng 100 Shopee Xu
+                            </span>
+                        </div>
+                        <div class="right">
+                            <div class="discount">
+                                -₫100
                             </div>
                         </div>
                     </div>
-                    <div class="cart-main-bottom">
-                        <div class="select-voucher">
-                            <div class="voucher">
-                                <i class='bx bxs-discount'></i>
-                                <span>Shopee Voucher</span>
+                    <div class="all-total-price">
+                        <div class="left">
+                            <div class="select-products">
+                                <input type="checkbox" id="check-all-products">
+                                <label for="check-all-products">Chọn Tất Cả</label>
+                                <span id="num-products">(2)</span>
                             </div>
-                            <div class="option">
-                                <span>Chọn hoặc nhập mã</span>
+                            <div class="btn-delete">
+                                <button class="delete">Xoá</button>
                             </div>
+                            <!-- <div class="move">
+                                <button class="move-my-likes">
+                                    Lưu vào mục Đã thích
+                                </button>
+                            </div> -->
                         </div>
-                        <div class="shopee-coins">
-                            <div class="left">
-                                <div class="check">
-                                    <input type="checkbox" id="check-shopee-coins">
-                                    <img src="/assets/images/cart/shopee-coins.svg" alt="">
-                                    <label for="check-shopee-coins">Shopee Xu</label>
-                                </div>
-                                <span>
-                                    Dùng 100 Shopee Xu
-                                </span>
+                        <div class="right">
+                            <div class="total-product">
+                                <span>Tổng cộng</span>
+                                <span id="total-checked">(0 sản phẩm):</span>
                             </div>
-                            <div class="right">
-                                <div class="discount">
-                                    -₫100
-                                </div>
+                            <div class="total-price">
+                                <span id="total-price-checked">₫0</span>
                             </div>
-                        </div>
-                        <div class="all-total-price">
-                            <div class="left">
-                                <div class="select-products">
-                                    <input type="checkbox" id="check-all-products">
-                                    <label for="check-all-products">Chọn Tất Cả</label>
-                                    <span>(2)</span>
-                                </div>
-                                <div class="btn-delete">
-                                    <button class="delete">Xoá</button>
-                                </div>
-                                <div class="move">
-                                    <button class="move-my-likes">
-                                        Lưu vào mục Đã thích
-                                    </button>
-                                </div>
+                            <div class="btn-buy">
+                                <button class="buy" onclick="checkout()">Mua hàng</button>
                             </div>
-                            <div class="right">
-                                <div class="total-product">
-                                    <span>Tổng cộng</span>
-                                    <span>(0 sản phẩm):</span>
-                                </div>
-                                <div class="total-price">
-                                    <span>₫194.200</span>
-                                </div>
-                                <div class="btn-buy">
-                                    <button type="submit" class="buy">Mua hàng</button>
-                                </div>
-                            </div>
+                            <script>
+                                function checkout() {
+                                    const checkedItems = document.querySelectorAll(".cart-item .check-item:checked");
+                                    if (checkedItems.length === 0) {
+                                        toast({
+                                            title: 'Thất bại',
+                                            content: 'Vui lòng chọn sản phẩm để thanh toán',
+                                            type: 'error',
+                                            duration: 2000
+                                        });
+                                        return;
+                                    }
+                                    const cartIds = Array.from(checkedItems).map(item => item.closest('.cart-item').dataset.id);
+                                    window.location.href = `/buyer/payment?cartIds=${cartIds.join(',')}`;
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <!-- <div class="w-products-similar">
+        <!-- <div class="w-products-similar">
         <div class="container">
             <div class="products-similar">
                 <div class="product">
@@ -326,7 +390,9 @@
             </div>
         </div>
     </div> -->
-    <div class="footer">
-        <div th:insert="~{footer :: footer}"></div>
-    </div>
+        <div class="footer">
+            <div th:insert="~{footer :: footer}"></div>
+        </div>
 </body>
+<script src="/assets/js/header.js"></script>
+<script th:src="@{/assets/js/cart.js}"></script>

@@ -9,7 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.code.shopee.Config.PagingConfig;
+import com.code.shopee.model.Cart;
 import com.code.shopee.model.Product;
+import com.code.shopee.model.ProductOption;
+import com.code.shopee.repository.CartRepository;
+import com.code.shopee.repository.ProductOptionRepository;
 import com.code.shopee.repository.ProductRepository;
 import com.code.shopee.service.ProductService;
 
@@ -17,6 +21,10 @@ import com.code.shopee.service.ProductService;
 public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private ProductOptionRepository productOptionRepository;
+    @Autowired
+    private CartRepository cartRepository;
     @Autowired
     private PagingConfig pagingConfig;
 
@@ -32,5 +40,25 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductByIdAndStatusTrue(int id) {
         return productRepository.findByIdAndStatusTrue(id);
+    }
+    @Override
+    public List<ProductOption> getProductOptionByStatusTrue(int productId) {
+        return productOptionRepository.findByProductIdAndStatusTrue(productId);   
+    }
+    @Override
+    public List<Cart> getCartByUserIdAndStatusTrue(int userId) {
+        return cartRepository.findByUserIdAndStatusTrue(userId);
+    }
+    @Override
+    public void addCart(Cart cart) {
+        cartRepository.save(cart);
+    }
+    @Override
+    public void deleteCart(int cartId) {
+        cartRepository.deleteById(cartId);
+    }
+    @Override
+    public Cart getCartByIdAndStatusTrue(int id) {
+        return cartRepository.findByIdAndStatusTrue(id);
     }
 }

@@ -35,6 +35,10 @@ public class Cart {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_option_id", referencedColumnName = "id")
+    private ProductOption productOption;
+
     @Column(name = "order_quantity")
     private int orderQuantity;
 

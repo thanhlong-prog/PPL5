@@ -11,6 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
         integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
         crossorigin="anonymous"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
     <link rel="stylesheet" href="/assets/css/styles.css">
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
@@ -19,124 +21,279 @@
 </head>
 
 <body>
-<div class="seller-add-products">
-    <div class="sr-header">
-        <div class="left">
-            <div class="logo">
-                <img src="/assets/images/icon-shopee/logo.png" alt="">
+    <div class="seller-add-products">
+        <div class="sr-header">
+            <div class="left">
+                <div class="logo">
+                    <img src="/assets/images/icon-shopee/logo.png" alt="">
+                </div>
+                <div class="title">
+                    <span>Thêm sản phẩm mới</span>
+                </div>
             </div>
-            <div class="title">
-                <span>Thêm sản phẩm mới</span>
-            </div>
-        </div>
-        <div class="right">
-            <button class="btn-account">
-                <div class="avt-img">
-                    <img src="/assets/images/img-avatar/seller.png" alt="">
-                </div>
-                <div class="account-name">
-                    <span>shironeko</span>
-                </div>
-                <div class="icon-btn">
-                    <i class='bx bx-chevron-down'></i>
-                </div>
-            </button>
-        </div>
-    </div>
-    <div class="w-sap-main">
-        <div class="container">
-            <div class="sap-main">
-                <div class="sap-navbar"></div>
-                <div class="content">
-                    <div class="title">
-                        <span> Thông tin cơ bản</span>
+            <div class="right">
+                <button class="btn-account">
+                    <div class="avt-img">
+                        <img src="/assets/images/img-avatar/seller.png" alt="">
                     </div>
-                    <div class="w-main-content">
-                        <div class="img-product main-ctn">
-                            <div class="tl">
-                                <span>
-                                    Hình ảnh sản phẩm
-                                </span>
+                    <div class="account-name">
+                        <span>shironeko</span>
+                    </div>
+                    <div class="icon-btn">
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                </button>
+            </div>
+        </div>
+        <form action="">
+            <div class="w-sap-main">
+                <div class="container">
+                    <div class="sap-main">
+                        <div class="sap-navbar"></div>
+                        <div class="content">
+                            <div class="title">
+                                <span> Thông tin sản phẩm</span>
                             </div>
-                            <div class="img-prd-content">
-                                <div class="label">Hình ảnh tỷ lệ 1:1</div>
-                                <div class="img-prd-list">
-                                    <div class="img-product">
-                                        <img src="assets/images/img-user/userProfile.jpg" alt="">
+                            <div class="w-main-content">
+                                <div class="img-product main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Hình ảnh sản phẩm
+                                        </span>
                                     </div>
-                                    <div class="btn-add-img">
-                                        <button class="btn-add">
-                                            <i class='bx bx-image-add'></i>
-                                            <div class="btn-content">
-                                                <span>Thêm ảnh</span>
-                                                <div class="count-img">
-                                                    <span>(</span>
-                                                    <span class="current-count">0</span>
-                                                    <span>/</span>
-                                                    <span class="max-count">9</span>
-                                                    <span>)</span>
+                                    <div class="img-prd-content">
+                                        <div class="label">Hình ảnh tỷ lệ 1:1</div>
+                                        <div class="img-prd-list">
+                                            <div class="img-product">
+                                                <img src="assets/images/img-user/userProfile.jpg" alt="">
+                                            </div>
+                                            <div class="btn-add-img">
+                                                <button class="btn-add">
+                                                    <i class='bx bx-image-add'></i>
+                                                    <div class="btn-content">
+                                                        <span>Thêm ảnh</span>
+                                                        <div class="count-img">
+                                                            <span>(</span>
+                                                            <span class="current-count">0</span>
+                                                            <span>/</span>
+                                                            <span class="max-count">9</span>
+                                                            <span>)</span>
+                                                        </div>
+                                                    </div>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="add-img-note note">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="video-product main-ctn">
+                                    <div class="tl">
+                                        <span>Video sản phẩm</span>
+                                    </div>
+                                    <div class="video-prd-content">
+                                        <div class="video-prd">
+                                            <div class="video-product"></div>
+                                            <button class="btn-add">
+                                                <i class='bx bxs-videos'></i>
+                                                <div class="btn-content">
+                                                    <span>Thêm video</span>
+                                            </button>
+                                        </div>
+                                        <div class="add-video-note">
+                                            <ul>
+                                                <li><span>Kích thước tối đa 30m, đồ phần giải không vượt quá 1200x
+                                                        1280px</span></li>
+                                                <li><span>Độ dài: 10s-60s</span></li>
+                                                <li><span>Độ dài: 105-60s</span></li>
+                                                <li><span>Lưu ý: sản phẩm có thể hiển thị trong khi video đang được xử
+                                                        lý.
+                                                        Video sẽ tự động hiển thị sau khi đã xử lý thành công</span>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="name-product main-ctn">
+                                    <div class="tl">
+                                        <span>Tên sản phẩm</span>
+                                    </div>
+                                    <input type="text" name="name-prd" id="name-prd"
+                                        placeholder="Tên sản phẩm + Model + Thông số kỹ thuật" required>
+                                </div>
+                                <div class="prd-category main-ctn">
+                                    <div class="tl">
+                                        <span>Ngành hàng</span>
+                                    </div>
+                                    <input type="text" name="category" id="category" placeholder="Chọn ngành hàng"
+                                        required>
+                                </div>
+                                <div class="description main-ctn">
+                                    <div class="tl">
+                                        <span>Mô tả sản phẩm</span>
+                                    </div>
+                                    <div class="description-prd-content">
+                                        <div id="editor-toolbar">
+                                            <span class="ql-formats">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-image"></button>
+                                            </span>
+                                        </div>
+                                        <div id="editor"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="title">
+                                <span> Thông tin chi tiết</span>
+                            </div>
+                            <div class="w-main-content">
+                                <div class="brand-product main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Thương hiệu
+                                        </span>
+                                    </div>
+                                    <input type="text" name="name-brand" id="name-brand" placeholder="Thương hiệu"
+                                        required>
+                                </div>
+                                <div class="stock-quantity main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Số lượng tồn kho
+                                        </span>
+                                    </div>
+                                    <input type="text" name="stock-qtt" id="stock-qtt" placeholder="Số lượng sản phẩm"
+                                        required>
+                                </div>
+                                <div class="weight-product main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Khối lượng
+                                        </span>
+                                    </div>
+                                    <input type="text" name="weight-prd" id="weight-prd"
+                                        placeholder="Khối lượng sản phẩm (kg)" required>
+                                </div>
+                                <div class="option-product main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Phân loại hàng
+                                        </span>
+                                    </div>
+                                    <div class="option-prd">
+                                        <div class="type opt">
+                                            <input type="text" name="type-prd" id="type-prd" placeholder="Loại"
+                                                required>
+                                        </div>
+                                        <div class="attribute opt">
+                                            <input type="text" name="attribute-prd" id="attribute-prd"
+                                                placeholder="Thuộc tính">
+                                        </div>
+                                        <div class="price opt">
+                                            <input type="text" name="price-prd" id="price-prd" placeholder="Giá tiền"
+                                                required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="w-main-content">
+                                <div class="page shipping-info">
+                                    <div class="title">
+                                        <span class="name-title">Thông tin vận chuyển</span>
+                                        <span class="info-title">Kích hoạt phương thức vận chuyển phù hợp</span>
+                                    </div>
+                                    <div class="content">
+                                        <div class="item flash">
+                                            <div class="top-item">
+                                                <div class="name-item">
+                                                    <span>Hỏa Tốc</span>
                                                 </div>
                                             </div>
-                                        </button>
+                                            <div class="main-item">
+                                                <div class="name-option">
+                                                    <span class="option">Hỏa Tốc</span>
+                                                    <span class="option-info">[COD đã được kích hoạt]</span>
+                                                </div>
+                                                <div class="btn-check-option">
+                                                    <input type="checkbox" id="check-flash">
+                                                    <label for="check-flash" class="button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item fast">
+                                            <div class="top-item">
+                                                <div class="name-item">
+                                                    <span>Nhanh</span>
+                                                </div>
+                                            </div>
+                                            <div class="main-item">
+                                                <div class="name-option">
+                                                    <span class="option">Nhanh</span>
+                                                    <span class="option-info">[COD đã được kích hoạt]</span>
+                                                </div>
+                                                <div class="btn-check-option">
+                                                    <input type="checkbox" id="check-fast">
+                                                    <label for="check-fast" class="button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item standard">
+                                            <div class="top-item">
+                                                <div class="name-item">
+                                                    <span>Tiết kiệm</span>
+                                                </div>
+                                            </div>
+                                            <div class="main-item">
+                                                <div class="name-option">
+                                                    <span class="option">Tiết kiệm</span>
+                                                    <span class="option-info">[COD đã được kích hoạt]</span>
+                                                </div>
+                                                <div class="btn-check-option">
+                                                    <input type="checkbox" id="check-standard">
+                                                    <label for="check-standard" class="button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item oversized-items">
+                                            <div class="top-item">
+                                                <div class="name-item">
+                                                    <span>Hàng Cồng Kềnh</span>
+                                                </div>
+                                            </div>
+                                            <div class="main-item">
+                                                <div class="name-option">
+                                                    <span class="option">Hỏa Tốc</span>
+                                                    <span class="option-info">[COD đã được kích hoạt]</span>
+                                                </div>
+                                                <div class="btn-check-option">
+                                                    <input type="checkbox" id="check-oversized-items">
+                                                    <label for="check-oversized-items" class="button"></label>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="add-img-note note">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="video-product main-ctn">
-                            <div class="tl">
-                                <span>Video sản phẩm</span>
-                            </div>
-                            <div class="video-prd-content">
-                                <div class="video-prd">
-                                    <div class="video-product"></div>
-                                    <button class="btn-add">
-                                        <i class='bx bxs-videos'></i>
-                                        <div class="btn-content">
-                                            <span>Thêm video</span>
-                                    </button>
-                                </div>
-                                <div class="add-video-note">
-                                    <ul>
-                                        <li><span>Kích thước tối đa 30m, đồ phần giải không vượt quá 1200x 1280px</span></li>
-                                        <li><span>Độ dài: 10s-60s</span></li>
-                                        <li><span>Độ dài: 105-60s</span></li>
-                                        <li><span>Lưu ý: sản phẩm có thể hiển thị trong khi video đang được xử lý. Video sẽ tự động hiển thị sau khi đã xử lý thành công</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="name-product main-ctn">
-                            <div class="tl">
-                                <span>Tên sản phẩm</span>
-                            </div>
-                            <input type="text" name="name-prd" id="name-prd" placeholder="Tên sản phẩm + Thương hiệu + Model + Thông số kỹ thuật" required>
-                        </div>
-                        <div class="prd-category main-ctn">
-                            <div class="tl">
-                                <span>Ngành hàng</span>
-                            </div>
-                            <input type="text" name="category" id="category" placeholder="Chọn ngành hàng" required>
-                        </div>
-                        <div class="description main-ctn">
-                            <div class="tl">
-                                <span>Mô tả sản phẩm</span>
-                            </div>
-                            <div class="description-prd-content">
-                                <!-- <button>
-                                    <i class='bx bx-image-add' ></i>
-                                    <span>Tải lên hình ảnh</span>
-                                </button> -->
-                                <textarea name="description-prd" id="description-prd" placeholder="Nhập mô tả sản phẩm." required></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-        </div>
+            <div class="container">
+                <div class="btn-seller-add-products">
+                    <button type="button" class="btn-cancel btn">Huỷ</button>
+                    <button type="submit" class="btn-complete btn">Hoàn tất</button>
+                </div>
+            </div>
+        </form>
     </div>
-</div>
-    <script src=""></script>
+    <div class="footer">
+        <div th:insert="~{footer :: footer}"></div>
+    </div>
+    <script src="/assets/js/seller-add-products.js">
+    </script>
 </body>

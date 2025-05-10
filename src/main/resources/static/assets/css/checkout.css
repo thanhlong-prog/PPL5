@@ -324,7 +324,6 @@ ul {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start;
     width: 100%;
 }
 .checkout-center .product-order .center .product-inf{

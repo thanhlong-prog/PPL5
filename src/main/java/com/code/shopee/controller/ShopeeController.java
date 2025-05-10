@@ -16,19 +16,18 @@ public class ShopeeController {
     public String adminLogin() {
         return "admin/login";
     }
-    @RequestMapping("/cart")
-    public String Cart() {
-        return "home/cart";
-    }
-    
+    // @RequestMapping("/cart")
+    // public String Cart() {
+    //     return "home/cart";
+    // }
     @RequestMapping("/checkout")
     public String Checkout() {
         return "checkout/checkout";
     }
-    @RequestMapping("/search")
-    public String Search() {
-        return "home/search";
-    }
+    // @RequestMapping("/search")
+    // public String Search() {
+    //     return "home/search";
+    // }
     @RequestMapping("/seller-register")
     public String SellerRegister() {
         return "seller/seller-register";

@@ -1,9 +1,6 @@
 document.querySelectorAll('.pop-up').forEach(popup => {
-    const closeIcon = popup.querySelector('.close-icon');
-    closeIcon.addEventListener('click', () => {
-        popup.classList.add('hide');
-    });
     const checkBox = popup.querySelector('.check-box');
+    const btnBack = popup.querySelector('.btn-back');
     document.addEventListener('click', (event) => {
         if (!popup.classList.contains('hide')) {
             if (!checkBox.contains(event.target)) {
@@ -11,11 +8,13 @@ document.querySelectorAll('.pop-up').forEach(popup => {
             }
         }
     });
-
     checkBox.addEventListener('click', (event) => {
         event.stopPropagation();
     });
+
+    if (btnBack) {
+        btnBack.addEventListener('click', () => {
+            popup.classList.add('hide');
+        });
+    }
 });
-
-
-
