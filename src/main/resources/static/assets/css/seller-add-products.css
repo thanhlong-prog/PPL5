@@ -1,0 +1,359 @@
+.w-sap-main {
+    margin-top: 60px;
+}
+
+.sap-main>.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.sap-main .content .title {
+    margin-bottom: 30px;
+}
+
+.sap-main .content .title span {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+}
+
+.sap-main>.content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    background-color: #fff;
+    padding: 20px 30px;
+    margin-top: 20px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+}
+
+.sap-main .content .w-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.sap-main .content .w-main-content .tl {
+    text-align: right;
+    min-width: 150px;
+}
+
+.sap-main .content .w-main-content .main-ctn {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.sap-main .content .w-main-content .main-ctn .label {
+    color: #828181;
+    padding-top: 3px;
+}
+
+.sap-main .content .w-main-content .main-ctn .img-prd-list {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 20px;
+    width: 100%;
+    overflow-x: auto;
+    padding-top: 10px;
+}
+
+.sap-main .content .w-main-content .main-ctn .img-prd-list .img-product {
+    border: solid 1px #cac9c9;
+}
+
+.sap-main .content .w-main-content .main-ctn .img-prd-list img {
+    width: 100px;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.sap-main .content .w-main-content .main-ctn .btn-add {
+    border: dashed 1px #b0b0b0;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.sap-main .content .w-main-content .main-ctn .btn-add i {
+    font-size: 30px;
+    color: #ee4d2d;
+}
+
+.sap-main .content .w-main-content .main-ctn .btn-add span {
+    font-size: 16px;
+    color: #e74221;
+}
+
+.sap-main .content .w-main-content .main-ctn .btn-add .count-img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+}
+
+.sap-main .content .w-main-content .video-product .video-prd-content {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 25px;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.sap-main .content .w-main-content .video-product .add-video-note ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 0;
+    margin: 0;
+    gap: 5px;
+}
+
+.sap-main .content .w-main-content .video-product .add-video-note ul li {
+    font-size: 14px;
+    opacity: 0.6;
+    color: #333;
+    margin-bottom: 10px;
+    margin: 0;
+    list-style: disc;
+}
+
+.sap-main .content .main-ctn input {
+    background-color: transparent;
+    font-size: 16px;
+    border-radius: 4px;
+    padding: 0 10px;
+    border: solid 1px #a09c9c;
+    color: #222;
+    font-size: 14px;
+    height: 38px;
+    min-width: 0;
+    outline: none;
+    width: 60%;
+}
+
+.sap-main .content .main-ctn .description-prd-content {
+    width: 100%;
+}
+
+.sap-main .content .main-ctn .description-prd-content #editor {
+    width: 75%;
+    height: 300px;
+    overflow: hidden;
+    border: solid 1px #a09c9c;
+    border-radius: 0 0 4px 4px;
+    padding: 10px;
+    outline: none;
+    color: #797171;
+}
+
+.sap-main .content .main-ctn .description-prd-content #editor-toolbar {
+    width: 75%;
+    border-radius: 4px 4px 0 0;
+    border: solid 1px #a09c9c;
+    border-bottom: none;
+}
+
+.sap-main .content .option-product .option-prd {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 7px;
+    width: 100%;
+}
+
+.sap-main .content .w-main-content {
+    width: 100%;
+}
+
+.sap-main .content .w-main-content .brand-product,
+.sap-main .content .w-main-content .stock-quantity,
+.sap-main .content .w-main-content .weight-product{
+    width: 51%;
+}
+
+.sap-main .content .option-product {
+    width: 100%;
+}
+
+.sap-main .content .option-product .option-prd .opt {
+    width: 60%;
+}
+
+.w-sap-main .shipping-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.w-sap-main .shipping-info .title {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.w-sap-main .shipping-info .title .name-title {
+    font-size: 20px;
+    color: #333333;
+}
+
+.w-sap-main .shipping-info .title .info-title {
+    font-size: 15px;
+    font-weight: 400;
+    color: #999999;
+}
+
+.w-sap-main .shipping-info .content .item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.w-sap-main .shipping-info .content .item .top-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+}
+
+.w-sap-main .shipping-info .content .item .top-item .name-item span {
+    font-size: 20px;
+    color: #333333;
+}
+
+.w-sap-main .shipping-info .content .item .btn-minimize {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.w-sap-main .shipping-info .content .item .btn-maxmize {
+    display: none;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
+.w-sap-main .shipping-info .content .item .w-btn-edit i {
+    font-size: 24px;
+    color: #606060;
+    cursor: pointer;
+    padding-top: 3px;
+}
+
+.w-sap-main .shipping-info .content .item .btn-edit {
+    color: #606060;
+    background-color: #fff;
+    border: 1px solid #bcbaba;
+    position: relative;
+    min-width: 60px;
+    padding: 0 3px;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    height: 30px;
+    padding-bottom: 3px;
+}
+
+.w-sap-main .shipping-info .content .item .btn-edit:hover {
+    background-color: #f5f5f5;
+}
+
+.w-sap-main .shipping-info .content .item .main-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: solid 1px #eaeaea;
+    border-radius: 5px;
+}
+
+.w-sap-main .shipping-info .content .item .main-item .option-info {
+    color: #ee4d2d;
+    padding-left: 3px;
+}
+
+.w-sap-main .shipping-info .content .item .main-add-item span {
+    color: #999999;
+    font-size: 14px;
+}
+
+.w-sap-main .shipping-info .content .item .main-item {
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+}
+
+.page .content {
+    width: 70%;
+}
+.btn-seller-add-products {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    background-color: #fff;
+    padding-right: 31%;
+    padding-bottom: 20px;
+}
+.btn-seller-add-products .btn{
+    position: relative;
+    display: inline-block;
+    min-width: 72px;
+    padding: 0 16px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 4px;
+    outline: none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    height: 35px;
+}
+.btn-seller-add-products .btn-cancel{
+    color: #606060;
+    background-color: #fff;
+    border: 1px solid #bcbaba;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, .15);
+}
+.btn-seller-add-products .btn-complete{
+    color: #fff;
+    background-color: #ee4d2d;
+    border-color: #ee4d2d;
+}
