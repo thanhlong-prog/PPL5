@@ -2,6 +2,9 @@ package com.code.shopee.model;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,46 +19,39 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="cart")
+@Table(name="product_options")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+public class ProductOptions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name="id")
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    @JoinColumn(name="product_id", referencedColumnName = "id")
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @Column(name="name")
+    private String name;
+
+    @Column(name="description")
+    private String description;
 
     @ManyToOne
-    @JoinColumn(name = "product_option_id", referencedColumnName = "id")
-    private ProductOption productOption;
+    @JoinColumn(name="created_by", referencedColumnName = "id")
+    private User createdBy;
 
-    @ManyToOne
-    @JoinColumn(name = "product_vatiant_id", referencedColumnName = "id")
-    private ProductVatiants productVatiants;
-
-    @ManyToOne
-    @JoinColumn(name = "transaction_id")
-    private Transaction transaction;
-
-    @Column(name = "order_quantity")
-    private int orderQuantity;
-
-    @Column(name = "status")
+    @Column(name="status")
     private int status;
 
-    @Column(name = "created_date")
+    @Column(name="created_date")
+    @CreationTimestamp
     private LocalDate createdDate;
 
-    @Column(name = "modified_date")
+    @Column(name="modified_date")
+    @UpdateTimestamp
     private LocalDate modifiedDate;
 }

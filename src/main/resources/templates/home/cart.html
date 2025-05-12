@@ -168,7 +168,7 @@
                                 <!-- <div class="tag">
                                     <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
                                 </div> -->
-                                <label for="check-shop" th:text="'Shop: '+${item.productOption.createdBy.name}"></label>
+                                <label for="check-shop" th:text="'Shop: '+${item.productVatiants.createdBy.name}"></label>
                             </div>
                         </div>
                         <div class="center">
@@ -187,20 +187,22 @@
                                 </div>
                             </div>
                             <div class="variations">
-                                <span>
-                                    Phân Loại Hàng:
-                                </span>
+                                <span>Phân Loại Hàng:</span>
+
                                 <span class="variation-info"
-                                    th:text="${item.productOption.version == '' ? '' : item.productOption.version} + ${item.productOption.color == '' ? '' : ',' + item.productOption.color} + ${item.productOption.size == '' ? '' : ',' + item.productOption.size}">
+                                    th:each="optionValue : ${item.productVatiants.optionValues}">
+                                    <span th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
                                 </span>
+
                             </div>
+
                             <div class="price">
                                 <span th:if="${item.product.discount != null}" class="price-old"
-                                    th:text="'₫' + ${item.productOption.price}"></span>
+                                    th:text="'₫' + ${item.productVatiants.price}"></span>
                                 <span th:if="${item.product.discount != null}" class="price-new"
-                                    th:text="'₫' + ${item.productOption.price*item.product.discount/100}"></span>
+                                    th:text="'₫' + ${item.productVatiants.price*item.product.discount/100}"></span>
                                 <span th:if="${item.product.discount == null || item.product.discount == 0}"
-                                    class="price-new" th:text="'₫' + ${item.productOption.price}"></span>
+                                    class="price-new" th:text="'₫' + ${item.productVatiants.price}"></span>
                             </div>
                             <div class="quantity">
                                 <button class="minus">-</button>

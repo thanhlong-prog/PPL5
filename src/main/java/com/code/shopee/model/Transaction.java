@@ -1,7 +1,9 @@
 package com.code.shopee.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,39 +19,35 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="cart")
+@Table(name="transaction")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Cart {
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private Product product;
+    @Column(name = "trace_id")
+    private String traceId;
+
+    @Column(name = "vnp_order_info")
+    private String vnpOrderInfo;
+
+    @Column(name = "vnp_transaction_no")
+    private String vnpTransactionNo;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
-    private User user;
+    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    private User order;
 
-    @ManyToOne
-    @JoinColumn(name = "product_option_id", referencedColumnName = "id")
-    private ProductOption productOption;
+    @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
+    private List<Cart> carts;
 
-    @ManyToOne
-    @JoinColumn(name = "product_vatiant_id", referencedColumnName = "id")
-    private ProductVatiants productVatiants;
-
-    @ManyToOne
-    @JoinColumn(name = "transaction_id")
-    private Transaction transaction;
-
-    @Column(name = "order_quantity")
-    private int orderQuantity;
+    @Column(name = "total_price")
+    private int totalPrice;
 
     @Column(name = "status")
     private int status;

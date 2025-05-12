@@ -1,10 +1,11 @@
 package com.code.shopee.controller.buyer.product;
 
-import java.util.HashMap;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -24,7 +26,9 @@ import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.Product;
 import com.code.shopee.model.ProductImage;
-import com.code.shopee.model.ProductOption;
+import com.code.shopee.model.ProductOptionValues;
+import com.code.shopee.model.ProductOptions;
+import com.code.shopee.model.ProductVatiants;
 import com.code.shopee.model.User;
 import com.code.shopee.service.ProductImageService;
 import com.code.shopee.service.ProductService;
@@ -60,77 +64,46 @@ public class ProductController {
         model.addAttribute("productImages", productImages);
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
-        List<ProductOption> productOptions = productService.getProductOptionByStatusTrue(productId);
-
-        Set<String> versions = productOptions.stream()
-                .map(ProductOption::getVersion)
-                .filter(version -> version != null && !version.isEmpty())
-                .collect(Collectors.toSet());
-
-        Set<String> colors = productOptions.stream()
-                .map(ProductOption::getColor)
-                .filter(color -> color != null && !color.isEmpty())
-                .collect(Collectors.toSet());
-
-        Set<String> sizes = productOptions.stream()
-                .map(ProductOption::getSize)
-                .filter(size -> size != null && !size.isEmpty())
-                .collect(Collectors.toSet());
 
         int totalQuantity = product.getQuantity();
-        model.addAttribute("versions", versions);
-        model.addAttribute("colors", colors);
-        model.addAttribute("sizes", sizes);
-        model.addAttribute("listversionSize", versions.size());
-        model.addAttribute("listcolorSize", colors.size());
-        model.addAttribute("listsizeSize", sizes.size());
+
         model.addAttribute("totalQuantity", totalQuantity);
-        System.err.println("color: " + colors);
+        // System.err.println("color: " + colors);
+        Map<ProductOptions, List<ProductOptionValues>> mapOptions = productService
+                .getOptionWithValuesByStatusTrue(productId);
+        model.addAttribute("options", mapOptions);
+        List<ProductVatiants> productVatiants = productService.getAllProductVatiantsByStatusTrue(productId);
+        Map<ProductVatiants, List<ProductOptionValues>> listVatians = new LinkedHashMap<>();
+        for (ProductVatiants variant : productVatiants) {
+            List<ProductOptionValues> values = new ArrayList<>(variant.getOptionValues());
+            values.sort(Comparator.comparingInt(ProductOptionValues::getId));
+            listVatians.put(variant, values);
+        }
+        model.addAttribute("listVatians", listVatians);
         return "product/product";
     }
 
     @PostMapping("/updateQuantity")
     @ResponseBody
-    public ResponseEntity<?> updateQuantity(@RequestParam("version") String version,
-            @RequestParam("color") String color,
-            @RequestParam("size") String size, @RequestParam("productId") int productId, HttpSession session) {
-        try {
-            List<ProductOption> productOptions = productService.getProductOptionByStatusTrue(productId);
-            for (ProductOption productOption : productOptions) {
+    public ResponseEntity<?> updateQuantity(@RequestBody Map<String, Object> payload) {
+        int productId = Integer.parseInt(payload.get("productId").toString());
+        @SuppressWarnings("unchecked")
+        Map<String, String> selectedOptions = (Map<String, String>) payload.get("selectedOptions");
 
-                if (version.equals(productOption.getVersion())
-                        && color.equals(productOption.getColor())
-                        && size.equals(productOption.getSize()) && productOption.getProduct().getId() == productId) {
+        int quantity = productService.getQuantityByOptions(productId, selectedOptions);
 
-                    Map<String, Integer> response = new HashMap<>();
-                    response.put("quantity", productOption.getQuantity());
-                    return ResponseEntity.ok(response);
-
-                }
-
-            }
-            Map<String, Integer> response = new HashMap<>();
-            response.put("quantity", 0);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity
-                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Update failed: " + e.getMessage());
-        }
+        return ResponseEntity.ok(Map.of("quantity", quantity));
     }
 
     @PostMapping("/addcart")
     @ResponseBody
-    public ResponseEntity<?> addCart(@RequestParam("orderQuantity") int orderQuantity,
-            @RequestParam("productId") int productId,
-            @RequestParam("version") String version,
-            @RequestParam("color") String color,
-            @RequestParam("size") String size, HttpSession session) {
+    public ResponseEntity<?> addCart(@RequestBody Map<String, Object> payload, HttpSession session) {
         try {
+            int productId = Integer.parseInt(payload.get("productId").toString());
+            int orderQuantity = Integer.parseInt(payload.get("orderQuantity").toString());
+
             if (orderQuantity <= 0) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("Số lượng không hợp lệ");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Số lượng không hợp lệ");
             }
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             User consumer = new User();
@@ -140,27 +113,24 @@ public class ProductController {
                 String email = oauth2User.getAttribute("email");
                 consumer = userService.findByGmail(email);
             }
-            List<ProductOption> productOptions = productService.getProductOptionByStatusTrue(productId);
-            for (ProductOption productOption : productOptions) {
-
-                if (version.equals(productOption.getVersion())
-                        && color.equals(productOption.getColor())
-                        && size.equals(productOption.getSize()) && productOption.getProduct().getId() == productId) {
-                    Cart cart = new Cart();
-                    cart.setStatus(1);
-                    cart.setOrderQuantity(orderQuantity);
-                    cart.setProduct(productOption.getProduct());
-                    cart.setProductOption(productOption);
-                    cart.setUser(consumer);
-                    cart.setCreatedDate(java.time.LocalDate.now());
-                    cart.setModifiedDate(java.time.LocalDate.now());
-                    productService.addCart(cart);
-                    int cartId = cart.getId();
-                    return ResponseEntity.ok(cartId);
-
-                }
+            @SuppressWarnings("unchecked")
+            Map<String, String> selectedOptions = (Map<String, String>) payload.get("selectedOptions");
+            ProductVatiants variant = productService.getVatiantByOptions(productId, selectedOptions);
+            if (variant == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Không tìm thấy phiên bản sản phẩm tương ứng");
             }
-            return ResponseEntity.ok("success");
+
+            Cart cart = new Cart();
+            cart.setStatus(1);
+            cart.setOrderQuantity(orderQuantity);
+            cart.setUser(consumer);
+            cart.setProduct(variant.getProduct());
+            cart.setProductVatiants(variant); 
+            cart.setCreatedDate(LocalDate.now());
+            cart.setModifiedDate(LocalDate.now());
+            productService.addCart(cart);
+            return ResponseEntity.ok(cart.getId());
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

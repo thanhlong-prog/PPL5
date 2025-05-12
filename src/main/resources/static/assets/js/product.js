@@ -93,67 +93,51 @@ let totalQuantity = null;
     });
 
 
-let selectedVersion = null;
-let selectedColor = null;
-let selectedSize = null;
+const variationGroups = document.querySelectorAll(".variation-options");
+        const addToCartBtn = document.querySelector(".add-to-cart");
+        const buyNowBtn = document.querySelector(".buy-now");
+        const quantityBtns = document.querySelectorAll(".quantity-btn");
 
+        variationGroups.forEach(group => {
+            const options = group.querySelectorAll(".variation-option");
 
-
-
-
-    const variationGroups = document.querySelectorAll(".variation-options");
-    const addToCartBtn = document.querySelector(".add-to-cart");
-    const buyNowBtn = document.querySelector(".buy-now");
-    variationGroups.forEach(group => {
-        const options = group.querySelectorAll(".variation-option");
-
-        options.forEach(option => {
-            option.addEventListener("click", function () {
-                options.forEach(opt => opt.classList.remove("active"));
-                this.classList.add("active");
-                const groupType = this.closest(".variation-options").dataset.type;
-                const value = this.textContent.trim();
-                if (groupType === "version") selectedVersion = value;
-                if (groupType === "color") selectedColor = value;
-                if (groupType === "size") selectedSize = value;
-                checkSelections();
+            options.forEach(option => {
+                option.addEventListener("click", function () {
+                    options.forEach(opt => opt.classList.remove("active"));
+                    this.classList.add("active");
+                    checkSelections();
+                });
             });
         });
-    });
+        
+function checkSelections() {
+    const variationGroups = document.querySelectorAll('.variation-options');
+    const hasOptions = variationGroups.length > 0;
 
-    function checkSelections() {
-      let allSelected = true;
-  
-      variationGroups.forEach(group => {
-        const type = group.dataset.type;
-        const activeOption = group.querySelector(".variation-option.active");
+    let allSelected = true;
 
-        if (!activeOption) {
-            allSelected = false;
-        } else {
-            const text = activeOption.innerText.trim();
-            if (type === "version") selectedVersion = text;
-            if (type === "color") selectedColor = text;
-            if (type === "size") selectedSize = text;
-        }
-    });
+    if (hasOptions) {
+        variationGroups.forEach(group => {
+            const activeOption = group.querySelector(".variation-option.active");
+            if (!activeOption) {
+                allSelected = false;
+            }
+        });
+    }
 
-    const quantityBtns = document.querySelectorAll(".quantity-btn");
-
-    if (allSelected) {
+    if (!hasOptions || allSelected) {
         addToCartBtn.classList.remove("cursor-banner");
         buyNowBtn.classList.remove("cursor-banner");
         quantityBtns.forEach(btn => btn.classList.remove("cursor-banner"));
-        console.log(sendProductId);
-        updateQuantity(selectedVersion, selectedColor, selectedSize, sendProductId);
+
+        if (hasOptions) {
+            updateQuantity();
+        }
     } else {
         addToCartBtn.classList.add("cursor-banner");
         buyNowBtn.classList.add("cursor-banner");
         quantityBtns.forEach(btn => btn.classList.add("cursor-banner"));
     }
-  }
-  
+}
 
-    checkSelections(); 
-
-
+checkSelections();

@@ -24,4 +24,6 @@ public interface UserService {
     public void saveUserAddress(UserAddress userAddress);
     public void deleteUserAddress(int id);
     public UserAddress getUserAddressByIsDefault(int isDefault);
+
+
 }

@@ -85,16 +85,31 @@
                                 <div th:if="${product.discount != null}" class="discount"
                                     th:text="${product.discount} + '% GIẢM'"></div>
                             </div>
+                            <div th:attr="data-version=${listVatians}"></div>
+                            <div th:each="entry : ${options.entrySet()}">
+                                <div th:if="${#lists.size(entry.value) > 0}" class="variations">
+                                    <div class="variation-title" th:text="${entry.key.name + ':'}">Phiên bản:</div>
 
-                            <div th:if="${listversionSize > 0}" class="variations">
+                                    <div class="variation-options" th:attr="data-type=${entry.key.name}">
+                                        <div th:each="optionValue : ${entry.value}">
+                                            <div class="variation-option" th:text="${optionValue.value}"
+                                                th:attr="data-option=${entry.key.name}, data-value=${optionValue.value}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- <div th:if="${listversionSize > 0}" class="variations">
                                 <div class="variation-title">Phiên bản:</div>
                                 <div class="variation-options" data-type="version">
                                     <div th:each="option : ${versions}">
                                         <div class="variation-option" th:text="${option}"
                                             th:attr="data-version=${option}"></div>
                                     </div>
-                                    <!-- <div class="variation-option active">Logitech MX Keys Mini</div>
-                                    <div class="variation-option">Logitech MX Keys Mini for Mac</div> -->
                                 </div>
                             </div>
 
@@ -105,9 +120,6 @@
                                         <div class="variation-option" th:text="${option}"
                                             th:attr="data-color=${option}"></div>
                                     </div>
-                                    <!-- <div class="variation-option active">Graphite (Xám đen)</div>
-                                    <div class="variation-option">Pale Gray (Xám nhạt)</div>
-                                    <div class="variation-option">Rose (Hồng)</div> -->
                                 </div>
                             </div>
 
@@ -118,11 +130,8 @@
                                         <div class="variation-option" th:text="${option}" th:attr="data-size=${option}">
                                         </div>
                                     </div>
-                                    <!-- <div class="variation-option active">Graphite (Xám đen)</div>
-                                    <div class="variation-option">Pale Gray (Xám nhạt)</div>
-                                    <div class="variation-option">Rose (Hồng)</div> -->
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="quantity">
                                 <div class="variation-title">Số lượng:</div>
@@ -145,16 +154,18 @@
                             <script>
                                 function addCart() {
 
+                                    const selected = getSelectedOptions();
+                                    const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+                                    const quantity = document.querySelector('.quantity-input')?.value || 1;
                                     $.ajax({
                                         type: "POST",
                                         url: "/buyer/product/addcart",
-                                        data: {
-                                            orderQuantity: document.querySelector('.quantity-input').value,
-                                            productId: sendProductId,
-                                            version: selectedVersion,
-                                            color: selectedColor,
-                                            size: selectedSize
-                                        },
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            productId: productId,
+                                            orderQuantity: quantity,
+                                            selectedOptions: selected
+                                        }),
                                         success: function (res) {
 
                                             toast({
@@ -178,19 +189,22 @@
 
 
                                 function buyProduct() {
+                                    const selected = getSelectedOptions();
+                                    const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+                                    const quantity = document.querySelector('.quantity-input')?.value || 1;
                                     $.ajax({
                                         type: "POST",
                                         url: "/buyer/product/addcart",
-                                        data: {
-                                            orderQuantity: document.querySelector('.quantity-input').value,
-                                            productId: sendProductId,
-                                            version: selectedVersion,
-                                            color: selectedColor,
-                                            size: selectedSize
-                                        },
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            productId: productId,
+                                            orderQuantity: quantity,
+                                            selectedOptions: selected
+                                        }),
                                         success: function (res) {
+
                                             console.log("Response từ server:", res);
-                                            window.location.href = "/buyer/cart?id=" +res;
+                                            window.location.href = "/buyer/cart?id=" + res;
 
                                         },
                                         error: function (err) {
@@ -202,17 +216,33 @@
                                             });
                                         }
                                     })
+
                                 }
-                                function updateQuantity(version = '', color = '', size = '', productId) {
+
+                                function getSelectedOptions() {
+                                    const selectedOptions = {};
+                                    document.querySelectorAll(".variation-options").forEach(group => {
+                                        const type = group.getAttribute("data-type");
+                                        const selected = group.querySelector(".variation-option.active");
+                                        if (selected) {
+                                            selectedOptions[type] = selected.textContent.trim();
+                                        }
+                                    });
+                                    return selectedOptions;
+                                }
+
+                                function updateQuantity() {
+                                    const selected = getSelectedOptions();
+                                    const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+
                                     $.ajax({
                                         type: "POST",
                                         url: "/buyer/product/updateQuantity",
-                                        data: {
-                                            version: version,
-                                            color: color,
-                                            size: size,
-                                            productId: productId
-                                        },
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            productId: productId,
+                                            selectedOptions: selected
+                                        }),
                                         success: function (res) {
                                             console.log("Response từ server:", res);
                                             document.getElementById("product-quantity").textContent = res.quantity;
@@ -228,11 +258,11 @@
                                             totalQuantity = res.quantity;
                                         },
                                         error: function (err) {
-
-                                            console.log(err);
+                                            console.error(err);
                                         }
-                                    })
+                                    });
                                 }
+
 
                             </script>
                         </div>

@@ -14,6 +14,7 @@
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 20px;
+    padding-bottom: 30px;
 }
 .wrapper-products .w-products .products-list .product{
     width: calc(100% / 6 - 10px);
@@ -23,6 +24,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    border: #ccc 1px solid;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
 }

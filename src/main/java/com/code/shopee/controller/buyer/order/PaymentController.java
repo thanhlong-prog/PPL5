@@ -8,11 +8,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -165,7 +163,8 @@ public class PaymentController {
     public String paymentInfor(@RequestParam(value = "vnp_Amount") String amount,
             @RequestParam(value = "vnp_BankCode") String blankCode,
             @RequestParam(value = "vnp_OrderInfo") String order,
-            @RequestParam(value = "vnp_ResponseCode") String responseCode, Model model) {
+            @RequestParam(value = "vnp_ResponseCode") String responseCode,
+            @RequestParam(value = "vnp_TxnRef") String traceId, Model model) {
         PaymentDto paymentDto = new PaymentDto();
         if (responseCode.equals("00")) {
             paymentDto.setStatus("Ok");

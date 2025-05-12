@@ -250,25 +250,26 @@
                                                 </div>
                                             </div>
                                             <div class="type">
-                                                <span
-                                                    th:text="${item.productOption.version == '' and item.productOption.color == '' and item.productOption.size == '' ? '' : 'Loại:'}"></span>
-                                                <span
-                                                    th:text="${item.productOption.version == '' ? '' : item.productOption.version} + ${item.productOption.color == '' ? '' : ',' + item.productOption.color} + ${item.productOption.size == '' ? '' : ',' + item.productOption.size}"></span>
+                                                <span class="type"
+                                                    th:each="optionValue : ${item.productVatiants.optionValues}">
+                                                    <span
+                                                        th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
+                                                </span>
                                             </div>
                                             <div th:if="${item.product.discount != null and item.product.discount != ''}"
                                                 class="price row-2"
-                                                th:text="'₫'+${item.productOption.price*item.product.discount/100}">
+                                                th:text="'₫'+${item.productVatiants.price*item.product.discount/100}">
                                             </div>
                                             <div th:if="${item.product.discount == null || item.product.discount == ''}"
-                                                class="price row-2" th:text="'₫'+${item.productOption.price}"></div>
+                                                class="price row-2" th:text="'₫'+${item.productVatiants.price}"></div>
                                             <div class="count row-2" th:text="${item.orderQuantity}"></div>
                                             <div th:if="${item.product.discount != null and item.product.discount != ''}"
                                                 class="total-price row-2 row-end"
-                                                th:text="'₫'+${item.productOption.price*item.product.discount/100*item.orderQuantity}">
+                                                th:text="'₫'+${item.productVatiants.price*item.product.discount/100*item.orderQuantity}">
                                             </div>
                                             <div th:if="${item.product.discount == null || item.product.discount == ''}"
                                                 class="total-price row-2 row-end"
-                                                th:text="'₫'+${item.productOption.price*item.orderQuantity}"></div>
+                                                th:text="'₫'+${item.productVatiants.price*item.orderQuantity}"></div>
                                         </div>
                                     </div>
 
