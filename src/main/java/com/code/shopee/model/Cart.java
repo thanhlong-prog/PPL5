@@ -50,8 +50,14 @@ public class Cart {
     @Column(name = "order_quantity")
     private int orderQuantity;
 
+    @Column(name = "total_price")
+    private Integer totalPrice;
+
     @Column(name = "status")
     private int status;
+
+    @Column(name="shipping_status")
+    private Integer shippingStatus;
 
     @Column(name = "created_date")
     private LocalDate createdDate;

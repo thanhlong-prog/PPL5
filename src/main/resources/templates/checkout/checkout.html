@@ -241,6 +241,7 @@
                                     <div th:each="item : ${entry.value}">
                                         <div class="product-inf"
                                             th:attr="data-id=${item.id}, data-price=${item.product.discount != null ? item.product.price * item.product.discount / 100 * item.orderQuantity : item.product.price * item.orderQuantity}">
+
                                             <div class="img-title row-4">
                                                 <div class="img">
                                                     <img th:src="${item.product.thumbnail}" alt="">
@@ -249,27 +250,72 @@
                                                     <span th:text="${item.product.title}"></span>
                                                 </div>
                                             </div>
+
                                             <div class="type">
-                                                <span class="type"
-                                                    th:each="optionValue : ${item.productVatiants.optionValues}">
-                                                    <span
-                                                        th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
-                                                </span>
+                                                <div th:if="${item.productVatiants != null}">
+                                                    <span class="type"
+                                                        th:each="optionValue : ${item.productVatiants.optionValues}">
+                                                        <span
+                                                            th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
+                                                    </span>
+                                                </div>
+                                                <div th:if="${item.productVatiants == null}">
+                                                    <span class="type">
+                                                        <span>Không có</span><br>
+                                                        <span>Phân Loại</span><br>
+                                                    </span>
+                                                </div>
+
                                             </div>
-                                            <div th:if="${item.product.discount != null and item.product.discount != ''}"
+
+
+
+
+
+                                            <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants != null}"
                                                 class="price row-2"
                                                 th:text="'₫'+${item.productVatiants.price*item.product.discount/100}">
                                             </div>
-                                            <div th:if="${item.product.discount == null || item.product.discount == ''}"
-                                                class="price row-2" th:text="'₫'+${item.productVatiants.price}"></div>
-                                            <div class="count row-2" th:text="${item.orderQuantity}"></div>
-                                            <div th:if="${item.product.discount != null and item.product.discount != ''}"
+
+                                            <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants == null}"
+                                                class="price row-2"
+                                                th:text="'₫'+${item.product.price*item.product.discount/100}">
+                                            </div>
+                                            <div th:if="${item.product.discount == null and item.productVatiants != null || item.product.discount == '' and item.productVatiants != null}"
+                                                class="price row-2" th:text="'₫'+${item.productVatiants.price}">
+                                            </div>
+                                            <div th:if="${item.product.discount == null and item.productVatiants == null || item.product.discount == '' and item.productVatiants == null}"
+                                                class="price row-2" th:text="'₫'+${item.product.price}">
+                                            </div>
+
+
+
+
+                                            <div th:if="${item.productVatiants != null}" class="count row-2" th:text="${item.orderQuantity}"></div>
+                                            <div th:if="${item.productVatiants == null}" class="count row-2" th:text="${item.orderQuantity}"></div>
+
+
+
+
+                                            <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants != null}"
                                                 class="total-price row-2 row-end"
                                                 th:text="'₫'+${item.productVatiants.price*item.product.discount/100*item.orderQuantity}">
                                             </div>
-                                            <div th:if="${item.product.discount == null || item.product.discount == ''}"
+                                            <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants == null}"
                                                 class="total-price row-2 row-end"
-                                                th:text="'₫'+${item.productVatiants.price*item.orderQuantity}"></div>
+                                                th:text="'₫'+${item.product.price*item.product.discount/100*item.orderQuantity}">
+                                            </div>
+                                            <div th:if="${item.product.discount == null and item.productVatiants != null || item.product.discount == '' and item.productVatiants != null}"
+                                                class="total-price row-2 row-end"
+                                                th:text="'₫'+${item.productVatiants.price*item.orderQuantity}">
+                                            </div>
+                                            <div th:if="${item.product.discount == null and item.productVatiants == null || item.product.discount == '' and item.productVatiants == null}"
+                                                class="total-price row-2 row-end"
+                                                th:text="'₫'+${item.product.price*item.orderQuantity}">
+                                            </div>
+
+
+
                                         </div>
                                     </div>
 
@@ -441,7 +487,7 @@
         console.log("Tổng thanh toán: " + totalNumber);
         console.log(addressId);
         console.log(cartIds);
-        window.location.href = `/buyer/payment/addpayment?totalPay=` + totalNumber + `&addressId=` + addressId + `&cartIds=` + cartIds.join(',');
+        window.location.href = `/buyer/payment/create?totalPay=` + totalNumber + `&addressId=` + addressId + `&cartIds=` + cartIds.join(',');
     }
 
 </script>

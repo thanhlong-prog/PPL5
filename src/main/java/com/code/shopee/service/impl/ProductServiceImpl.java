@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Cart> getCartByUserIdAndStatusTrue(int userId) {
-        return cartRepository.findByUserIdAndStatusTrue(userId);
+        return cartRepository.findByUserIdAndStatusTrueAndTransactionNull(userId);
     }
 
     @Override
@@ -154,5 +154,10 @@ public class ProductServiceImpl implements ProductService {
         }
 
         return null; 
+    }
+
+    @Override
+    public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus) {
+        return cartRepository.findByUserIdAndStatusTrueAndTransactionIsNotNullAndShippingStatus(userId, shippingStatus);
     }
 }

@@ -111,9 +111,11 @@
                         <div class="carousel">
                             <div class="category" data-current-index="0">
                                 <div th:each="category : ${categories}" class="item">
-                                    <div class="img-category">
+                                    <a href="/buyer/search">
+                                         <div class="img-category">
                                         <img th:src="${category.image}" alt="">
                                     </div>
+                                    </a>
                                     <div class="name-category" th:text="${category.name}"></div>
                                 </div>
                                 <!-- <div class="item">

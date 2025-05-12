@@ -62,7 +62,7 @@ public class PaymentController {
         for (int i = 0; i < items.size(); i++) {
             Cart cart = productService.getCartByIdAndStatusTrue(items.get(i));
             if (cart != null) {
-                User shop = cart.getProductOption().getCreatedBy();
+                User shop = cart.getProduct().getSeller();
                 groupedCartList.computeIfAbsent(shop, k -> new ArrayList<>()).add(cart);
             }
         }
@@ -87,7 +87,9 @@ public class PaymentController {
     }
 
     @GetMapping("/create")
-    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request, @RequestParam(value = "amount") int amountres)
+    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request, @RequestParam(value = "totalPay") int amountres,
+            @RequestParam(value = "cartIds") List<Integer> items,
+            @RequestParam(value = "addressId") int addressId)
             throws UnsupportedEncodingException {
         String orderType = "other";
         long amount = amountres * 100;

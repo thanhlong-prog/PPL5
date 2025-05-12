@@ -168,7 +168,7 @@
                                 <!-- <div class="tag">
                                     <img src="/assets/images/cart/tag-yeu-thich.svg" alt="">
                                 </div> -->
-                                <label for="check-shop" th:text="'Shop: '+${item.productVatiants.createdBy.name}"></label>
+                                <label for="check-shop" th:text="'Shop: '+${item.product.seller.name}"></label>
                             </div>
                         </div>
                         <div class="center">
@@ -186,24 +186,50 @@
                                     <img src="/assets/images/cart/tag-voucher.png" alt="">
                                 </div>
                             </div>
+
                             <div class="variations">
-                                <span>Phân Loại Hàng:</span>
+                                <div th:if="${item.productVatiants != null}">
+                                    <span>Phân Loại Hàng:</span><br>
 
-                                <span class="variation-info"
-                                    th:each="optionValue : ${item.productVatiants.optionValues}">
-                                    <span th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
-                                </span>
-
+                                    <span class="variation-info"
+                                        th:each="optionValue : ${item.productVatiants.optionValues}">
+                                        <span
+                                            th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
+                                    </span>
+                                </div>
+                                <div th:if="${item.productVatiants == null}">
+                                    <span>Phân Loại Hàng:</span><br>
+                                    <span class="variation-info">
+                                        <span>Không có</span><br>
+                                    </span>
+                                </div>
                             </div>
+
+
+
+
 
                             <div class="price">
-                                <span th:if="${item.product.discount != null}" class="price-old"
-                                    th:text="'₫' + ${item.productVatiants.price}"></span>
-                                <span th:if="${item.product.discount != null}" class="price-new"
-                                    th:text="'₫' + ${item.productVatiants.price*item.product.discount/100}"></span>
-                                <span th:if="${item.product.discount == null || item.product.discount == 0}"
-                                    class="price-new" th:text="'₫' + ${item.productVatiants.price}"></span>
+                                <div th:if="${item.productVatiants != null}">
+                                    <span th:if="${item.product.discount != null}" class="price-old"
+                                        th:text="'₫' + ${item.productVatiants.price}"></span>
+                                    <span th:if="${item.product.discount != null}" class="price-new"
+                                        th:text="'₫' + ${item.productVatiants.price*item.product.discount/100}"></span>
+                                    <span th:if="${item.product.discount == null || item.product.discount == 0}"
+                                        class="price-new" th:text="'₫' + ${item.productVatiants.price}"></span>
+                                </div>
+                                <div th:if="${item.productVatiants == null}">
+                                    <span th:if="${item.product.discount != null}" class="price-old"
+                                        th:text="'₫' + ${item.product.price}"></span>
+                                    <span th:if="${item.product.discount != null}" class="price-new"
+                                        th:text="'₫' + ${item.product.price*item.product.discount/100}"></span>
+                                    <span th:if="${item.product.discount == null || item.product.discount == 0}"
+                                        class="price-new" th:text="'₫' + ${item.product.price}"></span>
+                                </div>
                             </div>
+
+
+
                             <div class="quantity">
                                 <button class="minus">-</button>
                                 <input id="quantity-product" type="text" th:value="${item.orderQuantity}" readonly>

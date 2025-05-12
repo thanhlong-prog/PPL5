@@ -117,8 +117,15 @@ public class ProductController {
             Map<String, String> selectedOptions = (Map<String, String>) payload.get("selectedOptions");
             ProductVatiants variant = productService.getVatiantByOptions(productId, selectedOptions);
             if (variant == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Không tìm thấy phiên bản sản phẩm tương ứng");
+                Cart cart = new Cart();
+                cart.setStatus(1);
+                cart.setOrderQuantity(orderQuantity);
+                cart.setUser(consumer);
+                cart.setProduct(productService.getProductByIdAndStatusTrue(productId));
+                cart.setCreatedDate(LocalDate.now());
+                cart.setModifiedDate(LocalDate.now());
+                productService.addCart(cart);
+                return ResponseEntity.ok(cart.getId());
             }
 
             Cart cart = new Cart();
@@ -126,7 +133,7 @@ public class ProductController {
             cart.setOrderQuantity(orderQuantity);
             cart.setUser(consumer);
             cart.setProduct(variant.getProduct());
-            cart.setProductVatiants(variant); 
+            cart.setProductVatiants(variant);
             cart.setCreatedDate(LocalDate.now());
             cart.setModifiedDate(LocalDate.now());
             productService.addCart(cart);
