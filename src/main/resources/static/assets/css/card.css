@@ -18,7 +18,7 @@
 }
 .wrapper-products .w-products .products-list .product{
     width: calc(100% / 6 - 10px);
-    height: 325px;
+    /* height: 325px; */
     border-radius: 5px;
     overflow: hidden;
     position: relative;
@@ -85,7 +85,7 @@
 } 
 .wrapper-products .w-products .count{
     color: #333;
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .wrapper-products .page-controller{

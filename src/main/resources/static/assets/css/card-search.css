@@ -54,7 +54,10 @@
 .w-products .product .tag {
     position: absolute;
     overflow: hidden;
-    height: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: 5px;
+    height: 20px;
 }
 .w-products .product .tag span{
     text-transform: capitalize;

@@ -24,10 +24,10 @@ public class ShopeeController {
     public String Checkout() {
         return "checkout/checkout";
     }
-    // @RequestMapping("/search")
-    // public String Search() {
-    //     return "home/search";
-    // }
+    @RequestMapping("/shop-home")
+    public String Search() {
+        return "shop/shop-home";
+    }
     @RequestMapping("/seller-register")
     public String SellerRegister() {
         return "seller/seller-register";
