@@ -68,7 +68,7 @@
     justify-content: flex-start;
     align-items: center;
     flex-wrap: nowrap;
-    gap: 20px;
+    overflow: hidden;
     width: 100%;
     overflow-x: auto;
     padding-top: 10px;
@@ -95,6 +95,7 @@
     align-items: center;
     cursor: pointer;
     background-color: #fff;
+    margin-left: 10px;
 }
 
 .sap-main .content .w-main-content .main-ctn .btn-add i {

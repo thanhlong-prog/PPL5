@@ -155,3 +155,77 @@ function generateCombinations(arrays, prefix = []) {
     return first.flatMap(value => generateCombinations(rest, [...prefix, value]));
 }
 
+const fileInput = document.getElementById("img-input");
+const btnAdd = document.querySelector(".btn-add");
+const imgList = document.querySelector(".img-prd-list");
+const currentCount = document.querySelector(".current-count");
+const maxCount = 9;
+
+btnAdd.addEventListener("click", () => {
+    if (parseInt(currentCount.innerText) >= maxCount) return;
+    fileInput.click();
+});
+
+fileInput.addEventListener("change", () => {
+    const files = fileInput.files;
+    const current = parseInt(currentCount.innerText);
+    const remain = maxCount - current;
+
+    const displayFiles = Array.from(files).slice(0, remain);
+
+    displayFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const imgWrapper = document.createElement("div");
+            imgWrapper.className = "img-product";
+            imgWrapper.innerHTML = `<img src="${e.target.result}" alt="">`;
+            imgList.insertBefore(imgWrapper, btnAdd.parentElement);
+
+            const newCount = parseInt(currentCount.innerText) + 1;
+            currentCount.innerText = newCount;
+            if (newCount >= maxCount) {
+                btnAdd.style.display = "none";
+            }
+        };
+        reader.readAsDataURL(file);
+    });
+
+    fileInput.value = "";
+});
+
+
+
+const videoInput = document.getElementById("video-input");
+const btnAddVideo = document.querySelector(".btn-add-video");
+const videoPreview = document.getElementById("video-preview");
+
+btnAddVideo.addEventListener("click", () => {
+    videoInput.click();
+});
+
+videoInput.addEventListener("change", () => {
+    const file = videoInput.files[0];
+
+    // Kiểm tra nếu có file
+    if (file) {
+        // Kiểm tra dung lượng video (giới hạn 30MB)
+        if (file.size > 30 * 1024 * 1024) {
+            alert("Dung lượng video vượt quá 30MB");
+            videoInput.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = e => {
+            videoPreview.innerHTML = `
+                <video controls width="100%">
+                    <source src="${e.target.result}" type="${file.type}">
+                    Trình duyệt không hỗ trợ video.
+                </video>
+            `;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    videoInput.value = "";
+});

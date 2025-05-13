@@ -65,10 +65,11 @@
                                         <div class="label">Hình ảnh tỷ lệ 1:1</div>
                                         <div class="img-prd-list">
                                             <div class="img-product">
-                                                <img src="assets/images/img-user/userProfile.jpg" alt="">
                                             </div>
                                             <div class="btn-add-img">
-                                                <button class="btn-add">
+                                                <button type="button" class="btn-add btn-add-img">
+                                                    <input type="file" id="img-input" accept="image/*" multiple
+                                                        style="display: none;">
                                                     <i class='bx bx-image-add'></i>
                                                     <div class="btn-content">
                                                         <span>Thêm ảnh</span>
@@ -93,11 +94,14 @@
                                     </div>
                                     <div class="video-prd-content">
                                         <div class="video-prd">
-                                            <div class="video-product"></div>
-                                            <button class="btn-add">
+                                            <div class="video-product" id="video-preview"></div>
+                                            <button class="btn-add btn-add-video">
+                                                <input type="file" id="video-input" accept="video/*"
+                                                    style="display:none;">
                                                 <i class='bx bxs-videos'></i>
                                                 <div class="btn-content">
                                                     <span>Thêm video</span>
+                                                </div>
                                             </button>
                                         </div>
                                         <div class="add-video-note">
