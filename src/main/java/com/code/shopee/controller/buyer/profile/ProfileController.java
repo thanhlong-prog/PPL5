@@ -2,12 +2,14 @@ package com.code.shopee.controller.buyer.profile;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +31,17 @@ import com.code.shopee.dto.MailDto;
 import com.code.shopee.dto.ProfileDto;
 import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
+import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.User;
 import com.code.shopee.model.UserAddress;
 import com.code.shopee.request.SmsRequest;
 import com.code.shopee.service.CloudinaryService;
 import com.code.shopee.service.MailService;
+import com.code.shopee.service.ProductService;
 import com.code.shopee.service.SmsService;
 import com.code.shopee.service.UserService;
+
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -54,9 +59,10 @@ public class ProfileController {
     private SmsService smsService;
     @Autowired
     private SmsConfig smsConfig;
+    @Autowired
+    private ProductService productService;
 
     private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
-
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -85,7 +91,21 @@ public class ProfileController {
     }
 
     @RequestMapping("/purchase")
-    public String purchase() {
+    public String purchase(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        model.addAttribute("user", userData);
+        List<Cart> cartList = productService.getAllCartWaitingForShip(consumer.getId(), 1);
+
+        Map<User, List<Cart>> groupedCartList = cartList.stream()
+                .collect(Collectors.groupingBy(cart -> cart.getProduct().getSeller()));
+        model.addAttribute("groupedCartList", groupedCartList);
         return "profile/purchase";
     }
 
@@ -149,7 +169,7 @@ public class ProfileController {
     }
 
     @GetMapping("/address/delAddress")
-    public String delAddress(@RequestParam(value = "address-id") int id,Model model) {
+    public String delAddress(@RequestParam(value = "address-id") int id, Model model) {
         try {
             userService.deleteUserAddress(id);
         } catch (Exception e) {
@@ -159,7 +179,7 @@ public class ProfileController {
     }
 
     @GetMapping("/address/setDefault")
-    public String setDefault(@RequestParam(value = "address-id") int id,Model model) {
+    public String setDefault(@RequestParam(value = "address-id") int id, Model model) {
         UserAddress oldDefaultAddress = userService.getUserAddressByIsDefault(1);
         if (oldDefaultAddress != null) {
             oldDefaultAddress.setIsDefault(0);

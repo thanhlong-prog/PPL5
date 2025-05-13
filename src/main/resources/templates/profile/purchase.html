@@ -1,20 +1,45 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopee - Đơn mua</title>
+
+    <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/assets/css/purchase.css">
-    
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
+    <link rel="stylesheet" href="/assets/css/card.css">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
-    <div class="container">
+    <div class="header">
+        <div th:insert="~{header :: header}"></div>
+    </div>
+    <div class="main-container">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="user-brief">
-                <img src="../../static/assets/images/img-user/userProfile.jpg" alt="Avatar">
+                <img th:src="${user.avatar}" alt="Avatar">
                 <div>
-                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-name" th:text="${user.name}"></div>
                     <div class="edit-profile">
                         <span>Sửa hồ sơ</span>
                     </div>
@@ -22,13 +47,13 @@
             </div>
             <ul class="sidebar-menu">
                 <!-- <li><a href="#">Tài khoản của tôi</a></li> -->
-                <li class="active"><a href="#">Hồ sơ</a></li>
+                <li><a href="/buyer/profile">Hồ sơ</a></li>
                 <!-- <li><a href="#">Ngân hàng</a></li>
                 <li><a href="#">Thẻ tín dụng/Ghi nợ</a></li> -->
                 <li><a href="/buyer/profile/address">Địa chỉ</a></li>
                 <li><a href="/buyer/profile/password">Đổi mật khẩu</a></li>
                 <li><a href="/buyer/profile/shopee">Thiết lập Shop</a></li>
-                <li><a href="/buyer/profile/purchase">Đơn mua</a></li>
+                <li class="active"><a href="/buyer/profile/purchase">Đơn mua</a></li>
                 <li><a href="/buyer/profile/order">Thông báo</a></li>
                 <li><a href="/buyer/profile/voucher">Kho voucher</a></li>
                 <li><a href="/buyer/profile/shopee">Shopee Xu</a></li>
@@ -67,81 +92,63 @@
                     </div>
                 </div>
                 <div class="order-list">
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div class="order-shop">
-                                <i>🏪</i>
-                                <span>Shop Điện Tử ABC</span>
+                    <div class="order-list" th:each="entry : ${groupedCartList}">
+                        <div class="order-card">
+                            <div class="order-header">
+                                <div class="order-shop">
+                                    <i>🏪</i>
+                                    <span th:text="${entry.key.name}">Shop Điện Tử ABC</span>
+                                </div>
+                                <div class="order-status">
+                                    <i>⏱️</i>
+                                    <span>Chờ xác nhận</span>
+                                </div>
                             </div>
-                            <div class="order-status">
-                                <i>⏱️</i>
-                                <span>Chờ xác nhận</span>
+                            <div th:each="cart : ${entry.value}" class="order-product">
+                                <div class="order-product">
+                                    <img th:src="${cart.product.thumbnail}" alt="Product" class="product-image">
+                                    <div class="product-info">
+                                        <div class="product-name" th:text="${cart.product.title}">Tai nghe Bluetooth
+                                            không dây TWS F9 Pro với Micro, Tai
+                                            nghe thể thao chống nước cao cấp</div>
+                                        
+                                        <div th:if="${cart.productVatiants != null}" class="product-variation">
+                                            <span th:each="optionValue : ${cart.productVatiants.optionValues}">
+                                                <span
+                                                    th:text="${optionValue.option.name + ': ' + optionValue.value}"></span><br>
+                                            </span>
+                                        </div>
+
+                                        <div class="product-quantity" th:text="'x'+${cart.orderQuantity}">x1</div>
+                                    </div>
+                                    <div class="product-price">₫199.000</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="order-product">
-                            <img src="../../static/assets/images/img-purchase/purchase01.webp" alt="Product" class="product-image">
-                            <div class="product-info">
-                                <div class="product-name">Tai nghe Bluetooth không dây TWS F9 Pro với Micro, Tai nghe thể thao chống nước cao cấp</div>
-                                <div class="product-variation">Phân loại: Trắng</div>
-                                <div class="product-quantity">x1</div>
-                            </div>
-                            <div class="product-price">₫199.000</div>
-                        </div>
-                        <div class="order-footer">
-                            <div class="order-total">
-                                <div class="order-total-text">Thành tiền:</div>
-                                <div class="order-total-amount">₫199.000</div>
-                            </div>
-                            <div class="order-actions">
-                                <button class="btn-contact">Liên hệ người bán</button>
-                                <button class="btn-review">Hủy đơn hàng</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="order-card">
-                        <div class="order-header">
-                            <div class="order-shop">
-                                <i>🏪</i>
-                                <span>Fashion Store Official</span>
-                            </div>
-                            <div class="order-status">
-                                <i>⏱️</i>
-                                <span>Chờ xác nhận</span>
-                            </div>
-                        </div>
-                        <div class="order-product">
-                            <img src="../../static/assets/images/img-purchase/purchase02.webp" alt="Product" class="product-image">
-                            <div class="product-info">
-                                <div class="product-name">Áo thun unisex form rộng tay lỡ, Áo phông cotton oversize basic nhiều màu</div>
-                                <div class="product-variation">Phân loại: Đen, Size L</div>
-                                <div class="product-quantity">x2</div>
-                            </div>
-                            <div class="product-price">₫89.000</div>
-                        </div>
-                        <div class="order-product">
-                            <img src="../../static/assets/images/img-purchase/purchase03.webp" alt="Product" class="product-image">
-                            <div class="product-info">
-                                <div class="product-name">Quần short nam nữ unisex vải thun form rộng basic</div>
-                                <div class="product-variation">Phân loại: Xám, Size M</div>
-                                <div class="product-quantity">x1</div>
-                            </div>
-                            <div class="product-price">₫79.000</div>
-                        </div>
-                        <div class="order-footer">
-                            <div class="order-total">
-                                <div class="order-total-text">Thành tiền:</div>
-                                <div class="order-total-amount">₫257.000</div>
-                            </div>
-                            <div class="order-actions">
-                                <button class="btn-contact">Liên hệ người bán</button>
-                                <button class="btn-review">Hủy đơn hàng</button>
+
+                            <div class="order-footer">
+                                <div class="order-total">
+                                    <div class="order-total-text">Thành tiền:</div>
+                                    <div class="order-total-amount">₫199.000</div>
+                                </div>
+                                <div class="order-actions">
+                                    <button class="btn-contact">Liên hệ người bán</button>
+                                    <button class="btn-review">Hủy đơn hàng</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+    <div class="footer">
+        <div th:insert="~{footer :: footer}"></div>
+    </div>
 </body>
+
 </html>
+<script src="/assets/js/header.js"></script>
+<script src="/assets/js/popup1.js"></script>
+<script th:src="@{/assets/js/toastmsg.js}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

@@ -28,6 +28,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserAddressRepository userAddressRepository;
 
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElse(null);
@@ -94,24 +95,31 @@ public class UserServiceImpl implements UserService {
     public User findByPhone(String phone) {
         return userRepository.findByPhone(phone).orElse(null);
     }
+
     @Override
     public List<UserAddress> getAllUserAddressByStatusTrue(int userId) {
         return userAddressRepository.findByUserIdAndStatusTrue(userId);
     }
+
     @Override
     public UserAddress getUserAddressByStatusTrue(int id) {
         return userAddressRepository.findByIdAndStatusTrue(id);
     }
+
     @Override
     public void saveUserAddress(UserAddress userAddress) {
         userAddressRepository.save(userAddress);
     }
+
     @Override
     public void deleteUserAddress(int id) {
         userAddressRepository.deleteById(id);
     }
+
     @Override
     public UserAddress getUserAddressByIsDefault(int isDefault) {
         return userAddressRepository.findByIsDefaultAndStatusTrue(isDefault);
     }
+
+
 }
