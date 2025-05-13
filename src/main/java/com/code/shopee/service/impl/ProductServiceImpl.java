@@ -160,4 +160,9 @@ public class ProductServiceImpl implements ProductService {
     public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus) {
         return cartRepository.findByUserIdAndStatusTrueAndTransactionIsNotNullAndShippingStatus(userId, shippingStatus);
     }
+
+    @Override
+    public List<Product> getProductBySubcateId(int subcategoryId) {
+        return productRepository.findBySubcategoryIdAndStatusTrue(subcategoryId);
+    }
 }

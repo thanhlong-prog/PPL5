@@ -31,4 +31,5 @@ public interface ProductService {
     public ProductVatiants getVatiantByOptions(int productId, Map<String, String> selectedOptions);
 
     public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus);
+    public List<Product> getProductBySubcateId(int subcategoryId);
 }

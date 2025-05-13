@@ -1,16 +1,27 @@
 package com.code.shopee.controller.buyer.product;
 
+import java.util.HashSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
+import com.code.shopee.model.Category;
 import com.code.shopee.model.CustomUserDetails;
+import com.code.shopee.model.Product;
+import com.code.shopee.model.Subcategory;
 import com.code.shopee.model.User;
+import com.code.shopee.service.CategoryService;
+import com.code.shopee.service.ProductService;
 import com.code.shopee.service.UserService;
 
 @Controller
@@ -20,8 +31,14 @@ public class SearchController {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private CategoryService categoryService;
+    @Autowired
+    private ProductService productService;
+
     @RequestMapping("")
-    public String search(Model model) {
+    public String search(@RequestParam(value = "categoryId") int categoryId,
+            @RequestParam(value = "subcategoryId") int subId, Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
         if (principal instanceof CustomUserDetails user) {
@@ -32,6 +49,27 @@ public class SearchController {
         }
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
+        Category category = categoryService.getCategoryByIdAndStatusTrue(categoryId);
+        List<Subcategory> listSubs = category.getSubcategories();
+        Set<Product> listProducts = new HashSet<>();
+        if (subId == 0) {
+            if (listSubs != null && !listSubs.isEmpty()) {
+                listSubs.forEach(sub -> {
+                    List<Product> products = productService.getProductBySubcateId(sub.getId());
+                    if (products != null && !products.isEmpty()) {
+                        listProducts.addAll(products);
+                    }
+                });
+            }
+        } else {
+            List<Product> products = productService.getProductBySubcateId(subId);
+            if (products != null && !products.isEmpty()) {
+                listProducts.addAll(products);
+            }
+        }
+
+        model.addAttribute("listPro", listProducts);
+        model.addAttribute("category", category);
         return "home/search";
     }
 }

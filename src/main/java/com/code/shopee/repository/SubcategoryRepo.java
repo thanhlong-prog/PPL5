@@ -5,10 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.code.shopee.model.Category;
+import com.code.shopee.model.Subcategory;
 
+public interface SubcategoryRepo extends JpaRepository<Subcategory, Integer> {
+   
 
-public interface  CategoryRepository extends JpaRepository<Category, Integer> {
-    List<Category> findByStatusTrue();
-    Category findByIdAndStatusTrue(int id);
 }
-

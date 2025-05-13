@@ -32,7 +32,7 @@ public class Subcategory {
 
     @ManyToOne
     @JoinColumn(name="category_id", referencedColumnName = "id")
-    private Category category_id;
+    private Category category;
 
     @Column(name="name")
     private String name;
