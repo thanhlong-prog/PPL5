@@ -1,0 +1,72 @@
+<style>
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+
+  thead th {
+    background-color: #f2f2f2;
+    text-align: left;
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  tbody td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  input[type="text"], input[type="number"] {
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+
+  .radio-cell {
+    text-align: center;
+  }
+</style>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>Size</th>
+      <th>Màu sắc</th>
+      <th>* Giá</th>
+      <th>* Kho hàng</th>
+      <th>SKU phân loại</th>
+    </tr>
+  </thead>
+ <tbody>
+  <!-- Size M có 2 dòng, nên rowspan="2" -->
+  <tr>
+    <td class="radio-cell"><input type="radio" name="default-variant" checked></td>
+    <td rowspan="2">M</td>
+    <td>Màu Be</td>
+    <td><input type="text" placeholder="Nhập vào"></td>
+    <td><input type="number" value="0"></td>
+    <td><input type="text" placeholder="SKU"></td>
+  </tr>
+  <tr>
+    <td class="radio-cell"><input type="radio" name="default-variant"></td>
+    <td>Màu Đen</td>
+    <td><input type="text" placeholder="Nhập vào"></td>
+    <td><input type="number" value="0"></td>
+    <td><input type="text" placeholder="SKU"></td>
+  </tr>
+  
+  <!-- Size L chỉ 1 dòng -->
+  <tr>
+    <td class="radio-cell"><input type="radio" name="default-variant"></td>
+    <td>L</td>
+    <td>Màu Be</td>
+    <td><input type="text" placeholder="Nhập vào"></td>
+    <td><input type="number" value="0"></td>
+    <td><input type="text" placeholder="SKU"></td>
+  </tr>
+</tbody>
+
+</table>

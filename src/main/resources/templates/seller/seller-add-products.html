@@ -183,18 +183,38 @@
                                             Phân loại hàng
                                         </span>
                                     </div>
-                                    <div class="option-prd">
-                                        <div class="type opt">
-                                            <input type="text" name="type-prd" id="type-prd" placeholder="Loại"
-                                                required>
+                                    <div class="type-attribute">
+                                        <div class="add-attribute">
+                                            <input type="text" class="type-input" placeholder="Tên thuộc tính">
+                                            <input type="text" class="value-input" placeholder="Giá trị">
+                                            <button type="button" class="btn-add-value">Thêm giá trị</button>
                                         </div>
-                                        <div class="attribute opt">
-                                            <input type="text" name="attribute-prd" id="attribute-prd"
-                                                placeholder="Thuộc tính">
+                                        <button type="button" class="btn-add-attribute">Thêm thuộc tính mới</button>
+                                        <button type="button" class="btn-add-complete">Hoàn tất</button>
+                                    </div>
+                                </div>
+                                <div class="option-product-list main-ctn">
+                                    <div class="tl">
+                                        <span>
+                                            Danh sách phân loại hàng
+                                        </span>
+                                    </div>
+                                    <div class="option-prd-list">
+                                        <div class="apply-all">
+                                            <input type="text" class="all-price" placeholder="Giá tiền (đ)">
+                                            <input type="text" class="all-stock" placeholder="Số lượng">
+                                            <input type="text" class="variant-sku" placeholder="SKU phân loại">
+                                            <button class="btn-apply-all">
+                                                <span>Áp dụng cho tất cả</span>
+                                            </button>
                                         </div>
-                                        <div class="price opt">
-                                            <input type="text" name="price-prd" id="price-prd" placeholder="Giá tiền"
-                                                required>
+                                        <div class="apply-prd">
+                                            <table>
+                                                <thead>
+                                                    <tr></tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
                                         </div>
                                     </div>
                                 </div>
