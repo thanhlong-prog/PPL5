@@ -40,8 +40,9 @@ public class Product {
     @Column(name = "thumbnail")
     private String thumbnail;
 
-    @Column(name = "subcategory_id")
-    private int subcategoryId;
+    @ManyToOne
+    @JoinColumn(name = "subcategory_id", referencedColumnName = "id")
+    private Subcategory subcategory;
 
     @Column(name = "price")
     private int price;
