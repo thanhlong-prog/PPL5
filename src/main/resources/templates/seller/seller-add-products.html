@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/seller-register.css">
     <link rel="stylesheet" href="/assets/css/seller-add-products.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 
 <body>
@@ -34,10 +35,10 @@
             <div class="right">
                 <button class="btn-account">
                     <div class="avt-img">
-                        <img src="/assets/images/img-avatar/seller.png" alt="">
+                        <img th:src="${user.avatar}" alt="">
                     </div>
                     <div class="account-name">
-                        <span>shironeko</span>
+                        <span th:text="${user.name}">shironeko</span>
                     </div>
                     <div class="icon-btn">
                         <i class='bx bx-chevron-down'></i>
@@ -45,7 +46,7 @@
                 </button>
             </div>
         </div>
-        <form action="">
+        <form action="/seller/saveproduct" method="post" enctype="multipart/form-data">
             <div class="w-sap-main">
                 <div class="container">
                     <div class="sap-main">
@@ -68,7 +69,7 @@
                                             </div>
                                             <div class="btn-add-img">
                                                 <button type="button" class="btn-add btn-add-img">
-                                                    <input type="file" id="img-input" accept="image/*" multiple
+                                                    <input type="file" name="images" id="img-input" accept="image/*" multiple
                                                         style="display: none;">
                                                     <i class='bx bx-image-add'></i>
                                                     <div class="btn-content">
@@ -88,7 +89,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="video-product main-ctn">
+                                <!-- <div class="video-product main-ctn">
                                     <div class="tl">
                                         <span>Video sản phẩm</span>
                                     </div>
@@ -117,25 +118,58 @@
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <div class="name-product main-ctn">
                                     <div class="tl">
                                         <span>Tên sản phẩm</span>
                                     </div>
-                                    <input type="text" name="name-prd" id="name-prd"
+                                    <input type="text" name="productName" id="name-prd"
                                         placeholder="Tên sản phẩm + Model + Thông số kỹ thuật" required>
                                 </div>
                                 <div class="prd-category main-ctn">
-                                    <div class="tl">
-                                        <span>Ngành hàng</span>
-                                    </div>
-                                    <input type="text" name="category" id="category" placeholder="Chọn ngành hàng"
-                                        required>
+                                    <div class="tl"><span>Ngành hàng</span></div>
+
+
+                                    <select name="category" id="category" required>
+                                        <option value="">-- Chọn ngành hàng --</option>
+                                        <th:block th:each="cat : ${categories}">
+                                            <option th:value="${cat.id}" th:text="${cat.name}"></option>
+                                        </th:block>
+                                    </select>
+                                    <select name="subcategoryId" id="subcategory" required>
+                                        <option value="">-- Chọn danh mục con --</option>
+                                    </select>
                                 </div>
+                                <script>
+                                    document.getElementById('category').addEventListener('change', function () {
+                                        const categoryId = this.value;
+                                        console.log("Selected category ID:", categoryId);
+                                        const subcategorySelect = document.getElementById('subcategory');
+                                        subcategorySelect.innerHTML = '<option value="">-- Chọn danh mục con --</option>';
+
+                                        if (categoryId) {
+                                            fetch(`/seller/subcategories?categoryId=${categoryId}`)
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    data.forEach(sub => {
+                                                        const option = document.createElement('option');
+                                                        option.value = sub.id;
+                                                        option.textContent = sub.name;
+                                                        subcategorySelect.appendChild(option);
+                                                    });
+                                                })
+                                                .catch(error => {
+                                                    console.error("Lỗi khi load subcategory:", error);
+                                                });
+                                        }
+                                    });
+                                </script>
+
                                 <div class="description main-ctn">
                                     <div class="tl">
                                         <span>Mô tả sản phẩm</span>
                                     </div>
+                                    <input type="hidden" name="description" id="description-input">
                                     <div class="description-prd-content">
                                         <div id="editor-toolbar">
                                             <span class="ql-formats">
@@ -154,7 +188,7 @@
                                 <span> Thông tin chi tiết</span>
                             </div>
                             <div class="w-main-content">
-                                <div class="brand-product main-ctn">
+                                <!-- <div class="brand-product main-ctn">
                                     <div class="tl">
                                         <span>
                                             Thương hiệu
@@ -162,17 +196,17 @@
                                     </div>
                                     <input type="text" name="name-brand" id="name-brand" placeholder="Thương hiệu"
                                         required>
-                                </div>
+                                </div> -->
                                 <div class="stock-quantity main-ctn">
                                     <div class="tl">
                                         <span>
                                             Số lượng tồn kho
                                         </span>
                                     </div>
-                                    <input type="text" name="stock-qtt" id="stock-qtt" placeholder="Số lượng sản phẩm"
+                                    <input name="stock" type="text"  id="stock-qtt" placeholder="Số lượng sản phẩm"
                                         required>
                                 </div>
-                                <div class="weight-product main-ctn">
+                                <!-- <div class="weight-product main-ctn">
                                     <div class="tl">
                                         <span>
                                             Khối lượng
@@ -180,7 +214,7 @@
                                     </div>
                                     <input type="text" name="weight-prd" id="weight-prd"
                                         placeholder="Khối lượng sản phẩm (kg)" required>
-                                </div>
+                                </div> -->
                                 <div class="option-product main-ctn">
                                     <div class="tl">
                                         <span>
@@ -204,14 +238,14 @@
                                         </span>
                                     </div>
                                     <div class="option-prd-list">
-                                        <div class="apply-all">
+                                        <!-- <div class="apply-all">
                                             <input type="text" class="all-price" placeholder="Giá tiền (đ)">
                                             <input type="text" class="all-stock" placeholder="Số lượng">
                                             <input type="text" class="variant-sku" placeholder="SKU phân loại">
                                             <button class="btn-apply-all">
                                                 <span>Áp dụng cho tất cả</span>
                                             </button>
-                                        </div>
+                                        </div> -->
                                         <div class="apply-prd">
                                             <table>
                                                 <thead>
@@ -222,9 +256,11 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="variantJson" id="variant-json">
+
                             </div>
                         </div>
-                        <div class="content">
+                        <!-- <div class="content">
                             <div class="w-main-content">
                                 <div class="page shipping-info">
                                     <div class="title">
@@ -303,7 +339,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

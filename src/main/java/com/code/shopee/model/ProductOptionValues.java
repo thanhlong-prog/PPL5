@@ -1,5 +1,7 @@
 package com.code.shopee.model;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,10 +41,10 @@ public class ProductOptionValues {
     private int status;
 
     @Column(name="created_date")
-    private String createdDate;
+    private LocalDate createdDate;
 
     @Column(name="modified_date")
-    private String modifiedDate;
+    private LocalDate modifiedDate;
 
     @ManyToOne
     @JoinColumn(name="created_by", referencedColumnName = "id")
