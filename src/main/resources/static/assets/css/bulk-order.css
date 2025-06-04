@@ -1,0 +1,343 @@
+.bulk-order {
+    background-color: #fff;
+    flex: 1;
+    padding: 30px 50px;
+    margin-left: 30px;
+}
+
+.bulk-order .header-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.bulk-order .header-main .title span {
+    font-size: 23px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.bulk-order .header-main .btn-order-options {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bulk-order .header-main .btn-order-options .add-new-product {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.bulk-order .header-main .btn-order-options .add-new-product:hover {
+    background-color: #e0e0e0;
+}
+
+.bulk-order .header-main .btn-order-options .batch-order-process {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fb5732;
+    transition: background-color 0.2s;
+    color: #fff;
+}
+
+.bulk-order .header-main .btn-order-options .batch-order-process:hover {
+    background-color: #eb4924;
+}
+
+.bulk-order .navbar-primary .tabs {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.bulk-order .navbar-primary .tabs>span {
+    padding: 3px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+    border: solid 1px #ddd;
+}
+
+.bulk-order .navbar-primary .tabs .active {
+    background-color: #fb5732;
+    color: #fff;
+    border-color: #fb5732;
+}
+
+.bulk-order .sub-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.bulk-order .w-search {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+}
+
+.bulk-order .btn-search {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+.bulk-order .btn-search input {
+    padding: 5px 10px;
+    border: 1px solid #9b9898;
+    border-radius: 5px;
+    outline: none;
+    width: 200px;
+    opacity: 0.8;
+}
+
+.bulk-order .btn-search .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 8px 15px;
+    border: 1px solid #bebebe;
+    background-color: #fff;
+}
+
+.bulk-order .btn-search .search i {
+    font-size: 18px;
+    color: #333;
+}
+
+.bulk-order .btn-search .search:hover {
+    background-color: #f0f0f0;
+}
+
+.bulk-order .date-search {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.bulk-order .date-search .title{
+    font-size: 18px;
+    font-weight: 500;
+}
+.bulk-order .date-search .date-time {
+    display: flex;
+    justify-self: flex-start;
+    align-items: center;
+    gap: 20px;
+}
+
+.bulk-order .date-search .date-time input {
+    padding: 5px 10px;
+    border: 1px solid #9b9898;
+    border-radius: 5px;
+    outline: none;
+    width: 200px;
+    opacity: 0.8;
+}
+.bulk-order .date-search .date-time .search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    padding: 6px 15px;
+    border: 1px solid #bebebe;
+    background-color: #fff;
+}
+.all-bulk-order .bulk-order-table {
+    width: 100%;
+    border-collapse:collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+.all-bulk-order .bulk-order-table th,
+.all-bulk-order .bulk-order-table td {
+    padding: 20px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+.all-bulk-order .bulk-order-table td:nth-child(1) {
+    padding: 0;
+}
+.all-bulk-order .bulk-order-table .order-id td{
+    padding: 10px;
+    text-align: right;
+    background-color: #f9f9f9;
+}
+
+.all-bulk-order .bulk-order-table .order-id td span{
+    padding-left: 10px;
+}
+
+.all-bulk-order .bulk-order-table thead th {
+    background-color: #f3f0f0;
+    font-weight: 600;
+    color: #333;
+}
+
+.all-bulk-order .bulk-order-table tbody td {
+    vertical-align: top; 
+    color: #444;
+    border: solid 1px #e0e0e0;
+}
+.all-bulk-order .bulk-order-table .check{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+.all-bulk-order .bulk-order-table input[type="checkbox"]{
+    width: 17px;
+    height: 17px;
+    cursor: pointer;
+}
+.all-bulk-order .bulk-order-table tbody .order-id td:nth-child(1){
+    border: none;
+    border-left: solid 1px #e0e0e0;
+    text-align: left;
+}
+.all-bulk-order .bulk-order-table tbody .order-id td:nth-child(2) {
+    border: none;
+    border-right: solid 1px #e0e0e0;
+}
+.all-bulk-order .product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 10px;
+    border-bottom: solid 1px #e0e0e0;
+    width: 100%;
+}
+.all-bulk-order .product-info:last-of-type{
+    border: none;
+}
+.all-bulk-order .product-info img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.all-bulk-order .order-row {
+    background-color: #fff;
+}
+.all-bulk-order .products .list-product{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.bulk-order-table .order-status {
+    color: #4caf50;
+}
+.all-bulk-order .bulk-order-info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #e8e8e8;
+    border-radius: 5px;
+}
+.all-bulk-order .bulk-order-info .info{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.all-bulk-order .bulk-order-info .btn-bulk-order{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 5px;
+    background-color: #fb5732;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    border: none;
+}
+.all-bulk-order .bulk-order-info .btn-bulk-order:disabled{
+    opacity: 0.8;
+}
+.all-bulk-order .bulk-order-info .btn-bulk-order:hover{
+    background-color: #eb4924;
+}
+.all-bulk-order .dialog-overlay {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+.all-bulk-order .dialog-overlay.hidden {
+    display: none;
+}
+
+.all-bulk-order .dialog-overlay.visible {
+    display: flex;
+}
+.all-bulk-order .dialog-box {
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    padding: 20px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    text-align: center;
+}
+.all-bulk-order .dialog-box .box-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+.all-bulk-order .dialog-box .box-content {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.all-bulk-order .dialog-box .box-content strong{
+    color: #fb5834;
+}
+.all-bulk-order .dialog-actions button {
+    margin: 10px 5px 0 5px;
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;   
+    cursor: pointer;
+}
+
+.all-bulk-order .dialog-actions .btn-confirm {
+    background-color: #fb5732;
+    color: #fff;
+    transition: background-color 0.2s;
+}
+.all-bulk-order .dialog-actions .btn-confirm:hover {
+    background-color: #eb4924;
+}

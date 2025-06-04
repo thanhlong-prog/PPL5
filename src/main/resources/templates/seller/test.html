@@ -1,72 +1,76 @@
-<style>
-  table {
+.all-order-manage .product-table {
     width: 100%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
-  }
+    font-size: 14px;
+}
 
-  thead th {
-    background-color: #f2f2f2;
+.all-order-manage .product-table th,
+.all-order-manage .product-table td {
+    padding: 12px 10px;
     text-align: left;
-    padding: 8px;
-    border-bottom: 1px solid #ccc;
-  }
+    border-bottom: 1px solid #e0e0e0;
+}
 
-  tbody td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-  }
+.all-order-manage .product-table thead th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+}
 
-  input[type="text"], input[type="number"] {
-    width: 100%;
-    padding: 6px 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
+.all-order-manage .product-table tbody td {
+    vertical-align: middle;
+    color: #444;
+}
 
-  .radio-cell {
-    text-align: center;
-  }
-</style>
+.all-order-manage .product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
-<table>
-  <thead>
-    <tr>
-      <th></th>
-      <th>Size</th>
-      <th>Màu sắc</th>
-      <th>* Giá</th>
-      <th>* Kho hàng</th>
-      <th>SKU phân loại</th>
-    </tr>
-  </thead>
- <tbody>
-  <!-- Size M có 2 dòng, nên rowspan="2" -->
-  <tr>
-    <td class="radio-cell"><input type="radio" name="default-variant" checked></td>
-    <td rowspan="2">M</td>
-    <td>Màu Be</td>
-    <td><input type="text" placeholder="Nhập vào"></td>
-    <td><input type="number" value="0"></td>
-    <td><input type="text" placeholder="SKU"></td>
-  </tr>
-  <tr>
-    <td class="radio-cell"><input type="radio" name="default-variant"></td>
-    <td>Màu Đen</td>
-    <td><input type="text" placeholder="Nhập vào"></td>
-    <td><input type="number" value="0"></td>
-    <td><input type="text" placeholder="SKU"></td>
-  </tr>
-  
-  <!-- Size L chỉ 1 dòng -->
-  <tr>
-    <td class="radio-cell"><input type="radio" name="default-variant"></td>
-    <td>L</td>
-    <td>Màu Be</td>
-    <td><input type="text" placeholder="Nhập vào"></td>
-    <td><input type="number" value="0"></td>
-    <td><input type="text" placeholder="SKU"></td>
-  </tr>
-</tbody>
+.all-order-manage .product-info img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
 
-</table>
+.all-order-manage .product-info .sku {
+    color: #999;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.all-order-manage .product-table .update {
+    color: #ff6600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.all-order-manage .product-table .action:hover {
+    color: #cc5200;
+}
+
+.all-order-manage .parent-row {
+    background-color: #fff;
+}
+
+.all-order-manage .child-row td {
+    background-color: #fcfcfc;
+    font-size: 13px;
+    color: #666;
+}
+
+.all-order-manage .child-row .product-info img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+
+.all-order-manage .child-row .sku {
+    font-size: 11px;
+}

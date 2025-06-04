@@ -1,0 +1,350 @@
+.wrapper-product-manage{
+    width: 100%;
+    border-radius: 5px;
+    padding: 20px;
+}
+.product-manage {
+    flex-grow: 1;
+    border-radius: 5px;
+    padding: 20px;  
+    background-color: #fff;
+}
+.wrapper-product-manage .header-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.wrapper-product-manage .header-main .title span {
+    font-size: 23px;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.main-prd-manage .options {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.main-prd-manage .options .hd-dropdown {
+    position: relative;
+}
+
+.main-prd-manage .tl-dropdown {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+
+.main-prd-manage .tl-dropdown:hover {
+    background-color: #e0e0e0;
+}
+
+.main-prd-manage .abs-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 1;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+}
+
+.main-prd-manage .abs-dropdown.show {
+    display: block;
+}
+
+.main-prd-manage .abs-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-prd-manage .abs-dropdown li {
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.main-prd-manage .abs-dropdown li:hover {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
+.main-prd-manage .options button {
+    padding: 5px 15px;
+    background-color: #ee4d2d;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.main-prd-manage .options button:hover {
+    background-color: #e05500;
+}
+
+.main-prd-manage .navbar-primary {
+    margin-bottom: 30px;
+}
+
+
+.main-prd-manage .navbar-primary .tabs {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.main-prd-manage .navbar-primary .tabs span {
+    padding: 2px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.main-prd-manage .navbar-primary .tabs span.active {
+    background-color: #fb5732;
+    color: #fff;
+
+}
+
+.main-prd-manage .navbar-primary .tabs span:hover {
+    background-color: #e0e0e0;
+    color: #000;
+}
+
+.main-prd-manage .navbar-primary .tabs span .count {
+    margin-left: 5px;
+    font-weight: normal;
+}
+
+/* .main-prd-manage .navbar-primary .tabs .underline {
+    position: absolute;
+    bottom: -5px;
+    height: 2px;
+    background-color: #ee4d2d;
+    transition: all 0.3s ease;
+} */
+
+
+.main-prd-manage .navbar-primary .filters button {
+    padding: 5px 15px;
+    background-color: #ff6200;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.main-prd-manage .navbar-primary .filters button:hover {
+    background-color: #e05500;
+}
+
+.main-prd-manage .bottom-main {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+/* Navbar 2: Bộ lọc phụ */
+.main-prd-manage .navbar-secondary {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.main-prd-manage .navbar-secondary .sub-tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+.main-prd-manage .navbar-secondary .sub-tabs span {
+    padding: 1px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.main-prd-manage .navbar-secondary .sub-tabs .underline {
+    position: absolute;
+    bottom: -5px;
+    height: 3px;
+    background-color: #ff6200;
+    transition: all 0.3s ease;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters .btn-search {
+    flex-grow: 1;
+    display: flex;
+    position: relative;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters .btn-search .search {
+    position: absolute;
+    padding: 0 10px;
+    left: 0px;
+    top: 0px;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters .btn-search i {
+    font-size: 18px;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters input {
+    padding: 5px 35px;
+    padding-right: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.main-prd-manage .navbar-secondary .sub-filters input:focus {
+    outline: none;
+    border-color: #ff6200;
+}
+.main-prd-manage .navbar-secondary .sub-filters .list-category{
+    position: relative;
+}
+.main-prd-manage .navbar-secondary .sub-filters .list-category .list-ctg {
+    padding: 7px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.main-prd-manage .navbar-secondary .ctg-dropdown {
+    width: 200px;
+}
+.main-prd-manage .navbar-secondary .sub-filters button {
+    padding: 5px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+.main-prd-manage .navbar-secondary .sub-filters button:hover {
+    background-color: #b0b0b0;
+}
+
+/* .main-prd-manage .navbar-secondary .sub-filters button:hover {
+    background-color: #e0e0e0;
+} */
+
+
+/* Bảng sản phẩm */
+.main-prd-manage .product-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.main-prd-manage .product-table th,
+.main-prd-manage .product-table td {
+    padding: 12px 10px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.main-prd-manage .product-table thead th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+}
+
+.main-prd-manage .product-table tbody td {
+    vertical-align: middle;
+    color: #444;
+}
+
+.main-prd-manage .product-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.main-prd-manage .product-info img {
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.main-prd-manage .product-info .sku {
+    color: #999;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.main-prd-manage .product-table .update {
+    color: #ff6600;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.main-prd-manage .product-table .action:hover {
+    color: #cc5200;
+}
+
+.main-prd-manage .parent-row {
+    background-color: #fff;
+}
+
+.main-prd-manage .child-row td {
+    background-color: #fcfcfc;
+    font-size: 13px;
+    color: #666;
+}
+
+.main-prd-manage .child-row .product-info img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+
+.main-prd-manage .child-row .sku {
+    font-size: 11px;
+}
+
+/*Order manange*/
+/*table*/

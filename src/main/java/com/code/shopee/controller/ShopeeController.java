@@ -16,10 +16,10 @@ public class ShopeeController {
     public String adminLogin() {
         return "admin/login";
     }
-    // @RequestMapping("/cart")
-    // public String Cart() {
-    //     return "home/cart";
-    // }
+    @RequestMapping("/seller-manage")
+    public String SellerManage() {
+        return "seller/seller-manage";
+    }
     @RequestMapping("/checkout")
     public String Checkout() {
         return "checkout/checkout";

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/order-manage.css">
+</head>
+
+<body>
+    <div th:fragment="order-manage">
+        <div class="all-order-manage">
+            <div class="header-main">
+                <div class="title">
+                    <span>Quản lý đơn hàng</span>
+                </div>
+                <div class="btn-order-options">
+                    <button class="add-new-product">
+                        <i class='bx  bx-plus'></i>
+                        <span>Thêm sản phẩm mới</span>
+                    </button>
+                    <button class="batch-order-process">
+                        <i class='bx  bx-shopping-bag'></i>
+                        <span>Giao đơn hàng loạt</span>
+                    </button>
+                </div>
+            </div>
+            <div class="navbar-primary">
+                <div class="tabs">
+                    <span class="active">Tất cả <span class="count">(112)</span></span>
+                    <span>Chờ xác nhận<span class="count">(37)</span></span>
+                    <span>Đang đóng gói <span class="count">(35)</span></span>
+                    <span>Chờ lấy hàng<span class="count">(20)</span></span>
+                    <span>Đang giao<span class="count">(2)</span></span>
+                    <span>Đã giao<span class="count">(5)</span></span>
+                    <span>Đã huỷ<span class="count">(15)</span></span>
+                </div>
+            </div>
+            <div class="bottom-main">
+                <div class="navbar-secondary">
+                    <div class="sub-filters">
+                        <div class="w-search">
+                            <div class="id-search btn-search">
+                                <label for="IdOrder">ID đơn hàng</label>
+                                <input id="IdOrder" type="text" placeholder="Nhập ID đơn hàng">
+                                <button class="search"><i class='bx bx-search'></i></button>
+                            </div>
+                            <div class="name-search btn-search">
+                                <label for="NameProduct">Tên sản phẩm</label>
+                                <input id="NameProduct" type="text" placeholder="Nhập tên sản phẩm">
+                                <button class="search"><i class='bx bx-search'></i></button>
+                            </div>
+                        </div>
+                        <div class="date-search">
+                            <div class="title">
+                                <span>Ngày tạo đơn</span>
+                            </div>
+                            <div class="date-time">
+                                <div class="start-date date">
+                                    <label for="DateOrderStart">Ngày bắt đầu</label>
+                                    <input id="DateOrderStart" type="date">
+                                </div>
+                                <div class="end-date date">
+                                    <label for="DateOrderEnd">Ngày kết thúc</label>
+                                    <input id="DateOrderEnd" type="date">
+                                </div>
+                                <button class="search">Áp dụng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Tổng đơn hàng</th>
+                            <th>Trạng thái | Đếm ngược</th>
+                            <th>Thời gian tạo</th>
+                            <th>Thời gian giao hàng</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody class="order-list">
+                        <tr class="order-id">
+                            <td colspan="7">
+                                <span class="title">ID đơn hàng:</span>
+                                <span class="id">211025R7H5KDFQ</span>
+                            </td>
+                        </tr>
+                        <tr class="order-row products">
+                            <td class="list-product">
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>1</td>
+                            <td>₫500.000</td>
+                            <td>
+                                <div class="order-status">
+                                    <span class="seller-status transferred">Chờ giao hàng</span>
+                                    <div class="shopee-warning">
+                                        <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                class="cancel-time">1</span> ngày</span>
+                                        <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="date-time-order">31/5/2025 11:20</span>
+                            </td>
+                            <td>
+                                <span class="date-time-shipping">-</span>
+                            </td>
+                            <td>
+                                <a href="#">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody class="order-list">
+                        <tr class="order-id">
+                            <td colspan="7">
+                                <span class="title">ID đơn hàng:</span>
+                                <span class="id">211025R7H5KDFQ</span>
+                            </td>
+                        </tr>
+                        <tr class="order-row products">
+                            <td class="list-product">
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>1</td>
+                            <td>₫500.000</td>
+                            <td>
+                                <div class="order-status">
+                                    <span class="seller-status transferred">Đã giao đơn vị vận chuyển</span>
+                                    <span class="user-status unsuccessful">Giao hàng không thành công</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="date-time-order">31/5/2025 11:20</span>
+                            </td>
+                            <td>
+                                <span class="date-time-shipping">-</span>
+                            </td>
+                            <td>
+                                <a href="#">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody class="order-list">
+                        <tr class="order-id">
+                            <td colspan="7">
+                                <span class="title">ID đơn hàng:</span>
+                                <span class="id">211025R7H5KDFQ</span>
+                            </td>
+                        </tr>
+                        <tr class="order-row products">
+                            <td class="list-product">
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                                <div class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div>Áo thun 123456</div>
+                                        <div class="type">Size L</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>1</td>
+                            <td>₫500.000</td>
+                            <td>
+                                <div class="order-status">
+                                    <span class="seller-status transferred">Đã giao cho đơn vị vận chuyển</span>
+                                    <span class="user-status successful">Giao hàng thành công</span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="date-time-order">31/5/2025 11:20</span>
+                            </td>
+                            <td>
+                                <span class="date-time-shipping">-</span>
+                            </td>
+                            <td>
+                                <a href="#">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script src="/assets/js/product-manage.js"></script>
+    </div>
+</body>
+
+</html>

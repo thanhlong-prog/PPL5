@@ -1,0 +1,70 @@
+.wrapper-seller-manage {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
+}
+.wrapper-seller-manage .menu-empty {
+    width: 250px;
+}
+.wrapper-seller-manage .menu {
+    width: 250px;
+    height: 100vh;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 0 10px;
+    position: fixed;
+    z-index: 10;
+}
+
+.wrapper-seller-manage .menu .mn {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.wrapper-seller-manage .menu .title {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    gap: 10px;
+}
+
+.wrapper-seller-manage .menu .title i {
+    font-size: 22px;
+}
+
+.wrapper-seller-manage .menu .title span {
+    font-weight: bold;
+}
+
+.wrapper-seller-manage .menu .mn-dropdown {
+    display: none;
+    border-radius: 5px;
+    padding-left: 15px;
+    width: 90%;
+}
+
+.wrapper-seller-manage .menu .mn-dropdown.show {
+    display: block;
+}
+
+.wrapper-seller-manage .menu .mn-dropdown ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper-seller-manage .menu .mn-dropdown li {
+    padding: 5px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.wrapper-seller-manage .menu .mn-dropdown li:hover {
+    background-color: #e0e0e0;
+    border-radius: 5px;
+}
