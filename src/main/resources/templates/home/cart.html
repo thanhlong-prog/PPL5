@@ -214,7 +214,7 @@
                                     <span th:if="${item.product.discount != null}" class="price-old"
                                         th:text="'₫' + ${item.productVatiants.price}"></span>
                                     <span th:if="${item.product.discount != null}" class="price-new"
-                                        th:text="'₫' + ${item.productVatiants.price*item.product.discount/100}"></span>
+                                        th:text="'₫' + ${item.productVatiants.price*(100-item.product.discount)/100}"></span>
                                     <span th:if="${item.product.discount == null || item.product.discount == 0}"
                                         class="price-new" th:text="'₫' + ${item.productVatiants.price}"></span>
                                 </div>
@@ -222,7 +222,7 @@
                                     <span th:if="${item.product.discount != null}" class="price-old"
                                         th:text="'₫' + ${item.product.price}"></span>
                                     <span th:if="${item.product.discount != null}" class="price-new"
-                                        th:text="'₫' + ${item.product.price*item.product.discount/100}"></span>
+                                        th:text="'₫' + ${item.product.price*(100-item.product.discount)/100}"></span>
                                     <span th:if="${item.product.discount == null || item.product.discount == 0}"
                                         class="price-new" th:text="'₫' + ${item.product.price}"></span>
                                 </div>
@@ -237,7 +237,7 @@
                             </div>
                             <div class="total-price">
                                 <span class="total-price-text" th:if="${item.product.discount != null}"
-                                    th:text="'₫' + ${item.product.price * item.product.discount / 100 * item.orderQuantity}"></span>
+                                    th:text="'₫' + ${item.product.price * (100-item.product.discount) / 100 * item.orderQuantity}"></span>
                                 <span class="total-price-text"
                                     th:if="${item.product.discount == null || item.product.discount == 0}"
                                     th:text="'₫' + ${item.product.price * item.orderQuantity}"></span>

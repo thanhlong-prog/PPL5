@@ -38,6 +38,34 @@
                         <div class="title">Bộ lọc tìm kiếm</div>
                         <div class="filter-section">
                             <fieldset class="category">
+                                <a th:href="@{/buyer/search(categoryId=${category.id}, subcategoryId=0)}">
+                                    <legend th:text="${category.name}">Theo Danh Mục</legend>
+                                </a>
+
+                                <label th:each="sub : ${category.subcategories}">
+                                    <!-- <input type="checkbox"> -->
+                                    <a th:href="@{/buyer/search(categoryId=${category.id}, subcategoryId=${sub.id})}">
+                                        <span th:text="${sub.name}"> Thời Trang Trẻ Em</span>
+                                    </a>
+
+                                </label>
+                                <!-- <label>
+                                    <input type="checkbox">
+                                    <span> Thời Trang Nam (837k+)</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox">
+                                    <span> Áo thun (441k+)</span>
+                                </label>
+                                <label>
+                                    <input type="checkbox">
+                                    <span> Nhà Cửa & Đời Sống (284k+)</span>
+                                </label>
+                                <label>
+                                    <a href="#">Thêm <i class='bx bxs-down-arrow'></i></a></span>
+                                </label> -->
+                            </fieldset>
+                            <!-- <fieldset class="category">
                                 <legend>Theo Danh Mục</legend>
                                 <label>
                                     <input type="checkbox">
@@ -58,7 +86,7 @@
                                 <label>
                                     <a href="#">Thêm <i class='bx bxs-down-arrow'></i></a></span>
                                 </label>
-                            </fieldset>
+                            </fieldset> -->
 
                             <fieldset class="shipped-from">
                                 <legend>Nơi Bán</legend>
@@ -236,20 +264,25 @@
                             <button class="sort-btn">Mới nhất</button>
                             <button class="sort-btn">Bán chạy</button>
                             <button class="sort-btn price">
-                              Giá
-                              <i class='bx bx-chevron-down'></i>
+                                Giá
+                                <i class='bx bx-chevron-down'></i>
                             </button>
-                          </div>
+                        </div>
                         <div class="w-products">
                             <div class="products-list">
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
+                                <div th:each="item : ${listPro}" class="product">
+                                    <a th:href="@{/buyer/product(productId = ${item.id})}">
+                                        <div class="image">
+                                            <img th:src="${item.thumbnail}" alt="">
+                                        </div>
+                                    </a>
+
+
                                     <div class="infor">
                                         <div class="top">
                                             <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
+                                                <span th:text="${item.title}">Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu
+                                                    Sạc Nhanh 100W Micro USB
                                                     Type C 3 Trong 1 6A</span>
                                             </div>
                                             <div class="tag">
@@ -259,364 +292,16 @@
                                         </div>
                                         <div class="bottom">
                                             <div class="price">
-                                                <span>100.000đ</span>
+                                                <span th:text="${item.price} + 'đ'">100.000đ</span>
                                             </div>
                                             <div class="count">
-                                                <span>Đã bán 1000</span>
+                                                <span th:text="'Đã bán ' + ${item.sold}"></span>
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product">
-                                    <div class="image">
-                                        <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    </div>
-                                    <div class="infor">
-                                        <div class="top">
-                                            <div class="name">
-                                                <span>Dây Sạc Tự Ngắt - Dây Cáp Sạc Dữ Liệu Sạc Nhanh 100W Micro USB
-                                                    Type C 3 Trong 1 6A</span>
-                                            </div>
-                                            <div class="tag">
-                                                <span>rẻ vô địch</span>
-                                                <span>rẻ vô địch</span>
-                                            </div>
-                                        </div>
-                                        <div class="bottom">
-                                            <div class="price">
-                                                <span>100.000đ</span>
-                                            </div>
-                                            <div class="count">
-                                                <span>Đã bán 1000</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
                     </div>

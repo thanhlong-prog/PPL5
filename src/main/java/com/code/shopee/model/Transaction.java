@@ -1,6 +1,6 @@
 package com.code.shopee.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -39,6 +39,9 @@ public class Transaction {
     @Column(name = "vnp_transaction_no")
     private String vnpTransactionNo;
 
+    @Column(name = "txn_ref")
+    private String txnRef;
+
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private User order;
@@ -53,8 +56,8 @@ public class Transaction {
     private int status;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;
+    private LocalDateTime createdDate;
 
     @Column(name = "modified_date")
-    private LocalDate modifiedDate;
+    private LocalDateTime modifiedDate;
 }

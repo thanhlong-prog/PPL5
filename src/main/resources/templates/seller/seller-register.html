@@ -31,10 +31,10 @@
             <div class="right">
                 <button class="btn-account">
                     <div class="avt-img">
-                        <img src="/assets/images/img-avatar/seller.png" alt="">
+                        <img th:src="${user.avatar}" alt="">
                     </div>
                     <div class="account-name">
-                        <span>shironeko</span>
+                        <span th:text="${user.name}">shironeko</span>
                     </div>
                     <div class="icon-btn">
                         <i class='bx bx-chevron-down'></i>
@@ -54,16 +54,16 @@
                     </ul>
                 </div>
                 <div class="form-register">
-                    <form action="/seller-add-products">
+                    <div th:if="${errors != nul}">Có lỗi gì đó</div>
+                    <form action="/buyer/seller-request" method="post" enctype="multipart/form-data">
                         <div class="empty-left"></div>
                         <div class="w-page">
                             <div class="page shop-info">
                                 <div class="content">
                                     <div class="name-shop">
                                         <span class="tl">Tên Shop</span>
-                                        <input type="text" class="input-count" id="shopName" maxlength="30"
-                                            placeholder="Nhập tên shop của bạn"
-                                            value="aq zqfnwjknfkw fk vw">
+                                        <input name="shopName" type="text" class="input-count" id="shopName"
+                                            maxlength="30" placeholder="Nhập tên shop của bạn" value="">
                                         <div class="charCount">
                                             <span class="currentCount"></span>
                                             <span class="maxCount">/30</span>
@@ -75,29 +75,36 @@
                                         </div>
                                         <div class="inf">
                                             <div class="name-phone">
-                                                <span class="name">aq zqfnwjknfkw fk vw</span>
+                                                <input name="fullname" type="text" class="name" value=""
+                                                    placeholder="Họ và tên" />
                                                 <span>|</span>
-                                                <span class="phone">8412345678</span>
+                                                <input name="phone" type="text" class="phone" value=""
+                                                    placeholder="Số điện thoại" />
                                             </div>
                                             <div class="address">
-                                                <span class="address-detail">kuro neko la con meo den</span>
-                                                <span class="ward">Phường Phước Hòa</span>
-                                                <span class="district">Thành Phố Tam Kỳ</span>
-                                                <span class="province">Quảng Nam</span>
+                                                <input name="fullAddress" type="text" class="address-detail" value=""
+                                                    placeholder="Địa chỉ chi tiết" />
+                                                <input name="ward" type="text" class="ward" value=""
+                                                    placeholder="Phường/Huyện" />
+                                                <input name="district" type="text" class="district" value=""
+                                                    placeholder="Thành Phố" />
+                                                <input name="province" type="text" class="province" value=""
+                                                    placeholder="Tỉnh" />
                                             </div>
-                                            <div class="btn-fix-address">
+
+                                            <!-- <div class="btn-fix-address">
                                                 <button>Chỉnh sửa</button>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                     <div class="email-shop">
                                         <span class="tl">Email</span>
-                                        <input type="email" placeholder="Nhập email của bạn"
-                                            value="aqcdkncnjkdnck@gmail.com" disabled>
+                                        <input name="email" type="email" placeholder="Nhập email của bạn"
+                                            th:value="${user.gmail}">
                                     </div>
                                     <div class="phone-shop">
                                         <span class="tl">Số điện thoại</span>
-                                        <span class="phone">+8412345678</span>
+                                        <span class="phone" th:text="${user.phone}">+8412345678</span>
                                     </div>
                                 </div>
                             </div>
@@ -256,17 +263,17 @@
                                         <span class="tl">Loại hình kinh doanh</span>
                                         <div class="business-type">
                                             <div class="w-individual w-type">
-                                                <input type="radio" name="business-type" id="individual"
+                                                <input name="businessType" type="radio" id="individual"
                                                     value="individual" checked>
                                                 <label for="individual">Cá nhân</label>
                                             </div>
                                             <div class="w-household-business w-type">
-                                                <input type="radio" name="business-type" id="household-business"
-                                                    value="household-business">
+                                                <input name="businessType" type="radio" id="household-business"
+                                                    value="business">
                                                 <label for="household-business">Hộ kinh doanh</label>
                                             </div>
                                             <div class="w-company w-type">
-                                                <input type="radio" name="business-type" id="company" value="company">
+                                                <input name="businessType" type="radio" id="company" value="company">
                                                 <label for="company">Công ty</label>
                                             </div>
                                         </div>
@@ -275,8 +282,8 @@
                                         <span class="tl">Tên công ty</span>
                                         <div class="w-input-company">
                                             <div class="input-company">
-                                                <input type="text" class="input-count" id="companyName" maxlength="500"
-                                                    placeholder="Nhập tên công ty của bạn">
+                                                <input name="company" type="text" class="input-count" id="companyName"
+                                                    maxlength="500" placeholder="Nhập tên công ty của bạn">
                                                 <div class="charCount">
                                                     <span class="currentCount"></span>
                                                     <span class="maxCount">/500</span>
@@ -305,7 +312,7 @@
                                             <div class="multiple-level-address">
                                                 <input type="text" class="input-address" id="input-address"
                                                     value="Quảng Nam / Thành Phố Tam Kỳ / Phường Phước Hòa">
-                                                <textarea class="input-address-detail"
+                                                <textarea name="address" class="input-address-detail"
                                                     id="input-address-detail">kuro neko la con meo den</textarea>
                                                 <span class="mla-note note">Địa chỉ kinh doanh: địa chỉ theo giấy phép
                                                     đăng ký kinh doanh đối
@@ -317,9 +324,10 @@
                                     <div class="email-tax">
                                         <span class="tl"> Email nhận hóa đơn điện tử</span>
                                         <div class="add-email-tax">
-                                            <input type="email" class="input-email-tax" id="email-tax" maxlength="100"
+                                            <input name="emailReceiveBill" type="email" class="input-email-tax"
+                                                id="email-tax" maxlength="100"
                                                 placeholder="Nhập email nhận hóa đơn điện tử của bạn"
-                                                value="aqzzqa@gmail.com">
+                                                th:value="${user.gmail}">
                                             <button type="button" class="btn-add-email-tax">
                                                 <i class='bx bx-plus'></i>
                                                 <span>Thêm email</span>
@@ -333,8 +341,8 @@
                                         <span class="tl">Mã số thuế</span>
                                         <div class="w-input-tin">
                                             <div class="input-tin">
-                                                <input type="text" class="input-count-tin input-count" id="taxCode" maxlength="14"
-                                                    placeholder="Nhập mã số thuế của bạn">
+                                                <input name="taxCode" type="text" class="input-count-tin input-count"
+                                                    id="taxCode" maxlength="14" placeholder="Nhập mã số thuế của bạn">
                                                 <div class="charCount">
                                                     <span class="currentCount"></span>
                                                     <span class="maxCount">/14</span>
@@ -352,21 +360,24 @@
                                 <div class="p-alert">
                                     <i class='bx bxs-info-circle'></i>
                                     <span>
-                                        Vui lòng cung cấp Thông Tin Định Danh của Chủ Shop (nếu là cá nhân), hoặc Người Đại Diện Pháp Lý trên giấy đăng ký kinh doanh.
+                                        Vui lòng cung cấp Thông Tin Định Danh của Chủ Shop (nếu là cá nhân), hoặc Người
+                                        Đại Diện Pháp Lý trên giấy đăng ký kinh doanh.
                                     </span>
                                 </div>
                                 <div class="content">
                                     <div class="type-identification">
                                         <span class="tl">Hình thức định danh</span>
                                         <div class="type">
-                                            <input type="radio" name="type-identification" id="cccd" value="cccd" checked>
+                                            <input type="radio" name="type-identification" id="cccd" value="cccd"
+                                                checked>
                                             <label for="cccd">Căn cước công dân</label>
                                         </div>
                                     </div>
                                     <div class="cccd-number lv-1">
                                         <span class="tl">Số Căn Cước Công Dân</span>
                                         <div class="input-cccd-number lv-2">
-                                            <input type="text" class="input-cccd-number input-count" id="cccdNumber" maxlength="12"
+                                            <input name="identificationNumber" type="text"
+                                                class="input-cccd-number input-count" id="cccdNumber" maxlength="12"
                                                 placeholder="Nhập số CCCD của bạn">
                                             <div class="charCount">
                                                 <span class="currentCount"></span>
@@ -377,7 +388,8 @@
                                     <div class="full-name lv-1">
                                         <span class="tl">Họ & Tên</span>
                                         <div class="input-full-name lv-2">
-                                            <input type="text" class="input-full-name input-count" id="fullName" maxlength="100"
+                                            <input name="identificationName" type="text"
+                                                class="input-full-name input-count" id="fullName" maxlength="100"
                                                 placeholder="Nhập tên của bạn">
                                             <div class="charCount">
                                                 <span class="currentCount"></span>
@@ -392,13 +404,16 @@
                                                 <button type="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
+                                                <input type="file" id="front-img" name="front-img" accept="image/*" />
                                                 <div class="example-img">
-                                                    <img src="/assets/images/seller-register/example-cccd-front.jpg" alt="">
+                                                    <img src="/assets/images/seller-register/example-cccd-front.jpg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                             <div class="add-img-note">
                                                 <span>Vui lòng cung cấp ảnh chụp cận CMND/CCCD/Hộ chiếu của bạn</span>
-                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng (Kích thước ảnh không vượt quá 5.0 MB)</span>
+                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng
+                                                    (Kích thước ảnh không vượt quá 5.0 MB)</span>
                                             </div>
                                         </div>
                                     </div>
@@ -409,23 +424,26 @@
                                                 <button type="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
+                                                <input type="file" id="back-img" name="back-img" accept="image/*" />
                                                 <div class="example-img">
-                                                    <img src="/assets/images/seller-register/example-cccd-back.jpg" alt="">
+                                                    <img src="/assets/images/seller-register/example-cccd-back.jpg"
+                                                        alt="">
                                                 </div>
                                             </div>
                                             <div class="add-img-note">
                                                 <span>Vui lòng cung cấp ảnh chụp cận CMND/CCCD/Hộ chiếu của bạn</span>
-                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng (Kích thước ảnh không vượt quá 5.0 MB)</span>
+                                                <span> Các thông tin trong CMND/CCCD/Hộ chiều phải được hiển thị rõ ràng
+                                                    (Kích thước ảnh không vượt quá 5.0 MB)</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="page seller-complete">
-                                <i class='bx bxs-check-circle' ></i>
-                                <span class="title">Đăng ký thành công</span>
-                                <span class="note">Hãy đăng bán sản phẩm đầu tiên để khởi động hành trình bán hàng cùng Shopee nhé!</span>
-                                <button type="submit">Thêm sản phẩm</button>
+                                <i class='bx bxs-check-circle'></i>
+                                <span class="title">Hoàn thành đơn đăng ký</span>
+                                <span class="note">Vui lòng chờ duyệt đơn! Bạn sẽ trở thành người bán hàng sau khi duyệt thành công!</span>
+                                <button type="submit">Gửi đơn duyệt</button>
                             </div>
                         </div>
                         <div class="empty-right"></div>
@@ -436,7 +454,7 @@
                         <button class="btn-prev btn">Quay lại</button>
                     </div>
                     <div class="btn-right">
-                        <button class="btn-save btn">Lưu</button>
+                        <!-- <button class="btn-save btn">Lưu</button> -->
                         <button class="btn-next btn">Tiếp theo</button>
                         <button class="btn-complete btn">Hoàn tất</button>
                     </div>

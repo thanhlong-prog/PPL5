@@ -1,9 +1,6 @@
-package com.code.shopee.controller.buyer.product;
+package com.code.shopee.controller.buyer.home;
 
-import java.util.HashSet;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,30 +12,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
-import com.code.shopee.model.Category;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.Product;
-import com.code.shopee.model.Subcategory;
 import com.code.shopee.model.User;
-import com.code.shopee.service.CategoryService;
+import com.code.shopee.repository.SubcategoryRepo;
 import com.code.shopee.service.ProductService;
 import com.code.shopee.service.UserService;
 
 @Controller
-@RequestMapping("/buyer/search")
-public class SearchController {
+@RequestMapping("/buyer/shop")
+public class ShopHomeController {
     @Autowired
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
     @Autowired
-    private CategoryService categoryService;
-    @Autowired
     private ProductService productService;
+    @Autowired
+    private SubcategoryRepo subcategoryRepository;
 
     @RequestMapping("")
-    public String search(@RequestParam(value = "categoryId") int categoryId,
-            @RequestParam(value = "subcategoryId") int subId, Model model) {
+    public String shopHome(@RequestParam(value = "shopId") int shopid, Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
         if (principal instanceof CustomUserDetails user) {
@@ -49,27 +43,20 @@ public class SearchController {
         }
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
-        Category category = categoryService.getCategoryByIdAndStatusTrue(categoryId);
-        List<Subcategory> listSubs = category.getSubcategories();
-        Set<Product> listProducts = new HashSet<>();
-        if (subId == 0) {
-            if (listSubs != null && !listSubs.isEmpty()) {
-                listSubs.forEach(sub -> {
-                    List<Product> products = productService.getProductBySubcateId(sub.getId());
-                    if (products != null && !products.isEmpty()) {
-                        listProducts.addAll(products);
-                    }
-                });
-            }
-        } else {
-            List<Product> products = productService.getProductBySubcateId(subId);
-            if (products != null && !products.isEmpty()) {
-                listProducts.addAll(products);
-            }
-        }
 
-        model.addAttribute("listPro", listProducts);
-        model.addAttribute("category", category);
-        return "home/search";
+        User seller = userService.findById(shopid);
+        if (seller == null) {
+            return "redirect:/home";
+        }
+        UserDto shopData = userMapper.toUserDto(seller);
+        model.addAttribute("shop", shopData);
+        List<Product> products = productService.getProductBySeller(shopid);
+        model.addAttribute("products", products);
+        // Map<Category, List<Product>> productsByCategory = products.stream()
+        //         .filter(p -> p.getSubcategory() != null && p.getSubcategory().getCategory() != null)
+        //         .collect(Collectors.groupingBy(p -> p.getSubcategory().getCategory()));
+
+        // model.addAttribute("productsByCategory", productsByCategory);
+        return "shop/shop-home";
     }
 }

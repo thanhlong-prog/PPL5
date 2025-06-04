@@ -52,8 +52,35 @@ public class SecurityConfig {
         .build();
     }
 
-    //cho admin
     @Order(2)
+    @Bean
+    SecurityFilterChain SellerSecurityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity
+        .securityMatcher("/seller/**", "/login", "/register", "/logout", "/oauth2/**", "/login/**", "/home/**", "/api/**")
+        .csrf(csrf -> csrf.disable())
+        .authorizeHttpRequests(auth -> auth
+            .requestMatchers("/login", "/register", "/oauth2/**", "/login/**").permitAll()
+            .requestMatchers("/seller/**").hasAuthority("seller")
+            .anyRequest().authenticated()
+        ).formLogin(login->login 
+            .loginPage("/login")
+            .loginProcessingUrl("/login")
+            .usernameParameter("username")
+            .passwordParameter("password")
+            .defaultSuccessUrl("/home",true)
+        ).oauth2Login(oauth2 -> oauth2 
+            .loginPage("/login")
+            .defaultSuccessUrl("/home", true)
+        ).logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/login")
+        )
+        .userDetailsService(customUserDetailService)
+        .build();
+    }
+
+    //cho admin
+    @Order(3)
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity

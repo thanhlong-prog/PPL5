@@ -2,6 +2,7 @@ package com.code.shopee.service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.data.domain.Page;
 
@@ -11,6 +12,7 @@ import com.code.shopee.model.ProductOption;
 import com.code.shopee.model.ProductOptionValues;
 import com.code.shopee.model.ProductOptions;
 import com.code.shopee.model.ProductVatiants;
+import com.code.shopee.model.Subcategory;
 
 public interface ProductService {
     public List<Product> getAllProductStatusTrue();
@@ -31,4 +33,9 @@ public interface ProductService {
     public ProductVatiants getVatiantByOptions(int productId, Map<String, String> selectedOptions);
 
     public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus);
+    public List<Product> getProductBySubcateId(int subcategoryId);
+    public List<Product> getProductBySeller(int sellerId);
+    public List<Subcategory> getSubcategoriesByIds(Set<Integer> ids);
 }
+
+

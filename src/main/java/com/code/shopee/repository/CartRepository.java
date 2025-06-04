@@ -10,5 +10,5 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
     List<Cart> findByUserIdAndStatusTrueAndTransactionNull(int userId);
     Cart findByIdAndStatusTrue(int id);
     List<Cart> findByUserIdAndStatusTrueAndTransactionIsNotNullAndShippingStatus(int userId, int shippingStatus);
-
+    List<Cart> findAllByTransactionId(int transactionId);
 }

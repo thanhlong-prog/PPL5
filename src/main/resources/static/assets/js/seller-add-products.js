@@ -5,6 +5,40 @@ var quill = new Quill('#editor', {
     }
 });
 
+const form = document.querySelector('form');
+form.addEventListener('submit', function () {
+    saveVariantsToHiddenInput();
+    const hiddenInput = document.getElementById('description-input');
+    hiddenInput.value = quill.root.innerHTML;
+    e.preventDefault();
+    const variantJsonInput = document.getElementById('variant-json');
+    variantJsonInput.value = JSON.stringify(getAllVariantData());
+
+});
+
+function getAllVariantData() {
+    const rows = document.querySelectorAll('tbody tr');
+    const data = [];
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const obj = {};
+
+        attributeList.forEach((attr, i) => {
+            obj[attr.type] = cells[i].innerText.trim();
+        });
+
+        obj.price = row.querySelector('.price-option').value.trim();
+        obj.quantity = row.querySelector('.quantity-option').value.trim();
+        obj.sku = row.querySelector('.sku-option').value.trim();
+
+        data.push(obj);
+    });
+
+    return data;
+}
+
+
 function mergeTableCellsByText(columnIndex = 0) {
     const table = document.querySelector("table");
     const rows = Array.from(table.querySelectorAll("tbody tr"));
@@ -21,12 +55,10 @@ function mergeTableCellsByText(columnIndex = 0) {
         const text = cell.innerText.trim();
 
         if (text === prevText) {
-
             rowspan++;
             prevCell.rowSpan = rowspan;
-            cell.remove();
+            cell.style.display = "none"; 
         } else {
-
             prevText = text;
             rowspan = 1;
             prevCell = cell;
@@ -101,8 +133,38 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         renderTable(attributeList);
+        saveVariantsToHiddenInput();
     });
 });
+
+function saveVariantsToHiddenInput() {
+    const rows = document.querySelectorAll('tbody tr');
+    const data = [];
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const values = [];
+
+        attributeList.forEach((attr, i) => {
+            values.push(cells[i].innerText.trim());
+        });
+
+        const obj = {
+            attributes: attributeList.map(a => a.type),
+            values: values,
+            price: row.querySelector('.price-option').value.trim(),
+            quantity: row.querySelector('.quantity-option').value.trim(),
+            sku: row.querySelector('.sku-option').value.trim()
+        };
+
+        data.push(obj);
+    });
+
+    const jsonString = JSON.stringify(data);
+    console.log("JSON GỬI LÊN:", jsonString);
+
+    document.getElementById('variant-json').value = JSON.stringify(data);
+}
 
 function renderTable(attributes) {
     const thead = document.querySelector('thead tr');
@@ -190,7 +252,7 @@ fileInput.addEventListener("change", () => {
         reader.readAsDataURL(file);
     });
 
-    fileInput.value = "";
+    // fileInput.value = "";
 });
 
 

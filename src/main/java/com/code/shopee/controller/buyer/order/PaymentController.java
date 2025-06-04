@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,8 +29,11 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
 import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
+import com.code.shopee.model.Transaction;
 import com.code.shopee.model.User;
 import com.code.shopee.model.UserAddress;
+import com.code.shopee.repository.CartRepository;
+import com.code.shopee.repository.TransactionRepository;
 import com.code.shopee.service.ProductService;
 import com.code.shopee.service.UserService;
 
@@ -44,6 +48,10 @@ public class PaymentController {
     private UserMapper userMapper;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private CartRepository cartRepository;
 
     @RequestMapping("")
     public String payment(@RequestParam(value = "cartIds") List<Integer> items, Model model) {
@@ -82,15 +90,24 @@ public class PaymentController {
     public String addPayment(@RequestParam(value = "totalPay") int amount,
             @RequestParam(value = "cartIds") List<Integer> items,
             @RequestParam(value = "addressId") int addressId, Model model) {
-        
+
         return "redirect:/buyer/payment/create?amount=" + amount;
     }
 
     @GetMapping("/create")
-    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request, @RequestParam(value = "totalPay") int amountres,
+    public String createPayment(HttpServletRequest req, Model model, HttpServletRequest request,
+            @RequestParam(value = "totalPay") int amountres,
             @RequestParam(value = "cartIds") List<Integer> items,
             @RequestParam(value = "addressId") int addressId)
             throws UnsupportedEncodingException {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            String email = oauth2User.getAttribute("email");
+            consumer = userService.findByGmail(email);
+        }
         String orderType = "other";
         long amount = amountres * 100;
         // long amount = 10000000;
@@ -114,6 +131,32 @@ public class PaymentController {
 
         if (bankCode != null && !bankCode.isEmpty()) {
             vnp_Params.put("vnp_BankCode", bankCode);
+        }
+        Transaction transaction = new Transaction();
+        transaction.setTxnRef(vnp_TxnRef);
+        transaction.setStatus(0);
+        transaction.setTotalPrice(amountres);
+        transaction.setCreatedDate(LocalDateTime.now());
+        transaction.setOrder(consumer);
+        transactionRepository.save(transaction);
+
+        List<Cart> carts = cartRepository.findAllById(items);
+        for (Cart cart : carts) {
+            cart.setTransaction(transaction);
+
+            int basePrice = (cart.getProductVatiants() != null)
+                    ? cart.getProductVatiants().getPrice()
+                    : cart.getProduct().getPrice();
+
+            int discount = (cart.getProduct().getDiscount() != null)
+                    ? cart.getProduct().getDiscount()
+                    : 0;
+
+            int totalPrice = cart.getOrderQuantity() * basePrice * (100 - discount) / 100;
+            cart.setTotalPrice(totalPrice);
+
+            cart.setModifiedDate(LocalDateTime.now());
+            cartRepository.save(cart);
         }
 
         Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
@@ -172,10 +215,42 @@ public class PaymentController {
             paymentDto.setStatus("Ok");
             paymentDto.setMessage("success");
             paymentDto.setURL("thanh toán thành công");
+            Transaction transaction = transactionRepository.findByTxnRefAndStatusFalse(traceId);
+            transaction.setStatus(1);
+            transaction.setVnpTransactionNo(blankCode);
+            transaction.setVnpOrderInfo(order);
+            transaction.setTraceId(traceId);
+            transaction.setModifiedDate(LocalDateTime.now());
+            transactionRepository.save(transaction);
+            List<Cart> carts = cartRepository.findAllByTransactionId(transaction.getId());
+            carts.forEach(cart -> {
+                if(cart.getProductVatiants() != null) {
+                    cart.getProductVatiants().setQuantity(cart.getProductVatiants().getQuantity() - cart.getOrderQuantity());
+                }
+                cart.getProduct().setQuantity(cart.getProduct().getQuantity() - cart.getOrderQuantity());
+                cart.setModifiedDate(LocalDateTime.now());
+                cart.setShippingStatus(1); 
+                cartRepository.save(cart);
+            });
+
         } else {
             paymentDto.setStatus("Ok");
             paymentDto.setMessage("success");
             paymentDto.setURL("thanh toán không thành công");
+            Transaction transaction = transactionRepository.findByTxnRefAndStatusFalse(traceId);
+            if (transaction != null) {
+                transaction.setVnpTransactionNo(blankCode);
+                transaction.setVnpOrderInfo(order);
+                transaction.setTraceId(traceId);
+                transaction.setModifiedDate(LocalDateTime.now());
+                transactionRepository.save(transaction);
+                List<Cart> carts = cartRepository.findAllByTransactionId(transaction.getId());
+                carts.forEach(cart -> {
+                    cart.setTransaction(null);
+                    cart.setModifiedDate(LocalDateTime.now());
+                    cartRepository.save(cart);
+                });
+            }
         }
         model.addAttribute("payment", paymentDto);
         return "testVnpay/vnpayres";

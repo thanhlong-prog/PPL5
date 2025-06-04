@@ -1,6 +1,6 @@
 package com.code.shopee.controller.buyer.product;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -122,8 +122,8 @@ public class ProductController {
                 cart.setOrderQuantity(orderQuantity);
                 cart.setUser(consumer);
                 cart.setProduct(productService.getProductByIdAndStatusTrue(productId));
-                cart.setCreatedDate(LocalDate.now());
-                cart.setModifiedDate(LocalDate.now());
+                cart.setCreatedDate(LocalDateTime.now());
+                cart.setModifiedDate(LocalDateTime.now());
                 productService.addCart(cart);
                 return ResponseEntity.ok(cart.getId());
             }
@@ -134,8 +134,8 @@ public class ProductController {
             cart.setUser(consumer);
             cart.setProduct(variant.getProduct());
             cart.setProductVatiants(variant);
-            cart.setCreatedDate(LocalDate.now());
-            cart.setModifiedDate(LocalDate.now());
+            cart.setCreatedDate(LocalDateTime.now());
+            cart.setModifiedDate(LocalDateTime.now());
             productService.addCart(cart);
             return ResponseEntity.ok(cart.getId());
         } catch (Exception e) {

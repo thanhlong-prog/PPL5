@@ -18,12 +18,14 @@ import com.code.shopee.model.ProductOption;
 import com.code.shopee.model.ProductOptionValues;
 import com.code.shopee.model.ProductOptions;
 import com.code.shopee.model.ProductVatiants;
+import com.code.shopee.model.Subcategory;
 import com.code.shopee.repository.CartRepository;
 import com.code.shopee.repository.ProductOptionRepository;
 import com.code.shopee.repository.ProductOptionValuesRepo;
 import com.code.shopee.repository.ProductOptionsReposioty;
 import com.code.shopee.repository.ProductRepository;
 import com.code.shopee.repository.ProductVatiantsRepo;
+import com.code.shopee.repository.SubcategoryRepo;
 import com.code.shopee.service.ProductService;
 
 @Service
@@ -42,6 +44,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductOptionValuesRepo productOptionValues;
     @Autowired
     private ProductVatiantsRepo productVatiantsRepo;
+    @Autowired
+    private SubcategoryRepo subcategoryRepository;
 
     @Override
     public List<Product> getAllProductStatusTrue() {
@@ -134,7 +138,7 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        return 0; 
+        return 0;
     }
 
     @Override
@@ -153,11 +157,27 @@ public class ProductServiceImpl implements ProductService {
             }
         }
 
-        return null; 
+        return null;
     }
 
     @Override
     public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus) {
         return cartRepository.findByUserIdAndStatusTrueAndTransactionIsNotNullAndShippingStatus(userId, shippingStatus);
     }
+
+    @Override
+    public List<Product> getProductBySubcateId(int subcategoryId) {
+        return productRepository.findBySubcategoryIdAndStatusTrue(subcategoryId);
+    }
+
+    @Override
+    public List<Product> getProductBySeller(int sellerId) {
+        return productRepository.findBySellerIdAndStatusTrue(sellerId);
+    }
+
+    @Override
+    public List<Subcategory> getSubcategoriesByIds(Set<Integer> ids) {
+        return subcategoryRepository.findAllById(ids); // nếu dùng JPA
+    }
+
 }

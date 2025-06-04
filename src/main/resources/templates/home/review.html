@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh Giá Sản Phẩm - Shopee</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 16px;
+            border-radius: 3px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background-color: #ee4d2d;
+            color: white;
+            padding: 5px 16px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header h1 {
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 auto;
+        }
+        
+        .back-button {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0;
+            margin-right: 10px;
+        }
+        
+        .product-info {
+            display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        
+        .product-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border: 1px solid #f2f2f2;
+            margin-right: 12px;
+        }
+        
+        .product-details {
+            flex-grow: 1;
+        }
+        
+        .product-name {
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #333;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .product-variation {
+            color: #999;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .product-price {
+            color: #ee4d2d;
+            font-size: 14px;
+        }
+        
+        .rating-section {
+            padding: 16px 0;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        
+        .rating-title {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 12px;
+        }
+        
+        .stars {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .star {
+            font-size: 30px;
+            color: #dadada;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+        
+        .star.active {
+            color: #ee4d2d;
+        }
+        
+        .review-section {
+            padding: 16px 0;
+        }
+        
+        .review-textarea {
+            width: 100%;
+            height: 120px;
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            border-radius: 3px;
+            resize: none;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .review-textarea:focus {
+            outline: none;
+            border-color: #ee4d2d;
+        }
+        
+        .review-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .character-count {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .review-options {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .option-tag {
+            background-color: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 16px;
+            padding: 6px 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option-tag.selected {
+            background-color: #fef6f5;
+            border-color: #ee4d2d;
+            color: #ee4d2d;
+        }
+        
+        .photo-upload {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .photo-title {
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .optional {
+            color: #999;
+            font-size: 12px;
+        }
+        
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .photo-item {
+            width: 80px;
+            height: 80px;
+            background-color: #f5f5f5;
+            border: 1px dashed #d4d4d4;
+            border-radius: 3px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .photo-item .delete {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 18px;
+            height: 18px;
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+        }
+        
+        .photo-item .add-icon {
+            font-size: 24px;
+            color: #999;
+        }
+        
+        .anonymous {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .anonymous input {
+            margin-right: 8px;
+        }
+        
+        .anonymous label {
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .submit-button {
+            background-color: #ee4d2d;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 3px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 16px;
+        }
+        
+        .submit-button:disabled {
+            background-color: #f9aea1;
+            cursor: not-allowed;
+        }
+        
+        /* Dialog styling */
+        .dialog-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .dialog-overlay.show {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        .dialog {
+            background: white;
+            width: 90%;
+            max-width: 320px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .dialog-header {
+            padding: 16px;
+            font-size: 16px;
+            font-weight: 500;
+            border-bottom: 1px solid #f2f2f2;
+        }
+        
+        .dialog-content {
+            padding: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .confirm-content p {
+            margin-bottom: 8px;
+        }
+        
+        .dialog-actions {
+            display: flex;
+            border-top: 1px solid #f2f2f2;
+        }
+        
+        .dialog-button {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .dialog-button.primary {
+            color: #ee4d2d;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="back-button">←</button>
+        <h1>Đánh Giá Sản Phẩm</h1>
+    </div>
+    
+    <div class="container">
+        <div class="product-info">
+            <img src="../../static/assets/images/img-review/vn-11134207-7r98o-lxqblnj3muaj76.jpg" alt="Sản phẩm" class="product-img">
+            <div class="product-details">
+                <div class="product-name">Áo Thun Unisex Form Rộng Tay Lỡ In Họa Tiết Chữ Phong Cách Hàn Quốc</div>
+                <div class="product-variation">Phân loại: Trắng, Size M</div>
+                <div class="product-price">₫89.000</div>
+            </div>
+        </div>
+        
+        <div class="rating-section">
+            <div class="rating-title">Chất lượng sản phẩm</div>
+            <div class="stars">
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+                <div class="star">★</div>
+            </div>
+        </div>
+        
+        <div class="review-section">
+            <textarea class="review-textarea" placeholder="Hãy chia sẻ những điều bạn thích về sản phẩm này với những người mua khác nhé"></textarea>
+            <div class="review-footer">
+                <div class="character-count">0/400</div>
+            </div>
+            
+            <div class="review-options">
+                <div class="option-tag">Đúng với mô tả</div>
+                <div class="option-tag">Chất lượng tốt</div>
+                <div class="option-tag">Đóng gói đẹp và chắc chắn</div>
+                <div class="option-tag">Rất đáng mua</div>
+                <div class="option-tag">Giao hàng nhanh</div>
+                <div class="option-tag">Vừa vặn</div>
+                <div class="option-tag">Giá cả hợp lý</div>
+                <div class="option-tag">Vải chất lượng tốt</div>
+            </div>
+            
+            <div class="photo-upload">
+                <div class="photo-title">
+                    <span>Thêm hình ảnh</span>
+                    <span class="optional">(tùy chọn)</span>
+                </div>
+                <div class="photo-grid">
+                    <div class="photo-item upload-btn">
+                        <div class="add-icon">+</div>
+                        <input type="file" id="photo-upload" accept="image/*" multiple style="display:none">
+                    </div>
+                    <!-- <div class="photo-item">
+                        <img src="/api/placeholder/80/80" alt="Ảnh đánh giá">
+                        <div class="delete">×</div>
+                    </div> -->
+                </div>
+            </div>
+            
+            
+            <button class="submit-button">Gửi</button>
+        </div>
+    </div>
+    
+    <div class="dialog-overlay" id="successDialog">
+        <div class="dialog">
+            <div class="dialog-header">Thông báo</div>
+            <div class="dialog-content">
+                Cảm ơn bạn đã đánh giá sản phẩm. Đánh giá của bạn đã được gửi thành công!
+            </div>
+            <div class="dialog-actions">
+                <button class="dialog-button primary" onclick="closeDialog('successDialog')">Đóng</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dialog-overlay" id="confirmDialog">
+        <div class="dialog">
+            <div class="dialog-header">Xác nhận đánh giá</div>
+            <div class="dialog-content">
+                <div class="confirm-content">
+                    <p><strong>Sản phẩm:</strong> <span id="confirm-product"></span></p>
+                    <p><strong>Đánh giá:</strong> <span id="confirm-rating"></span> sao</p>
+                    <p><strong>Nội dung:</strong> <span id="confirm-text"></span></p>
+                    <p><strong>Thẻ đánh giá:</strong> <span id="confirm-tags"></span></p>
+                    <p><strong>Ảnh đính kèm:</strong> <span id="confirm-photos"></span> ảnh</p>
+                </div>
+            </div>
+            <div class="dialog-actions">
+                <button class="dialog-button" onclick="closeDialog('confirmDialog')">Chỉnh sửa</button>
+                <button class="dialog-button primary" onclick="submitReview()">Xác nhận gửi</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Xử lý sao đánh giá
+        const stars = document.querySelectorAll('.star');
+        let currentRating = 0;
+        
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                currentRating = index + 1;
+                updateStars();
+            });
+            
+            star.addEventListener('mouseover', () => {
+                highlightStars(index);
+            });
+            
+            star.addEventListener('mouseout', () => {
+                updateStars();
+            });
+        });
+        
+        function highlightStars(index) {
+            stars.forEach((star, i) => {
+                star.classList.toggle('active', i <= index);
+            });
+        }
+        
+        function updateStars() {
+            stars.forEach((star, i) => {
+                star.classList.toggle('active', i < currentRating);
+            });
+            
+            const submitButton = document.querySelector('.submit-button');
+            submitButton.disabled = currentRating === 0;
+        }
+        
+        // Xử lý đếm ký tự
+        const textarea = document.querySelector('.review-textarea');
+        const charCount = document.querySelector('.character-count');
+        
+        textarea.addEventListener('input', () => {
+            const count = textarea.value.length;
+            charCount.textContent = `${count}/400`;
+        });
+        
+        // Xử lý thẻ tùy chọn
+        const optionTags = document.querySelectorAll('.option-tag');
+        
+        optionTags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                tag.classList.toggle('selected');
+            });
+        });
+        
+        // Xử lý gửi đánh giá
+        const submitButton = document.querySelector('.submit-button');
+        
+        submitButton.addEventListener('click', () => {
+            if (currentRating > 0) {
+                showConfirmDialog();
+            }
+        });
+        
+        function showConfirmDialog() {
+            // Lấy thông tin đánh giá để xác nhận
+            const productName = document.querySelector('.product-name').textContent;
+            const reviewText = document.querySelector('.review-textarea').value || "(Không có nội dung)";
+            
+            // Lấy các thẻ đã chọn
+            const selectedTags = Array.from(document.querySelectorAll('.option-tag.selected'))
+                .map(tag => tag.textContent);
+            const tagsText = selectedTags.length > 0 ? selectedTags.join(', ') : "(Không có)";
+            
+            // Đếm số ảnh đã tải lên
+            const photoCount = document.querySelectorAll('.photo-item img').length;
+            
+            // Điền thông tin vào dialog xác nhận
+            document.getElementById('confirm-product').textContent = productName;
+            document.getElementById('confirm-rating').textContent = currentRating;
+            document.getElementById('confirm-text').textContent = reviewText;
+            document.getElementById('confirm-tags').textContent = tagsText;
+            document.getElementById('confirm-photos').textContent = photoCount;
+            
+            // Hiển thị dialog xác nhận
+            document.getElementById('confirmDialog').classList.add('show');
+        }
+        
+        function submitReview() {
+            // Đóng dialog xác nhận
+            closeDialog('confirmDialog');
+            // Hiển thị thông báo thành công
+            document.getElementById('successDialog').classList.add('show');
+        }
+        
+        function closeDialog(dialogId) {
+            document.getElementById(dialogId).classList.remove('show');
+        }
+        
+        // Xử lý nút trở lại
+        const backButton = document.querySelector('.back-button');
+        backButton.addEventListener('click', () => {
+            if (confirm('Bạn có chắc muốn thoát? Các thông tin đánh giá sẽ không được lưu.')) {
+                alert('Đã thoát khỏi trang đánh giá');
+            }
+        });
+        
+        // Xử lý tải ảnh lên
+        const uploadBtn = document.querySelector('.upload-btn');
+        const fileInput = document.getElementById('photo-upload');
+        
+        uploadBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                for (let i = 0; i < e.target.files.length; i++) {
+                    if (i >= 5) break; // Giới hạn 5 ảnh
+                    
+                    const file = e.target.files[i];
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        const photoGrid = document.querySelector('.photo-grid');
+                        const newPhotoItem = document.createElement('div');
+                        newPhotoItem.className = 'photo-item';
+                        
+                        const img = document.createElement('img');
+                        img.src = event.target.result;
+                        img.alt = 'Ảnh đánh giá';
+                        
+                        const deleteBtn = document.createElement('div');
+                        deleteBtn.className = 'delete';
+                        deleteBtn.innerHTML = '×';
+                        deleteBtn.addEventListener('click', function() {
+                            photoGrid.removeChild(newPhotoItem);
+                        });
+                        
+                        newPhotoItem.appendChild(img);
+                        newPhotoItem.appendChild(deleteBtn);
+                        
+                        // Thêm ảnh vào trước nút upload
+                        photoGrid.insertBefore(newPhotoItem, uploadBtn.nextSibling);
+                    }
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+        
+        // Xử lý xóa ảnh
+        const deleteButtons = document.querySelectorAll('.delete');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const photoItem = this.parentNode;
+                photoItem.parentNode.removeChild(photoItem);
+            });
+        });
+        
+        // Khởi tạo
+        updateStars();
+    </script>
+</body>
+</html>

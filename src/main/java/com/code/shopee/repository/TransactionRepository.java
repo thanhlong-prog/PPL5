@@ -10,4 +10,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     Transaction findByOrderIdAndStatusTrue(int orderId);
     Transaction findByCartsIdAndStatusTrue(int cartId);
     Transaction findByIdAndStatusTrue(int id);
+    Transaction findByTxnRefAndStatusFalse(String txnRef);
 }

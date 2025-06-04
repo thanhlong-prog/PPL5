@@ -240,7 +240,7 @@
 
                                     <div th:each="item : ${entry.value}">
                                         <div class="product-inf"
-                                            th:attr="data-id=${item.id}, data-price=${item.product.discount != null ? item.product.price * item.product.discount / 100 * item.orderQuantity : item.product.price * item.orderQuantity}">
+                                            th:attr="data-id=${item.id}, data-price=${item.product.discount != null ? item.product.price * (100-item.product.discount) / 100 * item.orderQuantity : item.product.price * item.orderQuantity}">
 
                                             <div class="img-title row-4">
                                                 <div class="img">
@@ -274,12 +274,12 @@
 
                                             <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants != null}"
                                                 class="price row-2"
-                                                th:text="'₫'+${item.productVatiants.price*item.product.discount/100}">
+                                                th:text="'₫'+${item.productVatiants.price*(100-item.product.discount)/100}">
                                             </div>
 
                                             <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants == null}"
                                                 class="price row-2"
-                                                th:text="'₫'+${item.product.price*item.product.discount/100}">
+                                                th:text="'₫'+${item.product.price*(100-item.product.discount)/100}">
                                             </div>
                                             <div th:if="${item.product.discount == null and item.productVatiants != null || item.product.discount == '' and item.productVatiants != null}"
                                                 class="price row-2" th:text="'₫'+${item.productVatiants.price}">
@@ -299,11 +299,11 @@
 
                                             <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants != null}"
                                                 class="total-price row-2 row-end"
-                                                th:text="'₫'+${item.productVatiants.price*item.product.discount/100*item.orderQuantity}">
+                                                th:text="'₫'+${item.productVatiants.price*(100-item.product.discount)/100*item.orderQuantity}">
                                             </div>
                                             <div th:if="${item.product.discount != null and item.product.discount != '' and item.productVatiants == null}"
                                                 class="total-price row-2 row-end"
-                                                th:text="'₫'+${item.product.price*item.product.discount/100*item.orderQuantity}">
+                                                th:text="'₫'+${item.product.price*(100-item.product.discount)/100*item.orderQuantity}">
                                             </div>
                                             <div th:if="${item.product.discount == null and item.productVatiants != null || item.product.discount == '' and item.productVatiants != null}"
                                                 class="total-price row-2 row-end"
