@@ -20,6 +20,10 @@ public class ShopeeController {
     public String SellerManage() {
         return "seller/seller-manage";
     }
+    @RequestMapping("product-manage")
+    public String bulk() {
+        return "seller/product-manage";
+    }
     @RequestMapping("/checkout")
     public String Checkout() {
         return "checkout/checkout";

@@ -1,17 +1,14 @@
 package com.code.shopee.controller.seller;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
@@ -20,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,6 +27,7 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.dto.addProductDto;
 import com.code.shopee.dto.variantDto;
 import com.code.shopee.mapper.UserMapper;
+import com.code.shopee.model.Cart;
 import com.code.shopee.model.Category;
 import com.code.shopee.model.CustomUserDetails;
 import com.code.shopee.model.Product;
@@ -37,7 +36,9 @@ import com.code.shopee.model.ProductOptionValues;
 import com.code.shopee.model.ProductOptions;
 import com.code.shopee.model.ProductVatiants;
 import com.code.shopee.model.Subcategory;
+import com.code.shopee.model.Transaction;
 import com.code.shopee.model.User;
+import com.code.shopee.repository.CartRepository;
 import com.code.shopee.repository.CategoryRepository;
 import com.code.shopee.repository.ProductImageRepository;
 import com.code.shopee.repository.ProductOptionValuesRepo;
@@ -45,9 +46,12 @@ import com.code.shopee.repository.ProductOptionsReposioty;
 import com.code.shopee.repository.ProductRepository;
 import com.code.shopee.repository.ProductVatiantsRepo;
 import com.code.shopee.repository.SubcategoryRepo;
+import com.code.shopee.repository.TransactionRepository;
 import com.code.shopee.service.CloudinaryService;
 import com.code.shopee.service.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.validation.Valid;
 
@@ -74,6 +78,12 @@ public class SellerController {
     private ProductOptionValuesRepo productOptionValuesRepo;
     @Autowired
     private ProductVatiantsRepo productVariantsRepo;
+    @Autowired
+    private ProductRepository productRepo;
+    @Autowired
+    private TransactionRepository transactionRepository;
+    @Autowired
+    private CartRepository cartRepo;
 
     @RequestMapping("/addproduct")
     public String addProduct(Model model) {
@@ -208,7 +218,8 @@ public class SellerController {
             productVariant.setModifiedDate(LocalDate.now());
             productVariant.setStatus(1);
             productVariant.setDescription("no description");
-
+            // productVariant.setName();
+            StringBuilder nameBuilder = new StringBuilder();
             Set<ProductOptionValues> optionValuesSet = new HashSet<>();
             List<String> attributes = variant.getAttributes();
             List<String> values = variant.getValues();
@@ -216,12 +227,16 @@ public class SellerController {
             for (int i = 0; i < attributes.size(); i++) {
                 String attr = attributes.get(i);
                 String val = values.get(i);
-
+                nameBuilder.append(attr).append(" ").append(val);
+                if (i < attributes.size() - 1) {
+                    nameBuilder.append(" - ");
+                }
                 ProductOptionValues optionValue = savedOptionValues.get(attr).get(val);
                 if (optionValue != null) {
                     optionValuesSet.add(optionValue);
                 }
             }
+            productVariant.setName(nameBuilder.toString());
             productVariant.setOptionValues(optionValuesSet);
             productVariantsRepo.save(productVariant);
         }
@@ -230,10 +245,187 @@ public class SellerController {
         return "seller/seller-add-products";
     }
 
+    // @GetMapping("/product")
+    // public String productManager(@RequestParam(name = "status", required = false,
+    // defaultValue = "all") String status,
+    // Model model) {
+    // Object principal =
+    // SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    // User consumer = new User();
+    // if (principal instanceof CustomUserDetails user) {
+    // consumer = userService.findByUsername(user.getUsername());
+    // } else if (principal instanceof OAuth2User oauth2User) {
+    // consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+    // }
+    // UserDto userData = userMapper.toUserDto(consumer);
+    // List<Product> products;
+    // if (status.equalsIgnoreCase("true")) {
+    // products =
+    // productRepo.findActiveProductsByProductVatiantsCreatedBy(consumer);
+    // } else if (status.equalsIgnoreCase("false")) {
+    // products =
+    // productRepo.findInactiveProductsByProductVatiantsCreatedBy(consumer);
+    // } else {
+    // products = productRepo.findProductsByProductVatiantsCreatedBy(consumer);
+    // }
+    // int productCountStatusTrue = productRepository.countByStatusTrue();
+    // int productCountStatusFalse = productRepository.countByStatusFalse();
+    // model.addAttribute("productCountStatusTrue", productCountStatusTrue);
+    // model.addAttribute("productCountStatusFalse", productCountStatusFalse);
+    // model.addAttribute("user", userData);
+    // model.addAttribute("products", products);
+    // model.addAttribute("statusFilter", status);
+    // return "seller/product-manage";
+    // }
+
+    @GetMapping("")
+    public String sellerHome(@RequestParam(name = "status", required = false, defaultValue = "all") String status,
+            @RequestParam(name = "page", required = false, defaultValue = "product") String page,
+            Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        if (page.equalsIgnoreCase("product")) {
+            List<Product> products;
+            if (status.equalsIgnoreCase("true")) {
+                products = productRepo.findActiveProductsAndSellerIdAndByProductVatiantsCreatedBy(consumer.getId(),
+                        consumer);
+            } else if (status.equalsIgnoreCase("false")) {
+                products = productRepo.findInactiveProductsAndSellerIdByProductVatiantsCreatedBy(consumer.getId(),
+                        consumer);
+            } else {
+                products = productRepo.findProductsAndSellerIdByProductVatiantsCreatedBy(consumer.getId(), consumer);
+            }
+            int productCountStatusTrue = productRepository.countBySellerIdAndStatusTrue(consumer.getId());
+            int productCountStatusFalse = productRepository.countBySellerIdAndStatusFalse(consumer.getId());
+            model.addAttribute("productCountStatusTrue", productCountStatusTrue);
+            model.addAttribute("productCountStatusFalse", productCountStatusFalse);
+            model.addAttribute("user", userData);
+            model.addAttribute("products", products);
+            model.addAttribute("statusFilter", status);
+            model.addAttribute("mode", page);
+        } else if (page.equalsIgnoreCase("purchase")) {
+            List<Transaction> transactions;
+            if (status.equalsIgnoreCase("all")) {
+                transactions = transactionRepository.findAllBySellerId(consumer.getId());
+            } else {
+                int shippingStatusFilter = -1;
+                try {
+                    shippingStatusFilter = Integer.parseInt(status);
+                } catch (NumberFormatException e) {
+                    shippingStatusFilter = -1;
+                }
+                transactions = transactionRepository.findAllBySellerIdAndShippingStatus(consumer.getId(),
+                        shippingStatusFilter);
+            }
+            for (Transaction t : transactions) {
+                int total = t.getCarts().stream().mapToInt(Cart::getTotalPrice).sum();
+                t.setTotal(total);
+                long distinctStatuses = t.getCarts().stream()
+                        .map(Cart::getShippingStatus)
+                        .distinct()
+                        .count();
+
+                if (distinctStatuses == 1) {
+                    int commonStatus = t.getCarts().get(0).getShippingStatus();
+                    t.setShippingStatus(commonStatus);
+                } else {
+                    t.setShippingStatus(-1);
+                }
+            }
+            int confirmCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 2);
+            int packCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 3);
+            int waitCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 4);
+            int deliveredCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 5);
+            int canceledCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 6);
+            int onDeliveryCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 1);
+            int allCart = cartRepo.countBySellerId(consumer.getId());
+            model.addAttribute("confirmCart", confirmCart);
+            model.addAttribute("packCart", packCart);
+            model.addAttribute("waitCart", waitCart);
+            model.addAttribute("deliveredCart", deliveredCart);
+            model.addAttribute("canceledCart", canceledCart);
+            model.addAttribute("onDeliveryCart", onDeliveryCart);
+            model.addAttribute("transactions", transactions);
+            model.addAttribute("allCart", allCart);
+            model.addAttribute("mode", page);
+        } else if (page.equalsIgnoreCase("cancel")) {
+            List<Transaction> transactions = transactionRepository.findAllBySellerIdAndShippingStatus(consumer.getId(),
+                    6);
+            for (Transaction t : transactions) {
+                int total = t.getCarts().stream().mapToInt(Cart::getTotalPrice).sum();
+                t.setTotal(total);
+                long distinctStatuses = t.getCarts().stream()
+                        .map(Cart::getShippingStatus)
+                        .distinct()
+                        .count();
+
+                if (distinctStatuses == 1) {
+                    int commonStatus = t.getCarts().get(0).getShippingStatus();
+                    t.setShippingStatus(commonStatus);
+                } else {
+                    t.setShippingStatus(-1);
+                }
+            }
+            int canceledCart = cartRepo.countBySellerIdAndShippingStatus(consumer.getId(), 6);
+            model.addAttribute("canceledCart", canceledCart);
+            model.addAttribute("transactions", transactions);
+            model.addAttribute("mode", page);
+        } else if (page.equalsIgnoreCase("bulk")) {
+            List<Transaction> transactions = transactionRepository.findAllBySellerIdAndShippingStatus(consumer.getId(),
+                    2);
+            for (Transaction t : transactions) {
+                int total = t.getCarts().stream().mapToInt(Cart::getTotalPrice).sum();
+                t.setTotal(total);
+                long distinctStatuses = t.getCarts().stream()
+                        .map(Cart::getShippingStatus)
+                        .distinct()
+                        .count();
+
+                if (distinctStatuses == 1) {
+                    int commonStatus = t.getCarts().get(0).getShippingStatus();
+                    t.setShippingStatus(commonStatus);
+                } else {
+                    t.setShippingStatus(-1);
+                }
+            }
+            model.addAttribute("transactions", transactions);
+            model.addAttribute("mode", page);
+        }
+
+        model.addAttribute("user", userData);
+        return "seller/seller-manage";
+    }
+
     @ResponseBody
     @GetMapping("/subcategories")
     public List<Subcategory> updateSubcategory(@RequestParam("categoryId") int categoryId) {
         List<Subcategory> subcategories = subcategoryRepo.findByCategoryIdAndStatusTrue(categoryId);
         return subcategories;
+    }
+
+    @PostMapping("/confirm-delivery")
+    @ResponseBody
+    public ResponseEntity<?> confirmDelivery(@RequestBody Map<String, List<Integer>> body) {
+        List<Integer> transactionIds = body.get("transactionIds");
+        for (int transactionId : transactionIds) {
+            Transaction transaction = transactionRepository.findByIdAndStatusTrue(transactionId);
+            if (transaction == null) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Transaction not found or inactive"));
+            }
+            List<Cart> carts = cartRepo.findAllByTransactionId(transactionId);
+            for (Cart cart : carts) {
+                cart.setShippingStatus(2); 
+                cartRepo.save(cart);
+            }
+            transaction.setShippingStatus(3); 
+            transactionRepository.save(transaction);
+        }
+        return ResponseEntity.ok(Map.of("success", true));
     }
 }

@@ -41,6 +41,9 @@ public class ProductVatiants {
     @Column(name = "quantity")
     private int quantity;
 
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "price")
     private int price;
 

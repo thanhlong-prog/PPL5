@@ -30,7 +30,7 @@
                 <div class="btn-order-options">
                     <button class="add-new-product">
                         <i class='bx  bx-plus'></i>
-                        <span>Thêm sản phẩm mới</span>
+                        <span onclick="window.location.href='/seller/addproduct'">Thêm sản phẩm mới</span>
                     </button>
                     <button class="batch-order-process">
                         <i class='bx  bx-shopping-bag'></i>
@@ -40,18 +40,50 @@
             </div>
             <div class="navbar-primary">
                 <div class="tabs">
-                    <span class="active">Tất cả <span class="count">(112)</span></span>
-                    <span>Chờ xác nhận<span class="count">(37)</span></span>
-                    <span>Đang đóng gói <span class="count">(35)</span></span>
-                    <span>Chờ lấy hàng<span class="count">(20)</span></span>
-                    <span>Đang giao<span class="count">(2)</span></span>
-                    <span>Đã giao<span class="count">(5)</span></span>
-                    <span>Đã huỷ<span class="count">(15)</span></span>
+                    <a th:href="@{/seller(status='all', page='purchase')}">
+                        <span th:classappend="${statusFilter} == 'all' ? ' active'">Tất cả <span class="count"
+                                th:text="'('+ ${allCart} +')'">(112)</span></span>
+                    </a>
+                    <a th:href="@{/seller(status='2', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '0' ? ' active'">
+                            Chờ xác nhận <span class="count" th:text="'('+ ${confirmCart} +')'">(37)</span>
+                        </span>
+                    </a>
+
+                    <a th:href="@{/seller(status='3', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '1' ? ' active'">
+                            Đang đóng gói <span class="count" th:text="'('+ ${packCart} +')'">(35)</span>
+                        </span>
+                    </a>
+
+                    <a th:href="@{/seller(status='4', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '2' ? ' active'">
+                            Chờ lấy hàng <span class="count" th:text="'('+ ${waitCart} +')'">(20)</span>
+                        </span>
+                    </a>
+
+                    <a th:href="@{/seller(status='1', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '3' ? ' active'">
+                            Đang giao <span class="count" th:text="'('+ ${onDeliveryCart} +')'">(2)</span>
+                        </span>
+                    </a>
+
+                    <a th:href="@{/seller(status='5', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '4' ? ' active'">
+                            Đã giao <span class="count" th:text="'('+ ${deliveredCart} +')'">(5)</span>
+                        </span>
+                    </a>
+
+                    <a th:href="@{/seller(status='6', page='purchase')}">
+                        <span th:classappend="${statusFilter} == '5' ? ' active'">
+                            Đã huỷ <span class="count" th:text="'('+ ${canceledCart} +')'">(15)</span>
+                        </span>
+                    </a>
                 </div>
             </div>
             <div class="bottom-main">
                 <div class="navbar-secondary">
-                    <div class="sub-filters">
+                    <!-- <div class="sub-filters">
                         <div class="w-search">
                             <div class="id-search btn-search">
                                 <label for="IdOrder">ID đơn hàng</label>
@@ -80,60 +112,117 @@
                                 <button class="search">Áp dụng</button>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <table class="order-table">
                     <thead>
                         <tr>
                             <th>Tên sản phẩm</th>
                             <th>Số lượng</th>
-                            <th>Tổng đơn hàng</th>
+                            <th>Tổng tiền</th>
                             <th>Trạng thái | Đếm ngược</th>
                             <th>Thời gian tạo</th>
                             <th>Thời gian giao hàng</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="order-list">
+                    <tbody th:each="transaction : ${transactions}" class="order-list">
                         <tr class="order-id">
                             <td colspan="7">
                                 <span class="title">ID đơn hàng:</span>
-                                <span class="id">211025R7H5KDFQ</span>
+                                <span class="id" th:text="${transaction.id}">211025R7H5KDFQ</span>
                             </td>
                         </tr>
                         <tr class="order-row products">
                             <td class="list-product">
-                                <div class="product-info">
+                                <div class="product-info" th:each="cart : ${transaction.carts}">
                                     <img src="/assets/images/img-products/product-1.webp" alt="">
                                     <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
+                                        <div th:text="${cart.productVatiants.name}">Áo thun 123456</div>
+                                        <div th:text="${cart.productVatiants.sku}" class="type">Size L</div>
                                     </div>
                                 </div>
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
+
+                            </td>
+                            <td>
+                                <div th:each="cart : ${transaction.carts}">
+                                    <div th:text="${cart.orderQuantity}">1</div>
                                 </div>
                             </td>
-                            <td>1</td>
-                            <td>₫500.000</td>
+                            <td th:text="'₫'+${transaction.total}">₫500.000</td>
                             <td>
                                 <div class="order-status">
-                                    <span class="seller-status transferred">Chờ giao hàng</span>
-                                    <div class="shopee-warning">
-                                        <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
-                                                class="cancel-time">1</span> ngày</span>
-                                        <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                    <div th:if="${transaction.shippingStatus == 1}">
+                                        <span class="seller-status transferred">Đang giao</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
                                             động vào ngày
-                                            <span class="date-cancel">1/6/2025</span></span>
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${transaction.shippingStatus == 2}">
+                                        <span class="seller-status transferred">Chờ xác nhận</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${transaction.shippingStatus == 3}">
+                                        <span class="seller-status transferred">Đang đóng gói</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${transaction.shippingStatus == 4}">
+                                        <span class="seller-status transferred">Chờ lấy hàng</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${transaction.shippingStatus == 5}">
+                                        <span class="seller-status transferred">Đã giao</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
+                                    </div>
+
+                                    <div th:if="${transaction.shippingStatus == 6}">
+                                        <span class="seller-status transferred">Đã hủy</span>
+                                        <div class="shopee-warning">
+                                            <span class="shopee-status cancel-order">Huỷ đơn hàng trong <span
+                                                    class="cancel-time">1</span> ngày</span>
+                                            <!-- <span class="note-cancel-order">Vui lòng giao hàng, nếu không, đơn sẽ bị huỷ tự
+                                            động vào ngày
+                                            <span class="date-cancel">1/6/2025</span></span> -->
+                                        </div>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <span class="date-time-order">31/5/2025 11:20</span>
+                                <span class="date-time-order"
+                                    th:text="${#temporals.format(transaction.createdDate, 'dd/MM/yyyy HH:mm')}">31/5/2025
+                                    11:20</span>
                             </td>
                             <td>
                                 <span class="date-time-shipping">-</span>
@@ -143,92 +232,7 @@
                             </td>
                         </tr>
                     </tbody>
-                    <tbody class="order-list">
-                        <tr class="order-id">
-                            <td colspan="7">
-                                <span class="title">ID đơn hàng:</span>
-                                <span class="id">211025R7H5KDFQ</span>
-                            </td>
-                        </tr>
-                        <tr class="order-row products">
-                            <td class="list-product">
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1</td>
-                            <td>₫500.000</td>
-                            <td>
-                                <div class="order-status">
-                                    <span class="seller-status transferred">Đã giao đơn vị vận chuyển</span>
-                                    <span class="user-status unsuccessful">Giao hàng không thành công</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="date-time-order">31/5/2025 11:20</span>
-                            </td>
-                            <td>
-                                <span class="date-time-shipping">-</span>
-                            </td>
-                            <td>
-                                <a href="#">Xem chi tiết</a>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tbody class="order-list">
-                        <tr class="order-id">
-                            <td colspan="7">
-                                <span class="title">ID đơn hàng:</span>
-                                <span class="id">211025R7H5KDFQ</span>
-                            </td>
-                        </tr>
-                        <tr class="order-row products">
-                            <td class="list-product">
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>1</td>
-                            <td>₫500.000</td>
-                            <td>
-                                <div class="order-status">
-                                    <span class="seller-status transferred">Đã giao cho đơn vị vận chuyển</span>
-                                    <span class="user-status successful">Giao hàng thành công</span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="date-time-order">31/5/2025 11:20</span>
-                            </td>
-                            <td>
-                                <span class="date-time-shipping">-</span>
-                            </td>
-                            <td>
-                                <a href="#">Xem chi tiết</a>
-                            </td>
-                        </tr>
-                    </tbody>
+
                 </table>
             </div>
         </div>

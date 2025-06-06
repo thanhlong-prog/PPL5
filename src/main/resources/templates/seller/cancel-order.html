@@ -30,11 +30,11 @@
             </div>
             <div class="navbar-primary">
                 <div class="tabs">
-                    <span class="active">Tất cả <span class="count">(112)</span></span>
-                    <span>Đơn huỷ<span class="count">(37)</span></span>
-                    <span>Đơn giao hàng không thành công <span class="count">(35)</span></span>
+                    <span class="active">Tất cả <span class="count" th:text="'('+${canceledCart}+')'">(112)</span></span>
+                    <!-- <span>Đơn huỷ<span class="count">(37)</span></span>
+                    <span>Đơn giao hàng không thành công <span class="count">(35)</span></span> -->
                 </div>
-                <div class="sub-filters">
+                <!-- <div class="sub-filters">
                     <div class="w-search">
                         <div class="id-search btn-search">
                             <label for="IdOrder">ID đơn hàng</label>
@@ -63,7 +63,7 @@
                             <button class="search">Áp dụng</button>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="bottom-main">
                 <table class="order-table">
@@ -78,40 +78,40 @@
                             <th>Thao tác</th>
                         </tr>
                     </thead>
-                    <tbody class="order-list">
+                    <tbody th:each="transaction : ${transactions}" class="order-list">
                         <tr class="order-id">
                             <td colspan="7">
                                 <span class="title">ID đơn hàng:</span>
-                                <span class="id">211025R7H5KDFQ</span>
+                                <span class="id" th:text="${transaction.id}">211025R7H5KDFQ</span>
                             </td>
                         </tr>
                         <tr class="order-row products">
                             <td class="list-product">
-                                <div class="product-info">
+                                <div  th:each="cart : ${transaction.carts}" class="product-info">
+                                    <img src="/assets/images/img-products/product-1.webp" alt="">
+                                    <div>
+                                        <div th:text="${cart.productVatiants.name}">Áo thun 123456</div>
+                                        <div th:text="${cart.productVatiants.sku}" class="type">Size L</div>
+                                    </div>
+                                </div>
+                                <!-- <div class="product-info">
                                     <img src="/assets/images/img-products/product-1.webp" alt="">
                                     <div>
                                         <div>Áo thun 123456</div>
                                         <div class="type">Size L</div>
                                     </div>
-                                </div>
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
+                                </div> -->
                             </td>
-                            <td>₫500.000</td>
-                            <td><span class="buyer-username">abc123</span></td>
+                            <td th:text="'₫'+${transaction.total}">₫500.000</td>
+                            <td><span class="buyer-username" th:text="${transaction.carts[0].user.name}">abc123</span></td>
                             <td>
-                                <span>Không nhận hàng</span>
+                                <span th:text="${transaction.reason.reason}">Không nhận hàng</span>
                             </td>
                             <td>
-                                <span class="reason">Đang được hoàn về kho</span>
+                                <span class="reason" th:text="${transaction.reason.status}">Đang được hoàn về kho</span>
                             </td>
                             <td>
-                                <span class="date-time-cancel">1/6/2025 11h30</span>
+                                <span class="date-time-cancel" th:text="${#temporals.format(transaction.modifiedDate, 'dd/MM/yyyy HH:mm')}">1/6/2025 11h30</span>
                             </td>
                             <td>
                                 <a href="#">Xem chi tiết</a>

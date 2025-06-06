@@ -42,3 +42,40 @@ document.addEventListener("DOMContentLoaded", function () {
     // Cập nhật ban đầu
     updateButtonState();
 });
+
+function confirmBulkOrder() {
+    const selectedIds = [];
+    const checkboxes = document.querySelectorAll('tbody.order-list input[type="checkbox"]:checked');
+    
+    checkboxes.forEach(cb => {
+        const id = cb.getAttribute("data-id");
+        if (id) {
+            selectedIds.push(parseInt(id));
+        }
+    });
+
+    if (selectedIds.length === 0) {
+        alert("Bạn chưa chọn đơn hàng nào.");
+        return;
+    }
+
+    fetch("/seller/confirm-delivery", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ transactionIds: selectedIds })
+    })
+    .then(res => {
+        if (!res.ok) throw new Error("Lỗi khi gửi dữ liệu");
+        return res.json();
+    })
+    .then(data => {
+        alert("Xác nhận giao hàng thành công!");
+        location.reload(); 
+    })
+    .catch(err => {
+        console.error(err);
+        alert("Đã xảy ra lỗi.");
+    });
+}
