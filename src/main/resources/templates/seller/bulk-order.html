@@ -30,7 +30,7 @@
             </div>
             <div class="bulk-order-main">
                 <div class="w-search">
-                    <div class="sub-filters">
+                    <!-- <div class="sub-filters">
                         <div class="w-search">
                             <div class="id-search btn-search">
                                 <label for="IdOrder">ID đơn hàng</label>
@@ -83,7 +83,7 @@
                                 <option value="3">Tổng đơn hàng</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="bulk-order-info">
                     <span class="info"><span class="quantity-order">2</span>Đơn hàng được chọn</span>
@@ -104,39 +104,34 @@
                             <th>Trạng thái đơn hàng | Hạn giao hàng</th>
                         </tr>
                     </thead>
-                    <tbody class="order-list">
+                    <tbody th:each="transaction : ${transactions}" class="order-list">
                         <tr class="order-id">
-                            <td class="check-all-id"><input type="checkbox"></td>
+                            <td class="check-all-id"><input type="checkbox" th:attr="data-id=${transaction.id}"></td>
                             <td colspan="5">
                                 <span class="title">ID đơn hàng:</span>
-                                <span class="id">211025R7H5KDFQ</span>
+                                <span class="id" th:text="${transaction.id}">211025R7H5</span>
                             </td>
                         </tr>
                         <tr class="order-row products">
                             <td class="list-product">
-                                <div class="product-info">
+                                <div class="product-info" th:each="cart : ${transaction.carts}">
                                     <img src="/assets/images/img-products/product-1.webp" alt="">
                                     <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
-                                    </div>
-                                </div>
-                                <div class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div>Áo thun 123456</div>
-                                        <div class="type">Size L</div>
+                                        <div th:text="${cart.productVatiants.name}">Áo thun 123456</div>
+                                        <div th:text="${cart.productVatiants.sku}" class="type">Size L</div>
                                     </div>
                                 </div>
                             </td>
-                            <td>₫500.000</td>
+                            <td th:text="'₫'+${transaction.total}">₫500.000</td>
                             <td>
                                 <div class="order-info">
-                                    <span class="name">abc123</span>
+                                    <span class="name" th:text="${transaction.carts[0].user.name}">abc123</span>
                                 </div>
                             </td>
                             <td>
-                                <span class="date-time-order">31/5/2025 11:20</span>
+                                <span class="date-time-order"
+                                    th:text="${#temporals.format(transaction.createdDate, 'dd/MM/yyyy HH:mm')}">31/5/2025
+                                    11:20</span>
                             </td>
                             <td>
                                 <span class="order-status">Giao hàng trước <span class="time">3h</span> ngày <span

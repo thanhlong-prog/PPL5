@@ -33,9 +33,9 @@
                 </div>
                 <div class="mn-dropdown">
                     <ul>
-                        <li>Tất cả</li>
-                        <li>Đơn huỷ/Trả hàng</li>
-                        <li>Giao hàng loạt</li>
+                        <li><a th:href="@{/seller(page='purchase')}">Tất cả</a></li>
+                        <li><a th:href="@{/seller(page='cancel')}">Đơn huỷ/Trả hàng</a></li>
+                        <li><a th:href="@{/seller(page='bulk')}">Giao hàng loạt</a></li>
                     </ul>
                 </div>
             </div>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="mn-dropdown">
                     <ul>
-                        <li>Danh sách sản phẩm</li>
-                        <li>Thêm sản phẩm</li>
+                        <li><a th:href="@{/seller(page='product')}">Danh sách sản phẩm</a></li>
+                        <li><a th:href="@{/seller/addproduct}">Thêm sản phẩm</a></li>
                     </ul>
                 </div>
             </div>
@@ -66,20 +66,31 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="product-manage">
+        <div class="product-manage" th:if="${mode} == 'product'">
             <div th:insert="~{seller/product-manage}"></div>
-        </div> -->
-        <!-- <div class="order-manage">
+        </div>
+
+        <div class="order-manage" th:if="${mode} == 'purchase'">
             <div th:insert="~{seller/order-manage}"></div>
+<<<<<<< HEAD
         </div> -->
         <!-- <div class="bulk-order">
             <div th:insert="~{seller/bulk-order}"></div>
         </div> -->
         <!-- <div class="cancel-order">
+=======
+        </div>
+
+        <div class="cancel-order" th:if="${mode} == 'cancel'">
+>>>>>>> a31adeb5b2490922ffea975815f749ea81a1250b
             <div th:insert="~{seller/cancel-order}"></div>
         </div> -->
         <div class="data-analysis">
             <div th:insert="~{seller/data-analysis}"></div>
+        </div>
+
+        <div class="bulk-order" th:if="${mode} == 'bulk'">
+            <div th:insert="~{seller/bulk-order}"></div>
         </div>
     </div>
     <script src="/assets/js/seller-manage.js"></script>
