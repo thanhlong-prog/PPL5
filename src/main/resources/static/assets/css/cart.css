@@ -294,19 +294,20 @@ ul {
     display: flex;
     align-items: center;
     padding: 15px;
+    gap: 50px;
 }
 .cart-main-top .left{
-    width: 50%;
+    flex: 1;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     gap: 10px;
 }
 .cart-main-top .right{
-    width: 50%;
+    flex: 1;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
 }
 .cart-item{
     width: 100%;
@@ -342,8 +343,8 @@ ul {
 .cart-item .center{
     width: 100%;
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 50px;
 }
 .cart-item .center .img-product{
     display: flex;
@@ -352,8 +353,9 @@ ul {
     gap: 15px;
 }
 .cart-item .center .img-product img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
+    border-radius: 3px;
     object-fit: cover;
     display: block;
 }
@@ -383,16 +385,10 @@ ul {
     align-items: flex-start;
     justify-content: center;
     opacity: 0.8;
-    margin-right: 50px;
 }
 .cart-item .center .price{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
     font-size: 14px;
     font-weight: 500;
-    margin-right: 50px;
 }
 .cart-item .center .price .price-old{
     text-decoration: 1px line-through;
@@ -443,10 +439,8 @@ ul {
 }
 .cart-item .center .btn-option{
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 10px;
+    justify-content: flex-start;
 }
 .cart-item .center .btn-option .btn-delete{
     border: none;
@@ -468,6 +462,27 @@ ul {
     bottom: 0;
     box-shadow: 0 1px 4px rgba(33, 26, 26, 0.15);
     -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, .15);
+}
+.cart-main .center .left{
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 20px;
+    flex: 1;
+}
+.cart-main .center .right{
+    display: flex;
+    flex: 1;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-top: 10px;
+}
+.flex-column-1{
+    flex: 1;
+    margin: 0;
+    padding: 0;
+    align-self: center;
+    justify-self: center;
 }
 .cart-main .cart-main-bottom .select-voucher{
     display: flex;

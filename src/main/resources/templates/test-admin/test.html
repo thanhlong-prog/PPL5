@@ -1,0 +1,1443 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopee Admin Dashboard</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/test.css">
+  <style>
+    :root {
+      --shopee-orange: #ee4d2d;
+      --shopee-light-orange: #ff7337;
+      --sidebar-width: 260px;
+      --header-height: 62px;
+      --footer-height: 62px;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f9;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .layout-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background-color: #ffffff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      z-index: 1050;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      height: var(--header-height);
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      color: var(--shopee-orange);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .sidebar-logo img {
+      height: 35px;
+      margin-right: 10px;
+    }
+
+    .sidebar-content {
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      overflow-y: auto;
+      padding: 15px 0;
+    }
+
+    .sidebar-item {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      color: #697a8d;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+      border-radius: 0 20px 20px 0;
+      margin-right: 15px;
+    }
+
+    .sidebar-link:hover {
+      background-color: rgba(238, 77, 45, 0.08);
+      color: var(--shopee-orange);
+    }
+
+    .sidebar-link.active {
+      background-color: rgba(238, 77, 45, 0.1);
+      color: var(--shopee-orange);
+      font-weight: 500;
+    }
+
+    .sidebar-link i {
+      width: 20px;
+      margin-right: 12px;
+      font-size: 1.1rem;
+    }
+
+    .sidebar-footer {
+      height: var(--footer-height);
+      padding: 15px 20px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .sidebar-user-info {
+      line-height: 1.2;
+    }
+
+    .sidebar-user-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #566a7f;
+    }
+
+    .sidebar-user-role {
+      font-size: 0.75rem;
+      color: #a1acb8;
+    }
+
+    /* Main content */
+    .layout-page {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      height: var(--header-height);
+      background-color: #ffffff;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f0f0f0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: calc(100% - var(--sidebar-width));
+      z-index: 1040;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: #697a8d;
+      margin-right: 15px;
+    }
+
+    .header-search {
+      position: relative;
+    }
+
+    .header-search input {
+      width: 250px;
+      padding: 8px 15px 8px 35px;
+      border: 1px solid #e7e7e8;
+      border-radius: 5px;
+      font-size: 0.875rem;
+      background-color: #f5f5f9;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #697a8d;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icon {
+      position: relative;
+      color: #697a8d;
+      font-size: 1.2rem;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .header-icon:hover {
+      color: var(--shopee-orange);
+    }
+
+    .header-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 18px;
+      height: 18px;
+      background-color: var(--shopee-orange);
+      color: white;
+      font-size: 0.7rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-wrapper {
+      padding: 25px;
+      margin-top: var(--header-height);
+      flex: 1;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+      font-weight: 600;
+      color: #566a7f;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+    }
+
+    .card-header {
+      padding: 15px 20px;
+      background-color: transparent;
+      border-bottom: 1px solid #f0f0f0;
+      font-weight: 600;
+      color: #566a7f;
+    }
+
+    .stats-card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .stats-icon {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.3rem;
+    }
+
+    .stats-icon.bg-primary {
+      background-color: var(--shopee-orange);
+    }
+
+    .stats-icon.bg-info {
+      background-color: #03c3ec;
+    }
+
+    .stats-icon.bg-success {
+      background-color: #71dd37;
+    }
+
+    .stats-icon.bg-warning {
+      background-color: #ffab00;
+    }
+
+    .stats-title {
+      font-size: 0.9rem;
+      color: #a1acb8;
+      margin-bottom: 10px;
+    }
+
+    .stats-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #566a7f;
+      margin-bottom: 5px;
+    }
+
+    .stats-change {
+      font-size: 0.8rem;
+    }
+
+    .stats-change.positive {
+      color: #71dd37;
+    }
+
+    .stats-change.negative {
+      color: #ff3e1d;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table th {
+      font-weight: 600;
+      color: #566a7f;
+      border-bottom-width: 1px;
+    }
+
+    .table td {
+      vertical-align: middle;
+      color: #697a8d;
+    }
+
+    .product-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-badge.pending {
+      background-color: rgba(255, 171, 0, 0.12);
+      color: #ffab00;
+    }
+
+    .status-badge.processing {
+      background-color: rgba(3, 195, 236, 0.12);
+      color: #03c3ec;
+    }
+
+    .status-badge.delivered {
+      background-color: rgba(113, 221, 55, 0.12);
+      color: #71dd37;
+    }
+
+    .status-badge.cancelled {
+      background-color: rgba(255, 62, 29, 0.12);
+      color: #ff3e1d;
+    }
+
+    .btn-shopee {
+      background-color: var(--shopee-orange);
+      border-color: var(--shopee-orange);
+      color: white;
+    }
+
+    .btn-shopee:hover {
+      background-color: var(--shopee-light-orange);
+      border-color: var(--shopee-light-orange);
+      color: white;
+    }
+
+    .btn-shopee-light {
+      background-color: rgba(238, 77, 45, 0.1);
+      border-color: transparent;
+      color: var(--shopee-orange);
+    }
+
+    .btn-shopee-light:hover {
+      background-color: rgba(238, 77, 45, 0.2);
+      color: var(--shopee-orange);
+    }
+
+    .chart-container {
+      height: 280px;
+      position: relative;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .layout-page {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .header {
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-search input {
+        width: 180px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-wrapper {
+        padding: 15px;
+      }
+
+      .header-search {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <div class="sidebar-header">
+        <a href="#" class="sidebar-logo">
+          <i class="fas fa-shopping-bag me-2"></i>
+          <span>Shopee Admin</span>
+        </a>
+      </div>
+
+      <div class="sidebar-content">
+        <ul class="list-unstyled">
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link active">
+              <i class="fas fa-home"></i>
+              <span>Trang chủ</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-box"></i>
+              <span>Quản lý sản phẩm</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Đơn hàng</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-users"></i>
+              <span>Người dùng</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-tags"></i>
+              <span>Khuyến mãi</span>
+            </a>
+          </li> -->
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-chart-line"></i>
+              <span>Phân tích dữ liệu</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-star"></i>
+              <span>Đánh giá</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-wallet"></i>
+              <span>Tài chính</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-ad"></i>
+              <span>Marketing</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-cog"></i>
+              <span>Cài đặt</span>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="../../static/assets/images/img-admin/userProfile.jpg" alt="User Avatar" class="sidebar-user-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Nguyễn Văn A</div>
+            <div class="sidebar-user-role">Admin</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <div class="layout-page">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="header-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Tìm kiếm...">
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-icon">
+            <i class="fas fa-bell"></i>
+            <span class="header-badge">5</span>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-envelope"></i>
+            <span class="header-badge">3</span>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-cog"></i>
+          </div>
+        </div>
+      </header>
+
+      <!-- Content -->
+      <!-- <div class="content-wrapper">
+        <h4 class="page-title">Bảng điều khiển</h4>
+        <div class="row">
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+              <div class="stats-icon bg-primary">
+                <i class="fas fa-shopping-cart"></i>
+              </div>
+              <div class="stats-title">Tổng đơn hàng</div>
+              <div class="stats-value">2,458</div>
+              <div class="stats-change positive">
+                <i class="fas fa-arrow-up"></i> 18.2% so với tháng trước
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+              <div class="stats-icon bg-info">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+              <div class="stats-title">Doanh thu</div>
+              <div class="stats-value">312 triệu</div>
+              <div class="stats-change positive">
+                <i class="fas fa-arrow-up"></i> 12.3% so với tháng trước
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+              <div class="stats-icon bg-success">
+                <i class="fas fa-users"></i>
+              </div>
+              <div class="stats-title">Người dùng mới</div>
+              <div class="stats-value">956</div>
+              <div class="stats-change positive">
+                <i class="fas fa-arrow-up"></i> 8.7% so với tháng trước
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card stats-card">
+              <div class="stats-icon bg-warning">
+                <i class="fas fa-box"></i>
+              </div>
+              <div class="stats-title">Sản phẩm mới</div>
+              <div class="stats-value">124</div>
+              <div class="stats-change negative">
+                <i class="fas fa-arrow-down"></i> 5.2% so với tháng trước
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xl-8 mb-4">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Biểu đồ doanh thu</h5>
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    Tháng này
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li><a class="dropdown-item" href="#">Tháng này</a></li>
+                    <li><a class="dropdown-item" href="#">Quý này</a></li>
+                    <li><a class="dropdown-item" href="#">Năm nay</a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" id="revenue-chart">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-4 mb-4">
+            <div class="card">
+              <div class="card-header">
+                <h5 class="mb-0">Phân loại đơn hàng</h5>
+              </div>
+              <div class="card-body">
+                <div class="chart-container" id="orders-chart">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Đơn hàng gần đây</h5>
+                <a href="#" class="btn btn-sm btn-shopee">Xem tất cả</a>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Sản phẩm</th>
+                        <th>Khách hàng</th>
+                        <th>Giá trị</th>
+                        <th>Thời gian</th>
+                        <th>Trạng thái</th>
+                        <th>Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>#SH45782</td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Điện thoại iPhone 13</span>
+                          </div>
+                        </td>
+                        <td>Trần Thị B</td>
+                        <td>22,990,000đ</td>
+                        <td>10/05/2025 15:30</td>
+                        <td><span class="status-badge pending">Chờ xử lý</span></td>
+                        <td>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                              <li><a class="dropdown-item" href="#">Cập nhật trạng thái</a></li>
+                              <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>#SH45781</td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Laptop Dell XPS 13</span>
+                          </div>
+                        </td>
+                        <td>Lê Văn C</td>
+                        <td>32,490,000đ</td>
+                        <td>10/05/2025 14:15</td>
+                        <td><span class="status-badge processing">Đang xử lý</span></td>
+                        <td>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                              <li><a class="dropdown-item" href="#">Cập nhật trạng thái</a></li>
+                              <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>#SH45780</td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Tai nghe Apple AirPods Pro</span>
+                          </div>
+                        </td>
+                        <td>Hoàng Thị D</td>
+                        <td>5,490,000đ</td>
+                        <td>10/05/2025 12:40</td>
+                        <td><span class="status-badge delivered">Đã giao hàng</span></td>
+                        <td>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                              <li><a class="dropdown-item" href="#">Cập nhật trạng thái</a></li>
+                              <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>#SH45779</td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Áo thun nam Sporter</span>
+                          </div>
+                        </td>
+                        <td>Phan Văn E</td>
+                        <td>249,000đ</td>
+                        <td>10/05/2025 10:20</td>
+                        <td><span class="status-badge cancelled">Đã hủy</span></td>
+                        <td>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                              <li><a class="dropdown-item" href="#">Mở lại đơn hàng</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>#SH45778</td>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Smart TV Samsung 55 inch</span>
+                          </div>
+                        </td>
+                        <td>Vũ Thị F</td>
+                        <td>12,990,000đ</td>
+                        <td>10/05/2025 09:15</td>
+                        <td><span class="status-badge delivered">Đã giao hàng</span></td>
+                        <td>
+                          <div class="dropdown">
+                            <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                              <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Xem chi tiết</a></li>
+                              <li><a class="dropdown-item" href="#">Cập nhật trạng thái</a></li>
+                              <li><a class="dropdown-item" href="#">Hủy đơn hàng</a></li>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 mb-4">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Sản phẩm bán chạy</h5>
+                <a href="#" class="btn btn-sm btn-shopee">Xem tất cả</a>
+              </div>
+              <div class="card-body">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Sản phẩm</th>
+                        <th>Danh mục</th>
+                        <th>Đã bán</th>
+                        <th>Doanh thu</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>iPhone 13 Pro Max 256GB</span>
+                          </div>
+                        </td>
+                        <td>Điện thoại</td>
+                        <td>245</td>
+                        <td>7.8 tỷ đồng</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Samsung Galaxy S22 Ultra</span>
+                          </div>
+                        </td>
+                        <td>Điện thoại</td>
+                        <td>189</td>
+                        <td>5.2 tỷ đồng</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Laptop Gaming MSI GF65</span>
+                          </div>
+                        </td>
+                        <td>Laptop</td>
+                        <td>132</td>
+                        <td>3.9 tỷ đồng</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Áo Khoác Bomber Nam</span>
+                          </div>
+                        </td>
+                        <td>Thời trang nam</td>
+                        <td>521</td>
+                        <td>1.2 tỷ đồng</td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="/api/placeholder/100/100" alt="Product" class="product-img me-3">
+                            <span>Nồi Chiên Không Dầu</span>
+                          </div>
+                        </td>
+                        <td>Đồ gia dụng</td>
+                        <td>457</td>
+                        <td>1.1 tỷ đồng</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 mb-4">
+            <div class="card">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">Đánh giá gần đây</h5>
+                <a href="#" class="btn btn-sm btn-shopee">Xem tất cả</a>
+              </div>
+              <div class="card-body">
+                <div class="review-item d-flex mb-3 pb-3 border-bottom">
+                  <img src="/api/placeholder/100/100" alt="User" class="rounded-circle me-3" style="width: 45px; height: 45px;">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Nguyễn Văn G</h6>
+                      <div>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                      </div>
+                    </div>
+                    <p class="mb-1 text-muted small">iPhone 13 Pro Max 256GB</p>
+                    <p class="mb-0">Sản phẩm chất lượng, đóng gói cẩn thận, giao hàng nhanh. Rất hài lòng!</p>
+                  </div>
+                </div>
+                <div class="review-item d-flex mb-3 pb-3 border-bottom">
+                  <img src="/api/placeholder/100/100" alt="User" class="rounded-circle me-3" style="width: 45px; height: 45px;">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Trần Thị H</h6>
+                      <div>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="far fa-star text-warning"></i>
+                      </div>
+                    </div>
+                    <p class="mb-1 text-muted small">Áo Khoác Bomber Nam</p>
+                    <p class="mb-0">Áo đẹp, chất liệu tốt, form vừa vặn. Chỉ có điều giao hàng hơi chậm.</p>
+                  </div>
+                </div>
+                <div class="review-item d-flex mb-3 pb-3 border-bottom">
+                  <img src="/api/placeholder/100/100" alt="User" class="rounded-circle me-3" style="width: 45px; height: 45px;">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Phạm Văn I</h6>
+                      <div>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="far fa-star text-warning"></i>
+                        <i class="far fa-star text-warning"></i>
+                      </div>
+                    </div>
+                    <p class="mb-1 text-muted small">Nồi Chiên Không Dầu</p>
+                    <p class="mb-0">Sản phẩm tạm ổn, nhưng không đúng như mô tả. Chức năng hạn chế hơn so với quảng cáo.</p>
+                  </div>
+                </div>
+                <div class="review-item d-flex">
+                  <img src="/api/placeholder/100/100" alt="User" class="rounded-circle me-3" style="width: 45px; height: 45px;">
+                  <div class="flex-grow-1">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                      <h6 class="mb-0">Lê Thị K</h6>
+                      <div>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                        <i class="fas fa-star text-warning"></i>
+                      </div>
+                    </div>
+                    <p class="mb-1 text-muted small">Laptop Gaming MSI GF65</p>
+                    <p class="mb-0">Laptop hiệu năng tốt, chơi game rất mượt, không bị giật lag. Rất hài lòng với sản phẩm!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+      <div class="content-wrapper" style="display: none;">
+        <div class="wrapper-product-manage">
+          <div class="main-prd-manage">
+            <div class="header-main">
+              <div class="title">
+                <span>Sản phẩm</span>
+              </div>
+              <!-- <div class="options">
+                <button>Thêm 1 sản phẩm mới</button>
+              </div> -->
+            </div>
+            <div class="navbar-primary">
+              <div class="tabs">
+                <span class="active">Tất cả <span class="count">(112)</span></span>
+                <span>Đang hoạt động <span class="count">(37)</span></span>
+                <span>Vi phạm <span class="count">(35)</span></span>
+                <span>Đợi duyệt <span class="count">(20)</span></span>
+              </div>
+            </div>
+            <div class="bottom-main product-overall">
+              <div class="navbar-secondary">
+                <div class="sub-filters">
+                  <div class="btn-search">
+                    <input type="text" placeholder="Tìm Tên sản phẩm, SKU sản phẩm, SKU phiếu, Mã sản phẩm">
+                    <div class="search"><i class='bx bx-search'></i></div>
+                  </div>
+                  <button class="btn-apply">Tìm kiếm</button>
+                </div>
+              </div>
+              <table class="product-table">
+                <thead>
+                  <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tài khoản người bán</th>
+                    <th>Giá</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="parent-row" onclick="toggleSubRows(this)">
+                    <td><input type="checkbox"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="">
+                        <div>
+                          <div>Áo thun 123456</div>
+                          <div class="sku">SKU sản phẩm</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>seller-vippro-123</td>
+                    <td>₫50.000 - ₫500.000</td>
+                    <td>11/2/2025 10:45</td>
+                    <td>Hoạt động</td>
+                    <td><a class="prd-detail" href="#">Xem chi tiết</a></td>
+                  </tr>
+                  <tr class="child-row" style="display: none;">
+                    <td class="empty"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="Sản phẩm con">
+                        <div>
+                          <div>Màu đỏ – Size M</div>
+                          <div class="sku">SKU: 123456-M-RED</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="empty"></td>
+                    <td>₫55.000</td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="bottom-main product-active">
+              <div class="navbar-secondary">
+                <div class="sub-filters">
+                  <div class="btn-search">
+                    <input type="text" placeholder="Tìm Tên sản phẩm, SKU sản phẩm, SKU phiếu, Mã sản phẩm">
+                    <div class="search"><i class='bx bx-search'></i></div>
+                  </div>
+                  <button class="btn-apply">Tìm kiếm</button>
+                  <div class="btn-action">
+                    <span>Đánh dấu vi phạm hàng loạt</span>
+                    <i class='bx  bx-pause-circle'></i>
+                  </div>
+                </div>
+              </div>
+              <table class="product-table">
+                <div class="check-inf">
+                  <span>Đã chọn <span class="check-quantity"> 2 </span> sản phẩm</span>
+                </div>
+                <thead>
+                  <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tài khoản người bán</th>
+                    <th>Giá</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th class="tl-action">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="parent-row" onclick="toggleSubRows(this)">
+                    <td><input type="checkbox"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="">
+                        <div>
+                          <div>Áo thun 123456</div>
+                          <div class="sku">SKU sản phẩm</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>seller-vippro-123</td>
+                    <td>₫50.000 - ₫500.000</td>
+                    <td>11/2/2025 10:45</td>
+                    <td>Hoạt động</td>
+                    <td>
+                      <div class="prd-actions">
+                        <a class="prd-detail" href="#">Xem chi tiết</a>
+                        <a class="prd-violation" href="#">Đánh dấu vi phạm</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="child-row" style="display: none;">
+                    <td class="empty"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="Sản phẩm con">
+                        <div>
+                          <div>Màu đỏ – Size M</div>
+                          <div class="sku">SKU: 123456-M-RED</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="empty"></td>
+                    <td>₫55.000</td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="bottom-main product-violation">
+              <div class="navbar-secondary">
+                <div class="sub-filters">
+                  <div class="btn-search">
+                    <input type="text" placeholder="Tìm Tên sản phẩm, SKU sản phẩm, SKU phiếu, Mã sản phẩm">
+                    <div class="search"><i class='bx bx-search'></i></div>
+                  </div>
+                  <button class="btn-apply">Tìm kiếm</button>
+                  <div class="btn-action">
+                    <span>Ẩn sản phẩm vi phạm</span>
+                    <i class='bx  bx-pause-circle'></i>
+                  </div>
+                </div>
+              </div>
+              <table class="product-table">
+                <div class="check-inf">
+                  <span>Đã chọn <span class="check-quantity"> 2 </span> sản phẩm</span>
+                </div>
+                <thead>
+                  <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tài khoản người bán</th>
+                    <th>Giá</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th class="tl-action">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="parent-row" onclick="toggleSubRows(this)">
+                    <td><input type="checkbox"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="">
+                        <div>
+                          <div>Áo thun 123456</div>
+                          <div class="sku">SKU sản phẩm</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>seller-vippro-123</td>
+                    <td>₫50.000 - ₫500.000</td>
+                    <td>11/2/2025 10:45</td>
+                    <td>Hoạt động</td>
+                    <td>
+                      <div class="prd-actions">
+                        <a class="prd-detail" href="#">Xem chi tiết</a>
+                        <a class="prd-hidden-violation" href="#">Ẩn sản phẩm</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="child-row" style="display: none;">
+                    <td class="empty"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="Sản phẩm con">
+                        <div>
+                          <div>Màu đỏ – Size M</div>
+                          <div class="sku">SKU: 123456-M-RED</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="empty"></td>
+                    <td>₫55.000</td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="bottom-main product-approve">
+              <div class="navbar-secondary">
+                <div class="sub-filters">
+                  <div class="btn-search">
+                    <input type="text" placeholder="Tìm Tên sản phẩm, SKU sản phẩm, SKU phiếu, Mã sản phẩm">
+                    <div class="search"><i class='bx bx-search'></i></div>
+                  </div>
+                  <button class="btn-apply">Tìm kiếm</button>
+                  <div class="btn-action">
+                    <span>Duyệt sản phẩm</span>
+                    <i class='bx bx-check-circle'></i>
+                  </div>
+                </div>
+              </div>
+              <table class="product-table">
+                <div class="check-inf">
+                  <span>Đã chọn <span class="check-quantity"> 2 </span> sản phẩm</span>
+                </div>
+                <thead>
+                  <tr>
+                    <th><input type="checkbox"></th>
+                    <th>Tên sản phẩm</th>
+                    <th>Tài khoản người bán</th>
+                    <th>Giá</th>
+                    <th>Ngày đăng</th>
+                    <th>Trạng thái</th>
+                    <th class="tl-action">Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="parent-row" onclick="toggleSubRows(this)">
+                    <td><input type="checkbox"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="">
+                        <div>
+                          <div>Áo thun 123456</div>
+                          <div class="sku">SKU sản phẩm</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>seller-vippro-123</td>
+                    <td>₫50.000 - ₫500.000</td>
+                    <td>11/2/2025 10:45</td>
+                    <td>Hoạt động</td>
+                    <td>
+                      <div class="prd-actions">
+                        <a class="prd-detail" href="#">Xem chi tiết</a>
+                        <a class="prd-approve-violation" href="#">Duyệt sản phẩm</a>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr class="child-row" style="display: none;">
+                    <td class="empty"></td>
+                    <td>
+                      <div class="product-info">
+                        <img src="#" alt="Sản phẩm con">
+                        <div>
+                          <div>Màu đỏ – Size M</div>
+                          <div class="sku">SKU: 123456-M-RED</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="empty"></td>
+                    <td>₫55.000</td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                    <td class="empty"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-wrapper">
+        <div class="wrapper-order-manage">
+          <div class="all-order-manage">
+            <div class="header-main">
+              <div class="title">
+                <span>Quản lý đơn hàng</span>
+              </div>
+            </div>
+            <div class="bottom-main">
+              <div class="sub-filters">
+                <div class="btn-search">
+                  <input type="text" placeholder="Tìm Tên sản phẩm, SKU sản phẩm, SKU phiếu, Mã sản phẩm">
+                  <div class="search"><i class='bx bx-search'></i></div>
+                </div>
+                <button class="btn-apply">Tìm kiếm</button>
+              </div>
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Tổng đơn hàng</th>
+                    <th>Thời gian tạo</th>
+                    <th>Thời gian giao hàng</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody class="order-list">
+                  <div class="seller-list">
+                    <tr class="seller-name">
+                      <td colspan="1">
+                        <span class="title">Tên tài khoản: </span>
+                        <span class="name">
+                          seller-vippro-123
+                        </span>
+                      </td>
+                    </tr>
+                    <div class="order-item">
+                      <tr class="order-id">
+                        <td colspan="7">
+                          <span class="title">ID đơn hàng:</span>
+                          <span class="id">211025R7H5KDFQ</span>
+                        </td>
+                      </tr>
+                      <tr class="order-row products">
+                        <td class="list-product">
+                          <div class="product-info">
+                            <img src="/assets/images/img-products/product-1.webp" alt="">
+                            <div>
+                              <div>Áo thun 123456</div>
+                              <div class="type">Size L</div>
+                            </div>
+                          </div>
+                          <div class="product-info">
+                            <img src="/assets/images/img-products/product-1.webp" alt="">
+                            <div>
+                              <div>Áo thun 123456</div>
+                              <div class="type">Size L</div>
+                            </div>
+                          </div>
+                        </td>
+                        <td>1</td>
+                        <td>₫500.000</td>
+                        <td>
+                          <span class="date-time-order">31/5/2025 11:20</span>
+                        </td>
+                        <td>
+                          <span class="date-time-shipping">-</span>
+                        </td>
+                        <td>
+                          <a href="#">Xem chi tiết</a>
+                        </td>
+                      </tr>
+                    </div>
+                  </div>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/test.js"></script>
+  <!-- JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script>
+    // Toggle sidebar on mobile
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      document.querySelector('.sidebar').classList.toggle('show');
+    });
+
+    // Revenue Chart
+    const revenueCtx = document.createElement('canvas');
+    revenueCtx.id = 'revenueCanvas';
+    document.getElementById('revenue-chart').appendChild(revenueCtx);
+
+    new Chart(revenueCtx, {
+      type: 'line',
+      data: {
+        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+        datasets: [
+          {
+            label: 'Doanh thu (triệu đồng)',
+            data: [250, 285, 302, 278, 293, 327, 356, 383, 290, 312, 345, 368],
+            borderColor: '#ee4d2d',
+            backgroundColor: 'rgba(238, 77, 45, 0.1)',
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Lợi nhuận (triệu đồng)',
+            data: [120, 145, 162, 138, 153, 187, 196, 213, 150, 172, 185, 198],
+            borderColor: '#03c3ec',
+            backgroundColor: 'rgba(3, 195, 236, 0.1)',
+            tension: 0.4,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            }
+          }
+        }
+      }
+    });
+
+    // Orders Chart
+    const ordersCtx = document.createElement('canvas');
+    ordersCtx.id = 'ordersCanvas';
+    document.getElementById('orders-chart').appendChild(ordersCtx);
+
+    new Chart(ordersCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Đã giao hàng', 'Đang xử lý', 'Chờ xử lý', 'Đã hủy'],
+        datasets: [{
+          data: [45, 25, 20, 10],
+          backgroundColor: [
+            '#71dd37',
+            '#03c3ec',
+            '#ffab00',
+            '#ff3e1d'
+          ],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        },
+        cutout: '70%'
+      }
+    });
+  </script>
+</body>
+
+</html>

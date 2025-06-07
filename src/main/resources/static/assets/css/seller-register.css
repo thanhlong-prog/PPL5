@@ -1,6 +1,7 @@
-.seller-register input:focus{
+.seller-register input:focus {
     outline: none;
 }
+
 .sr-header {
     display: flex;
     justify-content: space-between;
@@ -164,14 +165,44 @@
 .form-register form .page {
     min-width: 100%;
 }
-.page .content{
+
+.page .content {
     width: 100%;
 }
+
 .form-register form .content {
     display: flex;
     flex-direction: column;
     width: 100%;
     gap: 20px;
+}
+
+.shop-info .content .address-shop .inf {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.shop-info .content .address-shop .inf .name-phone {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.shop-info .content .address-shop .inf input {
+    width: 60%;
+    height: 30px;
+    font-size: 14px;
+    border-radius: 4px;
+    padding: 10px;
+    border: solid 1px #a09c9c;
+}
+
+.shop-info .content .address-shop .address {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .form-register form .empty-right {
@@ -275,6 +306,7 @@
     background-color: #ee4d2d;
     border-color: #ee4d2d;
 }
+
 .sr-main .shipping-info {
     display: flex;
     flex-direction: column;
@@ -382,6 +414,7 @@
     color: #999999;
     font-size: 14px;
 }
+
 .btn-check-option>.button {
     position: relative;
     width: 55px;
@@ -416,12 +449,14 @@
 .btn-check-option>input {
     display: none;
 }
-.tax-information{
+
+.tax-information {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-.sr-main .page .p-alert{
+
+.sr-main .page .p-alert {
     display: flex;
     width: 100%;
     align-items: flex-start;
@@ -430,57 +465,67 @@
     border-radius: 4px;
     padding: 7px 10px;
 }
-.sr-main .page .p-alert i{
+
+.sr-main .page .p-alert i {
     width: 20px;
     height: 20px;
     color: rgb(23, 121, 219);
     padding-top: 2px;
     margin-right: 5px;
 }
-.sr-main .page .p-alert span{
+
+.sr-main .page .p-alert span {
     font-size: 13px;
-    opacity: 0.8; 
+    opacity: 0.8;
 }
-.tax-information .content{
+
+.tax-information .content {
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 20px 0;
 }
-.tax-information .content .check-business-type{
+
+.tax-information .content .check-business-type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 10px;
     border-radius: 5px;
 }
-.tax-information .content .check-business-type .business-type{
+
+.tax-information .content .check-business-type .business-type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
 }
-.tax-information .content .check-business-type .w-type{
+
+.tax-information .content .check-business-type .w-type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 5px;
     padding-top: 3px;
 }
-.tax-information .content .check-business-type .w-type label{
+
+.tax-information .content .check-business-type .w-type label {
     padding-bottom: 2px;
 }
-.tax-information .content .name-company{
+
+.tax-information .content .name-company {
     display: none;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
     width: 100%;
 }
-.tax-information .content .name-company .input-company{
+
+.tax-information .content .name-company .input-company {
     position: relative;
 }
-.tax-information .content .name-company input{
+
+.tax-information .content .name-company input {
     height: 30px;
     width: 80%;
     font-size: 14px;
@@ -488,45 +533,51 @@
     padding: 0 10px;
     border: solid 1px #a09c9c;
 }
-.tax-information .content .name-company .charCount{
+
+.tax-information .content .name-company .charCount {
     position: absolute;
     right: 23%;
     top: 5px;
     font-size: 14px;
     color: #656464;
 }
-.tax-information .content .name-company .ex-company span{
+
+.tax-information .content .name-company .ex-company span {
     font-size: 13px;
     color: #656464;
     padding-top: 5px;
 }
-.tax-information .content .register-business-address{
+
+.tax-information .content .register-business-address {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
 }
-.tax-information .content .register-business-address .w-country-address{
+
+.tax-information .content .register-business-address .w-country-address {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
-.tax-information .content .register-business-address .country-address input{
 
-}
-.tax-information .content .register-business-address .cd-note{
+.tax-information .content .register-business-address .country-address input {}
+
+.tax-information .content .register-business-address .cd-note {
     font-size: 13px;
     color: #656464;
 }
-.tax-information .content .multiple-level-address{
+
+.tax-information .content .multiple-level-address {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
 }
-.tax-information .content .multiple-level-address .input-address{
+
+.tax-information .content .multiple-level-address .input-address {
     height: 30px;
     width: 80%;
     font-size: 14px;
@@ -535,22 +586,26 @@
     border: solid 1px #a09c9c;
     margin: 10px 0;
 }
-.tax-information .content .multiple-level-address textarea{
+
+.tax-information .content .multiple-level-address textarea {
     width: 80%;
     overflow: hidden;
     padding: 3px 10px;
 }
-.tax-information .content .note{
+
+.tax-information .content .note {
     font-size: 13px;
     color: #656464;
 }
-.tax-information .content .email-tax{
+
+.tax-information .content .email-tax {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
 }
-.tax-information .content .add-email-tax{
+
+.tax-information .content .add-email-tax {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -558,7 +613,8 @@
     gap: 10px;
     width: 100%;
 }
-.tax-information .content .add-email-tax .input-email-tax{
+
+.tax-information .content .add-email-tax .input-email-tax {
     height: 30px;
     width: 60%;
     font-size: 14px;
@@ -566,7 +622,8 @@
     padding: 0 10px;
     border: solid 1px #a09c9c;
 }
-.tax-information .content .add-email-tax button{
+
+.tax-information .content .add-email-tax button {
     color: #333;
     background-color: #fff;
     border: 1px solid #a09c9c;
@@ -589,27 +646,32 @@
     transition: all .2s ease-in-out;
     gap: 5px;
 }
-.tax-information .content .add-email-tax button i{
+
+.tax-information .content .add-email-tax button i {
     font-size: 20px;
     color: #333;
 }
-.tax-information .content .tin{
+
+.tax-information .content .tin {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
 }
-.tax-information .content .tin .w-input-tin{
+
+.tax-information .content .tin .w-input-tin {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
 }
-.tax-information .content .tin .input-tin{
+
+.tax-information .content .tin .input-tin {
     position: relative;
     width: 100%;
 }
-.tax-information .content .tin .input-tin input{
+
+.tax-information .content .tin .input-tin input {
     height: 30px;
     width: 60%;
     font-size: 14px;
@@ -617,17 +679,20 @@
     padding: 0 10px;
     border: solid 1px #a09c9c;
 }
-.tax-information .content .tin .charCount{
+
+.tax-information .content .tin .charCount {
     position: absolute;
     right: 42%;
     top: 5px;
     font-size: 14px;
     color: #656464;
 }
-.tax-information .content .tin .tin-note{
+
+.tax-information .content .tin .tin-note {
     margin-top: 10px;
 }
-.seller-register .slider-panel{
+
+.seller-register .slider-panel {
     position: fixed;
     padding: 30px 10px;
     right: 0;
@@ -642,50 +707,59 @@
     align-items: center;
     gap: 30px;
 }
-.seller-register .slider-panel button{
+
+.seller-register .slider-panel button {
     border: none;
     background-color: #fff;
 }
-.seller-register .slider-panel button i{
+
+.seller-register .slider-panel button i {
     font-size: 30px;
     color: #ea5639;
 }
-.form-register .identity-information{
+
+.form-register .identity-information {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
-.form-register .identity-information .type-identification{
+
+.form-register .identity-information .type-identification {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 8px;
     margin-top: 20px;
 }
-.form-register .identity-information .type{
+
+.form-register .identity-information .type {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 7px;
     padding-top: 3px;
 }
-.form-register .identity-information .type label{
+
+.form-register .identity-information .type label {
     font-size: 14px;
     color: #333;
     padding-bottom: 2px;
 }
-.form-register .lv-1{
+
+.form-register .lv-1 {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
     gap: 8px;
 }
-.form-register .lv-2{
+
+.form-register .lv-2 {
     width: 100%;
     position: relative;
 }
-.form-register .lv-1 input{
+
+.form-register .lv-1 input {
     line-height: 30px;
     width: 60%;
     font-size: 16px;
@@ -693,31 +767,55 @@
     padding: 0 10px;
     border: solid 1px #a09c9c;
 }
-.form-register .lv-1 .charCount{
+
+.form-register .lv-1 .charCount {
     position: absolute;
     right: 42%;
     top: 5px;
     font-size: 14px;
     color: #656464;
 }
-.form-register .add-img-cccd{
+
+.form-register .add-img-cccd {
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-top: 5px;
     width: 100%;
 }
-.form-register .btn-add-img{
+
+.form-register .add-img-cccd .img-ex {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+}
+
+.form-register .add-img-cccd .img-ex input {
+    border: none;
+    width: auto;
+}
+
+.form-register .add-img-cccd .img-ex img {
+    width: 45%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-left: 10px;
+}
+
+.form-register .btn-add-img {
     display: flex;
     justify-content: flex-start;
     align-items: flex-end;
     gap: 10px;
 }
-.form-register .btn-add-img button{
+
+.form-register .btn-add-img button {
     border: none;
     background-color: #fff;
 }
-.form-register .btn-add-img i{
+
+.form-register .btn-add-img i {
     width: 150px;
     height: 150px;
     font-size: 50px;
@@ -729,19 +827,22 @@
     color: #000000;
     opacity: 0.6;
 }
-.form-register .btn-add-img img{
+
+.form-register .btn-add-img img {
     width: 120px;
     height: auto;
     display: block;
     object-fit: cover;
 }
-.form-register .add-img-note{
+
+.form-register .add-img-note {
     display: flex;
     flex-direction: column;
     font-size: 13px;
     opacity: 0.8;
 }
-.form-register .seller-complete{
+
+.form-register .seller-complete {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -750,21 +851,25 @@
     width: 100%;
     padding-bottom: 30px;
 }
-.form-register .seller-complete i{
+
+.form-register .seller-complete i {
     font-size: 60px;
     color: #5c7;
 }
-.form-register .seller-complete .title{
+
+.form-register .seller-complete .title {
     font-size: 20px;
     color: #333;
 }
-.form-register .seller-complete .note{
+
+.form-register .seller-complete .note {
     font-size: 16px;
     text-wrap: wrap;
     color: #333;
     padding-top: 5px;
 }
-.form-register .seller-complete button{
+
+.form-register .seller-complete button {
     color: #fff;
     border: none;
     background-color: #ee4d2d;
@@ -782,10 +887,16 @@
     height: 40px;
     margin-top: 12px;
 }
-.sr-main .page{
+
+.sr-main .page {
     display: none;
 }
 
-.sr-main .page.active{
+.sr-main .page.active {
     display: flex;
+}
+
+.form-register .error {
+    color: #ea2f2f;
+    padding: 10px;
 }

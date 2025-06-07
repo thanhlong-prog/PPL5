@@ -398,7 +398,6 @@
 
 .w-sap-main .option-product-list .apply-prd table input {
     width: 75%;
-    height: 25px;
     padding: 5px;
     box-sizing: border-box;
 }
@@ -451,4 +450,16 @@
     color: #fff;
     background-color: #ee4d2d;
     border-color: #ee4d2d;
+}
+.sku-img-input{
+    border: none !important;
+    display:inline-block;
+    width:auto;
+}
+.sku-img-preview{
+    display:none;
+    max-width:48px;
+    max-height:48px;
+    margin-left:8px;
+    vertical-align:middle;
 }

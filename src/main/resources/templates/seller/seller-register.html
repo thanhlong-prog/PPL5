@@ -54,7 +54,7 @@
                     </ul>
                 </div>
                 <div class="form-register">
-                    <div th:if="${errors != nul}">Có lỗi gì đó</div>
+                    <div th:if="${errors != nul}" class="error">Có lỗi gì đó</div>
                     <form action="/buyer/seller-request" method="post" enctype="multipart/form-data">
                         <div class="empty-left"></div>
                         <div class="w-page">
@@ -77,7 +77,6 @@
                                             <div class="name-phone">
                                                 <input name="fullname" type="text" class="name" value=""
                                                     placeholder="Họ và tên" />
-                                                <span>|</span>
                                                 <input name="phone" type="text" class="phone" value=""
                                                     placeholder="Số điện thoại" />
                                             </div>
@@ -404,10 +403,13 @@
                                                 <button type="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
-                                                <input type="file" id="front-img" name="front-img" accept="image/*" />
-                                                <div class="example-img">
-                                                    <img src="/assets/images/seller-register/example-cccd-front.jpg"
-                                                        alt="">
+                                                <div class="img-ex">
+                                                    <input type="file" id="front-img" name="front-img"
+                                                        accept="image/*" />
+                                                    <div class="example-img">
+                                                        <img src="/assets/images/seller-register/example-cccd-front.jpg"
+                                                            alt="">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="add-img-note">
@@ -424,10 +426,12 @@
                                                 <button type="button">
                                                     <i class='bx bx-plus'></i>
                                                 </button>
-                                                <input type="file" id="back-img" name="back-img" accept="image/*" />
-                                                <div class="example-img">
-                                                    <img src="/assets/images/seller-register/example-cccd-back.jpg"
-                                                        alt="">
+                                                <div class="img-ex">
+                                                    <input type="file" id="back-img" name="back-img" accept="image/*" />
+                                                    <div class="example-img">
+                                                        <img src="/assets/images/seller-register/example-cccd-back.jpg"
+                                                            alt="">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="add-img-note">
@@ -442,7 +446,8 @@
                             <div class="page seller-complete">
                                 <i class='bx bxs-check-circle'></i>
                                 <span class="title">Hoàn thành đơn đăng ký</span>
-                                <span class="note">Vui lòng chờ duyệt đơn! Bạn sẽ trở thành người bán hàng sau khi duyệt thành công!</span>
+                                <span class="note">Vui lòng chờ duyệt đơn! Bạn sẽ trở thành người bán hàng sau khi duyệt
+                                    thành công!</span>
                                 <button type="submit">Gửi đơn duyệt</button>
                             </div>
                         </div>

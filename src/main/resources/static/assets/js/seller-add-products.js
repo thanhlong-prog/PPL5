@@ -180,7 +180,7 @@ function renderTable(attributes) {
         thead.appendChild(th);
     });
 
-    ['Giá (đ)', 'Số lượng', 'SKU phân loại'].forEach(label => {
+    ['Giá (đ)', 'Số lượng', 'SKU phân loại', 'Ảnh SKU'].forEach(label => {
         const th = document.createElement('th');
         th.innerText = label;
         thead.appendChild(th);
@@ -188,7 +188,7 @@ function renderTable(attributes) {
 
     const combinations = generateCombinations(attributes.map(a => a.values));
 
-    combinations.forEach(comb => {
+    combinations.forEach((comb, rowIdx) => {
         const tr = document.createElement('tr');
         comb.forEach(value => {
             const td = document.createElement('td');
@@ -205,6 +205,32 @@ function renderTable(attributes) {
             td.appendChild(input);
             tr.appendChild(td);
         });
+
+        // Thêm cột Ảnh SKU
+        const tdImg = document.createElement('td');
+        tdImg.style.verticalAlign = 'middle';
+        tdImg.innerHTML = `
+            <input type="file" accept="image/*" class="sku-img-input">
+            <img class="sku-img-preview"/>
+        `;
+        // Xử lý hiển thị ảnh khi chọn
+        const fileInput = tdImg.querySelector('.sku-img-input');
+        const imgPreview = tdImg.querySelector('.sku-img-preview');
+        fileInput.addEventListener('change', function () {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgPreview.src = e.target.result;
+                    imgPreview.style.display = 'inline-block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imgPreview.src = '';
+                imgPreview.style.display = 'none';
+            }
+        });
+        tr.appendChild(tdImg);
 
         tbody.appendChild(tr);
     });
@@ -228,9 +254,10 @@ btnAdd.addEventListener("click", () => {
     fileInput.click();
 });
 
+// ...existing code...
 fileInput.addEventListener("change", () => {
     const files = fileInput.files;
-    const current = parseInt(currentCount.innerText);
+    let current = parseInt(currentCount.innerText);
     const remain = maxCount - current;
 
     const displayFiles = Array.from(files).slice(0, remain);
@@ -240,20 +267,41 @@ fileInput.addEventListener("change", () => {
         reader.onload = e => {
             const imgWrapper = document.createElement("div");
             imgWrapper.className = "img-product";
-            imgWrapper.innerHTML = `<img src="${e.target.result}" alt="">`;
+            imgWrapper.style.position = "relative";
+            imgWrapper.innerHTML = `
+                <img src="${e.target.result}" alt="">
+                <button type="button" class="btn-remove-img" style="
+                    position:absolute;top:2px;right:2px;
+                    background:#fff;border:none;border-radius:50%;
+                    width:24px;height:24px;cursor:pointer;
+                    box-shadow:0 1px 4px rgba(0,0,0,0.15);">
+                    <i class='bx bx-x' style="color:#ee4d2d;font-size:18px;"></i>
+                </button>
+            `;
             imgList.insertBefore(imgWrapper, btnAdd.parentElement);
 
-            const newCount = parseInt(currentCount.innerText) + 1;
-            currentCount.innerText = newCount;
-            if (newCount >= maxCount) {
+            current++;
+            currentCount.innerText = current;
+            if (current >= maxCount) {
                 btnAdd.style.display = "none";
             }
+
+            // Xử lý nút xoá
+            imgWrapper.querySelector('.btn-remove-img').addEventListener('click', function () {
+                imgWrapper.remove();
+                current--;
+                currentCount.innerText = current;
+                if (current < maxCount) {
+                    btnAdd.style.display = "";
+                }
+            });
         };
         reader.readAsDataURL(file);
     });
 
     // fileInput.value = "";
 });
+// ...existing code...  
 
 
 
