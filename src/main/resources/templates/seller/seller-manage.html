@@ -60,8 +60,8 @@
                 </div>
                 <div class=" mn-dropdown">
                     <ul>
-                        <li>Phân tích bán hàng</li>
-                        <li>Hiệu quả hoạt động</li>
+                        <li><a th:href="@{/seller(page='analysis')}">Phân tích bán hàng</a></li>
+                        <!-- <li>Hiệu quả hoạt động</li> -->
                     </ul>
                 </div>
             </div>
@@ -72,20 +72,14 @@
 
         <div class="order-manage" th:if="${mode} == 'purchase'">
             <div th:insert="~{seller/order-manage}"></div>
-<<<<<<< HEAD
-        </div> -->
+        </div> 
         <!-- <div class="bulk-order">
             <div th:insert="~{seller/bulk-order}"></div>
         </div> -->
-        <!-- <div class="cancel-order">
-=======
-        </div>
-
         <div class="cancel-order" th:if="${mode} == 'cancel'">
->>>>>>> a31adeb5b2490922ffea975815f749ea81a1250b
             <div th:insert="~{seller/cancel-order}"></div>
-        </div> -->
-        <div class="data-analysis">
+        </div>
+        <div class="data-analysis" th:if="${mode} == 'analysis'">
             <div th:insert="~{seller/data-analysis}"></div>
         </div>
 

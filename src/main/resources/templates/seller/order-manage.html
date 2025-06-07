@@ -130,7 +130,8 @@
                         <tr class="order-id">
                             <td colspan="7">
                                 <span class="title">ID đơn hàng:</span>
-                                <span class="id" th:text="${transaction.id}">211025R7H5KDFQ</span>
+                                <span class="id" th:text="${transaction.id}"
+                                    th:attr="data-id=${transaction.id}">211025R7H5KDFQ</span>
                             </td>
                         </tr>
                         <tr class="order-row products">
@@ -227,9 +228,29 @@
                             <td>
                                 <span class="date-time-shipping">-</span>
                             </td>
-                            <td>
-                                <a href="#">Xem chi tiết</a>
+                            <td th:if="${transaction.shippingStatus == 2}">
+                                <!-- <a href="#">Xem chi tiết</a> -->
+                                <button th:onclick="'aceptPurchase(' + ${transaction.id} + ')'">Xác nhận</button>
                             </td>
+                            <script>
+                                function aceptPurchase(id) {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/seller/accept-purchase",
+                                        data: {
+                                            transactionId: id
+                                        },
+                                        success: function (res) {
+                                            alert("Xác nhận thành công!");
+                                            location.reload(); 
+                                        },
+                                        error: function (err) {
+                                            alert("Có lỗi xảy ra!");
+                                        }
+                                    });
+                                }
+
+                            </script>
                         </tr>
                     </tbody>
 
@@ -238,6 +259,8 @@
         </div>
     </div>
     <script src="/assets/js/product-manage.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     </div>
 </body>
 

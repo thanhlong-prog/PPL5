@@ -1,6 +1,7 @@
 package com.code.shopee.controller.seller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -242,7 +243,7 @@ public class SellerController {
         }
         model.addAttribute("user", userData);
 
-        return "seller/seller-add-products";
+        return "redirect:/seller";
     }
 
     // @GetMapping("/product")
@@ -378,7 +379,7 @@ public class SellerController {
             model.addAttribute("mode", page);
         } else if (page.equalsIgnoreCase("bulk")) {
             List<Transaction> transactions = transactionRepository.findAllBySellerIdAndShippingStatus(consumer.getId(),
-                    2);
+                    3);
             for (Transaction t : transactions) {
                 int total = t.getCarts().stream().mapToInt(Cart::getTotalPrice).sum();
                 t.setTotal(total);
@@ -395,6 +396,8 @@ public class SellerController {
                 }
             }
             model.addAttribute("transactions", transactions);
+            model.addAttribute("mode", page);
+        } else if (page.equalsIgnoreCase("analysis")) {
             model.addAttribute("mode", page);
         }
 
@@ -420,12 +423,32 @@ public class SellerController {
             }
             List<Cart> carts = cartRepo.findAllByTransactionId(transactionId);
             for (Cart cart : carts) {
-                cart.setShippingStatus(2); 
+                cart.setShippingStatus(4);
+                cart.setModifiedDate(LocalDateTime.now());
                 cartRepo.save(cart);
             }
-            transaction.setShippingStatus(3); 
+            transaction.setShippingStatus(4);
             transactionRepository.save(transaction);
         }
         return ResponseEntity.ok(Map.of("success", true));
     }
+
+    @PostMapping("/accept-purchase")
+    public ResponseEntity<?> acceptPurchase(@RequestParam int transactionId) {
+        Transaction transaction = transactionRepository.findByIdAndStatusTrue(transactionId);
+        if (transaction == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Transaction not found or inactive"));
+        }
+        List<Cart> carts = cartRepo.findAllByTransactionId(transactionId);
+        for (Cart cart : carts) {
+            cart.setShippingStatus(3);
+            cart.setModifiedDate(LocalDateTime.now());
+            cartRepo.save(cart);
+        }
+        transaction.setShippingStatus(3);
+        transaction.setModifiedDate(LocalDateTime.now());
+        transactionRepository.save(transaction);
+        return ResponseEntity.ok(Map.of("success", true));
+    }
+
 }

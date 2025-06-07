@@ -14,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="product")
+@Table(name = "product")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -31,7 +32,7 @@ import lombok.Setter;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id")
+    @Column(name = "id")
     private int id;
 
     @ManyToOne
@@ -72,7 +73,8 @@ public class Product {
     @Column(name = "discount")
     private Integer discount;
 
-    @Column(name = "description")
+    @Lob
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "status")
