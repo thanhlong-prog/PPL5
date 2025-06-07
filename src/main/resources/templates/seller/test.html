@@ -1,76 +1,207 @@
-.all-order-manage .product-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biểu đồ 7 ngày liên tiếp</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+    }
 
-.all-order-manage .product-table th,
-.all-order-manage .product-table td {
-    padding: 12px 10px;
-    text-align: left;
-    border-bottom: 1px solid #e0e0e0;
-}
+    .chart-container {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
 
-.all-order-manage .product-table thead th {
-    background-color: #f9f9f9;
-    font-weight: 600;
-    color: #333;
-}
+    .date-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
 
-.all-order-manage .product-table tbody td {
-    vertical-align: middle;
-    color: #444;
-}
+    .date-nav button {
+      padding: 8px 14px;
+      font-size: 14px;
+      border: none;
+      background: #007bff;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+    }
 
-.all-order-manage .product-info {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+    .date-nav button:hover {
+      background: #0056b3;
+    }
 
-.all-order-manage .product-info img {
-    width: 48px;
-    height: 48px;
-    object-fit: cover;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-    background-color: #fff;
-}
+    .controls {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 10px;
+    }
 
-.all-order-manage .product-info .sku {
-    color: #999;
-    font-size: 12px;
-    margin-top: 2px;
-}
+    .checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+      cursor: pointer;
+    }
 
-.all-order-manage .product-table .update {
-    color: #ff6600;
-    cursor: pointer;
-    text-decoration: underline;
-    font-weight: 500;
-}
+    .checkbox-label input[type="checkbox"] {
+      accent-color: #007bff;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
 
-.all-order-manage .product-table .action:hover {
-    color: #cc5200;
-}
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
 
-.all-order-manage .parent-row {
-    background-color: #fff;
-}
+<div class="chart-container">
+  <h2>Doanh thu & Đơn hàng (7 ngày gần nhất)</h2>
 
-.all-order-manage .child-row td {
-    background-color: #fcfcfc;
-    font-size: 13px;
-    color: #666;
-}
+  <div class="date-nav">
+    <button onclick="changeOffset(-1)">← 7 ngày trước</button>
+    <strong id="dateLabel">7 ngày gần nhất</strong>
+    <button id="nextBtn" onclick="changeOffset(1)">7 ngày sau →</button>
+  </div>
 
-.all-order-manage .child-row .product-info img {
-    width: 36px;
-    height: 36px;
-    object-fit: cover;
-}
+  <div class="controls">
+    <label class="checkbox-label" style="color: orange;">
+      <input type="checkbox" checked onchange="toggleDataset(0)"> Doanh thu
+    </label>
+    <label class="checkbox-label" style="color: black;">
+      <input type="checkbox" checked onchange="toggleDataset(1)"> Đơn hàng
+    </label>
+  </div>
 
-.all-order-manage .child-row .sku {
-    font-size: 11px;
-}
+  <canvas id="chart"></canvas>
+</div>
+
+<script>
+  const ctx = document.getElementById("chart").getContext("2d");
+  let currentOffset = 0; // 0 = hôm nay là ngày cuối
+
+  function randomData(min, max) {
+    return Array.from({ length: 7 }, () => Math.floor(Math.random() * (max - min + 1)) + min);
+  }
+
+  function get7DayLabels(offset = 0) {
+    const today = new Date();
+    const end = new Date();
+    end.setDate(today.getDate() - offset * 7);
+
+    const start = new Date(end);
+    start.setDate(end.getDate() - 6);
+
+    const labels = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(start);
+      d.setDate(start.getDate() + i);
+      labels.push(`${d.getDate()}/${d.getMonth() + 1}`);
+    }
+
+    const labelText = `Từ ${labels[0]} đến ${labels[6]}`;
+    return { labels, labelText };
+  }
+
+  const chart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Doanh thu (VNĐ)',
+          data: [],
+          yAxisID: 'y',
+          borderColor: 'orange',
+          backgroundColor: 'rgba(255,165,0,0.2)',
+          tension: 0.4,
+          fill: false,
+          pointRadius: 4
+        },
+        {
+          label: 'Đơn hàng',
+          data: [],
+          yAxisID: 'y1',
+          borderColor: 'black',
+          backgroundColor: 'rgba(0,0,0,0.2)',
+          tension: 0.4,
+          fill: false,
+          pointRadius: 4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        mode: 'index',
+        intersect: false
+      },
+      plugins: {
+        tooltip: { mode: 'index', intersect: false },
+        legend: { display: false }
+      },
+      scales: {
+        x: { title: { display: true, text: 'Ngày' } },
+        y: {
+          type: 'linear',
+          position: 'left',
+          title: { display: true, text: 'Doanh thu (VNĐ)' },
+          beginAtZero: true
+        },
+        y1: {
+          type: 'linear',
+          position: 'right',
+          title: { display: true, text: 'Đơn hàng' },
+          beginAtZero: true,
+          grid: { drawOnChartArea: false }
+        }
+      }
+    }
+  });
+
+  function updateChart() {
+    const { labels, labelText } = get7DayLabels(currentOffset);
+    chart.data.labels = labels;
+    chart.data.datasets[0].data = randomData(500000, 1500000); // doanh thu
+    chart.data.datasets[1].data = randomData(5, 20);            // đơn hàng
+    document.getElementById("dateLabel").textContent = labelText;
+
+    // Ẩn nút "7 ngày sau" nếu offset == 0
+    document.getElementById("nextBtn").style.visibility = currentOffset <= 0 ? "hidden" : "visible";
+
+    chart.update();
+  }
+
+  function changeOffset(direction) {
+    currentOffset -= direction;
+    updateChart();
+  }
+
+  function toggleDataset(index) {
+    const meta = chart.getDatasetMeta(index);
+    meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null;
+    chart.update();
+  }
+
+  updateChart();
+</script>
+
+</body>
+</html>
