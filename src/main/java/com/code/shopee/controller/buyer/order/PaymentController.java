@@ -229,7 +229,7 @@ public class PaymentController {
                 }
                 cart.getProduct().setQuantity(cart.getProduct().getQuantity() - cart.getOrderQuantity());
                 cart.setModifiedDate(LocalDateTime.now());
-                cart.setShippingStatus(1); 
+                cart.setShippingStatus(2); 
                 cartRepository.save(cart);
             });
 

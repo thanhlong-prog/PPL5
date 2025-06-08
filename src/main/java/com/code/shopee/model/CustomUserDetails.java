@@ -37,6 +37,10 @@ public class CustomUserDetails implements UserDetails , OAuth2User {
     public String getName() {
         return user.getUsername();
     }
+
+    public String getAccountName() {
+        return user.getName();
+    }
     //////////////////////////////////////////////////////
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

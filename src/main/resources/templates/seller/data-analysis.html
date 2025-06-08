@@ -74,6 +74,26 @@
             </div>
         </div>
         <script src="/assets/js/data-analysis.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </body>
 
 </html>
+
+<script>
+    $.ajax({
+      url: '/seller/get-revenue',
+      method: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify({
+        startDate: startDate,
+        endDate: endDate
+      }),
+      success: function (response) {
+        console.log("Doanh thu:", response.totalRevenue);
+      },
+      error: function (xhr) {
+        alert("Lỗi khi lấy doanh thu.");
+        console.error(xhr);
+      }
+    });
+</script>

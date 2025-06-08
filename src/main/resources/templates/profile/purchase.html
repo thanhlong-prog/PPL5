@@ -70,15 +70,27 @@
         <div class="main-content">
             <div class="purchase-container">
                 <div class="purchase-tabs">
-                    <div class="tab-item">Tất cả</div>
-                    <div class="tab-item active">Chờ xác nhận</div>
-                    <div class="tab-item">Chờ lấy hàng</div>
-                    <div class="tab-item">Đang giao</div>
-                    <div class="tab-item">Đã giao</div>
-                    <div class="tab-item">Đã hủy</div>
-                    <div class="tab-item">Trả hàng/Hoàn tiền</div>
+                    <div class="tab-item" th:classappend="${mode} == 'all' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=all">Tất cả</a>
+                    </div>
+                    <div class="tab-item" th:classappend="${mode} == 'pending' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=pending">Chờ xác nhận</a>
+                    </div>
+                    <div class="tab-item" th:classappend="${mode} == 'waiting' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=waiting">Chờ lấy hàng</a>
+                    </div>
+                    <div class="tab-item" th:classappend="${mode} == 'shipping' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=shipping">Đang giao</a>
+                    </div>
+                    <div class="tab-item" th:classappend="${mode} == 'completed' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=completed">Đã giao</a>
+                    </div>
+                    <div class="tab-item" th:classappend="${mode} == 'cancelled' ? ' active' : ''">
+                        <a href="/buyer/profile/purchase?mode=cancelled">Đã hủy</a>
+                    </div>
+
                 </div>
-                <div class="search-box">
+                <!-- <div class="search-box">
                     <div class="search-input">
                         <input type="text" placeholder="Tìm kiếm theo Tên Shop, ID đơn hàng hoặc Tên Sản phẩm">
                         <i>🔍</i>
@@ -90,7 +102,7 @@
                             <option>Tất cả</option>
                         </select>
                     </div>
-                </div>
+                </div> -->
                 <div class="order-list">
                     <div class="order-list" th:each="entry : ${groupedCartList}">
                         <div class="order-card">
@@ -99,10 +111,10 @@
                                     <i>🏪</i>
                                     <span th:text="${entry.key.name}">Shop Điện Tử ABC</span>
                                 </div>
-                                <div class="order-status">
+                                <!-- <div class="order-status">
                                     <i>⏱️</i>
                                     <span>Chờ xác nhận</span>
-                                </div>
+                                </div> -->
                             </div>
                             <div th:each="cart : ${entry.value}" class="order-product">
                                 <div class="order-product">
@@ -111,7 +123,7 @@
                                         <div class="product-name" th:text="${cart.product.title}">Tai nghe Bluetooth
                                             không dây TWS F9 Pro với Micro, Tai
                                             nghe thể thao chống nước cao cấp</div>
-                                        
+
                                         <div th:if="${cart.productVatiants != null}" class="product-variation">
                                             <span th:each="optionValue : ${cart.productVatiants.optionValues}">
                                                 <span
@@ -132,7 +144,7 @@
                                 </div>
                                 <div class="order-actions">
                                     <button class="btn-contact">Liên hệ người bán</button>
-                                    <button class="btn-review">Hủy đơn hàng</button>
+                                    <button th:if="${mode == 'pending'}" class="btn-review" th:onclick="'cancelCart(' + ${entry.key.id} + ')'">Hủy đơn hàng</button>
                                 </div>
                             </div>
                         </div>
@@ -152,3 +164,22 @@
 <script src="/assets/js/popup1.js"></script>
 <script th:src="@{/assets/js/toastmsg.js}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    
+    function cancelCart(sellerId) {
+        console.log(sellerId);
+        $.ajax({
+            type: "POST",
+            url: "/buyer/profile/purchase/cancel",
+            data: {
+                sellerId: sellerId
+            },
+            success: function (response) {
+                console.log("thanh cong");
+            },
+            error: function () {
+                console.error("Lỗi khi hủy đơn hàng");
+            }
+        });
+    }
+</script>

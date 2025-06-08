@@ -2,8 +2,11 @@ package com.code.shopee.controller.seller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -449,6 +452,180 @@ public class SellerController {
         transaction.setModifiedDate(LocalDateTime.now());
         transactionRepository.save(transaction);
         return ResponseEntity.ok(Map.of("success", true));
+    }
+
+    @PostMapping("/get-revenue")
+    @ResponseBody
+    public ResponseEntity<?> getRevenue(@RequestBody Map<String, String> body) {
+        LocalDate startDate = LocalDate.parse(body.get("startDate"));
+        LocalDate endDate = LocalDate.parse(body.get("endDate"));
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+
+        List<Cart> carts = cartRepo.findBySellerIdAndTransactionCreatedDateBetween(
+                consumer.getId(), startDateTime, endDateTime);
+
+        Map<LocalDate, Integer> revenueByDate = new LinkedHashMap<>();
+        Map<LocalDate, Integer> cartCountByDate = new LinkedHashMap<>();
+        Map<LocalDate, Integer> successByDate = new LinkedHashMap<>();
+        Map<LocalDate, Integer> cancelCountByDate = new LinkedHashMap<>();
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            revenueByDate.put(date, 0);
+            cartCountByDate.put(date, 0);
+            successByDate.put(date, 0);         
+            cancelCountByDate.put(date, 0); 
+        }
+
+        for (Cart cart : carts) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                revenueByDate.put(createdDate, revenueByDate.get(createdDate) + cart.getTotalPrice());
+                cartCountByDate.put(createdDate, cartCountByDate.get(createdDate) + 1);
+            }
+
+            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 5) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                successByDate.put(createdDate, successByDate.get(createdDate) + 1);
+            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 6) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                cancelCountByDate.put(createdDate, cancelCountByDate.get(createdDate) + 1);
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "dailyRevenue", new ArrayList<>(revenueByDate.values()),
+                "dailyCartCount", new ArrayList<>(cartCountByDate.values()),
+                "dailySuccessCount", new ArrayList<>(successByDate.values()),
+                "dailyCancelCount", new ArrayList<>(cancelCountByDate.values())));
+    }
+
+    @PostMapping("/get-revenue-month")
+    @ResponseBody
+    public ResponseEntity<?> getRevenueByMonth(@RequestBody Map<String, String> body) {
+        int year = Integer.parseInt(body.get("year"));
+        int month = Integer.parseInt(body.get("month"));
+
+        LocalDate startDate = LocalDate.of(year, month, 1);
+        LocalDate endDate = startDate.withDayOfMonth(startDate.lengthOfMonth());
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+
+        List<Cart> carts = cartRepo.findBySellerIdAndTransactionCreatedDateBetween(
+                consumer.getId(), startDateTime, endDateTime);
+
+        Map<Integer, Integer> revenueByDay = new LinkedHashMap<>();
+        Map<Integer, Integer> cartCountByDay = new LinkedHashMap<>();
+        Map<Integer, Integer> successByDay = new LinkedHashMap<>();
+        Map<Integer, Integer> cancelCountByDay = new LinkedHashMap<>();
+        for (int day = 1; day <= startDate.lengthOfMonth(); day++) {
+            revenueByDay.put(day, 0);
+            cartCountByDay.put(day, 0);
+            successByDay.put(day, 0);         
+            cancelCountByDay.put(day, 0); 
+        }
+
+        for (Cart cart : carts) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int day = createdDate.getDayOfMonth();
+                revenueByDay.put(day, revenueByDay.get(day) + cart.getTotalPrice());
+                cartCountByDay.put(day, cartCountByDay.get(day) + 1);
+            }
+
+            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 5) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int day = createdDate.getDayOfMonth();
+                successByDay.put(day, successByDay.get(day) + 1);
+            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 6) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int day = createdDate.getDayOfMonth();
+                cancelCountByDay.put(day, cancelCountByDay.get(day) + 1);
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "dailyRevenue", new ArrayList<>(revenueByDay.values()),
+                "dailyCartCount", new ArrayList<>(cartCountByDay.values()),
+                "dailySuccessCount", new ArrayList<>(successByDay.values()),
+                "dailyCancelCount", new ArrayList<>(cancelCountByDay.values())));
+    }
+
+    @PostMapping("/get-revenue-quarter")
+    @ResponseBody
+    public ResponseEntity<?> getRevenueByQuarter(@RequestBody Map<String, String> body) {
+        int year = Integer.parseInt(body.get("year"));
+        int quarter = Integer.parseInt(body.get("quarter")); // 1, 2, 3, hoặc 4
+
+        int startMonth = (quarter - 1) * 3 + 1;
+        LocalDate startDate = LocalDate.of(year, startMonth, 1);
+        LocalDate endDate = startDate.plusMonths(3).minusDays(1);
+        LocalDateTime startDateTime = startDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.atTime(LocalTime.MAX);
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+
+        List<Cart> carts = cartRepo.findBySellerIdAndTransactionCreatedDateBetween(
+                consumer.getId(), startDateTime, endDateTime);
+
+        Map<Integer, Integer> revenueByMonth = new LinkedHashMap<>();
+        Map<Integer, Integer> cartCountByMonth = new LinkedHashMap<>();
+        Map<Integer, Integer> successByMonth = new LinkedHashMap<>();
+        Map<Integer, Integer> cancelCountByMonth = new LinkedHashMap<>();
+
+        for (int m = startMonth; m < startMonth + 3; m++) {
+            revenueByMonth.put(m, 0);
+            cartCountByMonth.put(m, 0);
+            successByMonth.put(m, 0);         
+            cancelCountByMonth.put(m, 0); 
+        }
+
+        for (Cart cart : carts) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int month = createdDate.getMonthValue();
+                revenueByMonth.put(month, revenueByMonth.get(month) + cart.getTotalPrice());
+                cartCountByMonth.put(month, cartCountByMonth.get(month) + 1);
+
+            }
+
+            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 && cart.getShippingStatus() == 5) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int month = createdDate.getMonthValue();
+                successByMonth.put(month, successByMonth.get(month) + 1);
+            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 && cart.getShippingStatus() == 6) {
+                LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
+                int month = createdDate.getMonthValue();
+                cancelCountByMonth.put(month, cancelCountByMonth.get(month) + 1);
+            }
+        }
+
+        return ResponseEntity.ok(Map.of(
+                "monthlyRevenue", new ArrayList<>(revenueByMonth.values()),
+                "monthlyCartCount", new ArrayList<>(cartCountByMonth.values()),
+                "monthlySuccessCount", new ArrayList<>(successByMonth.values()),
+                "monthlyCancelCount", new ArrayList<>(cancelCountByMonth.values())));
     }
 
 }

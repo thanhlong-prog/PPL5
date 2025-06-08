@@ -137,10 +137,24 @@ const tabConfigs = {
     }
 };
 
+document.addEventListener("DOMContentLoaded", function () {
+    updateChart(); 
+});
+
+
 // Hàm tạo dữ liệu ảo
 function randomData(min, max, count) {
     return Array.from({ length: count }, () => Math.floor(Math.random() * (max - min + 1)) + min);
 }
+
+let totalRevenueGlobal = [];
+let cartCountGlobal = [];
+let monthlyRevenueGlobal = [];
+let monthlyCartCountGlobal = [];
+let quarterlyRevenueGlobal = [];
+let quarterlyCartCountGlobal = [];
+let monthlySuccessCount = [];
+let monthlyCancelCount = [];
 
 // Hàm lấy nhãn và tiêu đề theo mode
 function getLabelsAndTitle(mode, offset) {
@@ -159,6 +173,33 @@ function getLabelsAndTitle(mode, offset) {
             labels.push(`${d.getDate()}/${d.getMonth() + 1}`);
         }
         title = `Tuần từ ${labels[0]} đến ${labels[6]}`;
+
+        const startDate = start.toISOString().split('T')[0]; 
+        const endDate = end.toISOString().split('T')[0];     
+
+        $.ajax({
+            url: '/seller/get-revenue',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                startDate: startDate,
+                endDate: endDate
+            }),
+            success: function (response) {
+                console.log("Doanh thu:", response.dailyRevenue);
+                console.log("Số lượng cart:", response.dailyCartCount);
+                console.log("Số lượng thành công:", response.dailySuccessCount);
+                console.log("Số lượng huỷ:", response.dailyCancelCount);
+                totalRevenueGlobal = response.dailyRevenue;
+                cartCountGlobal = response.dailyCartCount;
+                monthlySuccessCount = response.dailySuccessCount;
+                monthlyCancelCount = response.dailyCancelCount;
+            },
+            error: function (xhr) {
+                alert("Lỗi khi lấy doanh thu.");
+                console.error(xhr);
+            }
+        });
     } else if (mode === "month") {
         const ref = new Date(now.getFullYear(), now.getMonth() - offset, 1);
         const month = ref.getMonth();
@@ -168,6 +209,30 @@ function getLabelsAndTitle(mode, offset) {
             labels.push(`${i}/${month + 1}`);
         }
         title = `Tháng ${month + 1}/${year}`;
+
+        $.ajax({
+            url: '/seller/get-revenue-month',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                year: year,
+                month: month
+            }),
+            success: function (response) {
+            totalRevenueGlobal = response.dailyRevenue;
+            cartCountGlobal = response.dailyCartCount;
+            monthlySuccessCount = response.dailySuccessCount;
+            monthlyCancelCount = response.dailyCancelCount;
+            console.log("Doanh thu tháng:", monthlyRevenueGlobal);
+            console.log("Số lượng cart tháng:", monthlyCartCountGlobal);
+            console.log("Số lượng thành công tháng:", monthlySuccessCount);
+            console.log("Số lượng huỷ tháng:", monthlyCancelCount);
+            },
+            error: function (xhr) {
+                alert("Lỗi khi lấy doanh thu tháng.");
+                console.error(xhr);
+            }
+        });
     } else if (mode === "quarter") {
         const ref = new Date(now.getFullYear(), now.getMonth() - offset * 3, 1);
         const quarter = Math.floor(ref.getMonth() / 3) + 1;
@@ -176,6 +241,30 @@ function getLabelsAndTitle(mode, offset) {
         const labelsList = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
         labels = labelsList.slice(startMonth, startMonth + 3);
         title = `Quý ${quarter} năm ${year}`;
+
+         $.ajax({
+            url: '/seller/get-revenue-quarter',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                year: year,
+                quarter: quarter
+            }),
+            success: function (response) {
+                totalRevenueGlobal = response.monthlyRevenue;
+                cartCountGlobal = response.monthlyCartCount;
+                monthlySuccessCount = response.monthlySuccessCount;
+                monthlyCancelCount = response.monthlyCancelCount;
+                console.log("Doanh thu quý:", quarterlyRevenueGlobal);
+                console.log("Số lượng cart quý:", quarterlyCartCountGlobal);
+                console.log("Số lượng thành công quý:", monthlySuccessCount);
+                console.log("Số lượng huỷ quý:", monthlyCancelCount);
+            },
+            error: function (xhr) {
+                alert("Lỗi khi lấy doanh thu quý.");
+                console.error(xhr);
+            }
+        });
     }
 
     return { labels, title };
@@ -264,15 +353,15 @@ function updateChart() {
         let data;
         if (currentTab === "overview") {
             data = idx === 0
-                ? randomData(500000, 1500000, labels.length)
-                : randomData(10, 40, labels.length);
+                ? totalRevenueGlobal
+                : cartCountGlobal;
         } else if (currentTab === "revenue") {
-            data = randomData(500000, 1500000, labels.length);
+            data = totalRevenueGlobal;
         } else if (currentTab === "orders") {
-            if (idx === 0) data = randomData(20, 40, labels.length); // Tổng đơn
-            else if (idx === 1) data = randomData(10, 30, labels.length); // Thành công
-            else if (idx === 2) data = randomData(1, 5, labels.length); // Huỷ
-            else data = randomData(1, 5, labels.length); // Không thành công
+            if (idx === 0) data = cartCountGlobal; // Tổng đơn
+            else if (idx === 1) data = monthlySuccessCount; // Thành công
+            else if (idx === 2) data = monthlyCancelCount; // Huỷ
+            // else data = randomData(1, 5, labels.length); // Không thành công
         } else if (currentTab === "products") {
             if (idx === 0) data = randomData(10, 100, labels.length); // Bán ra
             else if (idx === 1) data = randomData(5, 50, labels.length); // Còn lại

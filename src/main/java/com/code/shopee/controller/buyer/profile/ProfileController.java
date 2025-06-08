@@ -1,6 +1,7 @@
 package com.code.shopee.controller.buyer.profile;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
@@ -33,8 +34,12 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
 import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
+import com.code.shopee.model.Reason;
+import com.code.shopee.model.Transaction;
 import com.code.shopee.model.User;
 import com.code.shopee.model.UserAddress;
+import com.code.shopee.repository.CartRepository;
+import com.code.shopee.repository.ReasonRepo;
 import com.code.shopee.request.SmsRequest;
 import com.code.shopee.service.CloudinaryService;
 import com.code.shopee.service.MailService;
@@ -61,6 +66,10 @@ public class ProfileController {
     private SmsConfig smsConfig;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private CartRepository cartRepository;
+    @Autowired
+    private ReasonRepo reasonRepo;
 
     private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
@@ -91,7 +100,8 @@ public class ProfileController {
     }
 
     @RequestMapping("/purchase")
-    public String purchase(Model model) {
+    public String purchase(@RequestParam(name = "mode", required = false, defaultValue = "pending") String mode,
+            Model model) {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User consumer = new User();
         if (principal instanceof CustomUserDetails user) {
@@ -101,12 +111,54 @@ public class ProfileController {
         }
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
-        List<Cart> cartList = productService.getAllCartWaitingForShip(consumer.getId(), 1);
-
+        model.addAttribute("mode", mode);
+        List<Cart> cartList = switch (mode) {
+            case "all" -> cartRepository.findByUserIdAndStatusTrueAndTransactionIsNotNull(consumer.getId());
+            case "pending" -> productService.getAllCartWaitingForShip(consumer.getId(), 2);
+            case "waiting" -> productService.getAllCartWaitingForShip(consumer.getId(), 4);
+            case "shipping" -> productService.getAllCartWaitingForShip(consumer.getId(), 1);
+            case "completed" -> productService.getAllCartWaitingForShip(consumer.getId(), 5);
+            case "cancelled" -> productService.getAllCartWaitingForShip(consumer.getId(), 6);
+            default -> productService.getAllCartWaitingForShip(consumer.getId(), 2);
+        };
         Map<User, List<Cart>> groupedCartList = cartList.stream()
                 .collect(Collectors.groupingBy(cart -> cart.getProduct().getSeller()));
         model.addAttribute("groupedCartList", groupedCartList);
         return "profile/purchase";
+    }
+
+    @PostMapping("/purchase/cancel")
+    @ResponseBody
+    public ResponseEntity<?> cancelOrder(@RequestParam("sellerId") int sellerId) {
+        try {
+            List<Cart> carts = cartRepository.findBySellerIdAndStatusTrueAndShippingStatus2(sellerId);
+            for (Cart cart : carts) {
+                if (cart != null) {
+                    cart.setShippingStatus(6);
+                    cart.getProductVatiants().setQuantity(cart.getProductVatiants().getQuantity() + cart.getOrderQuantity());
+                    cart.setModifiedDate(LocalDateTime.now());
+                    cartRepository.save(cart);
+
+                    Transaction transaction = cart.getTransaction();
+                    boolean exists = reasonRepo.existsByTransaction(transaction);
+
+                    if (!exists) {
+                        Reason reason = new Reason();
+                        reason.setReason("Order cancelled by user");
+                        reason.setStatus("Cancelled");
+                        reason.setSeller(userService.findById(sellerId));
+                        reason.setTransaction(transaction);
+                        reasonRepo.save(reason);
+                    }
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found");
+                }
+            }
+            return ResponseEntity.ok("Order cancelled successfully");
+        } catch (Exception e) {
+            logger.error("Error cancelling order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error cancelling order");
+        }
     }
 
     @RequestMapping("/address")

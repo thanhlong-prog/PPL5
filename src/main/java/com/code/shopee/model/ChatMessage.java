@@ -1,13 +1,12 @@
 package com.code.shopee.model;
 
-import jakarta.persistence.Column;
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,28 +14,25 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "reasons")
+@Table(name = "chat_message")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reason {
+public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "reason")
-    private String reason;
-
-    @Column(name = "status")
-    private String status;
-
-    @OneToOne
-    @JoinColumn(name = "transaction_id")
-    private Transaction transaction;
+    @ManyToOne
+    private User sender;
 
     @ManyToOne
-    @JoinColumn(name = "seller_id")
-    private User seller;
+    private User recipient;
+
+    private String content;
+
+    private LocalDateTime timestamp;
+
+    private String roomId;
 }
