@@ -14,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -49,6 +50,10 @@ public class ProductVatiants {
 
     @Column(name = "sku")
     private String sku;
+
+    @Lob
+    @Column(name = "image", columnDefinition = "LONGTEXT")
+    private String image;
 
     @Column(name = "description")
     private String description;

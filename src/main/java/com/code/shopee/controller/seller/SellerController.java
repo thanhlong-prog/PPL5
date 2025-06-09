@@ -125,7 +125,7 @@ public class SellerController {
                 variantJson,
                 new TypeReference<List<variantDto>>() {
                 });
-        System.out.println("variants: " + variants);
+        // System.out.println("variants: " + variants);
         product.setVariants(variants);
         Product newProduct = new Product();
         newProduct.setTitle(product.getProductName());
@@ -221,6 +221,7 @@ public class SellerController {
             productVariant.setPrice(variant.getPrice().intValue());
             productVariant.setQuantity(variant.getQuantity());
             productVariant.setSku(variant.getSku());
+            productVariant.setImage(variant.getImage());
             productVariant.setCreatedBy(consumer);
             productVariant.setCreatedDate(LocalDate.now());
             productVariant.setModifiedDate(LocalDate.now());

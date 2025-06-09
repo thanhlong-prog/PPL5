@@ -13,4 +13,5 @@ public class VariantDetail {
     private int price;
     private int quantity;
     private String sku;
+    private String image;
 }

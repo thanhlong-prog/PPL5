@@ -116,7 +116,7 @@
                                     </div>
                                 </td>
                                 <td>0</td>
-                                <td>₫500.000</td>
+                                <td th:text="${product.pricexx}">₫500.000</td>
                                 <td th:text="${product.quantity}">44</td>
                                 <td th:if="${product.status == true}">Hoạt động</td>
                                 <td th:if="${product.status == false && product.isBan == false}">Đang đợi duyệt</td>
@@ -127,7 +127,7 @@
                                 <td class="empty"></td>
                                 <td>
                                     <div class="product-info">
-                                        <img src="#" alt="Sản phẩm con">
+                                        <img th:src="${variant.image}" alt="Sản phẩm con">
                                         <div>
                                             <div th:text="${variant.name}">Màu đỏ – Size M</div>
                                             <div th:text="${variant.sku}" class="sku">SKU: 123456-M-RED</div>

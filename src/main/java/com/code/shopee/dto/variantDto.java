@@ -2,7 +2,6 @@ package com.code.shopee.dto;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,4 +22,5 @@ public class variantDto {
     private BigDecimal price;
     private int quantity;
     private String sku;
+    private String image;
 }
