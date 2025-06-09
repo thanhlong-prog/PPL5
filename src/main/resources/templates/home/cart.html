@@ -230,10 +230,10 @@
                                 </div>
                                 <div class="total-price flex-column-1">
                                     <span class="total-price-text" th:if="${item.product.discount != null}"
-                                        th:text="'₫' + ${item.product.price * (100-item.product.discount) / 100 * item.orderQuantity}"></span>
+                                        th:text="'₫' + ${item.productVatiants.price * (100-item.product.discount) / 100 * item.orderQuantity}"></span>
                                     <span class="total-price-text"
                                         th:if="${item.product.discount == null || item.product.discount == 0}"
-                                        th:text="'₫' + ${item.product.price * item.orderQuantity}"></span>
+                                        th:text="'₫' + ${item.productVatiants.price * item.orderQuantity}"></span>
                                 </div>
                                 <div class="btn-option flex-column-1">
                                     <button class="btn-delete" th:onclick="'delCartItem('+ ${item.id} +')'">

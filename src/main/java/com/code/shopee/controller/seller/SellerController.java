@@ -125,7 +125,7 @@ public class SellerController {
                 variantJson,
                 new TypeReference<List<variantDto>>() {
                 });
-        System.out.println("variants: " + variants);
+        // System.out.println("variants: " + variants);
         product.setVariants(variants);
         Product newProduct = new Product();
         newProduct.setTitle(product.getProductName());
@@ -140,6 +140,7 @@ public class SellerController {
         newProduct.setSold(0);
         newProduct.setStatus(false);
         newProduct.setSeller(consumer);
+        newProduct.setBan(false);
         productRepository.save(newProduct);
         System.out.println("images: " + images.size());
         boolean isFirstImage = true;
@@ -211,12 +212,16 @@ public class SellerController {
             savedOptionValues.put(attribute, valueMap);
         }
 
+        int minPrice = Integer.MAX_VALUE;
+        int maxPrice = Integer.MIN_VALUE;
+
         for (variantDto variant : variants) {
             ProductVatiants productVariant = new ProductVatiants();
             productVariant.setProduct(newProduct);
             productVariant.setPrice(variant.getPrice().intValue());
             productVariant.setQuantity(variant.getQuantity());
             productVariant.setSku(variant.getSku());
+            productVariant.setImage(variant.getImage());
             productVariant.setCreatedBy(consumer);
             productVariant.setCreatedDate(LocalDate.now());
             productVariant.setModifiedDate(LocalDate.now());
@@ -243,7 +248,14 @@ public class SellerController {
             productVariant.setName(nameBuilder.toString());
             productVariant.setOptionValues(optionValuesSet);
             productVariantsRepo.save(productVariant);
+            int price = variant.getPrice().intValue();
+            if (price < minPrice)
+                minPrice = price;
+            if (price > maxPrice)
+                maxPrice = price;
         }
+        newProduct.setPricexx(minPrice + "₫ ~ " + maxPrice + "₫");
+        productRepository.save(newProduct);
         model.addAttribute("user", userData);
 
         return "redirect:/seller";
@@ -300,15 +312,24 @@ public class SellerController {
                 products = productRepo.findActiveProductsAndSellerIdAndByProductVatiantsCreatedBy(consumer.getId(),
                         consumer);
             } else if (status.equalsIgnoreCase("false")) {
-                products = productRepo.findInactiveProductsAndSellerIdByProductVatiantsCreatedBy(consumer.getId(),
+                products = productRepo.findInactiveAndNotBannedProductsBySellerAndCreatedBy(consumer.getId(),
+                        consumer);
+            } else if (status.equalsIgnoreCase("ban")) {
+                products = productRepo.findInactiveProductsAndSellerIdByProductVatiantsCreatedByAndBanned(
+                        consumer.getId(),
                         consumer);
             } else {
                 products = productRepo.findProductsAndSellerIdByProductVatiantsCreatedBy(consumer.getId(), consumer);
             }
             int productCountStatusTrue = productRepository.countBySellerIdAndStatusTrue(consumer.getId());
-            int productCountStatusFalse = productRepository.countBySellerIdAndStatusFalse(consumer.getId());
+            int productCountStatusFalse = productRepository
+                    .countBySellerIdAndStatusFalseAndIsBanFalse(consumer.getId());
+            int productCountStatusBaned = productRepository.countBySellerIdAndStatusFalseAndIsBanTrue(consumer.getId());
+            int productCountAll = productRepository.countBySellerId(consumer.getId());
             model.addAttribute("productCountStatusTrue", productCountStatusTrue);
             model.addAttribute("productCountStatusFalse", productCountStatusFalse);
+            model.addAttribute("productCountStatusBaned", productCountStatusBaned);
+            model.addAttribute("productCountAll", productCountAll);
             model.addAttribute("user", userData);
             model.addAttribute("products", products);
             model.addAttribute("statusFilter", status);
@@ -480,8 +501,8 @@ public class SellerController {
         for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
             revenueByDate.put(date, 0);
             cartCountByDate.put(date, 0);
-            successByDate.put(date, 0);         
-            cancelCountByDate.put(date, 0); 
+            successByDate.put(date, 0);
+            cancelCountByDate.put(date, 0);
         }
 
         for (Cart cart : carts) {
@@ -491,10 +512,12 @@ public class SellerController {
                 cartCountByDate.put(createdDate, cartCountByDate.get(createdDate) + 1);
             }
 
-            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 5) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 5) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 successByDate.put(createdDate, successByDate.get(createdDate) + 1);
-            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 6) {
+            } else if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 6) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 cancelCountByDate.put(createdDate, cancelCountByDate.get(createdDate) + 1);
             }
@@ -536,8 +559,8 @@ public class SellerController {
         for (int day = 1; day <= startDate.lengthOfMonth(); day++) {
             revenueByDay.put(day, 0);
             cartCountByDay.put(day, 0);
-            successByDay.put(day, 0);         
-            cancelCountByDay.put(day, 0); 
+            successByDay.put(day, 0);
+            cancelCountByDay.put(day, 0);
         }
 
         for (Cart cart : carts) {
@@ -548,11 +571,13 @@ public class SellerController {
                 cartCountByDay.put(day, cartCountByDay.get(day) + 1);
             }
 
-            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 5) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 5) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 int day = createdDate.getDayOfMonth();
                 successByDay.put(day, successByDay.get(day) + 1);
-            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 &&  cart.getShippingStatus() == 6) {
+            } else if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 6) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 int day = createdDate.getDayOfMonth();
                 cancelCountByDay.put(day, cancelCountByDay.get(day) + 1);
@@ -597,8 +622,8 @@ public class SellerController {
         for (int m = startMonth; m < startMonth + 3; m++) {
             revenueByMonth.put(m, 0);
             cartCountByMonth.put(m, 0);
-            successByMonth.put(m, 0);         
-            cancelCountByMonth.put(m, 0); 
+            successByMonth.put(m, 0);
+            cancelCountByMonth.put(m, 0);
         }
 
         for (Cart cart : carts) {
@@ -610,11 +635,13 @@ public class SellerController {
 
             }
 
-            if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 && cart.getShippingStatus() == 5) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 5) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 int month = createdDate.getMonthValue();
                 successByMonth.put(month, successByMonth.get(month) + 1);
-            } else if(cart.getTransaction() != null && cart.getTransaction().getStatus() == 1 && cart.getShippingStatus() == 6) {
+            } else if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1
+                    && cart.getShippingStatus() == 6) {
                 LocalDate createdDate = cart.getTransaction().getCreatedDate().toLocalDate();
                 int month = createdDate.getMonthValue();
                 cancelCountByMonth.put(month, cancelCountByMonth.get(month) + 1);

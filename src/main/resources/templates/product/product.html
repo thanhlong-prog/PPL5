@@ -69,18 +69,18 @@
                             <h1 class="product-title" th:text="${product.title}"></h1>
 
                             <div class="product-ratings">
-                                <div class="stars">★★★★★</div>
+                                <div class="stars" th:text="${stars}">★★★★★</div>
                                 <div th:text="${product.rating + ' (' + product.rated + ' đánh giá)'}"></div>
                                 <div th:text="${product.sold} + ' đã bán'">942 đã bán</div>
                             </div>
 
                             <div class="price-container">
-                                <div th:if="${product.discount == null}" class="current-price"
-                                    th:text="${product.price} + '₫'"></div>
-                                <div th:if="${product.discount != null}" class="current-price"
+                                <div id="current-price" class="current-price"
+                                    th:text="${product.pricexx}"></div>
+                                <!-- <div th:if="${product.discount != null}" class="current-price"
                                     th:text="${product.price*product.discount/100} + '₫'"></div>
                                 <div th:if="${product.discount != null}" class="original-price"
-                                    th:text="${product.price} + '₫'"></div>
+                                    th:text="${product.price} + '₫'"></div> -->
                                 <div th:if="${product.discount != null}" class="discount"
                                     th:text="${product.discount} + '% GIẢM'"></div>
                             </div>
@@ -245,6 +245,7 @@
                                         success: function (res) {
                                             console.log("Response từ server:", res);
                                             document.getElementById("product-quantity").textContent = res.quantity;
+                                            document.getElementById("current-price").textContent = res.price + " ₫";
                                             if (res.quantity == 0) {
                                                 document.querySelector(".quantity-input").value = 0;
                                             }
@@ -369,8 +370,8 @@
 
                     <div class="reviews-summary">
                         <div class="avg-rating">
-                            <div class="rating-number">4.9</div>
-                            <div class="rating-stars">★★★★★</div>
+                            <div class="rating-number" th:text="${product.rating}">4.9</div>
+                            <div class="rating-stars" th:text="${stars}">★★★★★</div>
                             <div>trên 5</div>
                         </div>
 
@@ -378,86 +379,70 @@
                             <div class="rating-bar">
                                 <div class="rating-level">5 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" style="width: 90%;"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${count5Star} * 100 / ${totalReviews}) + '%;'"></div>
                                 </div>
-                                <div class="rating-count">228</div>
+                                <div class="rating-count" th:text="${count5Star}">228</div>
                             </div>
 
                             <div class="rating-bar">
                                 <div class="rating-level">4 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" style="width: 7%;"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${count4Star} * 100 / ${totalReviews}) + '%;'"></div>
                                 </div>
-                                <div class="rating-count">18</div>
+                                <div class="rating-count" th:text="${count4Star}">18</div>
                             </div>
 
                             <div class="rating-bar">
                                 <div class="rating-level">3 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" style="width: 2%;"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${count3Star} * 100 / ${totalReviews}) + '%;'"></div>
                                 </div>
-                                <div class="rating-count">5</div>
+                                <div class="rating-count" th:text="${count3Star}">5</div>
                             </div>
 
                             <div class="rating-bar">
                                 <div class="rating-level">2 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" style="width: 1%;"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${count2Star} * 100 / ${totalReviews}) + '%;'"></div>
                                 </div>
-                                <div class="rating-count">2</div>
+                                <div class="rating-count" th:text="${count2Star}">2</div>
                             </div>
 
                             <div class="rating-bar">
                                 <div class="rating-level">1 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" style="width: 0.5%;"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${count1Star} * 100 / ${totalReviews}) + '%;'"></div>
                                 </div>
-                                <div class="rating-count">1</div>
+                                <div class="rating-count" th:text="${count1Star}">1</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Các đánh giá của người dùng -->
-                    <div class="review-item">
+                    <div class="review-item" th:each="review : ${productPreviews}">
                         <div class="reviewer">
                             <div class="reviewer-pic">
-                                <img src="/api/placeholder/40/40" alt="User Avatar">
+                                <img th:src="${review.previewer.avatar}" alt="User Avatar">
                             </div>
-                            <div class="reviewer-name">Nguyễn Văn A</div>
+                            <div class="reviewer-name" th:text="${review.previewer.name}">Nguyễn Văn A</div>
                         </div>
-                        <div class="review-rating">★★★★★</div>
-                        <div class="review-content">
+                        <div class="review-rating" th:if="${review.star == 5}">★★★★★</div>
+                        <div class="review-rating" th:if="${review.star == 4}">★★★★</div>
+                        <div class="review-rating" th:if="${review.star == 3}">★★★</div>
+                        <div class="review-rating" th:if="${review.star == 2}">★★</div>
+                        <div class="review-rating" th:if="${review.star == 1}">★</div>
+                        <div class="review-content" th:text="${review.content}">
                             Bàn phím đẹp, chất lượng cao cấp đúng chuẩn Logitech. Phím bấm rất êm, hành trình ngắn, gõ
                             nhanh và chính xác. Kết nối ổn định với cả laptop Windows và iPad. Đèn nền rất đẹp, tự động
                             điều chỉnh theo môi trường. Pin trâu, sạc một lần dùng cả tuần với đèn nền. Rất hài lòng với
                             sản phẩm!
                         </div>
-                        <div class="review-images">
-                            <div class="review-image">
-                                <img src="/api/placeholder/80/80" alt="Review Image 1">
-                            </div>
-                            <div class="review-image">
-                                <img src="/api/placeholder/80/80" alt="Review Image 2">
+                        <div class="review-images" >
+                            <div class="review-image" th:each="image : ${review.images}">
+                                <img th:src="${image.imageUrl}" alt="Review Image">
                             </div>
                         </div>
-                        <div class="review-date">24/04/2025</div>
-                    </div>
-
-                    <div class="review-item">
-                        <div class="reviewer">
-                            <div class="reviewer-pic">
-                                <img src="/api/placeholder/40/40" alt="User Avatar">
-                            </div>
-                            <div class="reviewer-name">Trần Thị B</div>
-                        </div>
-                        <div class="review-rating">★★★★★</div>
-                        <div class="review-content">
-                            Mình mua bàn phím này để làm việc tại nhà và công ty, kết nối luân phiên giữa laptop và iPad
-                            rất tiện. Thiết kế nhỏ gọn, sang trọng, phím bấm rất êm. Các phím tắt chụp màn hình và emoji
-                            rất hữu ích. Đèn nền đẹp, tự điều chỉnh theo môi trường. Pin dùng được khoảng 1 tuần với đèn
-                            nền bật liên tục. Rất đáng tiền!
-                        </div>
-                        <div class="review-date">20/04/2025</div>
+                        <div class="review-date" th:text="${#temporals.format(review.createdDate, 'dd/MM/yyyy')}">24/04/2025</div>
                     </div>
                 </div>
             </div>

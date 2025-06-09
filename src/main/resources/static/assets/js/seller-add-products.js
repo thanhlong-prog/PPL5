@@ -154,7 +154,8 @@ function saveVariantsToHiddenInput() {
             values: values,
             price: row.querySelector('.price-option').value.trim(),
             quantity: row.querySelector('.quantity-option').value.trim(),
-            sku: row.querySelector('.sku-option').value.trim()
+            sku: row.querySelector('.sku-option').value.trim(),
+            image: row.querySelector('.sku-img-preview')?.src || "" 
         };
 
         data.push(obj);

@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+
+<html lang="vi" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.thymeleaf.org/extras/spring-security6">
+
+</html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopee Admin Dashboard</title>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/home.css">
+  <link rel="stylesheet" href="/assets/css/adminUM.css">
+  <style>
+    :root {
+      --shopee-orange: #ee4d2d;
+      --shopee-light-orange: #ff7337;
+      --sidebar-width: 260px;
+      --header-height: 62px;
+      --footer-height: 62px;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f5f5f9;
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    .layout-wrapper {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background-color: #ffffff;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      z-index: 1050;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      height: var(--header-height);
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .sidebar-logo {
+      display: flex;
+      align-items: center;
+      color: var(--shopee-orange);
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .sidebar-logo img {
+      height: 35px;
+      margin-right: 10px;
+    }
+
+    .sidebar-content {
+      height: calc(100vh - var(--header-height) - var(--footer-height));
+      overflow-y: auto;
+      padding: 15px 0;
+    }
+
+    .sidebar-item {
+      margin-bottom: 5px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      color: #697a8d;
+      text-decoration: none;
+      transition: all 0.2s ease-in-out;
+      border-radius: 0 20px 20px 0;
+      margin-right: 15px;
+    }
+
+    .sidebar-link:hover {
+      background-color: rgba(238, 77, 45, 0.08);
+      color: var(--shopee-orange);
+    }
+
+    .sidebar-link.active {
+      background-color: rgba(238, 77, 45, 0.1);
+      color: var(--shopee-orange);
+      font-weight: 500;
+    }
+
+    .sidebar-link i {
+      width: 20px;
+      margin-right: 12px;
+      font-size: 1.1rem;
+    }
+
+    .sidebar-footer {
+      height: var(--footer-height);
+      padding: 15px 20px;
+      border-top: 1px solid #f0f0f0;
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+    }
+
+    .sidebar-user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 10px;
+    }
+
+    .sidebar-user-info {
+      line-height: 1.2;
+    }
+
+    .sidebar-user-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #566a7f;
+    }
+
+    .sidebar-user-role {
+      font-size: 0.75rem;
+      color: #a1acb8;
+    }
+
+    /* Main content */
+    .layout-page {
+      margin-left: var(--sidebar-width);
+      width: calc(100% - var(--sidebar-width));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      height: var(--header-height);
+      background-color: #ffffff;
+      padding: 0 25px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f0f0f0;
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: calc(100% - var(--sidebar-width));
+      z-index: 1040;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: #697a8d;
+      margin-right: 15px;
+    }
+
+    .header-search {
+      position: relative;
+    }
+
+    .header-search input {
+      width: 250px;
+      padding: 8px 15px 8px 35px;
+      border: 1px solid #e7e7e8;
+      border-radius: 5px;
+      font-size: 0.875rem;
+      background-color: #f5f5f9;
+    }
+
+    .header-search i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #697a8d;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-icon {
+      position: relative;
+      color: #697a8d;
+      font-size: 1.2rem;
+      padding: 8px 10px;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .header-icon:hover {
+      color: var(--shopee-orange);
+    }
+
+    .header-badge {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 18px;
+      height: 18px;
+      background-color: var(--shopee-orange);
+      color: white;
+      font-size: 0.7rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .content-wrapper {
+      padding: 25px;
+      margin-top: var(--header-height);
+      flex: 1;
+    }
+
+    .page-title {
+      margin-bottom: 25px;
+      font-weight: 600;
+      color: #566a7f;
+    }
+
+    .card {
+      background-color: #ffffff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 25px;
+    }
+
+    .card-header {
+      padding: 15px 20px;
+      background-color: transparent;
+      border-bottom: 1px solid #f0f0f0;
+      font-weight: 600;
+      color: #566a7f;
+    }
+
+    .stats-card {
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .stats-icon {
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-size: 1.3rem;
+    }
+
+    .stats-icon.bg-primary {
+      background-color: var(--shopee-orange);
+    }
+
+    .stats-icon.bg-info {
+      background-color: #03c3ec;
+    }
+
+    .stats-icon.bg-success {
+      background-color: #71dd37;
+    }
+
+    .stats-icon.bg-warning {
+      background-color: #ffab00;
+    }
+
+    .stats-title {
+      font-size: 0.9rem;
+      color: #a1acb8;
+      margin-bottom: 10px;
+    }
+
+    .stats-value {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #566a7f;
+      margin-bottom: 5px;
+    }
+
+    .stats-change {
+      font-size: 0.8rem;
+    }
+
+    .stats-change.positive {
+      color: #71dd37;
+    }
+
+    .stats-change.negative {
+      color: #ff3e1d;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+
+    .table th {
+      font-weight: 600;
+      color: #566a7f;
+      border-bottom-width: 1px;
+    }
+
+    .table td {
+      vertical-align: middle;
+      color: #697a8d;
+    }
+
+    .product-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .status-badge {
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-badge.pending {
+      background-color: rgba(255, 171, 0, 0.12);
+      color: #ffab00;
+    }
+
+    .status-badge.processing {
+      background-color: rgba(3, 195, 236, 0.12);
+      color: #03c3ec;
+    }
+
+    .status-badge.delivered {
+      background-color: rgba(113, 221, 55, 0.12);
+      color: #71dd37;
+    }
+
+    .status-badge.cancelled {
+      background-color: rgba(255, 62, 29, 0.12);
+      color: #ff3e1d;
+    }
+
+    .btn-shopee {
+      background-color: var(--shopee-orange);
+      border-color: var(--shopee-orange);
+      color: white;
+    }
+
+    .btn-shopee:hover {
+      background-color: var(--shopee-light-orange);
+      border-color: var(--shopee-light-orange);
+      color: white;
+    }
+
+    .btn-shopee-light {
+      background-color: rgba(238, 77, 45, 0.1);
+      border-color: transparent;
+      color: var(--shopee-orange);
+    }
+
+    .btn-shopee-light:hover {
+      background-color: rgba(238, 77, 45, 0.2);
+      color: var(--shopee-orange);
+    }
+
+    .chart-container {
+      height: 280px;
+      position: relative;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .layout-page {
+        margin-left: 0;
+        width: 100%;
+      }
+
+      .header {
+        width: 100%;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-search input {
+        width: 180px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-wrapper {
+        padding: 15px;
+      }
+
+      .header-search {
+        display: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+
+      <div class="sidebar-header">
+        <a href="#" class="sidebar-logo">
+          <i class="fas fa-shopping-bag me-2"></i>
+          <span>Shopee Admin</span>
+        </a>
+      </div>
+
+      <div class="sidebar-content">
+        <ul class="list-unstyled">
+          <li class="sidebar-item">
+            <a href="/admin/dashboard" class="sidebar-link">
+              <i class="fas fa-home"></i>
+              <span>Trang chủ</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="/admin/product" class="sidebar-link">
+              <i class="fas fa-box"></i>
+              <span>Quản lý sản phẩm</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="/admin/purchase" class="sidebar-link">
+              <i class="fas fa-shopping-cart"></i>
+              <span>Đơn hàng</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="/admin/user" class="sidebar-link active">
+              <i class="fas fa-users"></i>
+              <span>Người dùng</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-chart-line"></i>
+              <span>Phân tích dữ liệu</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-star"></i>
+              <span>Đánh giá</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-wallet"></i>
+              <span>Tài chính</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-ad"></i>
+              <span>Marketing</span>
+            </a>
+          </li> -->
+          <!-- <li class="sidebar-item">
+            <a href="#" class="sidebar-link">
+              <i class="fas fa-cog"></i>
+              <span>Cài đặt</span>
+            </a>
+          </li> -->
+        </ul>
+      </div>
+
+
+
+
+
+      <div class="sidebar-footer">
+        <div class="sidebar-user">
+          <img src="../../static/assets/images/img-admin/userProfile.jpg" alt="User Avatar" class="sidebar-user-avatar">
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name">Nguyễn Văn A</div>
+            <div class="sidebar-user-role">Admin</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- Main Content -->
+    <div class="layout-page">
+      <!-- Header -->
+      <header class="header">
+        <div class="header-left">
+          <button class="menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+          <div class="header-search">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Tìm kiếm...">
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="header-icon">
+            <i class="fas fa-bell"></i>
+            <span class="header-badge">5</span>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-envelope"></i>
+            <span class="header-badge">3</span>
+          </div>
+          <div class="header-icon">
+            <i class="fas fa-cog"></i>
+          </div>
+        </div>
+      </header>
+
+      
+
+      <!-- Quan Ly nguoi dung -->
+      <div id="user-manage" class="content-wrapper" >
+        <div class="nav-tabs">
+          <div class="nav-container">
+            <button class="nav-tab active" onclick="showTab('buyers')">
+              👥 Danh sách Buyer
+            </button>
+            <button class="nav-tab" onclick="showTab('sellers')">
+              🏪 Danh sách Seller
+            </button>
+            <button class="nav-tab" onclick="showTab('banned')">
+              🚫 Người dùng bị cấm
+            </button>
+            <button class="nav-tab" onclick="showTab('duyetSeller')">
+              📋 Duyệt Seller
+            </button>
+          </div>
+        </div>
+
+        <div class="container">
+          <!-- Tab Buyers -->
+          <div id="buyers" class="tab-content active">
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-number">1,234</div>
+                <div class="stat-label">Tổng Buyer</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">1,156</div>
+                <div class="stat-label">Buyer hoạt động</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">78</div>
+                <div class="stat-label">Buyer không hoạt động</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">42</div>
+                <div class="stat-label">Buyer mới tuần này</div>
+              </div>
+            </div>
+
+            <div class="search-bar">
+              <input type="text" class="search-input" placeholder="🔍 Tìm kiếm theo tên, email, số điện thoại..."
+                id="buyerSearch">
+              <select class="filter-select" id="buyerStatusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="active">Hoạt động</option>
+                <option value="inactive">Không hoạt động</option>
+              </select>
+              <button class="btn btn-primary" onclick="searchBuyers()">
+                🔍 Tìm kiếm
+              </button>
+            </div>
+
+            <div class="user-table">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Thông tin người dùng</th>
+                      <th>Email</th>
+                      <th>Số điện thoại</th>
+                      <th>Ngày đăng ký</th>
+                      <th>Trạng thái</th>
+                      <th>Số đơn hàng</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="buyersTableBody">
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Nguyễn Văn An</h4>
+                            <p>ID: #BUY001</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>nguyen.van.an@email.com</td>
+                      <td>0123456789</td>
+                      <td>15/01/2024</td>
+                      <td><span class="status-badge status-active">Hoạt động</span></td>
+                      <td>25</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('BUY001')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('BUY001', 'buyer')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Trần Thị Bích</h4>
+                            <p>ID: #BUY002</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>tran.thi.bich@email.com</td>
+                      <td>0987654321</td>
+                      <td>08/02/2024</td>
+                      <td><span class="status-badge status-active">Hoạt động</span></td>
+                      <td>12</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('BUY002')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('BUY002', 'buyer')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Lê Minh Đức</h4>
+                            <p>ID: #BUY003</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>le.minh.duc@email.com</td>
+                      <td>0369258147</td>
+                      <td>22/03/2024</td>
+                      <td><span class="status-badge status-inactive">Không hoạt động</span></td>
+                      <td>3</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('BUY003')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('BUY003', 'buyer')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <button>‹ Trước</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>4</button>
+                <button>5</button>
+                <button>Sau ›</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Sellers -->
+          <div id="sellers" class="tab-content">
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-number">456</div>
+                <div class="stat-label">Tổng Seller</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">398</div>
+                <div class="stat-label">Seller hoạt động</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">58</div>
+                <div class="stat-label">Seller không hoạt động</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">15</div>
+                <div class="stat-label">Seller mới tuần này</div>
+              </div>
+            </div>
+
+            <div class="search-bar">
+              <input type="text" class="search-input" placeholder="🔍 Tìm kiếm theo tên shop, email, số điện thoại..."
+                id="sellerSearch">
+              <select class="filter-select" id="sellerStatusFilter">
+                <option value="">Tất cả trạng thái</option>
+                <option value="active">Hoạt động</option>
+                <option value="inactive">Không hoạt động</option>
+              </select>
+              <button class="btn btn-primary" onclick="searchSellers()">
+                🔍 Tìm kiếm
+              </button>
+            </div>
+
+            <div class="user-table">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Thông tin Seller</th>
+                      <th>Email</th>
+                      <th>Số điện thoại</th>
+                      <th>Ngày đăng ký</th>
+                      <th>Trạng thái</th>
+                      <th>Số sản phẩm</th>
+                      <th>Doanh thu</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="sellersTableBody">
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Shop Thời Trang ABC</h4>
+                            <p>ID: #SEL001</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>shop.abc@email.com</td>
+                      <td>0123456789</td>
+                      <td>01/12/2023</td>
+                      <td><span class="status-badge status-active">Hoạt động</span></td>
+                      <td>156</td>
+                      <td>₫25,000,000</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('SEL001')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('SEL001', 'seller')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Điện Tử XYZ Store</h4>
+                            <p>ID: #SEL002</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>xyz.store@email.com</td>
+                      <td>0987654321</td>
+                      <td>15/11/2023</td>
+                      <td><span class="status-badge status-active">Hoạt động</span></td>
+                      <td>89</td>
+                      <td>₫45,500,000</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('SEL002')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('SEL002', 'seller')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Gia Dụng 123</h4>
+                            <p>ID: #SEL003</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>giadung123@email.com</td>
+                      <td>0369258147</td>
+                      <td>20/01/2024</td>
+                      <td><span class="status-badge status-inactive">Không hoạt động</span></td>
+                      <td>23</td>
+                      <td>₫1,200,000</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewUser('SEL003')">👁️ Xem</button>
+                          <button class="btn btn-danger" onclick="banUser('SEL003', 'seller')">🚫 Cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <button>‹ Trước</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>3</button>
+                <button>Sau ›</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Banned Users -->
+          <div id="banned" class="tab-content">
+            <div class="stats-row">
+              <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Tổng người bị cấm</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">8</div>
+                <div class="stat-label">Buyer bị cấm</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Seller bị cấm</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Bị cấm tuần này</div>
+              </div>
+            </div>
+
+            <div class="search-bar">
+              <input type="text" class="search-input" placeholder="🔍 Tìm kiếm người dùng bị cấm..." id="bannedSearch">
+              <select class="filter-select" id="bannedTypeFilter">
+                <option value="">Tất cả loại</option>
+                <option value="buyer">Buyer</option>
+                <option value="seller">Seller</option>
+              </select>
+              <button class="btn btn-primary" onclick="searchBanned()">
+                🔍 Tìm kiếm
+              </button>
+            </div>
+
+            <div class="user-table">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Thông tin người dùng</th>
+                      <th>Loại tài khoản</th>
+                      <th>Lý do cấm</th>
+                      <th>Ngày bị cấm</th>
+                      <th>Admin thực hiện</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bannedTableBody">
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Hoàng Văn Nam</h4>
+                            <p>ID: #BUY045</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="status-badge status-active">Buyer</span></td>
+                      <td>Spam đánh giá sản phẩm</td>
+                      <td>20/05/2024</td>
+                      <td>admin@shopee.com</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewBanDetails('BUY045')">👁️ Chi tiết</button>
+                          <button class="btn btn-success" onclick="unbanUser('BUY045')">✅ Gỡ cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Shop Fake Brand</h4>
+                            <p>ID: #SEL099</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="status-badge status-warning">Seller</span></td>
+                      <td>Bán hàng giả, vi phạm bản quyền</td>
+                      <td>18/05/2024</td>
+                      <td>admin@shopee.com</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewBanDetails('SEL099')">👁️ Chi tiết</button>
+                          <button class="btn btn-success" onclick="unbanUser('SEL099')">✅ Gỡ cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="user-info">
+                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <div class="user-details">
+                            <h4>Phạm Thị Lan</h4>
+                            <p>ID: #BUY078</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td><span class="status-badge status-active">Buyer</span></td>
+                      <td>Lạm dụng chính sách đổi trả</td>
+                      <td>10/05/2024</td>
+                      <td>admin2@shopee.com</td>
+                      <td>
+                        <div class="action-buttons">
+                          <button class="btn btn-warning" onclick="viewBanDetails('BUY078')">👁️ Chi tiết</button>
+                          <button class="btn btn-success" onclick="unbanUser('BUY078')">✅ Gỡ cấm</button>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="pagination">
+                <button>‹ Trước</button>
+                <button class="active">1</button>
+                <button>2</button>
+                <button>Sau ›</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="duyetSeller" class="tab-content">
+            <div class="container">
+              <div class="header">
+                <h1>Duyệt Seller</h1>
+                <p>Quản lý các yêu cầu đăng ký bán hàng</p>
+                <div class="stats">
+                  <div class="stat-item">
+                    <div class="stat-number">5</div>
+                    <div class="stat-label">Chờ duyệt</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Đã duyệt</div>
+                  </div>
+                  <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Từ chối</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filters">
+                <div class="filter-row">
+                  <div class="filter-item">
+                    <select>
+                      <option value="">Tất cả trạng thái</option>
+                      <option value="pending">Chờ duyệt</option>
+                      <option value="approved">Đã duyệt</option>
+                      <option value="rejected">Từ chối</option>
+                    </select>
+                  </div>
+                  <div class="filter-item">
+                    <select>
+                      <option value="">Tất cả loại hình</option>
+                      <option value="individual">Cá nhân</option>
+                      <option value="business">Hộ kinh doanh</option>
+                      <option value="company">Công ty</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Đơn yêu cầu 1 -->
+              <div class="request-card">
+                <div class="request-header">
+                  <div>
+                    <div class="request-id">Đơn #SR2024001</div>
+                    <div class="request-date">Ngày gửi: 05/06/2025</div>
+                  </div>
+                  <div class="status-badge">Chờ duyệt</div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin Shop</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Tên Shop</div>
+                      <div class="info-value">Kuro Neko Shop</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Email</div>
+                      <div class="info-value">thanhlongtivip@gmail.com</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số điện thoại</div>
+                      <div class="info-value">0814799346</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Nguyễn Thành Long</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Địa chỉ chi tiết</div>
+                      <div class="info-value">123 Đường ABC, Phường 1</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Phường/Huyện</div>
+                      <div class="info-value">Phường Tam Kỳ</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Thành phố</div>
+                      <div class="info-value">Quảng Nam</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Tỉnh</div>
+                      <div class="info-value">Quảng Nam</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin kinh doanh</div>
+                  <div class="business-type">Hộ kinh doanh</div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Tên công ty</div>
+                      <div class="info-value">Kuro Neko Trading</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Địa chỉ đăng ký kinh doanh</div>
+                      <div class="info-value">Quảng Nam / Thành Phố Tam Kỳ / Phường Phước Hòa</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Mô tả kinh doanh</div>
+                      <div class="info-value">Kinh doanh thời trang và phụ kiện anime, manga</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Mã số thuế</div>
+                      <div class="info-value">0123456789</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin định danh</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Loại giấy tờ</div>
+                      <div class="info-value">Căn cước công dân</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số CCCD</div>
+                      <div class="info-value">123456789012</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Nguyễn Thành Long</div>
+                    </div>
+                  </div>
+
+                  <div class="document-section">
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt trước CCCD
+                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt sau CCCD
+                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="note-section">
+                  <div class="info-label">Ghi chú duyệt</div>
+                  <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                  <button class="btn btn-approve">Duyệt đơn</button>
+                  <button class="btn btn-reject">Từ chối</button>
+                  <!-- <button class="btn btn-details">Xem chi tiết</button> -->
+                </div>
+              </div>
+
+              <!-- Đơn yêu cầu 2 -->
+              <div class="request-card">
+                <div class="request-header">
+                  <div>
+                    <div class="request-id">Đơn #SR2024002</div>
+                    <div class="request-date">Ngày gửi: 04/06/2025</div>
+                  </div>
+                  <div class="status-badge">Chờ duyệt</div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin Shop</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Tên Shop</div>
+                      <div class="info-value">Fashion Store VN</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Email</div>
+                      <div class="info-value">fashion.store@gmail.com</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số điện thoại</div>
+                      <div class="info-value">0987654321</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Trần Thị Mai</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Địa chỉ chi tiết</div>
+                      <div class="info-value">456 Đường XYZ, Phường 2</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Phường/Huyện</div>
+                      <div class="info-value">Phường Hải Châu</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Thành phố</div>
+                      <div class="info-value">Đà Nẵng</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Tỉnh</div>
+                      <div class="info-value">Đà Nẵng</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin kinh doanh</div>
+                  <div class="business-type">Cá nhân</div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Mô tả kinh doanh</div>
+                      <div class="info-value">Kinh doanh thời trang nữ, phụ kiện và mỹ phẩm</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin định danh</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Loại giấy tờ</div>
+                      <div class="info-value">Căn cước công dân</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số CCCD</div>
+                      <div class="info-value">987654321098</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Trần Thị Mai</div>
+                    </div>
+                  </div>
+
+                  <div class="document-section">
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt trước CCCD
+                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt sau CCCD
+                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="note-section">
+                  <div class="info-label">Ghi chú duyệt</div>
+                  <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                  <button class="btn btn-approve">Duyệt đơn</button>
+                  <button class="btn btn-reject">Từ chối</button>
+                  <!-- <button class="btn btn-details">Xem chi tiết</button> -->
+                </div>
+              </div>
+
+              <!-- Đơn yêu cầu 3 -->
+              <div class="request-card">
+                <div class="request-header">
+                  <div>
+                    <div class="request-id">Đơn #SR2024003</div>
+                    <div class="request-date">Ngày gửi: 03/06/2025</div>
+                  </div>
+                  <div class="status-badge">Chờ duyệt</div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin Shop</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Tên Shop</div>
+                      <div class="info-value">Tech Gadgets Pro</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Email</div>
+                      <div class="info-value">techgadgets@gmail.com</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số điện thoại</div>
+                      <div class="info-value">0901234567</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Lê Văn Minh</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Địa chỉ chi tiết</div>
+                      <div class="info-value">789 Đường DEF, Phường 3</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Phường/Huyện</div>
+                      <div class="info-value">Phường Thanh Khê</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Thành phố</div>
+                      <div class="info-value">Đà Nẵng</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Tỉnh</div>
+                      <div class="info-value">Đà Nẵng</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin kinh doanh</div>
+                  <div class="business-type">Công ty</div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Tên công ty</div>
+                      <div class="info-value">Công ty TNHH Công Nghệ Minh Phát</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Địa chỉ đăng ký kinh doanh</div>
+                      <div class="info-value">Đà Nẵng / Quận Thanh Khê / Phường Thanh Khê Đông</div>
+                    </div>
+                  </div>
+
+                  <div class="info-grid" style="margin-top: 15px;">
+                    <div class="info-item">
+                      <div class="info-label">Mô tả kinh doanh</div>
+                      <div class="info-value">Kinh doanh thiết bị công nghệ, phụ kiện điện tử</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Mã số thuế</div>
+                      <div class="info-value">0987654321</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="info-section">
+                  <div class="section-title">Thông tin định danh</div>
+                  <div class="info-grid">
+                    <div class="info-item">
+                      <div class="info-label">Loại giấy tờ</div>
+                      <div class="info-value">Căn cước công dân</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Số CCCD</div>
+                      <div class="info-value">456789123456</div>
+                    </div>
+                    <div class="info-item">
+                      <div class="info-label">Họ và tên</div>
+                      <div class="info-value">Lê Văn Minh</div>
+                    </div>
+                  </div>
+
+                  <div class="document-section">
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt trước CCCD
+                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                    <div class="document-item">
+                      <div class="document-name">Ảnh mặt sau CCCD
+                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
+                      </div>
+                      <div class="document-status">Đã tải lên</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="note-section">
+                  <div class="info-label">Ghi chú duyệt</div>
+                  <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
+                </div>
+
+                <div class="action-buttons">
+                  <button class="btn btn-approve">Duyệt đơn</button>
+                  <button class="btn btn-reject">Từ chối</button>
+                  <!-- <button class="btn btn-details">Xem chi tiết</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Modal Ban User -->
+        <div id="banModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>🚫 Cấm người dùng</h3>
+              <span class="close" onclick="closeBanModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+              <div id="banAlert"></div>
+              <div class="form-group">
+                <label>Người dùng:</label>
+                <input type="text" id="banUserInfo" readonly>
+              </div>
+              <div class="form-group">
+                <label>Lý do cấm:</label>
+                <select id="banReason">
+                  <option value="">Chọn lý do...</option>
+                  <option value="spam">Spam tin nhắn/đánh giá</option>
+                  <option value="fake_products">Bán hàng giả</option>
+                  <option value="fraud">Lừa đảo</option>
+                  <option value="abuse_policy">Lạm dụng chính sách</option>
+                  <option value="copyright">Vi phạm bản quyền</option>
+                  <option value="harassment">Quấy rối người khác</option>
+                  <option value="other">Khác</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Chi tiết:</label>
+                <textarea id="banDetails" rows="4" placeholder="Mô tả chi tiết lý do cấm..."></textarea>
+              </div>
+              <div class="form-group">
+                <label>Thời hạn cấm:</label>
+                <select id="banDuration">
+                  <option value="7">7 ngày</option>
+                  <option value="30">30 ngày</option>
+                  <option value="90">90 ngày</option>
+                  <option value="365">1 năm</option>
+                  <option value="permanent">Vĩnh viễn</option>
+                </select>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-danger" onclick="confirmBanUser()">🚫 Xác nhận cấm</button>
+              <button class="btn" onclick="closeBanModal()" style="background: #6c757d; color: white;">❌ Hủy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal View User Details -->
+        <div id="userModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>👤 Chi tiết người dùng</h3>
+              <span class="close" onclick="closeUserModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+              <div id="userDetailsContent">
+                <!-- User details will be loaded here -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" onclick="closeUserModal()" style="background: #6c757d; color: white;">Đóng</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal View Ban Details -->
+        <div id="banDetailsModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3>🚫 Chi tiết lệnh cấm</h3>
+              <span class="close" onclick="closeBanDetailsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+              <div id="banDetailsContent">
+                <!-- Ban details will be loaded here -->
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" onclick="closeBanDetailsModal()"
+                style="background: #6c757d; color: white;">Đóng</button>
+            </div>
+          </div>
+        </div>
+
+        <script>
+          // Sample data
+          const userData = {
+            buyers: [
+              {
+                id: 'BUY001',
+                name: 'Nguyễn Văn An',
+                email: 'nguyen.van.an@email.com',
+                phone: '0123456789',
+                joinDate: '15/01/2024',
+                status: 'active',
+                orders: 25,
+                avatar: 'https://via.placeholder.com/50'
+              },
+              {
+                id: 'BUY002',
+                name: 'Trần Thị Bích',
+                email: 'tran.thi.bich@email.com',
+                phone: '0987654321',
+                joinDate: '08/02/2024',
+                status: 'active',
+                orders: 12,
+                avatar: 'https://via.placeholder.com/50'
+              },
+              {
+                id: 'BUY003',
+                name: 'Lê Minh Đức',
+                email: 'le.minh.duc@email.com',
+                phone: '0369258147',
+                joinDate: '22/03/2024',
+                status: 'inactive',
+                orders: 3,
+                avatar: 'https://via.placeholder.com/50'
+              }
+            ],
+            sellers: [
+              {
+                id: 'SEL001',
+                name: 'Shop Thời Trang ABC',
+                email: 'shop.abc@email.com',
+                phone: '0123456789',
+                joinDate: '01/12/2023',
+                status: 'active',
+                products: 156,
+                revenue: '₫25,000,000',
+                avatar: 'https://via.placeholder.com/50'
+              },
+              {
+                id: 'SEL002',
+                name: 'Điện Tử XYZ Store',
+                email: 'xyz.store@email.com',
+                phone: '0987654321',
+                joinDate: '15/11/2023',
+                status: 'active',
+                products: 89,
+                revenue: '₫45,500,000',
+                avatar: 'https://via.placeholder.com/50'
+              },
+              {
+                id: 'SEL003',
+                name: 'Gia Dụng 123',
+                email: 'giadung123@email.com',
+                phone: '0369258147',
+                joinDate: '20/01/2024',
+                status: 'inactive',
+                products: 23,
+                revenue: '₫1,200,000',
+                avatar: 'https://via.placeholder.com/50'
+              }
+            ]
+          };
+
+          let currentBanUser = null;
+          let currentBanType = null;
+
+          // Tab switching
+          function showTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(tab => tab.classList.remove('active'));
+
+            // Remove active class from all tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+          }
+
+          // Search functions
+          function searchBuyers() {
+            const searchTerm = document.getElementById('buyerSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('buyerStatusFilter').value;
+
+            // Here you would implement actual search logic
+            showAlert('success', 'Đang tìm kiếm buyer với từ khóa: "' + searchTerm + '"');
+          }
+
+          function searchSellers() {
+            const searchTerm = document.getElementById('sellerSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('sellerStatusFilter').value;
+
+            // Here you would implement actual search logic
+            showAlert('success', 'Đang tìm kiếm seller với từ khóa: "' + searchTerm + '"');
+          }
+
+          function searchBanned() {
+            const searchTerm = document.getElementById('bannedSearch').value.toLowerCase();
+            const typeFilter = document.getElementById('bannedTypeFilter').value;
+
+            // Here you would implement actual search logic
+            showAlert('success', 'Đang tìm kiếm người dùng bị cấm với từ khóa: "' + searchTerm + '"');
+          }
+
+          // Ban user functionality
+          function banUser(userId, userType) {
+            currentBanUser = userId;
+            currentBanType = userType;
+
+            // Find user data
+            let userData = null;
+            if (userType === 'buyer') {
+              userData = window.userData?.buyers?.find(u => u.id === userId);
+            } else {
+              userData = window.userData?.sellers?.find(u => u.id === userId);
+            }
+
+            const userInfo = userData ? `${userData.name} (${userId})` : `${userId}`;
+            document.getElementById('banUserInfo').value = userInfo;
+            document.getElementById('banModal').style.display = 'block';
+          }
+
+          function confirmBanUser() {
+            const reason = document.getElementById('banReason').value;
+            const details = document.getElementById('banDetails').value;
+            const duration = document.getElementById('banDuration').value;
+
+            if (!reason) {
+              showBanAlert('danger', 'Vui lòng chọn lý do cấm!');
+              return;
+            }
+
+            if (!details.trim()) {
+              showBanAlert('danger', 'Vui lòng nhập chi tiết lý do cấm!');
+              return;
+            }
+
+            // Here you would send the ban request to the server
+            showBanAlert('success', 'Đã cấm người dùng thành công!');
+
+            setTimeout(() => {
+              closeBanModal();
+              // Refresh the current tab or remove the user from the table
+              location.reload();
+            }, 2000);
+          }
+
+          function closeBanModal() {
+            document.getElementById('banModal').style.display = 'none';
+            document.getElementById('banReason').value = '';
+            document.getElementById('banDetails').value = '';
+            document.getElementById('banAlert').innerHTML = '';
+            currentBanUser = null;
+            currentBanType = null;
+          }
+
+          // View user details
+          function viewUser(userId) {
+            // Here you would fetch user details from the server
+            document.getElementById('userDetailsContent').innerHTML = `
+                <div class="user-info" style="margin-bottom: 20px;">
+                    <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; margin-right: 20px;">
+                    <div>
+                        <h3>Chi tiết người dùng ${userId}</h3>
+                        <p style="color: #666;">Thông tin chi tiết sẽ được tải từ server</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Họ tên:</label>
+                    <input type="text" value="Đang tải..." readonly>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="text" value="Đang tải..." readonly>
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại:</label>
+                    <input type="text" value="Đang tải..." readonly>
+                </div>
+                <div class="form-group">
+                    <label>Địa chỉ:</label>
+                    <textarea rows="3" readonly>Đang tải...</textarea>
+                </div>
+            `;
+            document.getElementById('userModal').style.display = 'block';
+          }
+
+          function closeUserModal() {
+            document.getElementById('userModal').style.display = 'none';
+          }
+
+          // View ban details
+          function viewBanDetails(userId) {
+            document.getElementById('banDetailsContent').innerHTML = `
+                <div class="form-group">
+                    <label>Người dùng bị cấm:</label>
+                    <input type="text" value="${userId}" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Lý do cấm:</label>
+                    <input type="text" value="Spam đánh giá sản phẩm" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Chi tiết:</label>
+                    <textarea rows="3" readonly>Người dùng này đã spam đánh giá 1 sao cho nhiều sản phẩm mà chưa từng mua, ảnh hưởng đến uy tín của seller.</textarea>
+                </div>
+                <div class="form-group">
+                    <label>Ngày bị cấm:</label>
+                    <input type="text" value="20/05/2024 14:30" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Admin thực hiện:</label>
+                    <input type="text" value="admin@shopee.com" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Thời hạn cấm:</label>
+                    <input type="text" value="30 ngày" readonly>
+                </div>
+            `;
+            document.getElementById('banDetailsModal').style.display = 'block';
+          }
+
+          function closeBanDetailsModal() {
+            document.getElementById('banDetailsModal').style.display = 'none';
+          }
+
+          // Unban user
+          function unbanUser(userId) {
+            if (confirm('Bạn có chắc chắn muốn gỡ cấm cho người dùng ' + userId + '?')) {
+              // Here you would send the unban request to the server
+              showAlert('success', `Đã gỡ cấm thành công cho người dùng ${userId}!`);
+
+              setTimeout(() => {
+                location.reload();
+              }, 2000);
+            }
+          }
+
+          // Utility functions
+          function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.innerHTML = message;
+
+            // Insert at the top of the current active tab
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.insertBefore(alertDiv, activeTab.firstChild);
+
+            // Remove alert after 5 seconds
+            setTimeout(() => {
+              alertDiv.remove();
+            }, 5000);
+          }
+
+          function showBanAlert(type, message) {
+            document.getElementById('banAlert').innerHTML = `
+                <div class="alert alert-${type}">${message}</div>
+            `;
+          }
+
+          // Close modals when clicking outside
+          window.onclick = function (event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+              if (event.target === modal) {
+                modal.style.display = 'none';
+              }
+            });
+          }
+
+          // Initialize page
+          document.addEventListener('DOMContentLoaded', function () {
+            // Add any initialization code here
+            console.log('Shopee Admin - User Management loaded');
+          });
+        </script>
+
+        <script>
+          // Xử lý các nút action
+          document.querySelectorAll('.btn-approve').forEach(btn => {
+            btn.addEventListener('click', function () {
+              if (confirm('Bạn có chắc chắn muốn duyệt đơn này?')) {
+                const card = this.closest('.request-card');
+                const statusBadge = card.querySelector('.status-badge');
+                statusBadge.textContent = 'Đã duyệt';
+                statusBadge.style.background = '#d4edda';
+                statusBadge.style.color = '#155724';
+                card.style.borderLeft = '4px solid #28a745';
+                this.disabled = true;
+                this.textContent = 'Đã duyệt';
+                card.querySelector('.btn-reject').disabled = true;
+              }
+            });
+          });
+
+          document.querySelectorAll('.btn-reject').forEach(btn => {
+            btn.addEventListener('click', function () {
+              if (confirm('Bạn có chắc chắn muốn từ chối đơn này?')) {
+                const card = this.closest('.request-card');
+                const statusBadge = card.querySelector('.status-badge');
+                statusBadge.textContent = 'Từ chối';
+                statusBadge.style.background = '#f8d7da';
+                statusBadge.style.color = '#721c24';
+                card.style.borderLeft = '4px solid #dc3545';
+                this.disabled = true;
+                this.textContent = 'Đã từ chối';
+                card.querySelector('.btn-approve').disabled = true;
+              }
+            });
+          });
+
+          document.querySelectorAll('.btn-details').forEach(btn => {
+            btn.addEventListener('click', function () {
+              alert('Chức năng xem chi tiết sẽ được triển khai sau');
+            });
+          });
+        </script>
+      </div>
+
+
+
+
+      
+      
+    </div>
+  </div>
+  <script src="/assets/js/home.js"></script>
+  <!-- JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+  <script>
+    // Toggle sidebar on mobile
+    document.querySelector('.menu-toggle').addEventListener('click', function () {
+      document.querySelector('.sidebar').classList.toggle('show');
+    });
+
+    // Revenue Chart
+    const revenueCtx = document.createElement('canvas');
+    revenueCtx.id = 'revenueCanvas';
+    document.getElementById('revenue-chart').appendChild(revenueCtx);
+
+    new Chart(revenueCtx, {
+      type: 'line',
+      data: {
+        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+        datasets: [
+          {
+            label: 'Doanh thu (triệu đồng)',
+            data: [250, 285, 302, 278, 293, 327, 356, 383, 290, 312, 345, 368],
+            borderColor: '#ee4d2d',
+            backgroundColor: 'rgba(238, 77, 45, 0.1)',
+            tension: 0.4,
+            fill: true
+          },
+          {
+            label: 'Lợi nhuận (triệu đồng)',
+            data: [120, 145, 162, 138, 153, 187, 196, 213, 150, 172, 185, 198],
+            borderColor: '#03c3ec',
+            backgroundColor: 'rgba(3, 195, 236, 0.1)',
+            tension: 0.4,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            grid: {
+              drawBorder: false,
+            }
+          },
+          x: {
+            grid: {
+              display: false,
+            }
+          }
+        }
+      }
+    });
+
+    // Orders Chart
+    const ordersCtx = document.createElement('canvas');
+    ordersCtx.id = 'ordersCanvas';
+    document.getElementById('orders-chart').appendChild(ordersCtx);
+
+    new Chart(ordersCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Đã giao hàng', 'Đang xử lý', 'Chờ xử lý', 'Đã hủy'],
+        datasets: [{
+          data: [45, 25, 20, 10],
+          backgroundColor: [
+            '#71dd37',
+            '#03c3ec',
+            '#ffab00',
+            '#ff3e1d'
+          ],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+          }
+        },
+        cutout: '70%'
+      }
+    });
+  </script>
+</body>
+
+</html>

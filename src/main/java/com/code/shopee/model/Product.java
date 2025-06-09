@@ -50,7 +50,7 @@ public class Product {
     private Subcategory subcategory;
 
     @Column(name = "price")
-    private int price;
+    private Integer price;
 
     @Column(name = "quantity")
     private int quantity;
@@ -72,6 +72,12 @@ public class Product {
 
     @Column(name = "discount")
     private Integer discount;
+
+    @Column(name="is_ban")
+    private boolean isBan;
+
+    @Column(name = "pricexx")
+    private String pricexx;
 
     @Lob
     @Column(name = "description", columnDefinition = "TEXT")
