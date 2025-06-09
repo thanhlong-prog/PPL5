@@ -85,7 +85,7 @@ public class CartController {
                         .status(HttpStatus.BAD_REQUEST)
                         .body("Số lượng sản phẩm không hợp lệ");
             }
-            if (quantity > cart.getProductOption().getQuantity()) {
+            if (quantity > cart.getProductVatiants().getQuantity()) {
                 return ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)
                         .body("Số lượng sản phẩm không đủ trong kho");
@@ -95,9 +95,9 @@ public class CartController {
             Map<String, Integer> response = new HashMap<>();
             double totalPrice = 0;
             if(cart.getProduct().getDiscount() != null) {
-                totalPrice = cart.getProductOption().getPrice() * cart.getProduct().getDiscount()/100  * quantity;
+                totalPrice = cart.getProductVatiants().getPrice() * (100 - cart.getProduct().getDiscount())/100  * quantity;
             } else {
-                totalPrice = cart.getProductOption().getPrice() * quantity;
+                totalPrice = cart.getProductVatiants().getPrice() * quantity;
             }
             
             response.put("totalPrice", (int) totalPrice);

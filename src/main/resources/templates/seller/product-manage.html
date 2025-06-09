@@ -48,7 +48,7 @@
                 <div class="tabs">
                     <a th:href="@{/seller(status='all')}">
                         <span th:classappend="${statusFilter} == 'all' ? ' active'">Tất cả <span class="count"
-                                th:text="'('+${products.size}+')'">(112)</span></span>
+                                th:text="'('+${productCountAll}+')'">(112)</span></span>
                     </a>
                     <a th:href="@{/seller(status='true')}">
                         <span th:classappend="${statusFilter} == 'true' ? ' active'">Đang hoạt động <span class="count"
@@ -57,6 +57,10 @@
                     <a th:href="@{/seller(status='false')}" th:classappend="${statusFilter} == 'false' ? ' active'">
                         <span th:classappend="${statusFilter} == 'false' ? ' active'">Đợi duyệt <span class="count"
                                 th:text="'('+${productCountStatusFalse}+')'">(20)</span></span>
+                    </a>
+                    <a th:href="@{/seller(status='ban')}" th:classappend="${statusFilter} == 'false' ? ' active'">
+                        <span th:classappend="${statusFilter} == 'false' ? ' active'">Bị vi phạm<span class="count"
+                                th:text="'('+${productCountStatusBaned}+')'">(20)</span></span>
                     </a>
                 </div>
             </div>
@@ -115,7 +119,8 @@
                                 <td>₫500.000</td>
                                 <td th:text="${product.quantity}">44</td>
                                 <td th:if="${product.status == true}">Hoạt động</td>
-                                <td th:if="${product.status == false}">Đang đợi duyệt</td>
+                                <td th:if="${product.status == false && product.isBan == false}">Đang đợi duyệt</td>
+                                <td th:if="${product.status == false && product.isBan == true}">Vi phạm</td>
                                 <td><a class="update" href="#">Cập nhật</a></td>
                             </tr>
                             <tr th:each="variant : ${product.productVatiants}" class="child-row" style="display: none;">

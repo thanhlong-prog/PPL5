@@ -30,11 +30,42 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     @Query("SELECT DISTINCT p FROM Product p JOIN p.productVatiants pv WHERE pv.createdBy = :user AND p.status = true AND p.seller.id = :sellerid")
     List<Product> findActiveProductsAndSellerIdAndByProductVatiantsCreatedBy(int sellerid, @Param("user") User user);
 
-    @Query("SELECT DISTINCT p FROM Product p JOIN p.productVatiants pv WHERE pv.createdBy = :user AND p.status = false AND p.seller.id = :sellerid")
-    List<Product> findInactiveProductsAndSellerIdByProductVatiantsCreatedBy(int sellerid, @Param("user") User user);
+    @Query("SELECT DISTINCT p FROM Product p JOIN p.productVatiants pv " +
+            "WHERE pv.createdBy = :user " +
+            "AND p.status = false " +
+            "AND p.seller.id = :sellerid " +
+            "AND p.isBan = false")
+    List<Product> findInactiveAndNotBannedProductsBySellerAndCreatedBy(
+            @Param("sellerid") int sellerid,
+            @Param("user") User user);
+
+    @Query("SELECT DISTINCT p FROM Product p JOIN p.productVatiants pv " +
+            "WHERE pv.createdBy = :user " +
+            "AND p.status = false " +
+            "AND p.seller.id = :sellerid " +
+            "AND p.isBan = true")
+    List<Product> findInactiveProductsAndSellerIdByProductVatiantsCreatedByAndBanned(
+            @Param("sellerid") int sellerid,
+            @Param("user") User user);
 
     int countBySellerIdAndStatusTrue(int sellerId);
 
-    int countBySellerIdAndStatusFalse(int sellerId);
+    int countBySellerIdAndStatusFalseAndIsBanFalse(int sellerId);
+    
+    int countBySellerId(int sellerId);
 
+    int countBySellerIdAndStatusFalseAndIsBanTrue(int sellerId);
+
+    int countByStatusTrue();
+
+    int countByStatusFalse();
+
+    int countByStatusFalseAndIsBanFalse();
+
+    int countByStatusFalseAndIsBanTrue();
+
+
+    List<Product> findByStatusFalseAndIsBanFalse();
+
+    List<Product> findByStatusFalseAndIsBanTrue();
 }

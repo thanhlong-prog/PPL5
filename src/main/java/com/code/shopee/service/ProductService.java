@@ -30,6 +30,7 @@ public interface ProductService {
     public ProductVatiants getProductVatiantsByStatusTrue(int productId);
     List<ProductVatiants> getAllProductVatiantsByStatusTrue(int productId);
     public int getQuantityByOptions(int productId, Map<String, String> selectedOptions);
+    public int getPriceByOptions(int productId, Map<String, String> selectedOptions);
     public ProductVatiants getVatiantByOptions(int productId, Map<String, String> selectedOptions);
 
     public List<Cart> getAllCartWaitingForShip(int userId, int shippingStatus);

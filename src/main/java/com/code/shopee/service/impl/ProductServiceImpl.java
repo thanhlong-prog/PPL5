@@ -142,6 +142,25 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public int getPriceByOptions(int productId, Map<String, String> selectedOptions) {
+        List<ProductVatiants> variants = productVatiantsRepo.findByProductIdAndStatusTrueOrderByIdAsc(productId);
+
+        for (ProductVatiants variant : variants) {
+            Set<ProductOptionValues> values = variant.getOptionValues();
+
+            boolean match = selectedOptions.entrySet().stream().allMatch(
+                    entry -> values.stream().anyMatch(v -> v.getOption().getName().equalsIgnoreCase(entry.getKey()) &&
+                            v.getValue().equalsIgnoreCase(entry.getValue())));
+
+            if (match && values.size() == selectedOptions.size()) {
+                return variant.getPrice();
+            }
+        }
+
+        return 0;
+    }
+
+    @Override
     public ProductVatiants getVatiantByOptions(int productId, Map<String, String> selectedOptions) {
         List<ProductVatiants> variants = productVatiantsRepo.findByProductIdAndStatusTrueOrderByIdAsc(productId);
 
