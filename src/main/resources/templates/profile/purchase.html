@@ -76,9 +76,9 @@
                     <div class="tab-item" th:classappend="${mode} == 'pending' ? ' active' : ''">
                         <a href="/buyer/profile/purchase?mode=pending">Chờ xác nhận</a>
                     </div>
-                    <div class="tab-item" th:classappend="${mode} == 'waiting' ? ' active' : ''">
+                    <!-- <div class="tab-item" th:classappend="${mode} == 'waiting' ? ' active' : ''">
                         <a href="/buyer/profile/purchase?mode=waiting">Chờ lấy hàng</a>
-                    </div>
+                    </div> -->
                     <div class="tab-item" th:classappend="${mode} == 'shipping' ? ' active' : ''">
                         <a href="/buyer/profile/purchase?mode=shipping">Đang giao</a>
                     </div>
@@ -145,6 +145,7 @@
                                 <div class="order-actions">
                                     <button class="btn-contact">Liên hệ người bán</button>
                                     <button th:if="${mode == 'pending'}" class="btn-review" th:onclick="'cancelCart(' + ${entry.key.id} + ')'">Hủy đơn hàng</button>
+                                    <button th:if="${mode == 'shipping'}" class="btn-review" th:onclick="'receiveCart(' + ${entry.key.id} + ')'">Đã nhận hàng</button>
                                 </div>
                             </div>
                         </div>
@@ -176,9 +177,28 @@
             },
             success: function (response) {
                 console.log("thanh cong");
+                window.location.href = "/buyer/profile/purchase?mode=cancelled";
             },
             error: function () {
                 console.error("Lỗi khi hủy đơn hàng");
+            }
+        });
+    }
+
+    function receiveCart(sellerId) {
+        console.log(sellerId);
+        $.ajax({
+            type: "POST",
+            url: "/buyer/profile/purchase/receive",
+            data: {
+                sellerId: sellerId
+            },
+            success: function (response) {
+                console.log("thanh cong");
+                window.location.href = "/buyer/profile/purchase?mode=completed";
+            },
+            error: function () {
+                console.error("Lỗi khi nhận đơn hàng");
             }
         });
     }

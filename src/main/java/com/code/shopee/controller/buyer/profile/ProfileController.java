@@ -34,12 +34,15 @@ import com.code.shopee.dto.UserDto;
 import com.code.shopee.mapper.UserMapper;
 import com.code.shopee.model.Cart;
 import com.code.shopee.model.CustomUserDetails;
+import com.code.shopee.model.Notification;
 import com.code.shopee.model.Reason;
 import com.code.shopee.model.Transaction;
 import com.code.shopee.model.User;
 import com.code.shopee.model.UserAddress;
 import com.code.shopee.repository.CartRepository;
+import com.code.shopee.repository.NotificationRepo;
 import com.code.shopee.repository.ReasonRepo;
+import com.code.shopee.repository.UserRepository;
 import com.code.shopee.request.SmsRequest;
 import com.code.shopee.service.CloudinaryService;
 import com.code.shopee.service.MailService;
@@ -70,6 +73,10 @@ public class ProfileController {
     private CartRepository cartRepository;
     @Autowired
     private ReasonRepo reasonRepo;
+    @Autowired
+    private NotificationRepo notificationRepo;
+    @Autowired
+    private UserRepository UserRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ProfileController.class);
 
@@ -130,12 +137,20 @@ public class ProfileController {
     @PostMapping("/purchase/cancel")
     @ResponseBody
     public ResponseEntity<?> cancelOrder(@RequestParam("sellerId") int sellerId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
         try {
             List<Cart> carts = cartRepository.findBySellerIdAndStatusTrueAndShippingStatus2(sellerId);
             for (Cart cart : carts) {
                 if (cart != null) {
                     cart.setShippingStatus(6);
-                    cart.getProductVatiants().setQuantity(cart.getProductVatiants().getQuantity() + cart.getOrderQuantity());
+                    cart.getProductVatiants()
+                            .setQuantity(cart.getProductVatiants().getQuantity() + cart.getOrderQuantity());
                     cart.setModifiedDate(LocalDateTime.now());
                     cartRepository.save(cart);
 
@@ -158,6 +173,54 @@ public class ProfileController {
         } catch (Exception e) {
             logger.error("Error cancelling order: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error cancelling order");
+        }
+    }
+
+    @PostMapping("/purchase/receive")
+    @ResponseBody
+    public ResponseEntity<?> receiveOrder(@RequestParam("sellerId") int sellerId) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        try {
+            List<Cart> carts = cartRepository.findBySellerIdAndStatusTrueAndShippingStatus1(sellerId);
+            User seller = UserRepository.findByIdAndStatusTrue(sellerId);
+            for (Cart cart : carts) {
+                if (cart != null) {
+                    cart.setShippingStatus(5);
+                    cart.setModifiedDate(LocalDateTime.now());
+                    cartRepository.save(cart);
+                    Notification notification = new Notification();
+                    notification.setUser(consumer);
+                    notification.setTitle("Đánh giá sản phẩm " + cart.getId() + " đã được nhận");
+                    notification.setContent("Đánh giá sản phẩm của bạn đã được nhận thành công từ người bán "
+                            + seller.getSellerInfo().getShopName());
+                    notification.setStatus(true);
+                    notification.setUrl("/buyer/product/review?cartId=" + cart.getId());
+                    notification.setCreatedDate(LocalDateTime.now());
+                    notificationRepo.save(notification);
+
+                } else {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found");
+                }
+            }
+            Notification notification = new Notification();
+            notification.setUser(consumer);
+            notification.setTitle("Đơn hàng " + carts.get(0).getTransaction().getId() + " đã được nhận");
+            notification.setContent("Đơn hàng của bạn đã được nhận thành công từ người bán "
+                    + seller.getSellerInfo().getShopName());
+            notification.setStatus(true);
+            notification.setUrl("/buyer/profile/purchase?mode=completed");
+            notification.setCreatedDate(LocalDateTime.now());
+            notificationRepo.save(notification);
+            return ResponseEntity.ok("Order received successfully");
+        } catch (Exception e) {
+            logger.error("Error receiving order: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error receiving order");
         }
     }
 
@@ -246,7 +309,19 @@ public class ProfileController {
     }
 
     @RequestMapping("/order")
-    public String order() {
+    public String order(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        model.addAttribute("user", userData);
+        List<Notification> notifications = notificationRepo
+                .findByUserIdAndStatusTrueOrderByCreatedDateDesc(consumer.getId());
+        model.addAttribute("notifications", notifications);
         return "profile/order";
     }
 

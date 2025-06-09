@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopee - Thông báo đơn hàng</title>
     <link rel="stylesheet" href="/assets/css/order.css">
+    <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/popup.css">
+    <link rel="stylesheet" href="/assets/css/card.css">
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
+
 <body>
-    <div class="container">
+    <div class="header">
+        <div th:insert="~{header :: header}"></div>
+    </div>
+
+    <div class="main-container ">
         <!-- Sidebar -->
         <div class="sidebar">
             <div class="user-brief">
-                <img src="../../static/assets/images/img-user/userProfile.jpg" alt="Avatar">
+                <img th:src="${user.avatar}" alt="Avatar">
                 <div>
-                    <div class="user-name">Nguyễn Văn A</div>
+                    <div class="user-name" th:text="${user.name}">Nguyễn Văn A</div>
                     <div class="edit-profile">
                         <span>Sửa hồ sơ</span>
                     </div>
@@ -47,99 +73,56 @@
             </div>
             <div class="profile-content">
                 <!-- Nav tabs for notification types -->
-                <div style="border-bottom: 1px solid #efefef; margin-bottom: 15px;">
+                <!-- <div style="border-bottom: 1px solid #efefef; margin-bottom: 15px;">
                     <ul style="display: flex; list-style: none; padding: 0; margin: 0;">
                         <li style="margin-right: 20px; padding-bottom: 10px; border-bottom: 2px solid #ee4d2d;">
-                            <a href="/buyer/profile/order" style="text-decoration: none; color: #ee4d2d; font-size: 14px;">Đơn hàng</a>
+                            <a href="/buyer/profile/order"
+                                style="text-decoration: none; color: #ee4d2d; font-size: 14px;">Đơn hàng</a>
                         </li>
                         <li style="margin-right: 20px; padding-bottom: 10px;">
-                            <a href="/buyer/profile/voucher" style="text-decoration: none; color: #555; font-size: 14px;">Khuyến mãi</a>
+                            <a href="/buyer/profile/voucher"
+                                style="text-decoration: none; color: #555; font-size: 14px;">Khuyến mãi</a>
                         </li>
                         <li style="margin-right: 20px; padding-bottom: 10px;">
-                            <a href="#" style="text-decoration: none; color: #555; font-size: 14px;">Cập nhật hệ thống</a>
+                            <a href="#" style="text-decoration: none; color: #555; font-size: 14px;">Cập nhật hệ
+                                thống</a>
                         </li>
                         <li style="padding-bottom: 10px;">
                             <a href="#" style="text-decoration: none; color: #555; font-size: 14px;">Hoạt động</a>
                         </li>
                     </ul>
-                </div>
+                </div> -->
 
                 <!-- Notification items -->
                 <div class="notification-list">
                     <!-- Notification item 1 -->
-                    <div style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
-                        <div style="margin-right: 15px;">
-                            <img src="../../static/assets/images/img-order/order01.webp" alt="Shop logo" style="width: 40px; height: 40px; border-radius: 50%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 5px; font-size: 14px;">
-                                <strong>Đơn hàng #123456789</strong> đã được giao thành công.
+                    <div th:each="noti : ${notifications}"
+                        style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
+                        <!-- <div style="margin-right: 15px;">
+                            <img src="../../static/assets/images/img-order/order01.webp" alt="Shop logo"
+                                style="width: 40px; height: 40px; border-radius: 50%;">
+                        </div> -->
+                        <a th:href="${noti.url}" style="text-decoration: none; color: #333;">
+                            <div style="flex: 1;">
+                                <div style="margin-bottom: 5px; font-size: 14px;">
+                                    <strong th:text="${noti.title}">
+                                        <span th:text="${noti.content} ">Thông báo</span>
+                                </div>
+                                <div style="font-size: 12px; color: #999;"
+                                    th:text="${#temporals.format(noti.createdDate, 'dd/MM/yyyy HH:mm')}">2 giờ trước
+                                </div>
                             </div>
-                            <div style="font-size: 12px; color: #999;">2 giờ trước</div>
-                        </div>
-                    </div>
+                        </a>
 
-                    <!-- Notification item 2 -->
-                    <div style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
-                        <div style="margin-right: 15px;">
-                            <img src="../../static/assets/images/img-order/order02.webp" alt="Shop logo" style="width: 40px; height: 40px; border-radius: 50%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 5px; font-size: 14px;">
-                                <strong>Đơn hàng #987654321</strong> đã được đơn vị vận chuyển tiếp nhận.
-                            </div>
-                            <div style="font-size: 12px; color: #999;">1 ngày trước</div>
-                        </div>
                     </div>
-
-                    <!-- Notification item 3 -->
-                    <div style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
-                        <div style="margin-right: 15px;">
-                            <img src="../../static/assets/images/img-order/order03.webp" alt="Shop logo" style="width: 40px; height: 40px; border-radius: 50%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 5px; font-size: 14px;">
-                                <strong>Đơn hàng #456789123</strong> đã được xác nhận. Shop đang chuẩn bị hàng.
-                            </div>
-                            <div style="font-size: 12px; color: #999;">2 ngày trước</div>
-                        </div>
-                    </div>
-
-                    <!-- Notification item 4 -->
-                    <div style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
-                        <div style="margin-right: 15px;">
-                            <img src="../../static/assets/images/img-order/order04.webp" alt="Shop logo" style="width: 40px; height: 40px; border-radius: 50%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 5px; font-size: 14px;">
-                                <strong>Đơn hàng #321654987</strong> đã được đặt thành công. Vui lòng chờ shop xác nhận.
-                            </div>
-                            <div style="font-size: 12px; color: #999;">3 ngày trước</div>
-                        </div>
-                    </div>
-
-                    <!-- Notification item 5 -->
-                    <div style="display: flex; padding: 15px 0; border-bottom: 1px solid #efefef;">
-                        <div style="margin-right: 15px;">
-                            <img src="../../static/assets/images/img-order/order05.webp" alt="Shop logo" style="width: 40px; height: 40px; border-radius: 50%;">
-                        </div>
-                        <div style="flex: 1;">
-                            <div style="margin-bottom: 5px; font-size: 14px;">
-                                <strong>Đơn hàng #789456123</strong> - Shop đã đổi trạng thái đơn hàng sang đang giao.
-                            </div>
-                            <div style="font-size: 12px; color: #999;">5 ngày trước</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Load more button -->
-                <div style="text-align: center; margin-top: 20px;">
-                    <button style="background-color: #fff; color: #555; border: 1px solid #ddd; padding: 8px 15px; border-radius: 2px; cursor: pointer; font-size: 14px;">
-                        Xem thêm
-                    </button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="footer">
+        <div th:insert="~{footer :: footer}"></div>
+    </div>
 </body>
+
 </html>

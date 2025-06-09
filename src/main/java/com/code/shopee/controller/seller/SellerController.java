@@ -447,11 +447,11 @@ public class SellerController {
             }
             List<Cart> carts = cartRepo.findAllByTransactionId(transactionId);
             for (Cart cart : carts) {
-                cart.setShippingStatus(4);
+                cart.setShippingStatus(1);
                 cart.setModifiedDate(LocalDateTime.now());
                 cartRepo.save(cart);
             }
-            transaction.setShippingStatus(4);
+            transaction.setShippingStatus(1);
             transactionRepository.save(transaction);
         }
         return ResponseEntity.ok(Map.of("success", true));

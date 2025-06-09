@@ -63,6 +63,13 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
                         "JOIN c.product p " +
                         "WHERE p.seller.id = :sellerId " +
                         "AND c.status = 1 " +
+                        "AND c.shippingStatus = 1")
+        List<Cart> findBySellerIdAndStatusTrueAndShippingStatus1(@Param("sellerId") int sellerId);
+
+        @Query("SELECT c FROM Cart c " +
+                        "JOIN c.product p " +
+                        "WHERE p.seller.id = :sellerId " +
+                        "AND c.status = 1 " +
                         "AND c.shippingStatus = 2")
         List<Cart> findBySellerIdAndStatusTrueAndShippingStatus2(@Param("sellerId") int sellerId);
 

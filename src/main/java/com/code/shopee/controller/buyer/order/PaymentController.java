@@ -253,6 +253,6 @@ public class PaymentController {
             }
         }
         model.addAttribute("payment", paymentDto);
-        return "testVnpay/vnpayres";
+        return "redirect:/buyer/profile/purchase";
     }
 }

@@ -37,4 +37,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "AND si.isVerify = true")
     List<User> findActiveEnabledSellersWithProducts();
 
+    User findByIdAndStatusTrue(int id);
+
 }
