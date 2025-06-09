@@ -3,13 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/assets/css/admin-login.css">
     <title>Login</title>
 </head>
 <body>
-    <form th:action="@{/adminlogin}" method="post">
-        <input id="username" type="text" name="username" placeholder="User name">
-        <input type="password" id="password" name="password" placeholder="Password">
-        <button type="submit" id="login-btn">Đăng nhập</button>
-    </form>
+    <div class="container">
+        <div class="login-box box">
+            <h2 class="login-title title">Admin</h2>
+            <form th:action="@{/login}" method="post" class="login-form form">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit" class="login-btn btn">Sign In</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

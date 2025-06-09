@@ -1,0 +1,52 @@
+.sr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .07);
+    background-color: #fff;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+}
+
+.sr-header .left {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+}
+
+.sr-header .left img {
+    width: 97px;
+    height: 33px;
+}
+
+.sr-header .left .title span {
+    bottom: 0;
+    min-width: 500px;
+    position: absolute;
+    font-size: 1.2rem;
+}
+
+.sr-header .right .btn-account {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.sr-header .right button {
+    border: none;
+    background-color: #fff;
+}
+
+.sr-header .right .btn-account img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}

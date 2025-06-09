@@ -173,7 +173,7 @@
 }
 
 .w-recommanded .product-list .product img {
-    width: 200px;
+    width: 250px;
     height: 200px;
     object-fit: cover;
 }
@@ -250,12 +250,13 @@
     align-items: flex-start;
     margin-top: 20px;
     font-size: 14px;
+    background-color: #fff;
 }
 
-.shop-all-product .left {
+/* .shop-all-product .left {
     flex: 1;
     padding-right: 20px;
-}
+} */
 
 .shop-all-product .right {
     flex: 5;
@@ -320,9 +321,11 @@
 }
 
 .w-products .products-list .product img {
-    width: 200px;
+    width: 240px;
     height: 200px;
     object-fit: cover;
+    display: block;
+    border-radius: 5px;
 }
 
 .w-products .infor {

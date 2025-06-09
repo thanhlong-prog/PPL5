@@ -19,13 +19,17 @@
     <link rel="stylesheet" href="/assets/css/header.css">
     <link rel="stylesheet" href="/assets/css/footer.css">
     <link rel="stylesheet" href="/assets/css/seller-manage.css">
+    <link rel="stylesheet" href="/assets/css/seller-header.css">
 </head>
 
 <body>
+    <div class="header-seller">
+        <div th:insert="~{seller/seller-header::seller-header}"></div>
+    </div>
     <div class="wrapper-seller-manage">
         <div class="menu-empty"></div>
         <div class="menu">
-            <div class="mn mn-order-manage">
+            <div class="mn mn-order-manage" data-mode="purchase">
                 <div class="title ">
                     <i class='bx  bx-list-ul'></i>
                     <span>Quản lý đơn hàng</span>
@@ -39,7 +43,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="mn mn-product-manage">
+            <div class="mn mn-product-manage" data-mode="product">
                 <div class="title">
                     <i class='bx  bx-save'></i>
                     <span>Quản lý sản phẩm</span>
@@ -52,7 +56,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="mn mn-data">
+            <div class="mn mn-data" data-mode="analysis">
                 <div class="title">
                     <i class='bx bx-line-chart'></i>
                     <span>Dữ Liệu</span>

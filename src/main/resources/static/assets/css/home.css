@@ -722,3 +722,19 @@
     margin-top: 5px;
     opacity: 0.6;
 }
+.status-order{
+    color: #fff;
+    padding: 3px 8px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 4px;
+}
+.successfully{
+    background-color: #4eaf52;
+}
+.unsuccessfully{
+    background-color: #f63f3f;
+}
+.seller-name{
+    padding: 10px;
+}

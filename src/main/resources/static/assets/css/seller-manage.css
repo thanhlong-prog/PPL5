@@ -2,6 +2,14 @@
     display: flex;
     justify-content: flex-start;
     gap: 20px;
+    margin-top: 45px;
+}
+.wrapper-seller-manage .menu .mn-dropdown a.active {
+    color: #fb5732;
+    border-radius: 4px;
+}
+.menu a{
+    color: #010101;
 }
 .wrapper-seller-manage .menu-empty {
     width: 250px;

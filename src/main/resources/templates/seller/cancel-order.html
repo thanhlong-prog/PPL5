@@ -30,7 +30,8 @@
             </div>
             <div class="navbar-primary">
                 <div class="tabs">
-                    <span class="active">Tất cả <span class="count" th:text="'('+${canceledCart}+')'">(112)</span></span>
+                    <span class="active">Tất cả <span class="count"
+                            th:text="'('+${canceledCart}+')'">(112)</span></span>
                     <!-- <span>Đơn huỷ<span class="count">(37)</span></span>
                     <span>Đơn giao hàng không thành công <span class="count">(35)</span></span> -->
                 </div>
@@ -86,12 +87,14 @@
                             </td>
                         </tr>
                         <tr class="order-row products">
-                            <td class="list-product">
-                                <div  th:each="cart : ${transaction.carts}" class="product-info">
-                                    <img src="/assets/images/img-products/product-1.webp" alt="">
-                                    <div>
-                                        <div th:text="${cart.productVatiants.name}">Áo thun 123456</div>
-                                        <div th:text="${cart.productVatiants.sku}" class="type">Size L</div>
+                            <td>
+                                <div class="list-product">
+                                    <div th:each="cart : ${transaction.carts}" class="product-info">
+                                        <img src="/assets/images/img-products/product-1.webp" alt="">
+                                        <div>
+                                            <div th:text="${cart.productVatiants.name}">Áo thun 123456</div>
+                                            <div th:text="${cart.productVatiants.sku}" class="type">Size L</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- <div class="product-info">
@@ -103,7 +106,8 @@
                                 </div> -->
                             </td>
                             <td th:text="'₫'+${transaction.total}">₫500.000</td>
-                            <td><span class="buyer-username" th:text="${transaction.carts[0].user.name}">abc123</span></td>
+                            <td><span class="buyer-username" th:text="${transaction.carts[0].user.name}">abc123</span>
+                            </td>
                             <td>
                                 <span th:text="${transaction.reason.reason}">Không nhận hàng</span>
                             </td>
@@ -111,7 +115,9 @@
                                 <span class="reason" th:text="${transaction.reason.status}">Đang được hoàn về kho</span>
                             </td>
                             <td>
-                                <span class="date-time-cancel" th:text="${#temporals.format(transaction.modifiedDate, 'dd/MM/yyyy HH:mm')}">1/6/2025 11h30</span>
+                                <span class="date-time-cancel"
+                                    th:text="${#temporals.format(transaction.modifiedDate, 'dd/MM/yyyy HH:mm')}">1/6/2025
+                                    11h30</span>
                             </td>
                             <td>
                                 <a href="#">Xem chi tiết</a>

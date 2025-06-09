@@ -58,8 +58,8 @@
                         <span th:classappend="${statusFilter} == 'false' ? ' active'">Đợi duyệt <span class="count"
                                 th:text="'('+${productCountStatusFalse}+')'">(20)</span></span>
                     </a>
-                    <a th:href="@{/seller(status='ban')}" th:classappend="${statusFilter} == 'false' ? ' active'">
-                        <span th:classappend="${statusFilter} == 'false' ? ' active'">Bị vi phạm<span class="count"
+                    <a th:href="@{/seller(status='ban')}" th:classappend="${statusFilter} == 'ban' ? ' active'">
+                        <span th:classappend="${statusFilter} == 'ban' ? ' active'">Bị vi phạm<span class="count"
                                 th:text="'('+${productCountStatusBaned}+')'">(20)</span></span>
                     </a>
                 </div>

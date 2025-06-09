@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <div th:fragment="order-manage">
+    <div th:fragment="order-manage" class="order-manage">
         <div class="all-order-manage">
             <div class="header-main">
                 <div class="title">
@@ -79,6 +79,7 @@
                             Đã huỷ <span class="count" th:text="'('+ ${canceledCart} +')'">(15)</span>
                         </span>
                     </a>
+                    
                 </div>
             </div>
             <div class="bottom-main">
@@ -229,8 +230,10 @@
                                 <span class="date-time-shipping">-</span>
                             </td>
                             <td th:if="${transaction.shippingStatus == 2}">
-                                <!-- <a href="#">Xem chi tiết</a> -->
                                 <button th:onclick="'aceptPurchase(' + ${transaction.id} + ')'">Xác nhận</button>
+                            </td>
+                            <td th:if="${transaction.shippingStatus != 2}">
+                                <a href="#">Xem chi tiết</a>
                             </td>
                             <script>
                                 function aceptPurchase(id) {
@@ -260,7 +263,6 @@
     </div>
     <script src="/assets/js/product-manage.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     </div>
 </body>
 

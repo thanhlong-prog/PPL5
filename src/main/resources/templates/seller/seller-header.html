@@ -1,0 +1,23 @@
+        <div class="sr-header" th:fragment="seller-header">
+            <div class="left">
+                <div class="logo">
+                    <img src="/assets/images/icon-shopee/logo.png" alt="">
+                </div>
+                <div class="title">
+                    <span>Kênh người bán</span>
+                </div>
+            </div>
+            <div class="right">
+                <button class="btn-account">
+                    <div class="avt-img">
+                        <img th:src="${user.avatar}" alt="">
+                    </div>
+                    <div class="account-name">
+                        <span th:text="${user.name}">shironeko</span>
+                    </div>
+                    <div class="icon-btn">
+                        <i class='bx bx-chevron-down'></i>
+                    </div>
+                </button>
+            </div>
+        </div>

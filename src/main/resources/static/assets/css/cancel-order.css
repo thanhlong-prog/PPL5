@@ -4,6 +4,14 @@
     padding: 30px 50px;
     margin-left: 30px;
 }
+.tabs a{
+    color: #fb5732;
+}
+.cancel-order{
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: auto;
+}
 .wrapper-cancel-order .header-main {
     display: flex;
     align-items: center;
@@ -201,7 +209,7 @@
     background-color: #fff;
 }
 .wrapper-cancel-order .products .list-product{
-    display: flex;
+    /* display: flex; */
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
