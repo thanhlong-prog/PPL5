@@ -41,8 +41,7 @@
                     <div class="product-header">
                         <div class="product-images">
                             <div class="main-image">
-                                <img th:src="${product.thumbnail}" id="main-image"
-                                    alt="Logitech MX Keys Mini">
+                                <img th:src="${product.thumbnail}" id="main-image" alt="Logitech MX Keys Mini">
                             </div>
                             <div class="w-thumbnail-container">
                                 <div class="thumbnail-container" data-current-index="0">
@@ -348,8 +347,24 @@
                         <div class="product-description" th:utext="${product.description}"></div>
                     </div>
                 </div>
-
-                <!-- Phần đánh giá sản phẩm -->
+                <div class="shop-info">
+                    <div class="avt-shop">
+                        <img src="/assets/images/avata.jpg" alt="">
+                    </div>
+                    <div class="info">
+                        <div class="name">Tổng kho thuốc chuột</div>
+                        <div class="btn-shop">
+                            <button type="button" class="btn-chat">
+                                <i class='bx bx-message'></i>
+                                <span>Chat ngay</span>
+                            </button>
+                            <button type="button" class="btn-show">
+                                <i class='bx  bx-store'></i>
+                                <span>Xem shop</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <div class="product-reviews">
                     <h2 class="section-title">Đánh giá sản phẩm</h2>
 

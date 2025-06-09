@@ -3,63 +3,74 @@
 
 <head>
     <title>Chat</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 0;
-        }
-
-        #container {
-            display: flex;
-            height: 90vh;
-        }
-
-        #rooms {
-            width: 250px;
-            border-right: 1px solid #ccc;
-            overflow-y: auto;
-        }
-
-        #chatbox {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #header {
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        #messages {
-            flex-grow: 1;
-            padding: 10px;
-            overflow-y: auto;
-            background: #f9f9f9;
-        }
-
-        #inputBox {
-            padding: 10px;
-            border-top: 1px solid #ccc;
-        }
-    </style>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/chat.css">
 </head>
 
 <body>
-    <div id="header">
-        <h2>Welcome to Message</h2>
-        <div>Chatting with: <span id="chattingWith">None</span></div>
-    </div>
-    <div id="container">
-        <div id="rooms">
-            <h3>Rooms</h3>
-            <ul id="roomList"></ul>
-        </div>
-        <div id="chatbox">
-            <div id="messages">Select a room to start chatting.</div>
-            <div id="inputBox" style="display:none;">
-                <input type="text" id="messageInput" placeholder="Enter message..." />
-                <button onclick="sendMessage()">Send</button>
+    <div class="wrapper-chat">
+        <div class="w-chat">
+            <div class="chat-content" id="container">
+                <div id="rooms" class="chat-list">
+                    <div class="chat-header">
+                        <div class="my-info">
+                            <div class="info">
+                                <div class="avt">
+                                    <img th:src="${myInfo.avatar != null && !#strings.isEmpty(myInfo.avatar) ? myInfo.avatar : '/assets/images/avata.jpg'}"
+                                        alt="Avatar" class="avatar">
+                                </div>
+                                <div class="name" th:text="${myInfo.name}">My-name</div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="room-list" id="roomList">
+                        <li class="room-item">
+                            <div class="avt">
+                                <img src="/assets/images/avata.jpg" alt="Avatar" class="avatar">
+                            </div>
+                            <div class="info">
+                                <div class="name">Shiro-148</div>
+                                <span class="last-message">
+                                    Nếu bạn cần thêm phần xem trước ảnh đã chọn, hãy cho mình biết, mình có thể bổ sung
+                                    đoạn JavaScript phù hợp.
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="chatbox" id="chatbox">
+                    <div class="chatting-with">
+                        <div class="info">
+                            <div class="avt">
+                                <img src="/assets/images/avata.jpg" alt="Avatar" class="avatar">
+                            </div>
+                            <div class="name">Shiro-148</div>
+                        </div>
+                    </div>
+                    <div class="chat-space">
+                        <div class="message left">
+                            <div class="bubble">
+                                Xin chào, bạn khỏe không?
+                                <span class="time">08:40</span>
+                            </div>
+                        </div>
+                        <div class="message right">
+                            <div class="bubble">
+                                Mình khỏe, cảm ơn bạn!
+                                <span class="time">08:41</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="chat-input" id="inputBox">
+                        <input type="text" id="messageInput" placeholder="Nhập tin nhắn...">
+                        <button id="sendBtn" onclick="sendMessage()">Gửi</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -71,10 +82,7 @@
         let urlParams = new URLSearchParams(window.location.search);
         let preselectedRoomId = urlParams.get('roomId');
 
-
-
-
-        function connect(roomName) {
+        function connect() {
             if (stompClient) {
                 stompClient.disconnect();
             }
@@ -85,7 +93,7 @@
                     let roomId = generateRoomId(currentUser, chattingWith);
                     stompClient.subscribe('/topic/chatroom/' + roomId, function (message) {
                         let msg = JSON.parse(message.body);
-                        addMessage(msg.sender, msg.content);
+                        addMessage(msg.sender, msg.content, msg.time);
                     });
                 }
             });
@@ -95,27 +103,41 @@
             return [user1, user2].sort().join('_');
         }
 
-        function loadRooms() {
-            fetch('/chat/rooms')
-                .then(res => res.json())
-                .then(data => {
-                    const ul = document.getElementById('roomList');
-                    ul.innerHTML = '';
-                    data.forEach(roomUser => {
-                        const li = document.createElement('li');
-                        li.textContent = roomUser;
-                        li.style.cursor = 'pointer';
-                        li.onclick = () => selectRoom(roomUser);
-                        ul.appendChild(li);
-                    });
-                });
-        }
+function loadRooms() {
+    fetch('/chat/rooms')
+        .then(res => res.json())
+        .then(data => {
+            const ul = document.getElementById('roomList');
+            ul.innerHTML = '';
+            data.forEach((room, idx) => {
+                const li = document.createElement('li');
+                li.className = 'room-item';
+                li.innerHTML = `
+                    <div class="avt">
+                        <img src="${room.avatarUrl || '/assets/images/avata.jpg'}" alt="Avatar" class="avatar">
+                    </div>
+                    <div class="info">
+                        <div class="name">${room.user}</div>
+                        <span class="last-message">${room.lastMessage || ''}</span>
+                    </div>
+                `;
+                li.onclick = () => selectRoom(room.user, room.avatarUrl);
+                ul.appendChild(li);
+                if (idx === 0 && (!preselectedRoomId || preselectedRoomId === '')) {
+                    selectRoom(room.user, room.avatarUrl);
+                }
+            });
+        });
+}
 
-        function selectRoom(user) {
+        function selectRoom(user, avatarUrl) {
             chattingWith = user;
-            document.getElementById('chattingWith').textContent = user;
-            document.getElementById('messages').innerHTML = '';
-            document.getElementById('inputBox').style.display = 'block';
+            document.querySelector('.chatting-with .name').textContent = user;
+            if (avatarUrl) {
+                document.querySelector('.chatting-with .avatar').src = avatarUrl;
+            }
+            document.querySelector('.chat-space').innerHTML = '';
+            document.getElementById('inputBox').style.display = 'flex';
 
             loadChatHistory(user);
             connect();
@@ -125,18 +147,24 @@
             fetch(`/chat/history/${encodeURIComponent(user)}`)
                 .then(res => res.json())
                 .then(data => {
-                    const messagesDiv = document.getElementById('messages');
-                    messagesDiv.innerHTML = '';
-                    data.forEach(msg => addMessage(msg.sender, msg.content));
+                    const chatSpace = document.querySelector('.chat-space');
+                    chatSpace.innerHTML = '';
+                    data.forEach(msg => addMessage(msg.sender, msg.content, msg.time));
                 });
         }
 
-        function addMessage(sender, content) {
-            const messagesDiv = document.getElementById('messages');
-            const p = document.createElement('p');
-            p.textContent = sender + ": " + content;
-            messagesDiv.appendChild(p);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        function addMessage(sender, content, time) {
+            const chatSpace = document.querySelector('.chat-space');
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message ' + (sender === currentUser ? 'right' : 'left');
+            msgDiv.innerHTML = `
+        <div class="bubble">
+            ${content}
+            <span class="time">${time ? time : (new Date()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+        </div>
+    `;
+            chatSpace.appendChild(msgDiv);
+            chatSpace.scrollTop = chatSpace.scrollHeight;
         }
 
         function sendMessage() {
@@ -149,34 +177,22 @@
                     content: content
                 };
                 stompClient.send("/app/message", {}, JSON.stringify(message));
-                input.value = '';
+                input.value = '';   
             }
         }
-
         window.onload = () => {
-            loadRooms();
-            console.log('Preselected Room ID:', preselectedRoomId);
-            console.log('Current User:', currentUser);
-
-            preselectedRoomId = decodeURIComponent(preselectedRoomId); // Giải mã UTF-8
-
-            console.log("Decoded preselectedRoomId:", preselectedRoomId);
-
+            preselectedRoomId = decodeURIComponent(preselectedRoomId || '');
             if (preselectedRoomId) {
                 preselectedRoomId = decodeURIComponent(preselectedRoomId.replace(/\+/g, ' '));
-                console.log("Decoded roomId:", preselectedRoomId);
-
                 let parts = preselectedRoomId.split('_');
                 let other = parts.find(p => p !== currentUser);
-
                 if (other) {
                     selectRoom(other);
                 }
             }
+            loadRooms();
         };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 </body>
 
 </html>
