@@ -364,7 +364,7 @@
                             <div class="rating-bar">
                                 <div class="rating-level">5 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" th:style="'width:' + (${count5Star} * 100 / ${totalReviews}) + '%;'"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${totalReviews} > 0 ? (${count5Star} * 100 / ${totalReviews}) : 0) + '%;'"></div>
                                 </div>
                                 <div class="rating-count" th:text="${count5Star}">228</div>
                             </div>
@@ -372,7 +372,7 @@
                             <div class="rating-bar">
                                 <div class="rating-level">4 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" th:style="'width:' + (${count4Star} * 100 / ${totalReviews}) + '%;'"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${totalReviews} > 0 ? (${count4Star} * 100 / ${totalReviews}) : 0) + '%;'"></div>
                                 </div>
                                 <div class="rating-count" th:text="${count4Star}">18</div>
                             </div>
@@ -380,7 +380,7 @@
                             <div class="rating-bar">
                                 <div class="rating-level">3 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" th:style="'width:' + (${count3Star} * 100 / ${totalReviews}) + '%;'"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${totalReviews} > 0 ? (${count3Star} * 100 / ${totalReviews}) : 0) + '%;'"></div>
                                 </div>
                                 <div class="rating-count" th:text="${count3Star}">5</div>
                             </div>
@@ -388,7 +388,7 @@
                             <div class="rating-bar">
                                 <div class="rating-level">2 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" th:style="'width:' + (${count2Star} * 100 / ${totalReviews}) + '%;'"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${totalReviews} > 0 ? (${count2Star} * 100 / ${totalReviews}) : 0) + '%;'"></div>
                                 </div>
                                 <div class="rating-count" th:text="${count2Star}">2</div>
                             </div>
@@ -396,14 +396,13 @@
                             <div class="rating-bar">
                                 <div class="rating-level">1 ★</div>
                                 <div class="progress-container">
-                                    <div class="progress-bar" th:style="'width:' + (${count1Star} * 100 / ${totalReviews}) + '%;'"></div>
+                                    <div class="progress-bar" th:style="'width:' + (${totalReviews} > 0 ? (${count1Star} * 100 / ${totalReviews}) : 0) + '%;'"></div>
                                 </div>
                                 <div class="rating-count" th:text="${count1Star}">1</div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Các đánh giá của người dùng -->
                     <div class="review-item" th:each="review : ${productPreviews}">
                         <div class="reviewer">
                             <div class="reviewer-pic">

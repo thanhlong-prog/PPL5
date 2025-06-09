@@ -78,6 +78,15 @@ public class BuyerController {
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
 
+        if (consumer.getSellerInfo() != null && consumer.getSellerInfo().getStatus() == 1
+                && consumer.getSellerInfo().isVerify() == true) {
+            return "redirect:/seller";
+        }
+
+        if (consumer.getSellerInfo() != null) {
+            model.addAttribute("sellerInfo", consumer.getSellerInfo());
+        }
+
         return "seller/seller-register";
     }
 
@@ -110,6 +119,43 @@ public class BuyerController {
         }
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
+        if (consumer.getSellerInfo() != null) {
+            if (frontImg != null && !frontImg.isEmpty() && backImg != null && !backImg.isEmpty()) {
+                try {
+                    String frontImgUrl = cloudinaryService.getImageUrl(frontImg);
+                    String backImgUrl = cloudinaryService.getImageUrl(backImg);
+                    sellerInfo.setIdentificationFront(frontImgUrl);
+                    sellerInfo.setIdentificationBack(backImgUrl);
+                    SellerInfo seller = consumer.getSellerInfo();
+                    seller.setShopName(sellerInfo.getShopName());
+                    seller.setAddress(sellerInfo.getAddress());
+                    seller.setBusinessType(sellerInfo.getBusinessType());
+                    seller.setDistrict(sellerInfo.getDistrict());
+                    seller.setEmail(sellerInfo.getEmail());
+                    seller.setPhone(sellerInfo.getPhone());
+                    seller.setEmailReceiveBill(sellerInfo.getEmailReceiveBill());
+                    seller.setFullAddress(sellerInfo.getFullAddress());
+                    seller.setIdentificationBack(sellerInfo.getIdentificationBack());
+                    seller.setIdentificationFront(sellerInfo.getIdentificationFront());
+                    seller.setIdentificationNumber(sellerInfo.getIdentificationNumber());
+                    seller.setIdentificationName(sellerInfo.getIdentificationName());
+                    seller.setTaxCode(sellerInfo.getTaxCode());
+                    seller.setProvince(sellerInfo.getProvince());
+                    seller.setFullname(sellerInfo.getFullname());
+                    seller.setWard(sellerInfo.getWard());
+                    if (sellerInfo.getCompany() != "") {
+                        seller.setCompany(sellerInfo.getCompany());
+                    }
+                    seller.setModifiedDate(LocalDateTime.now());
+
+                    sellerInfoRepo.save(seller);
+                } catch (Exception e) {
+                    model.addAttribute("errors", "Vui lòng upload ảnh CCCD hợp lệ");
+                    return "seller/seller-register";
+                }
+            }
+            return "redirect:/home";
+        }
         if (frontImg != null && !frontImg.isEmpty() && backImg != null && !backImg.isEmpty()) {
             try {
                 String frontImgUrl = cloudinaryService.getImageUrl(frontImg);

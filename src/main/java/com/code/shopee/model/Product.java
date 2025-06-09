@@ -73,7 +73,7 @@ public class Product {
     @Column(name = "discount")
     private Integer discount;
 
-    @Column(name="is_ban")
+    @Column(name = "is_ban")
     private boolean isBan;
 
     @Column(name = "pricexx")
@@ -96,4 +96,7 @@ public class Product {
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductVatiants> productVatiants;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Cart> carts;
 }

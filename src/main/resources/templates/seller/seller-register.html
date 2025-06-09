@@ -62,8 +62,10 @@
                                 <div class="content">
                                     <div class="name-shop">
                                         <span class="tl">Tên Shop</span>
+                                        
                                         <input name="shopName" type="text" class="input-count" id="shopName"
-                                            maxlength="30" placeholder="Nhập tên shop của bạn" value="">
+                                            maxlength="30" placeholder="Nhập tên shop của bạn"
+                                            th:value="${sellerInfo != null ? sellerInfo.shopName : ''}">
                                         <div class="charCount">
                                             <span class="currentCount"></span>
                                             <span class="maxCount">/30</span>
@@ -75,19 +77,19 @@
                                         </div>
                                         <div class="inf">
                                             <div class="name-phone">
-                                                <input name="fullname" type="text" class="name" value=""
+                                                <input name="fullname" type="text" class="name" th:value="${sellerInfo != null ? sellerInfo.fullname : ''}"
                                                     placeholder="Họ và tên" />
-                                                <input name="phone" type="text" class="phone" value=""
+                                                <input name="phone" type="text" class="phone" th:value="${sellerInfo != null ? sellerInfo.phone : ''}"
                                                     placeholder="Số điện thoại" />
                                             </div>
                                             <div class="address">
-                                                <input name="fullAddress" type="text" class="address-detail" value=""
+                                                <input name="fullAddress" type="text" class="address-detail" th:value="${sellerInfo != null ? sellerInfo.fullAddress : ''}"
                                                     placeholder="Địa chỉ chi tiết" />
-                                                <input name="ward" type="text" class="ward" value=""
+                                                <input name="ward" type="text" class="ward" th:value="${sellerInfo != null ? sellerInfo.ward : ''}"
                                                     placeholder="Phường/Huyện" />
-                                                <input name="district" type="text" class="district" value=""
+                                                <input name="district" type="text" class="district" th:value="${sellerInfo != null ? sellerInfo.district : ''}"
                                                     placeholder="Thành Phố" />
-                                                <input name="province" type="text" class="province" value=""
+                                                <input name="province" type="text" class="province" th:value="${sellerInfo != null ? sellerInfo.province : ''}"
                                                     placeholder="Tỉnh" />
                                             </div>
 
@@ -263,16 +265,16 @@
                                         <div class="business-type">
                                             <div class="w-individual w-type">
                                                 <input name="businessType" type="radio" id="individual"
-                                                    value="individual" checked>
+                                                    value="individual" th:attr="checked=${sellerInfo != null && sellerInfo.businessType == 'individual'}">
                                                 <label for="individual">Cá nhân</label>
                                             </div>
                                             <div class="w-household-business w-type">
                                                 <input name="businessType" type="radio" id="household-business"
-                                                    value="business">
+                                                    value="business" th:attr="checked=${sellerInfo != null && sellerInfo.businessType == 'business'}">
                                                 <label for="household-business">Hộ kinh doanh</label>
                                             </div>
                                             <div class="w-company w-type">
-                                                <input name="businessType" type="radio" id="company" value="company">
+                                                <input name="businessType" type="radio" id="company" value="company" th:attr="checked=${sellerInfo != null && sellerInfo.businessType == 'company'}">
                                                 <label for="company">Công ty</label>
                                             </div>
                                         </div>
@@ -282,7 +284,7 @@
                                         <div class="w-input-company">
                                             <div class="input-company">
                                                 <input name="company" type="text" class="input-count" id="companyName"
-                                                    maxlength="500" placeholder="Nhập tên công ty của bạn">
+                                                    maxlength="500" placeholder="Nhập tên công ty của bạn" th:value="${sellerInfo != null ? sellerInfo.company : ''}">
                                                 <div class="charCount">
                                                     <span class="currentCount"></span>
                                                     <span class="maxCount">/500</span>
@@ -309,10 +311,9 @@
                                                 </span>
                                             </div>
                                             <div class="multiple-level-address">
-                                                <input type="text" class="input-address" id="input-address"
-                                                    value="Quảng Nam / Thành Phố Tam Kỳ / Phường Phước Hòa">
+                                                <input type="text" class="input-address" id="input-address" value="">
                                                 <textarea name="address" class="input-address-detail"
-                                                    id="input-address-detail">kuro neko la con meo den</textarea>
+                                                    id="input-address-detail" th:text="${sellerInfo != null ? sellerInfo.address : ''}"></textarea>
                                                 <span class="mla-note note">Địa chỉ kinh doanh: địa chỉ theo giấy phép
                                                     đăng ký kinh doanh đối
                                                     với công ty, hộ kinh doanh; hoặc theo giấy tờ định danh (trên
@@ -341,7 +342,7 @@
                                         <div class="w-input-tin">
                                             <div class="input-tin">
                                                 <input name="taxCode" type="text" class="input-count-tin input-count"
-                                                    id="taxCode" maxlength="14" placeholder="Nhập mã số thuế của bạn">
+                                                    id="taxCode" maxlength="14" placeholder="Nhập mã số thuế của bạn" th:value="${sellerInfo != null ? sellerInfo.address : ''}">
                                                 <div class="charCount">
                                                     <span class="currentCount"></span>
                                                     <span class="maxCount">/14</span>
@@ -377,7 +378,7 @@
                                         <div class="input-cccd-number lv-2">
                                             <input name="identificationNumber" type="text"
                                                 class="input-cccd-number input-count" id="cccdNumber" maxlength="12"
-                                                placeholder="Nhập số CCCD của bạn">
+                                                placeholder="Nhập số CCCD của bạn" th:value="${sellerInfo != null ? sellerInfo.identificationNumber : ''}">
                                             <div class="charCount">
                                                 <span class="currentCount"></span>
                                                 <span class="maxCount">/12</span>
@@ -389,7 +390,7 @@
                                         <div class="input-full-name lv-2">
                                             <input name="identificationName" type="text"
                                                 class="input-full-name input-count" id="fullName" maxlength="100"
-                                                placeholder="Nhập tên của bạn">
+                                                placeholder="Nhập tên của bạn" th:value="${sellerInfo != null ? sellerInfo.identificationName : ''}">
                                             <div class="charCount">
                                                 <span class="currentCount"></span>
                                                 <span class="maxCount">/100</span>
@@ -405,9 +406,9 @@
                                                 </button>
                                                 <div class="img-ex">
                                                     <input type="file" id="front-img" name="front-img"
-                                                        accept="image/*" />
+                                                        accept="image/*" th:value="${sellerInfo != null ? sellerInfo.identificationFront : ''}"/>
                                                     <div class="example-img">
-                                                        <img src="/assets/images/seller-register/example-cccd-front.jpg"
+                                                        <img th:src="${sellerInfo != null ? sellerInfo.identificationFront : ''}"
                                                             alt="">
                                                     </div>
                                                 </div>
@@ -427,9 +428,9 @@
                                                     <i class='bx bx-plus'></i>
                                                 </button>
                                                 <div class="img-ex">
-                                                    <input type="file" id="back-img" name="back-img" accept="image/*" />
+                                                    <input type="file" id="back-img" name="back-img" accept="image/*" th:value="${sellerInfo != null ? sellerInfo.identificationBack : ''}"/>
                                                     <div class="example-img">
-                                                        <img src="/assets/images/seller-register/example-cccd-back.jpg"
+                                                        <img th:src="${sellerInfo != null ? sellerInfo.identificationBack : ''}"
                                                             alt="">
                                                     </div>
                                                 </div>

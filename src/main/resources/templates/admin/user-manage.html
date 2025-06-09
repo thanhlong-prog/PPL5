@@ -559,10 +559,10 @@
         </div>
       </header>
 
-      
+
 
       <!-- Quan Ly nguoi dung -->
-      <div id="user-manage" class="content-wrapper" >
+      <div id="user-manage" class="content-wrapper">
         <div class="nav-tabs">
           <div class="nav-container">
             <button class="nav-tab active" onclick="showTab('buyers')">
@@ -585,21 +585,10 @@
           <div id="buyers" class="tab-content active">
             <div class="stats-row">
               <div class="stat-card">
-                <div class="stat-number">1,234</div>
+                <div class="stat-number" th:text="${activeUsers.size}">1,234</div>
                 <div class="stat-label">Tổng Buyer</div>
               </div>
-              <div class="stat-card">
-                <div class="stat-number">1,156</div>
-                <div class="stat-label">Buyer hoạt động</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-number">78</div>
-                <div class="stat-label">Buyer không hoạt động</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-number">42</div>
-                <div class="stat-label">Buyer mới tuần này</div>
-              </div>
+
             </div>
 
             <div class="search-bar">
@@ -630,83 +619,32 @@
                     </tr>
                   </thead>
                   <tbody id="buyersTableBody">
-                    <tr>
+                    <tr th:each="buyer : ${activeUsers}">
                       <td>
                         <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <img th:src="${buyer.avatar}" alt="Avatar" class="user-avatar">
                           <div class="user-details">
-                            <h4>Nguyễn Văn An</h4>
-                            <p>ID: #BUY001</p>
+                            <h4 th:text="${buyer.name}">Nguyễn Văn An</h4>
+                            <p th:text="'ID:'+${buyer.id}">ID: #BUY001</p>
                           </div>
                         </div>
                       </td>
-                      <td>nguyen.van.an@email.com</td>
-                      <td>0123456789</td>
-                      <td>15/01/2024</td>
+                      <td th:text="${buyer.gmail}">nguyen.van.an@email.com</td>
+                      <td th:text="${buyer.phone}">0123456789</td>
+                      <td th:text="${#temporals.format(buyer.createdDate, 'dd/MM/yyyy HH:mm')}">15/01/2024</td>
                       <td><span class="status-badge status-active">Hoạt động</span></td>
-                      <td>25</td>
+                      <td th:if="${buyer.carts != null}" th:text="${buyer.carts.size}">25</td>
+                      <td th:if="${buyer.carts == null}" th:text="'0'">25</td>
                       <td>
                         <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('BUY001')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('BUY001', 'buyer')">🚫 Cấm</button>
+                          <button class="btn btn-warning" th:onclick="'viewUser(' + ${buyer.id} + ')'">👁️ Xem</button>
+                          <button class="btn btn-danger" th:onclick="|banUser('${buyer.id}', 'buyer')|">🚫 Cấm</button>
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Trần Thị Bích</h4>
-                            <p>ID: #BUY002</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>tran.thi.bich@email.com</td>
-                      <td>0987654321</td>
-                      <td>08/02/2024</td>
-                      <td><span class="status-badge status-active">Hoạt động</span></td>
-                      <td>12</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('BUY002')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('BUY002', 'buyer')">🚫 Cấm</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Lê Minh Đức</h4>
-                            <p>ID: #BUY003</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>le.minh.duc@email.com</td>
-                      <td>0369258147</td>
-                      <td>22/03/2024</td>
-                      <td><span class="status-badge status-inactive">Không hoạt động</span></td>
-                      <td>3</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('BUY003')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('BUY003', 'buyer')">🚫 Cấm</button>
-                        </div>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
-              </div>
-              <div class="pagination">
-                <button>‹ Trước</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-                <button>Sau ›</button>
               </div>
             </div>
           </div>
@@ -715,21 +653,10 @@
           <div id="sellers" class="tab-content">
             <div class="stats-row">
               <div class="stat-card">
-                <div class="stat-number">456</div>
+                <div class="stat-number" th:text="${activeSellerUsers.size}">456</div>
                 <div class="stat-label">Tổng Seller</div>
               </div>
-              <div class="stat-card">
-                <div class="stat-number">398</div>
-                <div class="stat-label">Seller hoạt động</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-number">58</div>
-                <div class="stat-label">Seller không hoạt động</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-number">15</div>
-                <div class="stat-label">Seller mới tuần này</div>
-              </div>
+
             </div>
 
             <div class="search-bar">
@@ -761,85 +688,35 @@
                     </tr>
                   </thead>
                   <tbody id="sellersTableBody">
-                    <tr>
+                    <tr th:each="seller : ${activeSellerUsers}">
                       <td>
                         <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <img th:src="${seller.avatar}" alt="Avatar" class="user-avatar">
                           <div class="user-details">
-                            <h4>Shop Thời Trang ABC</h4>
-                            <p>ID: #SEL001</p>
+                            <h4 th:text="${seller.sellerInfo.shopName}">Shop Thời Trang ABC</h4>
+                            <p th:text="'ID: '+${seller.id}">ID: #SEL001</p>
                           </div>
                         </div>
                       </td>
-                      <td>shop.abc@email.com</td>
-                      <td>0123456789</td>
-                      <td>01/12/2023</td>
+                      <td th:text="${seller.gmail}">shop.abc@email.com</td>
+                      <td th:text="${seller.phone}">0123456789</td>
+                      <td th:text="${#temporals.format(seller.becomeSellerDate, 'dd/MM/yyyy HH:mm')}">01/12/2023</td>
                       <td><span class="status-badge status-active">Hoạt động</span></td>
-                      <td>156</td>
-                      <td>₫25,000,000</td>
+                      <td th:text="${seller.products.size}">156</td>
+                      <td th:text="'₫'+${seller.revenue}">₫25,000,000</td>
                       <td>
                         <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('SEL001')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('SEL001', 'seller')">🚫 Cấm</button>
+                          <button class="btn btn-warning" th:onclick="'viewUser(' + ${seller.id} + ')'">👁️ Xem</button>
+                          <button class="btn btn-danger" th:onclick="|banUser('${seller.id}', 'seller')|">🚫
+                            Cấm</button>
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Điện Tử XYZ Store</h4>
-                            <p>ID: #SEL002</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>xyz.store@email.com</td>
-                      <td>0987654321</td>
-                      <td>15/11/2023</td>
-                      <td><span class="status-badge status-active">Hoạt động</span></td>
-                      <td>89</td>
-                      <td>₫45,500,000</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('SEL002')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('SEL002', 'seller')">🚫 Cấm</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Gia Dụng 123</h4>
-                            <p>ID: #SEL003</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td>giadung123@email.com</td>
-                      <td>0369258147</td>
-                      <td>20/01/2024</td>
-                      <td><span class="status-badge status-inactive">Không hoạt động</span></td>
-                      <td>23</td>
-                      <td>₫1,200,000</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewUser('SEL003')">👁️ Xem</button>
-                          <button class="btn btn-danger" onclick="banUser('SEL003', 'seller')">🚫 Cấm</button>
-                        </div>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
-              <div class="pagination">
-                <button>‹ Trước</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>Sau ›</button>
-              </div>
+
             </div>
           </div>
 
@@ -890,78 +767,34 @@
                     </tr>
                   </thead>
                   <tbody id="bannedTableBody">
-                    <tr>
+                    <tr th:each="bannedUser : ${bannedUsers}">
                       <td>
                         <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
+                          <img th:src="${bannedUser.user.avatar}" alt="Avatar" class="user-avatar">
                           <div class="user-details">
-                            <h4>Hoàng Văn Nam</h4>
-                            <p>ID: #BUY045</p>
+                            <h4 th:text="${bannedUser.user.name}">Hoàng Văn Nam</h4>
+                            <p th:text="${bannedUser.user.id}">ID: #BUY045</p>
                           </div>
                         </div>
                       </td>
-                      <td><span class="status-badge status-active">Buyer</span></td>
-                      <td>Spam đánh giá sản phẩm</td>
-                      <td>20/05/2024</td>
+                      <td><span class="status-badge status-active" th:text="${bannedUser.banType}">Buyer</span></td>
+                      <td th:text="${bannedUser.reason}">Spam đánh giá sản phẩm</td>
+                      <td th:text="${#temporals.format(bannedUser.banDate, 'dd/MM/yyyy HH:mm')}">20/05/2024</td>
                       <td>admin@shopee.com</td>
                       <td>
                         <div class="action-buttons">
                           <button class="btn btn-warning" onclick="viewBanDetails('BUY045')">👁️ Chi tiết</button>
-                          <button class="btn btn-success" onclick="unbanUser('BUY045')">✅ Gỡ cấm</button>
+                          <button class="btn btn-success"
+                            th:attr="onclick=|unbanUser('${bannedUser.user.id}', '${bannedUser.banType}')|">✅ Gỡ
+                            cấm</button>
                         </div>
                       </td>
                     </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Shop Fake Brand</h4>
-                            <p>ID: #SEL099</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td><span class="status-badge status-warning">Seller</span></td>
-                      <td>Bán hàng giả, vi phạm bản quyền</td>
-                      <td>18/05/2024</td>
-                      <td>admin@shopee.com</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewBanDetails('SEL099')">👁️ Chi tiết</button>
-                          <button class="btn btn-success" onclick="unbanUser('SEL099')">✅ Gỡ cấm</button>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <div class="user-info">
-                          <img src="https://via.placeholder.com/50" alt="Avatar" class="user-avatar">
-                          <div class="user-details">
-                            <h4>Phạm Thị Lan</h4>
-                            <p>ID: #BUY078</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td><span class="status-badge status-active">Buyer</span></td>
-                      <td>Lạm dụng chính sách đổi trả</td>
-                      <td>10/05/2024</td>
-                      <td>admin2@shopee.com</td>
-                      <td>
-                        <div class="action-buttons">
-                          <button class="btn btn-warning" onclick="viewBanDetails('BUY078')">👁️ Chi tiết</button>
-                          <button class="btn btn-success" onclick="unbanUser('BUY078')">✅ Gỡ cấm</button>
-                        </div>
-                      </td>
-                    </tr>
+
                   </tbody>
                 </table>
               </div>
-              <div class="pagination">
-                <button>‹ Trước</button>
-                <button class="active">1</button>
-                <button>2</button>
-                <button>Sau ›</button>
-              </div>
+
             </div>
           </div>
 
@@ -1008,13 +841,17 @@
               </div>
 
               <!-- Đơn yêu cầu 1 -->
-              <div class="request-card">
+              <div class="request-card" th:each="request : ${sellerInfo}">
                 <div class="request-header">
                   <div>
-                    <div class="request-id">Đơn #SR2024001</div>
-                    <div class="request-date">Ngày gửi: 05/06/2025</div>
+                    <div class="request-id" th:text="'Đơn #'+${request.id}">Đơn #SR2024001</div>
+                    <div class="request-date"
+                      th:text="'Ngày gửi: '+${#temporals.format(request.createdDate, 'dd/MM/yyyy')}">Ngày gửi:
+                      05/06/2025</div>
                   </div>
-                  <div class="status-badge">Chờ duyệt</div>
+                  <div th:if="${request.status == 1 && request.isVerify == false}" class="status-badge">Chờ duyệt</div>
+                  <div th:if="${request.status == 1 && request.isVerify == true}" class="status-badge">Đã duyệt</div>
+                  <div th:if="${request.status == 0 && request.isVerify == false}" class="status-badge">Bị từ chối</div>
                 </div>
 
                 <div class="info-section">
@@ -1022,41 +859,41 @@
                   <div class="info-grid">
                     <div class="info-item">
                       <div class="info-label">Tên Shop</div>
-                      <div class="info-value">Kuro Neko Shop</div>
+                      <div class="info-value" th:text="${request.shopName}">Kuro Neko Shop</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Email</div>
-                      <div class="info-value">thanhlongtivip@gmail.com</div>
+                      <div class="info-value" th:text="${request.email}">thanhlongtivip@gmail.com</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Số điện thoại</div>
-                      <div class="info-value">0814799346</div>
+                      <div class="info-value" th:text="${request.phone}">0814799346</div>
                     </div>
                   </div>
 
                   <div class="info-grid" style="margin-top: 15px;">
                     <div class="info-item">
                       <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Nguyễn Thành Long</div>
+                      <div class="info-value" th:text="${request.fullname}">Nguyễn Thành Long</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Địa chỉ chi tiết</div>
-                      <div class="info-value">123 Đường ABC, Phường 1</div>
+                      <div class="info-value" th:text="${request.fullAddress}">123 Đường ABC, Phường 1</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Phường/Huyện</div>
-                      <div class="info-value">Phường Tam Kỳ</div>
+                      <div class="info-value" th:text="${request.ward}">Phường Tam Kỳ</div>
                     </div>
                   </div>
 
                   <div class="info-grid" style="margin-top: 15px;">
                     <div class="info-item">
                       <div class="info-label">Thành phố</div>
-                      <div class="info-value">Quảng Nam</div>
+                      <div class="info-value" th:text="${request.district}">Quảng Nam</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Tỉnh</div>
-                      <div class="info-value">Quảng Nam</div>
+                      <div class="info-value" th:text="${request.province}">Quảng Nam</div>
                     </div>
                   </div>
                 </div>
@@ -1066,24 +903,25 @@
                   <div class="business-type">Hộ kinh doanh</div>
 
                   <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
+                    <div th:if="${request.company != ''}" class="info-item">
                       <div class="info-label">Tên công ty</div>
-                      <div class="info-value">Kuro Neko Trading</div>
+                      <div class="info-value" th:text="${request.company}">Kuro Neko Trading</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Địa chỉ đăng ký kinh doanh</div>
-                      <div class="info-value">Quảng Nam / Thành Phố Tam Kỳ / Phường Phước Hòa</div>
+                      <div class="info-value" th:text="${request.address}">Quảng Nam / Thành Phố Tam Kỳ / Phường Phước
+                        Hòa</div>
                     </div>
                   </div>
 
                   <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
+                    <!-- <div class="info-item">
                       <div class="info-label">Mô tả kinh doanh</div>
                       <div class="info-value">Kinh doanh thời trang và phụ kiện anime, manga</div>
-                    </div>
+                    </div> -->
                     <div class="info-item">
                       <div class="info-label">Mã số thuế</div>
-                      <div class="info-value">0123456789</div>
+                      <div class="info-value" th:text="${request.taxCode}">0123456789</div>
                     </div>
                   </div>
                 </div>
@@ -1097,281 +935,46 @@
                     </div>
                     <div class="info-item">
                       <div class="info-label">Số CCCD</div>
-                      <div class="info-value">123456789012</div>
+                      <div class="info-value" th:text="${request.identificationNumber}">123456789012</div>
                     </div>
                     <div class="info-item">
                       <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Nguyễn Thành Long</div>
+                      <div class="info-value" th:text="${request.identificationName}">Nguyễn Thành Long</div>
                     </div>
                   </div>
 
                   <div class="document-section">
                     <div class="document-item">
                       <div class="document-name">Ảnh mặt trước CCCD
-                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
+                        <img th:src="${request.identificationFront}" class="align-top-left" alt="">
                       </div>
                       <div class="document-status">Đã tải lên</div>
                     </div>
                     <div class="document-item">
                       <div class="document-name">Ảnh mặt sau CCCD
-                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
+                        <img th:src="${request.identificationBack}" class="align-top-left" alt="">
                       </div>
                       <div class="document-status">Đã tải lên</div>
                     </div>
                   </div>
                 </div>
 
-                <div class="note-section">
+                <!-- <div class="note-section">
                   <div class="info-label">Ghi chú duyệt</div>
                   <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
-                </div>
+                </div> -->
 
                 <div class="action-buttons">
-                  <button class="btn btn-approve">Duyệt đơn</button>
-                  <button class="btn btn-reject">Từ chối</button>
-                  <!-- <button class="btn btn-details">Xem chi tiết</button> -->
-                </div>
-              </div>
-
-              <!-- Đơn yêu cầu 2 -->
-              <div class="request-card">
-                <div class="request-header">
-                  <div>
-                    <div class="request-id">Đơn #SR2024002</div>
-                    <div class="request-date">Ngày gửi: 04/06/2025</div>
-                  </div>
-                  <div class="status-badge">Chờ duyệt</div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin Shop</div>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <div class="info-label">Tên Shop</div>
-                      <div class="info-value">Fashion Store VN</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Email</div>
-                      <div class="info-value">fashion.store@gmail.com</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Số điện thoại</div>
-                      <div class="info-value">0987654321</div>
-                    </div>
-                  </div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Trần Thị Mai</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Địa chỉ chi tiết</div>
-                      <div class="info-value">456 Đường XYZ, Phường 2</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Phường/Huyện</div>
-                      <div class="info-value">Phường Hải Châu</div>
-                    </div>
-                  </div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Thành phố</div>
-                      <div class="info-value">Đà Nẵng</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Tỉnh</div>
-                      <div class="info-value">Đà Nẵng</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin kinh doanh</div>
-                  <div class="business-type">Cá nhân</div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Mô tả kinh doanh</div>
-                      <div class="info-value">Kinh doanh thời trang nữ, phụ kiện và mỹ phẩm</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin định danh</div>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <div class="info-label">Loại giấy tờ</div>
-                      <div class="info-value">Căn cước công dân</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Số CCCD</div>
-                      <div class="info-value">987654321098</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Trần Thị Mai</div>
-                    </div>
-                  </div>
-
-                  <div class="document-section">
-                    <div class="document-item">
-                      <div class="document-name">Ảnh mặt trước CCCD
-                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
-                      </div>
-                      <div class="document-status">Đã tải lên</div>
-                    </div>
-                    <div class="document-item">
-                      <div class="document-name">Ảnh mặt sau CCCD
-                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
-                      </div>
-                      <div class="document-status">Đã tải lên</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="note-section">
-                  <div class="info-label">Ghi chú duyệt</div>
-                  <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
-                </div>
-
-                <div class="action-buttons">
-                  <button class="btn btn-approve">Duyệt đơn</button>
-                  <button class="btn btn-reject">Từ chối</button>
-                  <!-- <button class="btn btn-details">Xem chi tiết</button> -->
-                </div>
-              </div>
-
-              <!-- Đơn yêu cầu 3 -->
-              <div class="request-card">
-                <div class="request-header">
-                  <div>
-                    <div class="request-id">Đơn #SR2024003</div>
-                    <div class="request-date">Ngày gửi: 03/06/2025</div>
-                  </div>
-                  <div class="status-badge">Chờ duyệt</div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin Shop</div>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <div class="info-label">Tên Shop</div>
-                      <div class="info-value">Tech Gadgets Pro</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Email</div>
-                      <div class="info-value">techgadgets@gmail.com</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Số điện thoại</div>
-                      <div class="info-value">0901234567</div>
-                    </div>
-                  </div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Lê Văn Minh</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Địa chỉ chi tiết</div>
-                      <div class="info-value">789 Đường DEF, Phường 3</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Phường/Huyện</div>
-                      <div class="info-value">Phường Thanh Khê</div>
-                    </div>
-                  </div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Thành phố</div>
-                      <div class="info-value">Đà Nẵng</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Tỉnh</div>
-                      <div class="info-value">Đà Nẵng</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin kinh doanh</div>
-                  <div class="business-type">Công ty</div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Tên công ty</div>
-                      <div class="info-value">Công ty TNHH Công Nghệ Minh Phát</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Địa chỉ đăng ký kinh doanh</div>
-                      <div class="info-value">Đà Nẵng / Quận Thanh Khê / Phường Thanh Khê Đông</div>
-                    </div>
-                  </div>
-
-                  <div class="info-grid" style="margin-top: 15px;">
-                    <div class="info-item">
-                      <div class="info-label">Mô tả kinh doanh</div>
-                      <div class="info-value">Kinh doanh thiết bị công nghệ, phụ kiện điện tử</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Mã số thuế</div>
-                      <div class="info-value">0987654321</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="info-section">
-                  <div class="section-title">Thông tin định danh</div>
-                  <div class="info-grid">
-                    <div class="info-item">
-                      <div class="info-label">Loại giấy tờ</div>
-                      <div class="info-value">Căn cước công dân</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Số CCCD</div>
-                      <div class="info-value">456789123456</div>
-                    </div>
-                    <div class="info-item">
-                      <div class="info-label">Họ và tên</div>
-                      <div class="info-value">Lê Văn Minh</div>
-                    </div>
-                  </div>
-
-                  <div class="document-section">
-                    <div class="document-item">
-                      <div class="document-name">Ảnh mặt trước CCCD
-                        <img src="../../static/assets/images/img-admin/matTruocCCCD.jpg" class="align-top-left" alt="">
-                      </div>
-                      <div class="document-status">Đã tải lên</div>
-                    </div>
-                    <div class="document-item">
-                      <div class="document-name">Ảnh mặt sau CCCD
-                        <img src="../../static/assets/images/img-admin/matSauCCCD.png" class="align-top-left" alt="">
-                      </div>
-                      <div class="document-status">Đã tải lên</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="note-section">
-                  <div class="info-label">Ghi chú duyệt</div>
-                  <textarea class="note-input" placeholder="Nhập ghi chú cho đơn yêu cầu này..."></textarea>
-                </div>
-
-                <div class="action-buttons">
-                  <button class="btn btn-approve">Duyệt đơn</button>
-                  <button class="btn btn-reject">Từ chối</button>
+                  <button class="btn btn-approve" th:if="${request.status == 1 && request.isVerify == false}"
+                    th:attr="onclick=|approveSeller(${request.user.id})|">Duyệt đơn</button>
+                  <button class="btn btn-reject" th:if="${request.status == 1 && request.isVerify == true}"
+                    th:attr="onclick=|rejectSeller(${request.user.id})|">Từ
+                    chối</button>
                   <!-- <button class="btn btn-details">Xem chi tiết</button> -->
                 </div>
               </div>
             </div>
           </div>
-
         </div>
 
         <!-- Modal Ban User -->
@@ -1531,6 +1134,50 @@
             ]
           };
 
+          function approveSeller(userId) {
+            fetch('/admin/letBecomeSeller', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userId)
+            })
+              .then(response => {
+                if (response.ok) {
+                  alert('Duyệt thành công!');
+                  location.reload();
+                } else {
+                  alert('Có lỗi xảy ra khi duyệt đơn.');
+                }
+              })
+              .catch(error => {
+                alert('Lỗi mạng hoặc server!');
+                console.error(error);
+              });
+          }
+
+          function rejectSeller(userId) {
+            fetch('/admin/refuseBecomeSeller', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userId)
+            })
+              .then(response => {
+                if (response.ok) {
+                  alert('Đã từ chối đơn đăng ký!');
+                  location.reload();
+                } else {
+                  alert('Có lỗi khi từ chối đơn.');
+                }
+              })
+              .catch(error => {
+                alert('Lỗi mạng hoặc server!');
+                console.error(error);
+              });
+          }
+
           let currentBanUser = null;
           let currentBanType = null;
 
@@ -1599,24 +1246,36 @@
             const details = document.getElementById('banDetails').value;
             const duration = document.getElementById('banDuration').value;
 
-            if (!reason) {
-              showBanAlert('danger', 'Vui lòng chọn lý do cấm!');
-              return;
-            }
-
             if (!details.trim()) {
               showBanAlert('danger', 'Vui lòng nhập chi tiết lý do cấm!');
               return;
             }
 
-            // Here you would send the ban request to the server
-            showBanAlert('success', 'Đã cấm người dùng thành công!');
-
-            setTimeout(() => {
-              closeBanModal();
-              // Refresh the current tab or remove the user from the table
-              location.reload();
-            }, 2000);
+            fetch('/admin/banUser', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                userId: currentBanUser,
+                banType: currentBanType,
+                reason: details
+              })
+            })
+              .then(response => {
+                if (!response.ok) throw new Error('Cấm người dùng thất bại');
+                return response.text();
+              })
+              .then(data => {
+                showBanAlert('success', 'Đã cấm người dùng thành công!');
+                setTimeout(() => {
+                  closeBanModal();
+                  location.reload();
+                }, 2000);
+              })
+              .catch(error => {
+                showBanAlert('danger', error.message);
+              });
           }
 
           function closeBanModal() {
@@ -1630,32 +1289,45 @@
 
           // View user details
           function viewUser(userId) {
-            // Here you would fetch user details from the server
             document.getElementById('userDetailsContent').innerHTML = `
-                <div class="user-info" style="margin-bottom: 20px;">
-                    <img src="https://via.placeholder.com/80" alt="Avatar" style="width: 80px; height: 80px; border-radius: 50%; margin-right: 20px;">
-                    <div>
-                        <h3>Chi tiết người dùng ${userId}</h3>
-                        <p style="color: #666;">Thông tin chi tiết sẽ được tải từ server</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Họ tên:</label>
-                    <input type="text" value="Đang tải..." readonly>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <input type="text" value="Đang tải..." readonly>
-                </div>
-                <div class="form-group">
-                    <label>Số điện thoại:</label>
-                    <input type="text" value="Đang tải..." readonly>
-                </div>
-                <div class="form-group">
-                    <label>Địa chỉ:</label>
-                    <textarea rows="3" readonly>Đang tải...</textarea>
-                </div>
-            `;
+        <div class="user-info" style="margin-bottom: 20px;">
+          <img src="https://via.placeholder.com/80" alt="Avatar"
+            style="width: 80px; height: 80px; border-radius: 50%; margin-right: 20px;">
+          <div>
+            <h3>Chi tiết người dùng ${userId}</h3>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Họ tên:</label>
+          <input id="user-name" type="text" value="Đang tải..." readonly>
+        </div>
+        <div class="form-group">
+          <label>Email:</label>
+          <input id="user-email" type="text" value="Đang tải..." readonly>
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại:</label>
+          <input id="user-phone" type="text" value="Đang tải..." readonly>
+        </div>
+        `;
+
+            fetch('/admin/getUserDetail', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(userId)
+            })
+              .then(response => response.json())
+              .then(data => {
+                document.getElementById('user-name').value = data.name;
+                document.getElementById('user-email').value = data.email;
+                document.getElementById('user-phone').value = data.phone;
+              })
+              .catch(error => {
+                console.error("Lỗi khi lấy thông tin user:", error);
+              });
+
             document.getElementById('userModal').style.display = 'block';
           }
 
@@ -1666,31 +1338,32 @@
           // View ban details
           function viewBanDetails(userId) {
             document.getElementById('banDetailsContent').innerHTML = `
-                <div class="form-group">
-                    <label>Người dùng bị cấm:</label>
-                    <input type="text" value="${userId}" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Lý do cấm:</label>
-                    <input type="text" value="Spam đánh giá sản phẩm" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Chi tiết:</label>
-                    <textarea rows="3" readonly>Người dùng này đã spam đánh giá 1 sao cho nhiều sản phẩm mà chưa từng mua, ảnh hưởng đến uy tín của seller.</textarea>
-                </div>
-                <div class="form-group">
-                    <label>Ngày bị cấm:</label>
-                    <input type="text" value="20/05/2024 14:30" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Admin thực hiện:</label>
-                    <input type="text" value="admin@shopee.com" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Thời hạn cấm:</label>
-                    <input type="text" value="30 ngày" readonly>
-                </div>
-            `;
+        <div class="form-group">
+          <label>Người dùng bị cấm:</label>
+          <input type="text" value="${userId}" readonly>
+        </div>
+        <div class="form-group">
+          <label>Lý do cấm:</label>
+          <input type="text" value="Spam đánh giá sản phẩm" readonly>
+        </div>
+        <div class="form-group">
+          <label>Chi tiết:</label>
+          <textarea rows="3"
+            readonly>Người dùng này đã spam đánh giá 1 sao cho nhiều sản phẩm mà chưa từng mua, ảnh hưởng đến uy tín của seller.</textarea>
+        </div>
+        <div class="form-group">
+          <label>Ngày bị cấm:</label>
+          <input type="text" value="20/05/2024 14:30" readonly>
+        </div>
+        <div class="form-group">
+          <label>Admin thực hiện:</label>
+          <input type="text" value="admin@shopee.com" readonly>
+        </div>
+        <div class="form-group">
+          <label>Thời hạn cấm:</label>
+          <input type="text" value="30 ngày" readonly>
+        </div>
+        `;
             document.getElementById('banDetailsModal').style.display = 'block';
           }
 
@@ -1699,16 +1372,33 @@
           }
 
           // Unban user
-          function unbanUser(userId) {
-            if (confirm('Bạn có chắc chắn muốn gỡ cấm cho người dùng ' + userId + '?')) {
-              // Here you would send the unban request to the server
-              showAlert('success', `Đã gỡ cấm thành công cho người dùng ${userId}!`);
+          function unbanUser(userId, banType) {
 
-              setTimeout(() => {
-                location.reload();
-              }, 2000);
+            if (confirm('Bạn có chắc chắn muốn gỡ cấm cho người dùng ' + userId + '?')) {
+              fetch('/admin/unBanUser', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                  userId: userId,
+                  banType: banType
+                })
+              })
+                .then(response => {
+                  if (!response.ok) throw new Error("Unban failed");
+                  return response.text();
+                })
+                .then(data => {
+                  showAlert('success', `Đã gỡ cấm thành công cho người dùng ${userId}!`);
+                  setTimeout(() => location.reload(), 2000);
+                })
+                .catch(error => {
+                  showAlert('error', `Lỗi khi gỡ cấm: ${error.message}`);
+                });
             }
           }
+
 
           // Utility functions
           function showAlert(type, message) {
@@ -1728,8 +1418,8 @@
 
           function showBanAlert(type, message) {
             document.getElementById('banAlert').innerHTML = `
-                <div class="alert alert-${type}">${message}</div>
-            `;
+        <div class="alert alert-${type}">${message}</div>
+        `;
           }
 
           // Close modals when clicking outside
@@ -1751,37 +1441,37 @@
 
         <script>
           // Xử lý các nút action
-          document.querySelectorAll('.btn-approve').forEach(btn => {
-            btn.addEventListener('click', function () {
-              if (confirm('Bạn có chắc chắn muốn duyệt đơn này?')) {
-                const card = this.closest('.request-card');
-                const statusBadge = card.querySelector('.status-badge');
-                statusBadge.textContent = 'Đã duyệt';
-                statusBadge.style.background = '#d4edda';
-                statusBadge.style.color = '#155724';
-                card.style.borderLeft = '4px solid #28a745';
-                this.disabled = true;
-                this.textContent = 'Đã duyệt';
-                card.querySelector('.btn-reject').disabled = true;
-              }
-            });
-          });
+          // document.querySelectorAll('.btn-approve').forEach(btn => {
+          //   btn.addEventListener('click', function () {
+          //     if (confirm('Bạn có chắc chắn muốn duyệt đơn này?')) {
+          //       const card = this.closest('.request-card');
+          //       const statusBadge = card.querySelector('.status-badge');
+          //       statusBadge.textContent = 'Đã duyệt';
+          //       statusBadge.style.background = '#d4edda';
+          //       statusBadge.style.color = '#155724';
+          //       card.style.borderLeft = '4px solid #28a745';
+          //       this.disabled = true;
+          //       this.textContent = 'Đã duyệt';
+          //       card.querySelector('.btn-reject').disabled = true;
+          //     }
+          //   });
+          // });
 
-          document.querySelectorAll('.btn-reject').forEach(btn => {
-            btn.addEventListener('click', function () {
-              if (confirm('Bạn có chắc chắn muốn từ chối đơn này?')) {
-                const card = this.closest('.request-card');
-                const statusBadge = card.querySelector('.status-badge');
-                statusBadge.textContent = 'Từ chối';
-                statusBadge.style.background = '#f8d7da';
-                statusBadge.style.color = '#721c24';
-                card.style.borderLeft = '4px solid #dc3545';
-                this.disabled = true;
-                this.textContent = 'Đã từ chối';
-                card.querySelector('.btn-approve').disabled = true;
-              }
-            });
-          });
+          // document.querySelectorAll('.btn-reject').forEach(btn => {
+          //   btn.addEventListener('click', function () {
+          //     if (confirm('Bạn có chắc chắn muốn từ chối đơn này?')) {
+          //       const card = this.closest('.request-card');
+          //       const statusBadge = card.querySelector('.status-badge');
+          //       statusBadge.textContent = 'Từ chối';
+          //       statusBadge.style.background = '#f8d7da';
+          //       statusBadge.style.color = '#721c24';
+          //       card.style.borderLeft = '4px solid #dc3545';
+          //       this.disabled = true;
+          //       this.textContent = 'Đã từ chối';
+          //       card.querySelector('.btn-approve').disabled = true;
+          //     }
+          //   });
+          // });
 
           document.querySelectorAll('.btn-details').forEach(btn => {
             btn.addEventListener('click', function () {
@@ -1794,8 +1484,8 @@
 
 
 
-      
-      
+
+
     </div>
   </div>
   <script src="/assets/js/home.js"></script>

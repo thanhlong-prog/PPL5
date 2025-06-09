@@ -625,7 +625,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${product.seller.name}">seller-vippro-123</td>
-                                            <td>₫50.000 - ₫500.000</td>
+                                            <td th:text="${product.pricexx}">₫50.000 - ₫500.000</td>
                                             <td th:text="${#temporals.format(product.createdDate, 'dd/MM/yyyy HH:mm')}">
                                                 11/2/2025 10:45</td>
                                             <td th:if="${product.status == true}">Hoạt động</td>
@@ -639,7 +639,7 @@
                                             <td class="empty"></td>
                                             <td>
                                                 <div class="product-info">
-                                                    <img src="#" alt="Sản phẩm con">
+                                                    <img th:src="${variant.image}" alt="Sản phẩm con">
                                                     <div>
                                                         <div th:text="${variant.name}">Màu đỏ – Size M</div>
                                                         <div th:text="${variant.sku}" class="sku">SKU: 123456-M-RED
@@ -702,7 +702,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${product.seller.name}">seller-vippro-123</td>
-                                            <td>₫50.000 - ₫500.000</td>
+                                            <td th:text="${product.pricexx}">₫50.000 - ₫500.000</td>
                                             <td th:text="${#temporals.format(product.createdDate, 'dd/MM/yyyy HH:mm')}">
                                                 11/2/2025 10:45</td>
                                             <td th:if="${product.status == true}">Hoạt động</td>
@@ -719,7 +719,7 @@
                                             <td class="empty"></td>
                                             <td>
                                                 <div class="product-info">
-                                                    <img src="#" alt="Sản phẩm con">
+                                                    <img th:src="${variant.image}" alt="Sản phẩm con">
                                                     <div>
                                                         <div th:text="${variant.name}">Màu đỏ – Size M</div>
                                                         <div th:text="${variant.sku}" class="sku">SKU: 123456-M-RED
@@ -782,7 +782,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${product.seller.name}">seller-vippro-123</td>
-                                            <td>₫50.000 - ₫500.000</td>
+                                            <td th:text="${product.pricexx}">₫50.000 - ₫500.000</td>
                                             <td th:text="${#temporals.format(product.createdDate, 'dd/MM/yyyy HH:mm')}">
                                                 11/2/2025 10:45</td>
                                             <td th:if="${product.status == true}">Hoạt động</td>
@@ -800,7 +800,7 @@
                                             
                                             <td>
                                                 <div class="product-info">
-                                                    <img src="#" alt="Sản phẩm con">
+                                                    <img th:src="${variant.image}" alt="Sản phẩm con">
                                                     <div>
                                                         <div th:text="${variant.name}">Màu đỏ – Size M</div>
                                                         <div th:text="${variant.sku}" class="sku">SKU: 123456-M-RED
@@ -864,7 +864,7 @@
                                                 </div>
                                             </td>
                                             <td th:text="${product.seller.name}">seller-vippro-123</td>
-                                            <td>₫50.000 - ₫500.000</td>
+                                            <td th:text="${product.pricexx}">₫50.000 - ₫500.000</td>
                                             <td th:text="${#temporals.format(product.createdDate, 'dd/MM/yyyy HH:mm')}">
                                                 11/2/2025 10:45</td>
                                             <td th:if="${product.status == true}">Hoạt động</td>
@@ -882,7 +882,7 @@
                                            
                                             <td>
                                                 <div class="product-info">
-                                                    <img src="#" alt="Sản phẩm con">
+                                                    <img th:src="${variant.image}" alt="Sản phẩm con">
                                                     <div>
                                                         <div th:text="${variant.name}">Màu đỏ – Size M</div>
                                                         <div th:text="${variant.sku}" class="sku">SKU: 123456-M-RED

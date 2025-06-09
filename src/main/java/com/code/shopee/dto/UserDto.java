@@ -2,7 +2,6 @@ package com.code.shopee.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Set;
 
 import com.code.shopee.model.Roles;
@@ -35,7 +34,7 @@ public class UserDto {
     private String phone;
     @Email(message = "Email không hợp lệ")
     private String gmail;
-    private Date becomeSellerDate;
+    private LocalDateTime becomeSellerDate;
     private Boolean enable;
     private Boolean status;
     private Boolean verify;
