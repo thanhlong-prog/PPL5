@@ -1,5 +1,6 @@
 package com.code.shopee.controller.admin;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -154,6 +155,48 @@ public class AdminController {
                 "name", name,
                 "email", email,
                 "phone", phone));
+    }
+
+    @PostMapping("/approve")
+    @ResponseBody
+    public ResponseEntity<?> approve(@RequestBody List<Integer> ids) {
+        for (int id : ids) {
+            Product Product = productRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+            Product.setStatus(true);
+            Product.setBan(false);
+            Product.setModifiedDate(LocalDate.now());
+            productRepository.save(Product);
+        }
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/banProduct")
+    @ResponseBody
+    public ResponseEntity<?> banProduct(@RequestBody List<Integer> ids) {
+        for (int id : ids) {
+            Product Product = productRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+            Product.setStatus(false);
+            Product.setBan(true);
+            Product.setModifiedDate(LocalDate.now());
+            productRepository.save(Product);
+        }
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping("/unbanProduct")
+    @ResponseBody
+    public ResponseEntity<?> unbanProduct(@RequestBody List<Integer> ids) {
+        for (int id : ids) {
+            Product Product = productRepository.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Product not found with id: " + id));
+            Product.setStatus(true);
+            Product.setBan(false);
+            Product.setModifiedDate(LocalDate.now());
+            productRepository.save(Product);
+        }
+        return ResponseEntity.ok("success");
     }
 
     @PostMapping("/letBecomeSeller")

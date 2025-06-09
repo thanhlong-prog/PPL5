@@ -667,7 +667,7 @@
                                         <div class="search"><i class='bx bx-search'></i></div>
                                     </div>
                                     <button class="btn-apply">Tìm kiếm</button>
-                                    <div class="btn-action">
+                                    <div id="an-vi-pham" class="btn-action">
                                         <span>Đánh dấu vi phạm hàng loạt</span>
                                         <i class='bx  bx-pause-circle'></i>
                                     </div>
@@ -691,7 +691,8 @@
                                 <tbody>
                                     <div th:each="product : ${productsTrue}">
                                         <tr class="parent-row" onclick="toggleSubRows(this)">
-                                            <td><input type="checkbox"></td>
+                                            <td><input class="ban-product" type="checkbox" th:value="${product.id}">
+                                            </td>
                                             <td>
                                                 <div class="product-info">
                                                     <img th:src="${product.thumbnail}" alt="">
@@ -710,7 +711,9 @@
                                             <td>
                                                 <div class="prd-actions">
                                                     <a class="prd-detail" href="#">Xem chi tiết</a>
-                                                    <a class="prd-violation" href="#">Đánh dấu vi phạm</a>
+                                                    <a href="#" class="prd-violationban"
+                                                        th:attr="data-id=${product.id}">Đánh dấu vi phạm</a>
+
                                                 </div>
                                             </td>
                                         </tr>
@@ -747,9 +750,9 @@
                                         <div class="search"><i class='bx bx-search'></i></div>
                                     </div>
                                     <button class="btn-apply">Tìm kiếm</button>
-                                    <div class="btn-action">
-                                        <span>Ẩn sản phẩm vi phạm</span>
-                                        <i class='bx  bx-pause-circle'></i>
+                                    <div id="unban-btn" class="btn-action">
+                                        <span>Mở ban sản phẩm</span>
+                                        <i class='bx bx-pause-circle'></i>
                                     </div>
                                 </div>
                             </div>
@@ -771,7 +774,9 @@
                                 <tbody>
                                     <div th:each="product : ${productsBaned}">
                                         <tr class="parent-row" onclick="toggleSubRows(this)">
-                                            <td><input type="checkbox"></td>
+                                            <td><input class="unban-product" type="checkbox" th:value="${product.id}">
+
+                                            </td>
                                             <td>
                                                 <div class="product-info">
                                                     <img th:src="${product.thumbnail}" alt="">
@@ -790,14 +795,16 @@
                                             <td>
                                                 <div class="prd-actions">
                                                     <a class="prd-detail" href="#">Xem chi tiết</a>
-                                                    <a class="prd-violation" href="#">Mở ẩn</a>
+                                                    <a class="prd-violation-moan" href="#"
+                                                        th:attr="data-id=${product.id}">Mở ẩn</a>
+
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr th:each="variant : ${product.productVatiants}" class="child-row"
                                             style="display: none;">
                                             <td class="empty"></td>
-                                            
+
                                             <td>
                                                 <div class="product-info">
                                                     <img th:src="${variant.image}" alt="Sản phẩm con">
@@ -808,7 +815,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                           
+
                                             <td class="empty"></td>
                                             <td>₫55.000</td>
                                             <td class="empty"></td>
@@ -829,7 +836,7 @@
                                         <div class="search"><i class='bx bx-search'></i></div>
                                     </div>
                                     <button class="btn-apply">Tìm kiếm</button>
-                                    <div class="btn-action">
+                                    <div id="duyet" class="btn-action">
                                         <span>Duyệt sản phẩm</span>
                                         <i class='bx bx-check-circle'></i>
                                     </div>
@@ -853,7 +860,8 @@
                                 <tbody>
                                     <div th:each="product : ${productsFalse}">
                                         <tr class="parent-row" onclick="toggleSubRows(this)">
-                                            <td><input type="checkbox"></td>
+                                            <td><input class="falseproduct" type="checkbox" th:value="${product.id}">
+                                            </td>
                                             <td>
                                                 <div class="product-info">
                                                     <img th:src="${product.thumbnail}" alt="">
@@ -872,14 +880,15 @@
                                             <td>
                                                 <div class="prd-actions">
                                                     <a class="prd-detail" href="#">Xem chi tiết</a>
-                                                    <a class="prd-violation" href="#">Duyệt</a>
+                                                    <a href="#" class="prd-violation"
+                                                        th:data-id="${product.id}">Duyệt</a>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr th:each="variant : ${product.productVatiants}" class="child-row"
                                             style="display: none;">
                                             <td class="empty"></td>
-                                           
+
                                             <td>
                                                 <div class="product-info">
                                                     <img th:src="${variant.image}" alt="Sản phẩm con">
@@ -890,7 +899,7 @@
                                                     </div>
                                                 </div>
                                             </td>
-                                            
+
                                             <td class="empty"></td>
                                             <td>₫55.000</td>
                                             <td class="empty"></td>
@@ -998,7 +1007,197 @@
                         cutout: '70%'
                     }
                 });
+
+
+
             </script>
 </body>
 
 </html>
+
+<script>
+    document.getElementById("duyet").addEventListener("click", function () {
+        const ids = [];
+        document.querySelectorAll(".falseproduct:checked").forEach(cb => {
+            ids.push(parseInt(cb.value));
+        });
+
+        if (ids.length === 0) {
+            alert("Vui lòng chọn ít nhất 1 sản phẩm để duyệt!");
+            return;
+        }
+
+        fetch('/admin/approve', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ids)
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Duyệt thành công!");
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra!");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Lỗi kết nối server.");
+            });
+    });
+
+    document.querySelectorAll(".prd-violation").forEach(btn => {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const productId = parseInt(this.getAttribute("data-id"));
+
+            if (!confirm("Bạn có chắc muốn duyệt sản phẩm ID: " + productId + "?")) {
+                return;
+            }
+
+            fetch('/admin/approve', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify([productId])
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Duyệt thành công!");
+                        location.reload();
+                    } else {
+                        alert("Có lỗi xảy ra!");
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    alert("Lỗi kết nối server.");
+                });
+        });
+    });
+
+    document.getElementById("an-vi-pham").addEventListener("click", function () {
+        const ids = [];
+        document.querySelectorAll(".ban-product:checked").forEach(cb => {
+            ids.push(cb.value);
+        });
+
+        if (ids.length === 0) {
+            alert("Vui lòng chọn ít nhất 1 sản phẩm để ẩn!");
+            return;
+        }
+
+        if (!confirm("Bạn có chắc muốn ẩn các sản phẩm đã chọn?")) return;
+
+        fetch('/admin/banProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ids)
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Ẩn thành công!");
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra!");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Lỗi kết nối server.");
+            });
+    });
+
+    document.querySelectorAll(".prd-violationban").forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const id = this.getAttribute("data-id");
+
+            fetch('/admin/banProduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify([parseInt(id)])
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Đã đánh dấu vi phạm!");
+                        location.reload();
+                    } else {
+                        alert("Có lỗi khi gửi yêu cầu!");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Lỗi kết nối server.");
+                });
+        });
+    });
+
+    document.getElementById("unban-btn").addEventListener("click", function () {
+        const ids = [];
+        document.querySelectorAll(".unban-product:checked").forEach(cb => {
+            ids.push(parseInt(cb.value));
+        });
+
+        if (ids.length === 0) {
+            alert("Vui lòng chọn ít nhất 1 sản phẩm để mở ban!");
+            return;
+        }
+
+        fetch('/admin/unbanProduct', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ids)
+        })
+            .then(res => {
+                if (res.ok) {
+                    alert("Mở ban thành công!");
+                    location.reload();
+                } else {
+                    alert("Có lỗi xảy ra khi mở ban!");
+                }
+            })
+            .catch(error => {
+                console.error(error);
+                alert("Lỗi kết nối đến server.");
+            });
+    });
+
+    document.querySelectorAll(".prd-violation-moan").forEach(function (btn) {
+        btn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const id = this.getAttribute("data-id");
+
+            fetch('/admin/unbanProduct', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify([parseInt(id)])
+            })
+                .then(res => {
+                    if (res.ok) {
+                        alert("Đã xóa vi phạm!");
+                        location.reload();
+                    } else {
+                        alert("Có lỗi khi gửi yêu cầu!");
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Lỗi kết nối server.");
+                });
+        });
+    });
+</script>
