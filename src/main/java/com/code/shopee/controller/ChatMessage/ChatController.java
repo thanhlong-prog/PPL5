@@ -1,5 +1,7 @@
 package com.code.shopee.controller.ChatMessage;
 
+import com.code.shopee.dto.ChatRoomDto;
+
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -51,7 +53,7 @@ public class ChatController {
             RedirectAttributes redirectAttributes) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User currentUser = null; 
+        User currentUser = null;
 
         if (principal instanceof CustomUserDetails user) {
             currentUser = userService.findByUsername(user.getUsername());
@@ -110,6 +112,7 @@ public class ChatController {
         String currentUserName = consumer.getName();
 
         model.addAttribute("currentUser", currentUserName);
+        model.addAttribute("myInfo", consumer);
 
         return "chat/chat";
     }
@@ -176,7 +179,7 @@ public class ChatController {
 
     @GetMapping("/rooms")
     @ResponseBody
-    public List<String> getChatRooms() {
+    public List<ChatRoomDto> getChatRooms() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final String currentUserName;
         if (principal instanceof CustomUserDetails user) {
@@ -195,12 +198,31 @@ public class ChatController {
 
         List<String> roomIds = chatMessageRepo.findRoomIdsByUser(currentUserName);
 
-        return roomIds.stream()
-                .map(roomId -> {
-                    String[] users = roomId.split("_");
-                    return users[0].equals(currentUserName) ? users[1] : users[0];
-                })
-                .collect(Collectors.toList());
-    }
+        // Sắp xếp roomIds theo thời gian tin nhắn cuối cùng (mới nhất lên đầu)
+        roomIds.sort((roomId1, roomId2) -> {
+            List<ChatMessage> messages1 = chatMessageRepo.findByRoomIdOrderByTimestampAsc(roomId1);
+            List<ChatMessage> messages2 = chatMessageRepo.findByRoomIdOrderByTimestampAsc(roomId2);
+            LocalDateTime time1 = messages1.isEmpty() ? LocalDateTime.MIN
+                    : messages1.get(messages1.size() - 1).getTimestamp();
+            LocalDateTime time2 = messages2.isEmpty() ? LocalDateTime.MIN
+                    : messages2.get(messages2.size() - 1).getTimestamp();
+            return time2.compareTo(time1); // Mới nhất lên đầu
+        });
 
+        return roomIds.stream().map(roomId -> {
+            String[] users = roomId.split("_");
+            String otherUserName = users[0].equals(currentUserName) ? users[1] : users[0];
+            User otherUser = userRepository.findByNameAndStatusTrue(otherUserName);
+
+            // Lấy tin nhắn cuối cùng
+            List<ChatMessage> messages = chatMessageRepo.findByRoomIdOrderByTimestampAsc(roomId);
+            String lastMessage = messages.isEmpty() ? "" : messages.get(messages.size() - 1).getContent();
+
+            String avatarUrl = (otherUser != null && otherUser.getAvatar() != null && !otherUser.getAvatar().isEmpty())
+                    ? otherUser.getAvatar()
+                    : "/assets/images/avata.jpg";
+
+            return new ChatRoomDto(otherUserName, lastMessage, avatarUrl);
+        }).collect(Collectors.toList());
+    }
 }
