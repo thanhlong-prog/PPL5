@@ -610,7 +610,7 @@
                                             <tr class="order-row products">
                                                 <td class="list-product">
                                                     <div class="product-info" th:each="cart : ${transaction.carts}">
-                                                        <img src="/assets/images/img-products/product-1.webp" alt="">
+                                                        <img th:src="${cart.productVatiants.image}" alt="">
                                                         <div>
                                                             <div th:text="${cart.productVatiants.name}">Áo thun 123456
                                                             </div>
@@ -652,6 +652,8 @@
                     </div>
                 </div>
             </div>
+
+            
         </div>
     </div>
     <script src="/assets/js/home.js"></script>

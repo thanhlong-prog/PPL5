@@ -95,7 +95,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/adminlogin")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/admin", true))
+                        .defaultSuccessUrl("/admin/dashboard", true))
                 .logout(logout -> logout
                         .logoutUrl("/adminlogout")
                         .logoutSuccessUrl("/adminlogin"))

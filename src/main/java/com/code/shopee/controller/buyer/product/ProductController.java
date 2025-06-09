@@ -1,9 +1,5 @@
 package com.code.shopee.controller.buyer.product;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -123,7 +119,7 @@ public class ProductController {
             }
         }
 
-        int fullStars = (int) Math.floor(product.getRating()); 
+        int fullStars = (int) Math.floor(product.getRating());
 
         String stars = "";
         for (int i = 0; i < fullStars; i++) {
@@ -190,6 +186,20 @@ public class ProductController {
                 cart.setModifiedDate(LocalDateTime.now());
                 productService.addCart(cart);
                 return ResponseEntity.ok(cart.getId());
+            }
+
+            Cart existingCart;
+            existingCart = productRepository.findCartByUserAndVariantAndTransactionIsNull(consumer, variant);
+
+            if (existingCart != null) {
+                int newQuantity = existingCart.getOrderQuantity() + orderQuantity;
+                if (newQuantity > variant.getQuantity()) {
+                    newQuantity = variant.getQuantity(); 
+                }
+                existingCart.setOrderQuantity(newQuantity);
+                existingCart.setModifiedDate(LocalDateTime.now());
+                productService.addCart(existingCart);
+                return ResponseEntity.ok(existingCart.getId());
             }
 
             Cart cart = new Cart();
