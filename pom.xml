@@ -126,11 +126,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-            <dependency>
-                <groupId>com.github.mpkorstanje</groupId>
-                <artifactId>simmetrics-core</artifactId>
-                <version>4.1.1</version>
-            </dependency>
+        <dependency>
+            <groupId>com.github.mpkorstanje</groupId>
+            <artifactId>simmetrics-core</artifactId>
+            <version>4.1.1</version>
+        </dependency>
 
 
     </dependencies>
@@ -146,6 +146,10 @@
                     <target>17</target>
                     <release>17</release>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
