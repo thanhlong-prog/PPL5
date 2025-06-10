@@ -608,15 +608,8 @@
               <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Biểu đồ doanh thu</h5>
                 <div class="dropdown">
-                  <button class="btn btn-sm btn-shopee-light dropdown-toggle" type="button" id="dropdownMenuButton1"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Tháng này
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="#">Tháng này</a></li>
-                    <li><a class="dropdown-item" href="#">Quý này</a></li>
-                    <li><a class="dropdown-item" href="#">Năm nay</a></li>
-                  </ul>
+
+
                 </div>
               </div>
               <div class="card-body">
@@ -625,11 +618,15 @@
               </div>
             </div>
           </div>
+          <div id="product-data" th:attr="data-true=${productCountStatusTrue}, 
+              data-false=${productCountStatusFalse}, 
+              data-banned=${productCountStatusBaned}">
+          </div>
 
           <div class="col-xl-4 mb-4">
             <div class="card">
               <div class="card-header">
-                <h5 class="mb-0">Phân loại đơn hàng</h5>
+                <h5 class="mb-0">Tình trạng sản phẩm</h5>
               </div>
               <div class="card-body">
                 <div class="chart-container" id="orders-chart">
@@ -643,66 +640,87 @@
     </div>
   </div>
   <script src="/assets/js/home.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
   <script>
-    // Toggle sidebar on mobile
     document.querySelector('.menu-toggle').addEventListener('click', function () {
       document.querySelector('.sidebar').classList.toggle('show');
     });
 
-    // Revenue Chart
     const revenueCtx = document.createElement('canvas');
     revenueCtx.id = 'revenueCanvas';
     document.getElementById('revenue-chart').appendChild(revenueCtx);
 
-    new Chart(revenueCtx, {
-      type: 'line',
-      data: {
-        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
-        datasets: [
-          {
-            label: 'Doanh thu (triệu đồng)',
-            data: [250, 285, 302, 278, 293, 327, 356, 383, 290, 312, 345, 368],
-            borderColor: '#ee4d2d',
-            backgroundColor: 'rgba(238, 77, 45, 0.1)',
-            tension: 0.4,
-            fill: true
-          },
-          {
-            label: 'Lợi nhuận (triệu đồng)',
-            data: [120, 145, 162, 138, 153, 187, 196, 213, 150, 172, 185, 198],
-            borderColor: '#03c3ec',
-            backgroundColor: 'rgba(3, 195, 236, 0.1)',
-            tension: 0.4,
-            fill: true
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            position: 'top',
-          },
+    const productDataDiv = document.getElementById("product-data");
+
+    const countTrue = productDataDiv.dataset.true;
+    const countFalse = productDataDiv.dataset.false;
+    const countBanned = productDataDiv.dataset.banned;
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const year = new Date().getFullYear();
+
+      fetch("/admin/get-revenue-year", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
         },
-        scales: {
-          y: {
-            beginAtZero: true,
-            grid: {
-              drawBorder: false,
+        body: JSON.stringify({ year: year })
+      })
+        .then(response => {
+          if (!response.ok) throw new Error("Không thể lấy dữ liệu doanh thu.");
+          return response.json();
+        })
+        .then(data => {
+          revenueData = data; 
+          console.log("Doanh thu đã tải:", revenueData);
+
+          new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+              labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+              datasets: [
+                {
+                  label: 'Doanh thu',
+                  data: revenueData, 
+                  borderColor: '#ee4d2d',
+                  backgroundColor: 'rgba(238, 77, 45, 0.1)',
+                  tension: 0.4,
+                  fill: true
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                },
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  grid: {
+                    drawBorder: false,
+                  }
+                },
+                x: {
+                  grid: {
+                    display: false,
+                  }
+                }
+              }
             }
-          },
-          x: {
-            grid: {
-              display: false,
-            }
-          }
-        }
-      }
+          });
+        })
+        .catch(err => {
+          console.error("Lỗi khi tải doanh thu:", err);
+        });
     });
+
 
     // Orders Chart
     const ordersCtx = document.createElement('canvas');
@@ -712,13 +730,12 @@
     new Chart(ordersCtx, {
       type: 'doughnut',
       data: {
-        labels: ['Đã giao hàng', 'Đang xử lý', 'Chờ xử lý', 'Đã hủy'],
+        labels: ['Đã duyệt', 'Chưa duyệt', 'Vi phạm'],
         datasets: [{
-          data: [45, 25, 20, 10],
+          data: [countTrue, countFalse, countBanned],
           backgroundColor: [
             '#71dd37',
             '#03c3ec',
-            '#ffab00',
             '#ff3e1d'
           ],
           borderWidth: 0,

@@ -2,6 +2,9 @@ package com.code.shopee.controller.admin;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +50,8 @@ public class AdminController {
     private SellerInfoRepo sellerInfoRepo;
     @Autowired
     private BanInfoRepo banInfoRepo;
+    @Autowired
+    private CartRepository cartRepo;
 
     @RequestMapping("/index")
     public String Admin() {
@@ -302,12 +307,6 @@ public class AdminController {
             user.getSellerInfo().setVerify(true);
             sellerInfoRepo.save(user.getSellerInfo());
 
-            user.getProducts().forEach(product -> {
-                product.setStatus(true);
-                product.setBan(false);
-                productRepository.save(product);
-            });
-
             banInfo.setUnbanDate(LocalDateTime.now());
             banInfo.setStatus(false);
             banInfoRepo.save(banInfo);
@@ -334,6 +333,38 @@ public class AdminController {
 
         int totalProducts = productRepository.countByStatusTrue();
         model.addAttribute("totalProducts", totalProducts);
+
+        int productCountStatusTrue = productRepository.countByStatusTrue();
+        int productCountStatusFalse = productRepository.countByStatusFalse();
+        int productCountStatusBaned = productRepository.countByStatusFalseAndIsBanTrue();
+        model.addAttribute("productCountStatusTrue", productCountStatusTrue);
+        model.addAttribute("productCountStatusFalse", productCountStatusFalse);
+        model.addAttribute("productCountStatusBaned", productCountStatusBaned);
+
         return "admin/dashboard";
+    }
+
+    @PostMapping("/get-revenue-year")
+    @ResponseBody
+    public ResponseEntity<?> getRevenueByYear(@RequestBody Map<String, String> body) {
+        int year = Integer.parseInt(body.get("year"));
+
+        Map<Integer, Integer> revenueByMonth = new LinkedHashMap<>();
+        for (int month = 1; month <= 12; month++) {
+            revenueByMonth.put(month, 0);
+        }
+
+        LocalDateTime startDateTime = LocalDate.of(year, 1, 1).atStartOfDay();
+        LocalDateTime endDateTime = LocalDate.of(year, 12, 31).atTime(LocalTime.MAX);
+
+        List<Cart> carts = cartRepo.findByTransactionCreatedDateBetween(startDateTime, endDateTime);
+
+        for (Cart cart : carts) {
+            if (cart.getTransaction() != null && cart.getTransaction().getStatus() == 1) {
+                int month = cart.getTransaction().getCreatedDate().getMonthValue();
+                revenueByMonth.put(month, revenueByMonth.get(month) + cart.getTotalPrice());
+            }
+        }
+        return ResponseEntity.ok(new ArrayList<>(revenueByMonth.values()));
     }
 }

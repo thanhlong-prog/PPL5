@@ -84,6 +84,7 @@ public class ProductController {
         model.addAttribute("productImages", productImages);
         UserDto userData = userMapper.toUserDto(consumer);
         model.addAttribute("user", userData);
+        model.addAttribute("userId", consumer.getId());
 
         int totalQuantity = product.getQuantity();
 

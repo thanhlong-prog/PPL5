@@ -145,10 +145,11 @@
 
                             </div>
 
-                            <div class="actions">
+                            <div th:if="${product.seller.id != userId}" class="actions">
                                 <div class="add-to-cart cursor-banner" onclick="addCart()">Thêm vào giỏ hàng</div>
                                 <div class="buy-now cursor-banner" onclick="buyProduct()">Mua ngay</div>
                             </div>
+                            <div th:if="${product.seller.id == userId}">Bạn là người bán không mua sản phẩm này!</div>
                             <script>
                                 function addCart() {
 

@@ -79,4 +79,7 @@ public interface CartRepository extends JpaRepository<Cart, Integer> {
         @Query("SELECT c FROM Cart c WHERE c.status = 1 AND c.transaction IS NOT NULL")
         List<Cart> findByStatusTrueAndTransactionNotNull();
 
+        List<Cart> findByTransactionCreatedDateBetween(LocalDateTime start, LocalDateTime end);
+
+
 }
