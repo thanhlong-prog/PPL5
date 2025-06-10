@@ -20,6 +20,10 @@ public class ShopeeController {
     public String SellerManage() {
         return "seller/seller-manage";
     }
+    @RequestMapping("/forgotPassword")
+    public String forgotPassword() {
+        return "buyer/forgot-password";
+    }
     @RequestMapping("/admin-login")
     public String Chat() {
         return "admin/login";
