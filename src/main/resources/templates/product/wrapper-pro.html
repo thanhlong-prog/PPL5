@@ -1,0 +1,67 @@
+
+<body>
+    <div th:fragment="wrapper-products">
+    <div class="container">
+        <div class="w-products">
+            <div class="title">Gợi ý hôm nay</div>
+            <div class="products-list">
+                <div th:each="product : ${products}" class="product">
+                    <a th:href="@{/product(productId = ${product.id})}">
+                        <div class="image">
+                            <img th:src="${product.thumbnail}" alt="">
+                        </div>
+                        <div class="infor">
+                            <div class="top">
+                                <div class="name">
+                                    <span th:text="${product.title}"></span>
+                                </div>
+                                <div class="tag">
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <div class="price">
+                                    <span th:text="${product.pricexx}"></span>
+                                </div>
+                                <div class="count">
+                                    <span th:text="'Đã bán ' + ${product.sold}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="page-controller" role="navigation">
+            <a th:if="${currentPage > 1}" th:href="@{/(page=${currentPage - 1})}">
+                <button class="paging-number"><i class="fa-solid fa-less-than fa-xs"></i></button>
+            </a>
+            <a th:href="@{/(page=1)}">
+                <button class="paging-number"
+                    th:class="${currentPage == 1} ? 'paging-number button-active' : 'paging-number'">1</button>
+            </a>
+            <span th:if="${currentPage > 4}">
+                <button class="paging-number" disabled>...</button>
+            </span>
+            <span th:each="i : ${#numbers.sequence(currentPage - 2, currentPage + 2)}"
+                th:if="${i > 1 and i < totalPages}">
+                <a th:href="@{/(page=${i})}">
+                    <button class="paging-number"
+                        th:class="${currentPage == i} ? 'paging-number button-active' : 'paging-number'"
+                        th:text="${i}"></button>
+                </a>
+            </span>
+            <span th:if="${currentPage < totalPages - 3}">
+                <button class="paging-number" disabled>...</button>
+            </span>
+            <a th:if="${totalPages > 1}" th:href="@{/(page=${totalPages})}">
+                <button class="paging-number"
+                    th:class="${currentPage == totalPages} ? 'paging-number button-active' : 'paging-number'"
+                    th:text="${totalPages}"></button>
+            </a>
+            <a th:if="${currentPage < totalPages}" th:href="@{/(page=${currentPage + 1})}">
+                <button class="paging-number"><i class="fa-solid fa-greater-than fa-xs"></i></button>
+            </a>
+        </div>
+    </div>
+</div>
+</body>

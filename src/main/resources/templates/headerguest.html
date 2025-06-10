@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.thymeleaf.org/extras/spring-security6">
+<head>
+</head>
+
+<body>
+    <div th:fragment="header">
+        <div class="container">
+            <div class="top">
+                <div class="top-left">
+                    <a href="/buyer/seller-register">Kênh người bán</a>
+                    <a class="wall" href="#">Tải ứng dụng</a>
+                    <div class="wall connect">
+                        <span>Kết nối</span>
+                        <div class="w-logo">
+                            <i class='bx bxl-facebook-circle'></i>
+                            <i class='bx bxl-instagram-alt' ></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="top-right">
+                    <div class="notification">
+                        <div class="notification-item">
+                            <i class='bx bx-bell' ></i>
+                            <span> Thông báo</span>
+                        </div>
+                        <div class="notification-box hide">
+                            <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
+                            <ul>
+                                <li>
+                                    <a href="">
+                                        <div class="w-noti">
+                                            <div class="noti-img">
+                                                <img src="/assets/images/img-noti/noti-1.png" alt="">
+                                            </div>
+                                            <div class="noti-infor">
+                                                <div class="noti-title">
+                                                    <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
+                                                </div>
+                                                <div class="noti-detail">
+                                                    <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale cuối - Chốt sạch giỏ hàng</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <div class="w-noti">
+                                            <div class="noti-img">
+                                                <img src="/assets/images/img-noti/noti-1.png" alt="">
+                                            </div>
+                                            <div class="noti-infor">
+                                                <div class="noti-title">
+                                                    <span>21H SHOPEE LIVE TUNG DEAL "ĐỈNH NÓC"</span>
+                                                </div>
+                                                <div class="noti-detail">
+                                                    <span>💖Giảm đến 50% đa ngành hàng ✨Thời trang còn mã giảm đến 100K 🌈Mỹ phẩm có mã giảm đến 150K 🌟Vài tiếng sale cuối - Chốt sạch giỏ hàng</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="w-option help">
+                        <i class='bx bx-help-circle'></i>
+                        <span>Hỗ trợ</span>
+                    </div>
+                    <div class="w-option language">
+                        <i class='bx bx-world'></i>
+                        <span>Tiếng Việt</span>
+                    </div>
+                    <div class="w-option account">
+                        <!-- <div class="avt"
+                            th:if="${user.avatar != null}"
+                            th:style="'background-image: url(' + ${user.avatar} + ')'">
+                        </div> -->
+                        <div class="avt" >
+                        </div>
+                        <span >Guest</span>
+                        <div class="drop-down-box account hide">
+                            <div class="icon-top"><i class="fa-solid fa-caret-up fa-2xl" style="color: #ffffff;"></i></div>
+                            <div class="title-dropdown">
+                                <p></p>
+                            </div>
+                            <ul>
+                                <li><a th:href="@{/login}">Đăng nhập</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bottom">
+                <div class="bottom-left">
+                    <a href="/">
+                        <img src="/assets/images/Shopee.png" alt="">
+                    </a>
+                </div>
+                <div class="bottom-main">
+                    <form class="w-search" action="/list" >
+                        <input name="key" class="input-search" type="text" placeholder="Tìm sản phẩm, thương hiệu, và tên shop">
+                        <button class="submit-search" type="submit">
+                            <i class='bx bx-search' ></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="bottom-right">
+                    <a href="/buyer/cart?id=0"><i class='bx bx-cart'></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

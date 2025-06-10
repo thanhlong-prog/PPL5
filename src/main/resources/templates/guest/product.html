@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.thymeleaf.org/extras/spring-security6">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" th:href="@{/assets/images/R.png}" type="image/x-icon">
+    <title>Product</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+        integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" th:href="@{/assets/css/toastmsg.css}">
+    <link rel="stylesheet" href="/assets/css/header.css">
+    <link rel="stylesheet" href="/assets/css/footer.css">
+    <link rel="stylesheet" href="/assets/css/product.css">
+    <link rel="stylesheet" href="/assets/css/card.css">
+    <link rel="stylesheet" href="/assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/assets/js/toastmsg.js}"></script>
+</head>
+
+<body>
+    <div id="toast"></div>
+    <div class="page">
+        <div class="header">
+            <div th:insert="~{headerguest :: header}"></div>
+        </div>
+        <div class="product-main" style="margin-top: 150px">
+            <div class="container">
+                <div class="product-container">
+                    <div class="product-header">
+                        <div class="product-images">
+                            <div class="main-image">
+                                <img th:src="${product.thumbnail}" id="main-image" alt="Logitech MX Keys Mini">
+                            </div>
+                            <div class="w-thumbnail-container">
+                                <div class="thumbnail-container" data-current-index="0">
+                                    <button class="btn prev"
+                                        onclick="scrollCarousel(-1,5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                        <i class='bx bx-chevron-left'></i>
+                                    </button>
+                                    <button class="btn next"
+                                        onclick="scrollCarousel(1, 5,'.thumbnail-list','.thumbnail-container .prev','.thumbnail-container .next')">
+                                        <i class='bx bx-chevron-right'></i>
+                                    </button>
+                                    <div class="thumbnail-list">
+                                        <div th:each="image : ${productImages}">
+                                            <div class="thumbnail">
+                                                <img th:src="${image.imageUrl}" alt="" onclick="changeMainImage(this)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-id" th:attr="data-product-id=${product.id}"></div>
+
+                        <div class="product-info">
+                            <h1 class="product-title" th:text="${product.title}"></h1>
+
+                            <div class="product-ratings">
+                                <div class="stars" th:text="${stars}">★★★★★</div>
+                                <div th:text="${product.rating + ' (' + product.rated + ' đánh giá)'}"></div>
+                                <div th:text="${product.sold} + ' đã bán'">942 đã bán</div>
+                            </div>
+
+                            <div class="price-container">
+                                <div id="current-price" class="current-price" th:text="${product.pricexx}"></div>
+                                <!-- <div th:if="${product.discount != null}" class="current-price"
+                                    th:text="${product.price*product.discount/100} + '₫'"></div>
+                                <div th:if="${product.discount != null}" class="original-price"
+                                    th:text="${product.price} + '₫'"></div> -->
+                                <div th:if="${product.discount != null}" class="discount"
+                                    th:text="${product.discount} + '% GIẢM'"></div>
+                            </div>
+                            <div th:attr="data-version=${listVatians}"></div>
+                            <div th:each="entry : ${options.entrySet()}">
+                                <div th:if="${#lists.size(entry.value) > 0}" class="variations">
+                                    <div class="variation-title" th:text="${entry.key.name + ':'}">Phiên bản:</div>
+
+                                    <div class="variation-options" th:attr="data-type=${entry.key.name}">
+                                        <div th:each="optionValue : ${entry.value}">
+                                            <div class="variation-option" th:text="${optionValue.value}"
+                                                th:attr="data-option=${entry.key.name}, data-value=${optionValue.value}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- <div th:if="${listversionSize > 0}" class="variations">
+                                <div class="variation-title">Phiên bản:</div>
+                                <div class="variation-options" data-type="version">
+                                    <div th:each="option : ${versions}">
+                                        <div class="variation-option" th:text="${option}"
+                                            th:attr="data-version=${option}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${listcolorSize > 0}" class="variations">
+                                <div class="variation-title">Màu sắc:</div>
+                                <div class="variation-options" data-type="color">
+                                    <div th:each="option : ${colors}">
+                                        <div class="variation-option" th:text="${option}"
+                                            th:attr="data-color=${option}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:if="${listsizeSize > 0}" class="variations">
+                                <div class="variation-title">Kích thước:</div>
+                                <div class="variation-options" data-type="size">
+                                    <div th:each="option : ${sizes}">
+                                        <div class="variation-option" th:text="${option}" th:attr="data-size=${option}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div class="quantity">
+                                <div class="variation-title">Số lượng:</div>
+                                <div class="quantity-selector" th:attr="data-total-quantity=${totalQuantity}">
+                                    <div class="quantity-btn cursor-banner">-</div>
+                                    <input type="text" class="quantity-input" value="1" readonly>
+                                    <div class="quantity-btn cursor-banner">+</div>
+                                    <span style="margin-left: 10px;">
+                                        Sản phẩm có sẵn: <span id="product-quantity"></span>
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                            <div class="actions">
+                                <div class="add-to-cart cursor-banner" onclick="addCart()">Thêm vào giỏ hàng</div>
+                                <div class="buy-now cursor-banner" onclick="buyProduct()">Mua ngay</div>
+                            </div>
+                            <script>
+                                function addCart() {
+                                    window.location.href = '/login';
+                                    // const selected = getSelectedOptions();
+                                    // const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+                                    // const quantity = document.querySelector('.quantity-input')?.value || 1;
+                                    // $.ajax({
+                                    //     type: "POST",
+                                    //     url: "/buyer/product/addcart",
+                                    //     contentType: "application/json",
+                                    //     data: JSON.stringify({
+                                    //         productId: productId,
+                                    //         orderQuantity: quantity,
+                                    //         selectedOptions: selected
+                                    //     }),
+                                    //     success: function (res) {
+
+                                    //         toast({
+                                    //             title: 'Thành công',
+                                    //             content: 'Thêm vào giỏ hàng thành công',
+                                    //             type: 'success',
+                                    //             duration: 2000
+                                    //         });
+
+                                    //     },
+                                    //     error: function (err) {
+                                    //         toast({
+                                    //             title: 'Thất bại',
+                                    //             content: err.responseText,
+                                    //             type: 'error',
+                                    //             duration: 2000
+                                    //         });
+                                    //     }
+                                    // })
+                                }
+
+
+                                function buyProduct() {
+                                    window.location.href = '/login';
+                                    // const selected = getSelectedOptions();
+                                    // const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+                                    // const quantity = document.querySelector('.quantity-input')?.value || 1;
+                                    // $.ajax({
+                                    //     type: "POST",
+                                    //     url: "/buyer/product/addcart",
+                                    //     contentType: "application/json",
+                                    //     data: JSON.stringify({
+                                    //         productId: productId,
+                                    //         orderQuantity: quantity,
+                                    //         selectedOptions: selected
+                                    //     }),
+                                    //     success: function (res) {
+
+                                    //         console.log("Response từ server:", res);
+                                    //         window.location.href = "/buyer/cart?id=" + res;
+
+                                    //     },
+                                    //     error: function (err) {
+                                    //         toast({
+                                    //             title: 'Thất bại',
+                                    //             content: err.responseText,
+                                    //             type: 'error',
+                                    //             duration: 2000
+                                    //         });
+                                    //     }
+                                    // })
+
+                                }
+
+                                function getSelectedOptions() {
+                                    const selectedOptions = {};
+                                    document.querySelectorAll(".variation-options").forEach(group => {
+                                        const type = group.getAttribute("data-type");
+                                        const selected = group.querySelector(".variation-option.active");
+                                        if (selected) {
+                                            selectedOptions[type] = selected.textContent.trim();
+                                        }
+                                    });
+                                    return selectedOptions;
+                                }
+
+                                function updateQuantity() {
+                                    const selected = getSelectedOptions();
+                                    const productId = document.querySelector('.product-id')?.getAttribute('data-product-id');
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/updateQuantity",
+                                        contentType: "application/json",
+                                        data: JSON.stringify({
+                                            productId: productId,
+                                            selectedOptions: selected
+                                        }),
+                                        success: function (res) {
+                                            console.log("Response từ server:", res);
+                                            document.getElementById("product-quantity").textContent = res.quantity;
+                                            document.getElementById("current-price").textContent = res.price + " ₫";
+                                            if (res.quantity == 0) {
+                                                document.querySelector(".quantity-input").value = 0;
+                                            }
+                                            if (res.quantity < document.querySelector(".quantity-input").value) {
+                                                document.querySelector(".quantity-input").value = res.quantity;
+                                            }
+                                            if (res.quantity > document.querySelector(".quantity-input").value && document.querySelector(".quantity-input").value == 0) {
+                                                document.querySelector(".quantity-input").value = 1;
+                                            }
+                                            totalQuantity = res.quantity;
+                                        },
+                                        error: function (err) {
+                                            console.error(err);
+                                        }
+                                    });
+                                }
+
+
+                            </script>
+                        </div>
+                    </div>
+
+                    <div class="product-details">
+                        <!-- <h2 class="section-title">Chi tiết sản phẩm</h2>
+                        <table class="specs-table">
+                            <tr>
+                                <td>Thương hiệu</td>
+                                <td>Logitech</td>
+                            </tr>
+                            <tr>
+                                <td>Xuất xứ</td>
+                                <td>Trung Quốc</td>
+                            </tr>
+                            <tr>
+                                <td>Model</td>
+                                <td>MX Keys Mini</td>
+                            </tr>
+                            <tr>
+                                <td>Kết nối</td>
+                                <td>Bluetooth, Unifying Receiver (USB)</td>
+                            </tr>
+                            <tr>
+                                <td>Thời lượng pin</td>
+                                <td>Lên đến 10 ngày với đèn nền, hoặc 5 tháng khi tắt đèn nền</td>
+                            </tr>
+                            <tr>
+                                <td>Kích thước</td>
+                                <td>295.0 x 132.0 x 21.0 mm</td>
+                            </tr>
+                            <tr>
+                                <td>Cân nặng</td>
+                                <td>506.4g</td>
+                            </tr>
+                            <tr>
+                                <td>Phím tắt thông minh</td>
+                                <td>Đàm thoại, chụp màn hình, emoji</td>
+                            </tr>
+                            <tr>
+                                <td>Bảo hành</td>
+                                <td>12 tháng chính hãng</td>
+                            </tr>
+                        </table> -->
+
+                        <h2 class="section-title">Mô tả sản phẩm</h2>
+                        <!-- <div class="product-description">
+                            <p>Bàn phím không dây Bluetooth Logitech MX Keys Mini là sản phẩm cao cấp với thiết kế nhỏ
+                                gọn, không có bàn phím số, giúp tiết kiệm không gian làm việc và đảm bảo tư thế gõ phím
+                                thoải mái.</p>
+                            <br>
+                            <p><strong>Đặc điểm nổi bật:</strong></p>
+                            <ul style="padding-left: 20px; margin: 10px 0;">
+                                <li>Thiết kế nhỏ gọn, không có bàn phím số, phù hợp cho không gian làm việc hạn chế</li>
+                                <li>Phím Perfect Stroke với hình lõm vừa đầu ngón tay, mang lại trải nghiệm gõ phím êm
+                                    ái, chính xác</li>
+                                <li>Đèn nền thông minh tự điều chỉnh độ sáng theo điều kiện ánh sáng môi trường</li>
+                                <li>Kết nối đa thiết bị: dễ dàng chuyển đổi giữa 3 thiết bị khác nhau (Windows, Mac,
+                                    iPad, Android)</li>
+                                <li>Phím tắt thông minh: Đàm thoại, Chụp màn hình, Emoji</li>
+                                <li>Pin sạc USB-C với thời lượng lên đến 10 ngày sử dụng (hoặc 5 tháng khi tắt đèn nền)
+                                </li>
+                            </ul>
+                            <br>
+                            <p><strong>Tương thích hệ điều hành:</strong></p>
+                            <ul style="padding-left: 20px; margin: 10px 0;">
+                                <li>Windows 10 trở lên</li>
+                                <li>macOS 10.15 trở lên</li>
+                                <li>iOS 13.4 trở lên</li>
+                                <li>Android 9 trở lên</li>
+                            </ul>
+                            <br>
+                            <p><strong>Trong hộp có:</strong></p>
+                            <ul style="padding-left: 20px; margin: 10px 0;">
+                                <li>Bàn phím MX Keys Mini</li>
+                                <li>Bộ thu USB Logi Bolt (tùy phiên bản)</li>
+                                <li>Cáp sạc USB-C</li>
+                                <li>Tài liệu hướng dẫn</li>
+                            </ul>
+                        </div> -->
+                        <div class="product-description" th:utext="${product.description}"></div>
+                    </div>
+                </div>
+                <div class="shop-info">
+                    <div class="avt-shop">
+                        <img th:src="${product.seller.avatar}" alt="">
+                    </div>
+                    <div class="info">
+                        <div class="name" th:text="${product.seller.sellerInfo.shopName}">Tổng kho thuốc chuột</div>
+                        <div class="btn-shop">
+                            <a th:href="@{/chat/create-room(otherUser = ${product.seller.id})}">
+                                <button type="button" class="btn-chat">
+                                    <i class='bx bx-message'></i>
+                                    <span>Chat ngay</span>
+                                </button>
+                            </a>
+
+                            <a th:href="@{/buyer/shop(shopId = ${product.seller.id})}">
+                                <button type="button" class="btn-show">
+                                    <i class='bx bx-store'></i>
+                                    <span>Xem shop</span>
+                                </button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-reviews">
+                    <h2 class="section-title">Đánh giá sản phẩm</h2>
+
+                    <div class="reviews-summary">
+                        <div class="avg-rating">
+                            <div class="rating-number" th:text="${product.rating}">4.9</div>
+                            <div class="rating-stars" th:text="${stars}">★★★★★</div>
+                            <div>trên 5</div>
+                        </div>
+
+                        <div class="rating-distribution">
+                            <div class="rating-bar">
+                                <div class="rating-level">5 ★</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                        th:style="'width:' + (${totalReviews} > 0 ? (${count5Star} * 100 / ${totalReviews}) : 0) + '%;'">
+                                    </div>
+                                </div>
+                                <div class="rating-count" th:text="${count5Star}">228</div>
+                            </div>
+
+                            <div class="rating-bar">
+                                <div class="rating-level">4 ★</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                        th:style="'width:' + (${totalReviews} > 0 ? (${count4Star} * 100 / ${totalReviews}) : 0) + '%;'">
+                                    </div>
+                                </div>
+                                <div class="rating-count" th:text="${count4Star}">18</div>
+                            </div>
+
+                            <div class="rating-bar">
+                                <div class="rating-level">3 ★</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                        th:style="'width:' + (${totalReviews} > 0 ? (${count3Star} * 100 / ${totalReviews}) : 0) + '%;'">
+                                    </div>
+                                </div>
+                                <div class="rating-count" th:text="${count3Star}">5</div>
+                            </div>
+
+                            <div class="rating-bar">
+                                <div class="rating-level">2 ★</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                        th:style="'width:' + (${totalReviews} > 0 ? (${count2Star} * 100 / ${totalReviews}) : 0) + '%;'">
+                                    </div>
+                                </div>
+                                <div class="rating-count" th:text="${count2Star}">2</div>
+                            </div>
+
+                            <div class="rating-bar">
+                                <div class="rating-level">1 ★</div>
+                                <div class="progress-container">
+                                    <div class="progress-bar"
+                                        th:style="'width:' + (${totalReviews} > 0 ? (${count1Star} * 100 / ${totalReviews}) : 0) + '%;'">
+                                    </div>
+                                </div>
+                                <div class="rating-count" th:text="${count1Star}">1</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="review-item" th:each="review : ${productPreviews}">
+                        <div class="reviewer">
+                            <div class="reviewer-pic">
+                                <img th:src="${review.previewer.avatar}" alt="User Avatar">
+                            </div>
+                            <div class="reviewer-name" th:text="${review.previewer.name}">Nguyễn Văn A</div>
+                        </div>
+                        <div class="review-rating" th:if="${review.star == 5}">★★★★★</div>
+                        <div class="review-rating" th:if="${review.star == 4}">★★★★</div>
+                        <div class="review-rating" th:if="${review.star == 3}">★★★</div>
+                        <div class="review-rating" th:if="${review.star == 2}">★★</div>
+                        <div class="review-rating" th:if="${review.star == 1}">★</div>
+                        <div class="review-content" th:text="${review.content}">
+                            Bàn phím đẹp, chất lượng cao cấp đúng chuẩn Logitech. Phím bấm rất êm, hành trình ngắn, gõ
+                            nhanh và chính xác. Kết nối ổn định với cả laptop Windows và iPad. Đèn nền rất đẹp, tự động
+                            điều chỉnh theo môi trường. Pin trâu, sạc một lần dùng cả tuần với đèn nền. Rất hài lòng với
+                            sản phẩm!
+                        </div>
+                        <div class="review-images">
+                            <div class="review-image" th:each="image : ${review.images}">
+                                <img th:src="${image.imageUrl}" alt="Review Image">
+                            </div>
+                        </div>
+                        <div class="review-date" th:text="${#temporals.format(review.createdDate, 'dd/MM/yyyy')}">
+                            24/04/2025</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <div th:insert="~{footer :: footer}"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="/assets/js/header.js"></script>
+<script src="/assets/js/product.js"></script>
