@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,8 +98,47 @@ public class ProfileController {
     }
 
     @RequestMapping("/password")
-    public String password() {
+    public String password(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        UserDto userData = userMapper.toUserDto(consumer);
+        model.addAttribute("user", userData);
         return "profile/password";
+    }
+
+    @PostMapping("/password/save")
+    public String savePassword(@RequestParam("current-password") String currentPassword,
+            @RequestParam("new-password") String newPassword, @RequestParam("retype-password") String retypePassword,
+            Model model, RedirectAttributes redirectAttributes) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User consumer = new User();
+        if (principal instanceof CustomUserDetails user) {
+            consumer = userService.findByUsername(user.getUsername());
+        } else if (principal instanceof OAuth2User oauth2User) {
+            consumer = userService.findByGmail(oauth2User.getAttribute("email"));
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+        UserDto userData = userMapper.toUserDto(consumer);
+        if (!encoder.matches(currentPassword, consumer.getPassword())) {
+            model.addAttribute("user", userData);
+            model.addAttribute("error", "Mật khẩu hiện tại không đúng");
+            return "profile/password";
+        }
+        if (!newPassword.equals(retypePassword)) {
+            model.addAttribute("user", userData);
+            model.addAttribute("error", "Mật khẩu mới không khớp");
+            return "profile/password";
+        }
+        consumer.setPassword(new BCryptPasswordEncoder().encode(newPassword));
+        UserRepository.save(consumer);
+        redirectAttributes.addFlashAttribute("success", "Cập nhật mật khẩu thành công");
+        return "redirect:/buyer/profile/password";
     }
 
     @RequestMapping("/shopee")
